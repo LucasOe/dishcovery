@@ -11,6 +11,8 @@ export default {
 			'dc-red': '#ED5D49',
 		},
 		fontFamily: {
+			'dc-default': ['Work Sans, sans-serif'],
+			'dc-header': ['Chewy, sans-serif'],
 		},
 		extend: {
 			spacing: {
