@@ -6,7 +6,7 @@
 </script>
 
 
-<div class="relative flex flex-col w-full max-w-[64rem] my-0 mx-auto box-border min-h-screen bg-gray-900">
+<div class="relative flex flex-col w-full max-w-[64rem] my-0 mx-auto box-border min-h-screen bg-gray-900 text-light">
 	<Header/>
 	
 	<slot />
