@@ -18,11 +18,17 @@ export default {
 		},
 		extend: {
 			spacing: {
+				'xs': '0.3125rem', //5px
 				'sm': '0.625rem', //10px
 			  	'md': '1.25rem', //20px
 				'lg': '1.875rem', //30px
-				'xl': '3.125rem', //50px
-				'xxl': '6.25rem', //100px
+				'xl': '2.5rem', //40px
+				'xxl': '3.125rem', //50px
+				'xxxl': '6.25rem', //100px
+			},
+			fontSize: {
+				'fs-text': '14px',
+				'fs-header': '32px', 
 			},
 			borderRadius: {
 				DEFAULT: "0.125rem", //2px
@@ -33,9 +39,12 @@ export default {
 				'full': "9999px"
 			},
 			borderWidth: {
-				DEFAULT: '0.125rem', //2px
-				'dc-md': '0.25rem' //4px
+				'bw-sm': '0.125rem', //2px
+				'bw-md': '0.25rem' //4px
 			},
+			boxShadow: {
+				'shadow': '0px 20px 100px -35px rgba(0, 0, 0, 0.72)'
+			}
 		  }
 	},
 	plugins: []
