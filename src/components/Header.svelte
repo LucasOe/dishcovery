@@ -6,15 +6,15 @@
     let tabs = [
         {name: "Kochbuch", link: "#recipes", icon: RecipeIcon},
         {name: "Add new", link: "#add", icon: AddIcon},
-        {name: "filter", link: "#filter:", icon: FilterIcon},
+        {name: "filter", link: "#filter", icon: FilterIcon},
     ];
 
     let profileTab = {name: "profile", link: "#profile", icon: AddIcon}
 </script>
 
-<header>
+<header class="w-full">
     <!-- Navigation bar -->
-    <div class="flex flex-row justify-between items-center font-default duration-200 pt-10 pb-5 px-4">
+    <div class="w-full flex flex-row justify-between items-center font-default duration-200 pt-10 pb-5 px-4">
 
         <!-- Nav -->
         <div class="flex flex-row gap-10">

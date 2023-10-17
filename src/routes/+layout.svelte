@@ -5,11 +5,10 @@
 	import '../app.css';
 </script>
 
-
-<div class="relative flex flex-col justify-between w-full max-w-[64rem] p-xl my-0 mx-auto box-border min-h-screen bg-gray-900 text-light">
-	<Header/>
-	
-	<slot />
+<div class="flex items-center w-full min-h-screen bg-gray-900">
+	<div class="relative flex w-full max-w-[48rem] p-xl my-0 mx-auto box-border min-h-screen bg-gray-900 text-light">
+		<slot />
+	</div>
 </div>
 
 
