@@ -21,7 +21,7 @@
             {#each tabs as tab, index}
                 <li>
                     <a href={tab.link} class="duration-200">
-                        <img class="w-6 h-6" src={tab.icon} />
+                        <img class="w-6 h-6" alt={tab.name} src={tab.icon} />
                     </a>
                 </li>
             {/each}
