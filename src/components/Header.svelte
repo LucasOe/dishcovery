@@ -4,9 +4,9 @@
     import RecipeIcon from "../assets/icons/recipes.svg";
 
     let tabs = [
-        {name: "Kochbuch", link: "#recipes", icon: RecipeIcon},
-        {name: "Add new", link: "#add", icon: AddIcon},
-        {name: "filter", link: "#filter", icon: FilterIcon},
+        {name: "Kochbuch", link: "recipes", icon: RecipeIcon},
+        {name: "Add new", link: "add-recipe", icon: AddIcon},
+        {name: "filter", link: "filter", icon: FilterIcon},
     ];
 
     let profileTab = {name: "profile", link: "#profile", icon: AddIcon}
@@ -17,20 +17,22 @@
     <div class="w-full flex flex-row justify-between items-center font-default duration-200 pt-10 pb-5 px-4">
 
         <!-- Nav -->
-        <div class="flex flex-row gap-10">
+        <ul class="flex flex-row gap-10">
             {#each tabs as tab, index}
-                <a href={tab.link} class="duration-200">
-                    <img class="w-6 h-6" src={tab.icon} />
-                </a>
+                <li>
+                    <a href={tab.link} class="duration-200">
+                        <img class="w-6 h-6" src={tab.icon} />
+                    </a>
+                </li>
             {/each}
-        </div>
+        </ul>
 
-        <!-- Profile -->    
+        <!-- Profile -->
         <div>
             <a href={profileTab.link} class="duration-200">
                 <div class="h-10 w-10 bg-yellow rounded-full"></div>
             </a>
         </div>
-        
+
     </div>
 </header>
