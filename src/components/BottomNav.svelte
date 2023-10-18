@@ -4,7 +4,7 @@
 	import OpenIcon from '../assets/icons/open.svg';
 </script>
 
-<div class="w-full flex items-center justify-around">
+<div class="w-full flex items-center justify-around grow-0">
 	<a href={'/'} class="p-6 rounded-full bg-gray-500">
 		<img alt="Reject" class="min-w-8 w-8 min-h-8 h-8" src={RejectIcon} />
 	</a>
