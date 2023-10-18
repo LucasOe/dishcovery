@@ -4,6 +4,7 @@
     import ClockIcon from "../assets/icons/clock.svg";
     import DifficultyIcon from "../assets/icons/difficulty.svg";
     import EuroIcon from "../assets/icons/euro.svg";
+    import H1 from "./H1.svelte";
     const TestImgSrc = TestImg;
 
     let recipyTime = 5;
@@ -22,7 +23,7 @@
         <!-- stars -->
 
         <!-- header -->
-        <h1 class="font-header text-light text-fs-header">Recipe Name</h1>
+        <H1 text="Recipe Name"></H1>
 
         <!-- tags, this is shitty, should be dynamic somehow with the super duper base -->
         <div class="flex flex-row gap-sm">
