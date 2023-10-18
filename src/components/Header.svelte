@@ -9,7 +9,7 @@
         {name: "filter", link: "filter", icon: FilterIcon},
     ];
 
-    let profileTab = {name: "profile", link: "#profile", icon: AddIcon}
+    let profileTab = {name: "profile", link: "profile", icon: AddIcon}
 </script>
 
 <header class="w-full">
