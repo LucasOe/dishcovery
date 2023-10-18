@@ -12,8 +12,8 @@
 </script>
 
 <div
-	class="card relative w-full bg-gray-900 rounded-xl shadow-shadow overflow-hidden flex items-end"
-	style="background-image: url({TestImgSrc}); background-size: cover; background-position: center; background-repeat: no-repeat, repeat;"
+	class="min-h-[550px] relative w-full bg-gray-900 rounded-xl shadow-shadow overflow-hidden flex items-end bg-cover bg-center"
+	style={`background-image: url(${TestImg})`}
 >
 	<!-- Card Infos -->
 	<div class="flex flex-col z-10 p-lg gap-sm">
@@ -47,22 +47,5 @@
 	</div>
 
 	<!-- linear gradient fade for info content -->
-	<div class="fade absolute w-full h-full top-0 left-0 z-0" />
+	<div class="bg-gradient-to-b from-[transparent] from-50% to-gray-900 absolute w-full h-full" />
 </div>
-
-<style>
-	/* heights are weird, i wanna fill to content but it wont let me, pls help */
-	.card {
-		min-height: 550px;
-	}
-	.fade {
-		background: linear-gradient(
-			180deg,
-			rgba(66, 66, 66, 0) 50%,
-			rgba(43, 42, 42, 0.88) 65%,
-			rgba(43, 42, 42, 0.95) 75%,
-			#212121 85%,
-			#212121 100%
-		);
-	}
-</style>
