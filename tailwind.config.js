@@ -3,6 +3,7 @@ export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		colors: {
+			transparent: 'transparent',
 			yellow: '#FFC532',
 			gray: {
 				900: '#212121',

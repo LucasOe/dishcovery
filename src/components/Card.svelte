@@ -4,8 +4,7 @@
 	import ClockIcon from '../assets/icons/clock.svg';
 	import DifficultyIcon from '../assets/icons/difficulty.svg';
 	import EuroIcon from '../assets/icons/euro.svg';
-    import H1 from './H1.svelte';
-	const TestImgSrc = TestImg;
+	import H1 from './H1.svelte';
 
 	let recipeTime = 5;
 	let difficulty = 'einfach';
@@ -19,8 +18,8 @@
 	<div class="flex flex-col z-10 p-lg gap-sm">
 		<!-- stars -->
 
-        <!-- header -->
-        <H1 text="Recipe Name"></H1>
+		<!-- header -->
+		<H1 text="Recipe Name" />
 
 		<!-- tags, this is shitty, should be dynamic somehow with the super duper base -->
 		<div class="flex flex-row gap-sm">
@@ -47,5 +46,5 @@
 	</div>
 
 	<!-- linear gradient fade for info content -->
-	<div class="bg-gradient-to-b from-[transparent] from-50% to-gray-900 absolute w-full h-full" />
+	<div class="bg-gradient-to-b from-transparent from-50% to-gray-900 absolute w-full h-full" />
 </div>
