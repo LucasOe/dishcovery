@@ -3,6 +3,7 @@
 	import H1 from "../../components/H1.svelte";
 	import CloseIcon from '../../assets/icons/cancel.svg';
 	import PictureUploadIcon from '../../assets/icons/pictureupload.svg';
+	import DifficultyIcon from '../../assets/icons/difficulty.svg';
 
 	let buttons = [
     { text: 'Frühstück', borderColor: '#7D7C7C' },
@@ -97,7 +98,12 @@
 				{/each}
 			</div>
 		  </div>
-		  
+	</div>
+	<div>
+		<div class="flex flex-row gap-xs">
+			<img alt="Difficulty" class="w-7 h-7" src={DifficultyIcon} />
+			<label class="text-xl font-semibold ml-2">Schwierigkeit</label>
+		</div>
 	</div>
 </div>
 	
