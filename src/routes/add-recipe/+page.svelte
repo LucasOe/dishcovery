@@ -5,16 +5,37 @@
 	import PictureUploadIcon from '../../assets/icons/pictureupload.svg';
 
 	let buttons = [
-    { text: 'Button 1', borderColor: 'red' },
-    { text: 'Button 2', borderColor: 'green' },
-    { text: 'Button 3', borderColor: 'blue' }
+    { text: 'Frühstück', borderColor: '#7D7C7C' },
+    { text: 'Abendessen', borderColor: '#7D7C7C' },
+	{ text: 'Snack', borderColor: '#7D7C7C' },
+	{ text: 'Gebäck', borderColor: '#7D7C7C' },
+    { text: 'Cocktail', borderColor: '#7D7C7C' }
+  ];
+  function changeBorderColor(index) {
+    if (buttons[index].borderColor === '#7D7C7C') {
+      buttons[index].borderColor = '#FFC532'; 
+    } else {
+      buttons[index].borderColor = '#7D7C7C'; 
+    }
+  }
+
+  let buttons2 = [
+    { text: 'Vegetarisch', borderColor: '#7D7C7C' },
+    { text: 'Vegan', borderColor: '#7D7C7C' },
+	{ text: 'Pizza', borderColor: '#7D7C7C' },
+	{ text: 'Ohne Nüsse', borderColor: '#7D7C7C' },
+	{ text: 'Burger', borderColor: '#7D7C7C' },
+    { text: 'Herzhaft', borderColor: '#7D7C7C' },
+	{ text: 'Wenig Zutaten', borderColor: '#7D7C7C' },
+	{ text: 'Salat', borderColor: '#7D7C7C' },
+    { text: 'Schnell', borderColor: '#7D7C7C' }
   ];
 
-  function changeBorderColor(index) {
-    if (buttons[index].borderColor === 'red') {
-      buttons[index].borderColor = 'purple'; // Change to purple
+  function changeBorderColor2(index2) {
+    if (buttons2[index2].borderColor === '#7D7C7C') {
+      buttons2[index2].borderColor = '#FFC532'; 
     } else {
-      buttons[index].borderColor = 'red'; // Change back to red
+      buttons2[index2].borderColor = '#7D7C7C'; 
     }
   }
 </script>
@@ -48,16 +69,32 @@
 	</div>
 	<div>
 		<label class="text-xl font-semibold">Art</label>
-		<div class="button-box" style="background-color: #2A2A2A;">
-			<div class="buttons">
+		<div class="button-box rounded-sm mt-2" style="background-color: #2A2A2A;">
+			<div class="buttons text-left">
 				{#each buttons as button, index (button.text)}
-  				<button
-    			style="padding: 10px; margin: 5px; border: 2px solid {button.borderColor}; border-radius: 5px; cursor: pointer;"
-    on:click={() => changeBorderColor(index)}
-  >
-    {button.text}
-  </button>
-{/each}
+  				<button class="m-2 p-2 rounded-sm"
+    				style="border: 2px solid {button.borderColor}"
+    				on:click={() => changeBorderColor(index)}
+  				>
+    			{button.text}
+  				</button>
+				{/each}
+			</div>
+		  </div>
+		</div>
+
+		<div>
+		  <label class="text-xl font-semibold">Kategorie</label>
+			<div class="button-box rounded-sm mt-2" style="background-color: #2A2A2A;">
+			<div class="buttons text-left">
+				{#each buttons2 as button, index2 (button.text)}
+  				<button class="m-2 p-2 rounded-sm"
+    				style="border: 2px solid {button.borderColor}"
+    				on:click={() => changeBorderColor2(index2)}
+  				>
+    			{button.text}
+  				</button>
+				{/each}
 			</div>
 		  </div>
 		  
