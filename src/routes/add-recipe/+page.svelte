@@ -12,10 +12,9 @@
 
 let isOpen = false;
 let selectedOption = null;
-let options = ["Option 1", "Option 2", "Option 3"];
+let options = ["leicht", "mittel", "schwer"];
 
 onMount(() => {
-  // Set initial selection
   selectedOption = options[0];
 });
 
@@ -127,22 +126,27 @@ function selectOption(option) {
 				</div>
 		  	</div>
 		</div>
+
+		<div class="flex flex-row gap-2">
+			<img alt="Difficulty" class="inline w-10 h-10 drop-shadow-md" src={DifficultyIcon}/>
+			<label class="text-xl font-semibold m-2">Schwierigkeit</label>
+		</div>
 	
-		<div class="relative">
+		<div class="relative h-10 rounded-sm shadow-md" style="background-color: #2A2A2A;">
 			<button
-			  class="bg-blue-500 text-white px-4 py-2 rounded-md"
+			  class="text-xl m-2 font-semibold rounded-md"
 			  on:click={toggleDropdown}
 			>
 			  {selectedOption}
 			</button>
 		  
 			<ul
-			  class="absolute mt-10 py-2 bg-white border border-gray-300 rounded-md"
+			  class="absolute m-2 text-xl font-semibold rounded-md" 
 			  style="display: {isOpen ? 'block' : 'none'}"
 			>
 			  {#each options as option (option)}
 				<li
-				  class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+				  class="cursor-pointer hover:bg-gray-100"
 				  on:click={() => selectOption(option)}
 				>
 				  {option}
@@ -150,12 +154,7 @@ function selectOption(option) {
 			  {/each}
 			</ul>
 		  
-			<button
-			  class="bg-blue-500 text-white px-4 py-2 rounded-md absolute top-0 right-0"
-			  on:click={toggleDropdown}
-			>
-			  Toggle Menu
-			</button>
+			<button class="absolute top-0 right-0"on:click={toggleDropdown}><img alt="Dropdown" class="inline w-10 h-10 drop-shadow-md" src={DropDownIcon}/></button>
 		  </div>
 		  
 		  
