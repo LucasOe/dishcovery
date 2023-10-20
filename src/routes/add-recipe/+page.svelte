@@ -4,6 +4,33 @@
 	import CloseIcon from '../../assets/icons/cancel.svg';
 	import PictureUploadIcon from '../../assets/icons/pictureupload.svg';
 	import DifficultyIcon from '../../assets/icons/difficulty.svg';
+	import DropDownIcon from '../../assets/icons/dropdown.svg';
+
+	
+
+	import { onMount } from "svelte";
+
+let isOpen = false;
+let selectedOption = null;
+let options = ["Option 1", "Option 2", "Option 3"];
+
+onMount(() => {
+  // Set initial selection
+  selectedOption = options[0];
+});
+
+function toggleDropdown() {
+  isOpen = !isOpen;
+}
+
+function selectOption(option) {
+  selectedOption = option;
+  isOpen = false;
+}
+
+	
+	
+	
 
 	let buttons = [
     { text: 'Frühstück', borderColor: '#7D7C7C' },
@@ -41,6 +68,7 @@
   }
 </script>
 
+
 <svelte:head>
 	<title>Add Recipe</title>
 	<meta name="description" content="Add Recipe" />
@@ -68,42 +96,72 @@
 	<div>
 		<label class="text-xl font-semibold">Preview</label>
 	</div>
-	<div>
-		<label class="text-xl font-semibold">Art</label>
-		<div class="button-box rounded-sm mt-2" style="background-color: #2A2A2A;">
-			<div class="buttons text-left">
-				{#each buttons as button, index (button.text)}
-  				<button class="m-2 p-2 rounded-sm"
+		<div>
+			<label class="text-xl font-semibold">Art</label>
+			<div class="button-box rounded-sm mt-2" style="background-color: #363636;">
+				<div class="buttons text-left">
+					{#each buttons as button, index (button.text)}
+  					<button class="m-2 p-2 rounded-sm"
     				style="border: 2px solid {button.borderColor}"
     				on:click={() => changeBorderColor(index)}
-  				>
-    			{button.text}
-  				</button>
-				{/each}
-			</div>
-		  </div>
+  					>
+    				{button.text}
+  					</button>
+					{/each}
+				</div>
+		  	</div>
 		</div>
 
 		<div>
 		  <label class="text-xl font-semibold">Kategorie</label>
-			<div class="button-box rounded-sm mt-2" style="background-color: #2A2A2A;">
-			<div class="buttons text-left">
-				{#each buttons2 as button, index2 (button.text)}
-  				<button class="m-2 p-2 rounded-sm"
+			<div class="button-box rounded-sm mt-2" style="background-color: #363636;">
+				<div class="buttons text-left">
+					{#each buttons2 as button, index2 (button.text)}
+  					<button class="m-2 p-2 rounded-sm"
     				style="border: 2px solid {button.borderColor}"
     				on:click={() => changeBorderColor2(index2)}
-  				>
-    			{button.text}
-  				</button>
-				{/each}
-			</div>
-		  </div>
-	</div>
-	<div>
-		<div class="flex flex-row gap-xs">
-			<img alt="Difficulty" class="w-7 h-7" src={DifficultyIcon} />
-			<label class="text-xl font-semibold ml-2">Schwierigkeit</label>
+  					>
+    				{button.text}
+  					</button>
+					{/each}
+				</div>
+		  	</div>
 		</div>
-	</div>
+	
+		<div class="relative">
+			<button
+			  class="bg-blue-500 text-white px-4 py-2 rounded-md"
+			  on:click={toggleDropdown}
+			>
+			  {selectedOption}
+			</button>
+		  
+			<ul
+			  class="absolute mt-10 py-2 bg-white border border-gray-300 rounded-md"
+			  style="display: {isOpen ? 'block' : 'none'}"
+			>
+			  {#each options as option (option)}
+				<li
+				  class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+				  on:click={() => selectOption(option)}
+				>
+				  {option}
+				</li>
+			  {/each}
+			</ul>
+		  
+			<button
+			  class="bg-blue-500 text-white px-4 py-2 rounded-md absolute top-0 right-0"
+			  on:click={toggleDropdown}
+			>
+			  Toggle Menu
+			</button>
+		  </div>
+		  
+		  
+		  
 </div>
+
+
+
 	
