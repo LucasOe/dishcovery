@@ -39,6 +39,6 @@
     }
 </style>
 
-<a href={link} class="btn rounded-full bg-gray-500 {additionalClasses}" style="--btn-padding:{padding}rem;">
+<a href={link} class="btn rounded-full duration-150 bg-gray-500 hover:bg-[#383838] drop-shadow-xl hover:drop-shadow-sm {additionalClasses}" style="--btn-padding:{padding}rem;">
     <img alt={alt} class="btn-ic" src={src} style="--ic-width:{icWidth}rem; --ic-height:{icHeight}rem;"/>
 </a>

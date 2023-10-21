@@ -10,5 +10,5 @@
 
 <div class="flex justify-between">
     <H1 text={header} />
-    <RoundBtn src={CloseIcon} alt="Close" link={'/'} padding={.5} icWidth={2} additionalClasses="drop-shadow-md" />
+    <RoundBtn src={CloseIcon} alt="Close" link={'/'} padding={1} icWidth={1} additionalClasses="drop-shadow-md" />
 </div>
