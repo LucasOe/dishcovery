@@ -7,7 +7,8 @@
 	import ClockIcon from '../../assets/icons/clock.svg';
 	import PriceIcon from '../../assets/icons/price.svg';
 	import { onMount } from 'svelte';
-	import { relative } from '__sveltekit/paths';
+
+	//Picture
 
 	//Kind
 	let buttons = [
@@ -49,7 +50,7 @@
 	//Difficult
 	let isOpenDifficult = false;
 	let selectedDifficult = null;
-	let difficults = ['leicht', 'mittel', 'schwer',];
+	let difficults = ['leicht', 'mittel', 'schwer'];
 
 	onMount(() => {
 		selectedDifficult = difficults[0];
@@ -101,16 +102,17 @@
 	}
 
 	//Worksteps
-	let textFields = []; 
-  	let nextTextFieldId = 0; 
 
-  	function addTextField() {
-    const newTextField = {
-      id: nextTextFieldId++,
-      value: ''
-    };
-    textFields = [...textFields, newTextField];
-  }
+	let textFields = [];
+	let nextTextFieldId = 0;
+
+	function addTextField() {
+		const newTextField = {
+			id: nextTextFieldId++,
+			value: ''
+		};
+		textFields = [...textFields, newTextField];
+	}
 </script>
 
 <svelte:head>
@@ -120,7 +122,7 @@
 <div class="space-y-4">
 	<div class="flex justify-between">
 		<H1 text="Recipe Name" />
-		<a href={'/'} class=""><img alt="Close" class="w-10 h-10 drop-shadow-md" src={CloseIcon} /></a>
+		<a href={'/'}><img alt="Close" class="w-10 h-10 drop-shadow-md" src={CloseIcon} /></a>
 	</div>
 
 	<div>
@@ -129,11 +131,10 @@
 			<input
 				type="text"
 				id="title"
-				class=" text-white text-xl h-10 w-full rounded-sm"
-				style="background-color: #2A2A2A;"
-			/>
+				class=" text-white text-xl h-10 w-full rounded-sm bg-[#2A2A2A]"
+				/>
 		</div>
-	</div>	
+	</div>
 	<!-- pictures -->
 	<div>
 		<label class="block mb-1 text-xl font-semibold">Bilder</label>
@@ -150,7 +151,7 @@
 	<!-- Kind -->
 	<div>
 		<label class="text-xl font-semibold">Art</label>
-		<div class="button-box rounded-sm mt-2" style="background-color: #363636;">
+		<div class="button-box rounded-sm mt-2 bg-[#363636]">
 			<div class="buttons text-left">
 				{#each buttons as button, index (button.text)}
 					<button
@@ -167,7 +168,7 @@
 	<!-- Category -->
 	<div>
 		<label class="text-xl font-semibold">Kategorie</label>
-		<div class="button-box rounded-sm mt-2" style="background-color: #363636;">
+		<div class="button-box rounded-sm mt-2 bg-[#363636]">
 			<div class="buttons text-left">
 				{#each buttons2 as button, index2 (button.text)}
 					<button
@@ -184,7 +185,13 @@
 
 	<!-- Difficulty -->
 	<div class="flex flex-row gap-2">
-		<label class="text-xl font-semibold"><img alt="Difficulty" class="inline w-10 h-10 drop-shadow-md mr-4" src={DifficultyIcon} />Schwierigkeit</label>
+		<label class="text-xl font-semibold"
+			><img
+				alt="Difficulty"
+				class="inline w-10 h-10 drop-shadow-md mr-4"
+				src={DifficultyIcon}
+			/>Schwierigkeit</label
+		>
 	</div>
 
 	<div class="col-span-2">
@@ -195,9 +202,7 @@
 
 			<ul
 				class="absolute text-xl font-semibold rounded-md bg-[#2A2A2A] w-full overflow-y-auto z-10 shadow-md"
-				style="display: {isOpenDifficult
-					? 'block'
-					: 'none'}"
+				style="display: {isOpenDifficult ? 'block' : 'none'}"
 			>
 				{#each difficults as difficult (difficult)}
 					<li class="cursor-pointer ml-5" on:click={() => selectDifficult(difficult)}>
@@ -215,11 +220,18 @@
 	<!-- Time and Price -->
 	<div class="grid grid-flow-row-dense grid-cols-3 grid-rows-1 relative">
 		<div class="col-span-2">
-			<label class="text-xl font-semibold"><img alt="Time" class="inline w-10 h-10 drop-shadow-md mr-4" src={ClockIcon} />Zeit</label
+			<label class="text-xl font-semibold"
+				><img alt="Time" class="inline w-10 h-10 drop-shadow-md mr-4" src={ClockIcon} />Zeit</label
 			>
 		</div>
 		<div>
-			<label class="text-xl font-semibold"><img alt="Price" class="inline w-10 h-10 drop-shadow-md mr-4" src={PriceIcon}/>Preis</label>
+			<label class="text-xl font-semibold"
+				><img
+					alt="Price"
+					class="inline w-10 h-10 drop-shadow-md mr-4"
+					src={PriceIcon}
+				/>Preis</label
+			>
 		</div>
 	</div>
 
@@ -233,9 +245,7 @@
 
 				<ul
 					class="absolute text-xl font-semibold rounded-md bg-[#2A2A2A] h-20 w-full overflow-y-auto z-10"
-					style="display: {isOpenTime
-						? 'block'
-						: 'none'}"
+					style="display: {isOpenTime ? 'block' : 'none'}"
 				>
 					{#each times as time (time)}
 						<li class="cursor-pointer ml-5" on:click={() => selectTime(time)}>
@@ -278,7 +288,9 @@
 	<div>
 		<label class="block mb-1 text-xl font-semibold">Zutaten</label>
 		<div class="flex flex-row gap-2">
-			<button class="upload-btn"><img alt="Close" class="inline w-10 h-10 drop-shadow-md" src={UploadIcon} /></button>
+			<button class="upload-btn"
+				><img alt="Close" class="inline w-10 h-10 drop-shadow-md" src={UploadIcon} /></button
+			>
 		</div>
 	</div>
 
@@ -288,21 +300,46 @@
 		<div class="relative">
 			<label class="block mb-1 text-xl font-semibold text-[#FFC532]">1.Schritt</label>
 			<input
+				type="text"
+				class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
+				style="background-color: #2A2A2A;"
+				placeholder="Hier eingeben..."
+			/>
+		</div>
+
+		<div class="relative">
+			{#each textFields as textField, index (textField.id)}
+				<div>
+					<label class="block mb-1 text-xl font-semibold text-[#FFC532]">{index + 2}. Schritt</label
+					>
+					<input
+						type="text"
+						class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
+						style="background-color: #2A2A2A;"
+						placeholder="Hier eingeben..."
+						bind:value={textField.value}
+					/>
+				</div>
+			{/each}
+		</div>
+		<div>
+			<button on:click={addTextField}
+				><img alt="Close" class="inline w-10 h-10 drop-shadow-md mt-4" src={UploadIcon} /></button
+			>
+		</div>
+	</div>
+	<div>
+		<label class="block mb-1 text-xl font-semibold">Beschreibung (optional)</label>
+		<input
 			type="text"
 			class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
 			style="background-color: #2A2A2A;"
 			placeholder="Hier eingeben..."
-		  />
-		</div>
-		<div class="relative">
-			{#each textFields as textField (textField.id)}
-  			<input type="text" 
-			class="h-60 w-full"
-			bind:value={textField.value} />
-			{/each}
-		</div>
-		<div>
-			<button on:click={addTextField}><img alt="Close" class="inline w-10 h-10 drop-shadow-md" src={UploadIcon}/></button>
-		</div>
+		/>
+	</div>
+	<div>
+		<button class="text-xl font-semibold w-full h-16 bg-[#FFC532] rounded-sm text-[#212121]"
+			>Rezept veröffentlichen</button
+		>
 	</div>
 </div>
