@@ -1,12 +1,11 @@
 <script>
-	import H1 from '../../components/H1.svelte';
-	import CloseIcon from '../../assets/icons/cancel.svg';
 	import UploadIcon from '../../assets/icons/upload.svg';
 	import DifficultyIcon from '../../assets/icons/difficulty.svg';
 	import DropDownIcon from '../../assets/icons/dropdown.svg';
 	import ClockIcon from '../../assets/icons/clock.svg';
 	import PriceIcon from '../../assets/icons/price.svg';
 	import { onMount } from 'svelte';
+	import PageTopBar from '../../components/PageTopBar.svelte'
 
 	//Picture
 
@@ -120,10 +119,8 @@
 	<meta name="description" content="Add Recipe" />
 </svelte:head>
 <div class="space-y-4">
-	<div class="flex justify-between">
-		<H1 text="Recipe Name" />
-		<a href={'/'}><img alt="Close" class="w-10 h-10 drop-shadow-md" src={CloseIcon} /></a>
-	</div>
+	
+	<PageTopBar header="Neues Rezept" />
 
 	<div>
 		<div>

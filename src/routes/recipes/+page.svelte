@@ -1,9 +1,9 @@
 <script>
-	import H1 from '../../components/H1.svelte';
 	import CloseIcon from '../../assets/icons/cancel.svg';
-	import ClockIcon from '../assets/icons/clock.svg';
-	import DifficultyIcon from '../assets/icons/difficulty.svg';
-	import EuroIcon from '../assets/icons/euro.svg';
+	import ClockIcon from '../../assets/icons/clock.svg';
+	import DifficultyIcon from '../../assets/icons/difficulty.svg';
+	import EuroIcon from '../../assets/icons/euro.svg';
+	import PageTopBar from '../../components/PageTopBar.svelte'
 
 	let recipeTime = 5;
 	let difficulty = 'einfach';
@@ -15,10 +15,7 @@
 </svelte:head>
 
 <div class="space-y-4">
-	<div class="flex justify-between">
-		<H1 text="Kochbuch" />
-		<a href={'/'}><img alt="Close" class="w-10 h-10 drop-shadow-md" src={CloseIcon} /></a>
-	</div>
+	<PageTopBar header="Kochbuch" />
 
 	<!-- Search bar and filter -->
 
