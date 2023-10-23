@@ -3,9 +3,9 @@
 	import ClockIcon from '../../assets/icons/clock.svg';
 	import DifficultyIcon from '../../assets/icons/difficulty.svg';
 	import EuroIcon from '../../assets/icons/euro.svg';
-	import MoreIcon from '../../assets/icons/more.svg'
+	import MoreIcon from '../../assets/icons/more.svg';
 
-	import PageTopBar from '../../components/PageTopBar.svelte'
+	import PageTopBar from '../../components/PageTopBar.svelte';
 	import RoundBtn from '../../components/RoundBtn.svelte';
 
 	let recipeTime = 5;
@@ -25,8 +25,10 @@
 	<!-- Filter Tabs -->
 
 	<!-- if statement falls was in der db is, probs some kinda map function -->
-	<a href={'/'} class="w-full bg-gray-500 p-md rounded-lg flex flex-row items-center justify-between drop-shadow-xl">
-		
+	<a
+		href={'/'}
+		class="w-full bg-gray-500 p-md rounded-lg flex flex-row items-center justify-between drop-shadow-xl"
+	>
 		<!-- Left side -->
 		<div class="flex flex-row items-center justify-start gap-md">
 			<img src={EuroIcon} class="aspect-square h-20" alt="" />
@@ -49,8 +51,15 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Right side side -->
-		<RoundBtn src={MoreIcon} alt="More" link={''} padding={.5} icWidth={2} additionalClasses="bg-gray-900 shadow-none" />
+		<RoundBtn
+			src={MoreIcon}
+			alt="More"
+			link={''}
+			padding={0.5}
+			icWidth={2}
+			additionalClasses="bg-gray-900 shadow-none"
+		/>
 	</a>
 </div>
