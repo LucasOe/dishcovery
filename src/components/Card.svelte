@@ -14,7 +14,7 @@
 	class="relative w-full bg-gray-900 rounded-xl shadow-shadow overflow-hidden items-end flex grow bg-cover bg-center"
 	style={`background-image: url(${TestImg})`}
 >
-	<div id="card-stack">
+	<div id="card-stack" class="z-10">
 		<!-- Card Infos -->
 		<div class="flex flex-col z-10 p-lg gap-sm">
 			<!-- stars -->
