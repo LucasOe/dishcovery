@@ -1,13 +1,11 @@
 <script>
-	import Header from '../components/Header.svelte';
 	import '../app.css';
 </script>
 
-<div class="flex items-center w-full min-h-screen bg-gray-900">
+<div class="flex w-full h-[100dvh]">
 	<div
-		class="relative flex w-full max-w-[48rem] p-xl my-0 mx-auto box-border min-h-screen bg-gray-900 text-light flex-col gap-16 justify-center items-center font-default text-fs-text"
+		class="relative flex content-between w-full max-w-[48rem] p-xl pb-[4rem] my-0 mx-auto box-border h-full text-light flex-col gap-16 font-default text-fs-text"
 	>
-		<Header />
 		<slot />
 	</div>
 </div>

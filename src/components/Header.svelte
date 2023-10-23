@@ -12,7 +12,7 @@
 	let profileTab = { name: 'profile', link: 'profile', icon: AddIcon };
 </script>
 
-<header class="w-full">
+<header class="w-full grow-0">
 	<!-- Navigation bar -->
 	<div
 		class="w-full flex flex-row justify-between items-center font-default duration-200 pt-10 pb-5 px-4"

@@ -37,7 +37,7 @@
 </script>
 
 <div
-	class="min-h-[550px] relative w-full bg-gray-900 rounded-xl shadow-shadow overflow-hidden flex items-end bg-cover bg-center"
+	class="relative w-full bg-gray-900 rounded-xl shadow-shadow overflow-hidden items-end flex grow bg-cover bg-center"
 	style={`background-image: url(${TestImg})`}
 >
 	<div id="card-stack">
