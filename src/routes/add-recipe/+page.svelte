@@ -5,7 +5,7 @@
 	import ClockIcon from '../../assets/icons/clock.svg';
 	import PriceIcon from '../../assets/icons/price.svg';
 	import { onMount } from 'svelte';
-	import PageTopBar from '../../components/PageTopBar.svelte'
+	import PageTopBar from '../../components/PageTopBar.svelte';
 
 	//Picture
 
@@ -119,7 +119,6 @@
 	<meta name="description" content="Add Recipe" />
 </svelte:head>
 <div class="space-y-4">
-	
 	<PageTopBar header="Neues Rezept" />
 
 	<div>
@@ -129,7 +128,7 @@
 				type="text"
 				id="title"
 				class=" text-white text-xl h-10 w-full rounded-sm bg-[#2A2A2A]"
-				/>
+			/>
 		</div>
 	</div>
 	<!-- pictures -->

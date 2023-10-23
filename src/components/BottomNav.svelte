@@ -6,9 +6,30 @@
 </script>
 
 <div class="w-full flex items-center justify-center gap-xxl grow-0">
-	<RoundBtn src={RejectIcon} alt="Reject Icon" link={'/'} padding={1.5} icWidth={2} additionalClasses="" />
-	
-	<RoundBtn src={OpenIcon} alt="Open Icon" link={'/'} padding={1} icWidth={1.5} additionalClasses="" />
-	
-	<RoundBtn src={AddToListIcon} alt="Add Icon" link={'/'} padding={1.5} icWidth={2} additionalClasses="" />
+	<RoundBtn
+		src={RejectIcon}
+		alt="Reject Icon"
+		link={'/'}
+		padding={1.5}
+		icWidth={2}
+		additionalClasses=""
+	/>
+
+	<RoundBtn
+		src={OpenIcon}
+		alt="Open Icon"
+		link={'/'}
+		padding={1}
+		icWidth={1.5}
+		additionalClasses=""
+	/>
+
+	<RoundBtn
+		src={AddToListIcon}
+		alt="Add Icon"
+		link={'/'}
+		padding={1.5}
+		icWidth={2}
+		additionalClasses=""
+	/>
 </div>
