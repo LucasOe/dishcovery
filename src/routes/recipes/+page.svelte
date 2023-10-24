@@ -42,13 +42,6 @@
 			</div>
 		</div>
 
-		<RoundButton
-			src={MoreIcon}
-			alt="More"
-			link={""}
-			padding={0.5}
-			icWidth={2}
-			additionalClasses="bg-gray-900 shadow-none"
-		/>
+		<RoundButton src={MoreIcon} alt="More" link={"/"} size="sm" class="bg-gray-900 shadow-none" />
 	</a>
 </div>
