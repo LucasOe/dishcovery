@@ -1,14 +1,14 @@
-<script>
+<script lang="ts">
 	import ClockIcon from '$lib/assets/icons/clock.svg';
 	import DifficultyIcon from '$lib/assets/icons/difficulty.svg';
 	import EuroIcon from '$lib/assets/icons/euro.svg';
 	import MoreIcon from '$lib/assets/icons/more.svg';
 
 	import PageTopBar from '$lib/components/PageTopBar.svelte';
-	import RoundBtn from '$lib/components/RoundBtn.svelte';
+	import RoundBtn from '$lib/components/RoundButton.svelte';
 
-	let recipeTime = 5;
-	let difficulty = 'einfach';
+	let recipeTime: number = 5;
+	let difficulty: string = 'einfach';
 </script>
 
 <svelte:head>

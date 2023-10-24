@@ -1,9 +1,9 @@
-<script>
-	import img from '../../assets/img/test-img.jpg';
-	import edit from '../../assets/icons/edit.svg';
-	import H1 from '../../components/H1.svelte';
-	import Tag from '../../components/Tag.svelte';
-	import PageTopBar from '../../components/PageTopBar.svelte';
+<script lang="ts">
+	import img from '$lib/assets/img/test-img.jpg';
+	import edit from '$lib/assets/icons/edit.svg';
+	import H1 from '$lib/components/H1.svelte';
+	import Tag from '$lib/components/Tag.svelte';
+	import PageTopBar from '$lib/components/PageTopBar.svelte';
 </script>
 
 <svelte:head>
