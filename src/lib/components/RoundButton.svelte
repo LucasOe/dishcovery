@@ -11,11 +11,11 @@
 	href={link}
 	{...$$props}
 	class={twMerge(
-		'rounded-full duration-150 bg-gray-500 hover:bg-[#383838] drop-shadow-xl hover:drop-shadow-sm',
-		size === 'sm' && 'w-10 h-10 p-3',
-		size === 'md' && 'w-14 h-14 p-4',
+		'rounded-full bg-gray-500 drop-shadow-xl duration-150 hover:bg-[#383838] hover:drop-shadow-sm',
+		size === 'sm' && 'h-10 w-10 p-3',
+		size === 'md' && 'h-14 w-14 p-4',
 		$$props.class
 	)}
 >
-	<img {src} {alt} class="w-full h-full" />
+	<img {src} {alt} class="h-full w-full" />
 </a>

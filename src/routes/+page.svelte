@@ -4,7 +4,7 @@
 	import Header from '$lib/components/Header.svelte';
 </script>
 
-<main class="h-full w-full flex flex-col gap-16 justify-center font-default text-fs-text">
+<main class="flex h-full w-full flex-col justify-center gap-16 font-default text-fs-text">
 	<Header />
 	<Card />
 	<BottomNav />

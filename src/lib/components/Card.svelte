@@ -11,12 +11,12 @@
 </script>
 
 <div
-	class="relative w-full bg-gray-900 rounded-xl shadow-shadow overflow-hidden items-end flex grow bg-cover bg-center"
+	class="relative flex w-full grow items-end overflow-hidden rounded-xl bg-gray-900 bg-cover bg-center shadow-shadow"
 	style={`background-image: url(${TestImg})`}
 >
 	<div id="card-stack" class="z-10">
 		<!-- Card Infos -->
-		<div class="flex flex-col z-10 p-lg gap-sm">
+		<div class="z-10 flex flex-col gap-sm p-lg">
 			<!-- stars -->
 
 			<!-- header -->
@@ -32,21 +32,21 @@
 			<!-- infos (time, difficulty, price), needs to be dynamic as well lul -->
 			<div class="flex flex-row gap-md">
 				<div class="flex flex-row gap-xs">
-					<img alt="Clock" class="w-5 h-5" src={ClockIcon} />
+					<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
 					<p>{recipeTime} Min.</p>
 				</div>
 				<div class="flex flex-row gap-xs">
-					<img alt="Difficulty" class="w-5 h-5" src={DifficultyIcon} />
+					<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
 					<p>{difficulty}</p>
 				</div>
 				<div class="flex flex-row gap-xs">
-					<img alt="Euro" class="w-5 h-5" src={EuroIcon} />
-					<img alt="Euro" class="w-5 h-5" src={EuroIcon} />
+					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- linear gradient fade for info content -->
-	<div class="bg-gradient-to-b from-transparent from-50% to-gray-900 absolute w-full h-full" />
+	<div class="absolute h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-900" />
 </div>

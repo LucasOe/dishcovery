@@ -2,4 +2,4 @@
 	export let text: string = '';
 </script>
 
-<h1 class="font-header text-light text-fs-header">{text}</h1>
+<h1 class="font-header text-fs-header text-light">{text}</h1>

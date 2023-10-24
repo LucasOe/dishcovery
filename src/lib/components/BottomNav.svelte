@@ -5,7 +5,7 @@
 	import RoundBtn from '$lib/components/RoundButton.svelte';
 </script>
 
-<div class="w-full flex items-center justify-center gap-xxl grow-0">
+<div class="flex w-full grow-0 items-center justify-center gap-xxl">
 	<RoundBtn src={RejectIcon} alt="Reject Icon" link={'/'} size="md" />
 	<RoundBtn src={OpenIcon} alt="Open Icon" link={'/'} size="sm" />
 	<RoundBtn src={AddToListIcon} alt="Add Icon" link={'/'} size="md" />

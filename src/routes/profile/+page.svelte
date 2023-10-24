@@ -12,45 +12,45 @@
 </svelte:head>
 <PageTopBar header="Kochbuch" />
 
-<div class="text-column flex justify-center flex-col items-center">
-	<img class="rounded-full w-44" alt="User" src={img} />
+<div class="text-column flex flex-col items-center justify-center">
+	<img class="w-44 rounded-full" alt="User" src={img} />
 	<div class="mt-lg flex flex-col items-center">
 		<H1 text="Jennifer Hoffmann" />
 		<p>25, Hamburg (DE)</p>
 	</div>
-	<div class="flex gap-2 mt-lg">
-		<div class="flex flex-col items-center px-lg border-r-2 border-gray-300">
+	<div class="mt-lg flex gap-2">
+		<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 			<p class="font-bold">Rezepte</p>
-			<p class="font-bold text-lg">3</p>
+			<p class="text-lg font-bold">3</p>
 			<div class="block h-full w-2 bg-gray-300" />
 		</div>
-		<div class="flex flex-col items-center px-lg border-r-2 border-gray-300">
+		<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 			<p class="font-bold">Follower</p>
-			<p class="font-bold text-lg">14</p>
+			<p class="text-lg font-bold">14</p>
 		</div>
 		<div class="flex flex-col items-center px-lg">
 			<p class="font-bold">Following</p>
-			<p class="font-bold text-lg">31</p>
+			<p class="text-lg font-bold">31</p>
 		</div>
 	</div>
-	<div class="flex gap-md mt-lg">
+	<div class="mt-lg flex gap-md">
 		<Tag>Vegan</Tag>
 		<Tag>Vegetarisch</Tag>
 		<Tag>Thailändisch</Tag>
 		<Tag>Chinesisch</Tag>
 		<Tag>Schnell</Tag>
 	</div>
-	<div class="flex text-gray-300 font-bold mt-lg">
-		<img class="w-5 h-5 mr-5" alt="User" src={edit} />
+	<div class="mt-lg flex font-bold text-gray-300">
+		<img class="mr-5 h-5 w-5" alt="User" src={edit} />
 		<p>Profil bearbeiten</p>
 	</div>
 
-	<div class="grid-cols-2 grid gap-5 my-lg">
-		<img class="rounded-md w-44" alt="User" src={img} />
-		<img class="rounded-md w-44" alt="User" src={img} />
-		<img class="rounded-md w-44" alt="User" src={img} />
-		<img class="rounded-md w-44" alt="User" src={img} />
-		<img class="rounded-md w-44" alt="User" src={img} />
-		<img class="rounded-md w-44" alt="User" src={img} />
+	<div class="my-lg grid grid-cols-2 gap-5">
+		<img class="w-44 rounded-md" alt="User" src={img} />
+		<img class="w-44 rounded-md" alt="User" src={img} />
+		<img class="w-44 rounded-md" alt="User" src={img} />
+		<img class="w-44 rounded-md" alt="User" src={img} />
+		<img class="w-44 rounded-md" alt="User" src={img} />
+		<img class="w-44 rounded-md" alt="User" src={img} />
 	</div>
 </div>
