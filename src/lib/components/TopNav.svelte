@@ -5,7 +5,7 @@
 
 	let tabs = [
 		{ name: "Kochbuch", link: "recipes", icon: RecipeIcon },
-		{ name: "Add new", link: "add-recipe", icon: AddIcon },
+		{ name: "Add new", link: "new", icon: AddIcon },
 		{ name: "filter", link: "filter", icon: FilterIcon },
 	];
 

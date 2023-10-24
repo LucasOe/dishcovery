@@ -4,21 +4,13 @@
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import MoreIcon from "$lib/assets/icons/more.svg";
 
-	import PageTopBar from "$lib/components/PageTopBar.svelte";
 	import RoundButton from "$lib/components/RoundButton.svelte";
 
 	let recipeTime: number = 5;
 	let difficulty: string = "einfach";
 </script>
 
-<svelte:head>
-	<title>Kochbuch</title>
-	<meta name="description" content="Kochbuch" />
-</svelte:head>
-
 <div class="space-y-4">
-	<PageTopBar header="Kochbuch" />
-
 	<a href={"/"} class="flex w-full flex-row items-center justify-between rounded-lg bg-gray-500 p-md drop-shadow-xl">
 		<!-- Left side -->
 		<div class="flex flex-row items-center justify-start gap-md">
