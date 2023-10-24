@@ -24,9 +24,9 @@
 
 			<!-- tags, this is shitty, should be dynamic somehow with the super duper base -->
 			<div class="flex flex-row gap-sm">
-				<Tag>schnell</Tag>
-				<Tag>toll</Tag>
-				<Tag>lecker</Tag>
+				<Tag text="schnell"></Tag>
+				<Tag text="toll"></Tag>
+				<Tag text="lecker"></Tag>
 			</div>
 
 			<!-- infos (time, difficulty, price), needs to be dynamic as well lul -->

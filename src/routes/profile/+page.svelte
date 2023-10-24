@@ -1,9 +1,8 @@
 <script lang="ts">
-	import img from '$lib/assets/img/test-img.jpg';
-	import edit from '$lib/assets/icons/edit.svg';
-	import H1 from '$lib/components/H1.svelte';
-	import Tag from '$lib/components/Tag.svelte';
-	import PageTopBar from '$lib/components/PageTopBar.svelte';
+	import img from "$lib/assets/img/test-img.jpg";
+	import edit from "$lib/assets/icons/edit.svg";
+	import Tag from "$lib/components/Tag.svelte";
+	import PageTopBar from "$lib/components/PageTopBar.svelte";
 </script>
 
 <svelte:head>
@@ -15,7 +14,7 @@
 <div class="text-column flex flex-col items-center justify-center">
 	<img class="w-44 rounded-full" alt="User" src={img} />
 	<div class="mt-lg flex flex-col items-center">
-		<H1 text="Jennifer Hoffmann" />
+		<h1 class="font-header text-fs-header text-light">Jennifer Hoffmann</h1>
 		<p>25, Hamburg (DE)</p>
 	</div>
 	<div class="mt-lg flex gap-2">
@@ -34,11 +33,11 @@
 		</div>
 	</div>
 	<div class="mt-lg flex gap-md">
-		<Tag>Vegan</Tag>
-		<Tag>Vegetarisch</Tag>
-		<Tag>Thailändisch</Tag>
-		<Tag>Chinesisch</Tag>
-		<Tag>Schnell</Tag>
+		<Tag text="Vegan" />
+		<Tag text="Vegetarisch" />
+		<Tag text="Thailändisch" />
+		<Tag text="Chinesisch" />
+		<Tag text="Schnell" />
 	</div>
 	<div class="mt-lg flex font-bold text-gray-300">
 		<img class="mr-5 h-5 w-5" alt="User" src={edit} />
