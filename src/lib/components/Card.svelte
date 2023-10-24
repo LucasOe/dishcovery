@@ -32,11 +32,11 @@
 			<div class="flex flex-row gap-md">
 				<div class="flex flex-row gap-xs">
 					<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
-					<p class="font-default text-fs-text text-light">{recipeTime} Min.</p>
+					<p>{recipeTime} Min.</p>
 				</div>
 				<div class="flex flex-row gap-xs">
 					<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
-					<p class="font-default text-fs-text text-light">{difficulty}</p>
+					<p>{difficulty}</p>
 				</div>
 				<div class="flex flex-row gap-xs">
 					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
