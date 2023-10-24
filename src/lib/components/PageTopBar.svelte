@@ -1,6 +1,6 @@
 <script>
-	import RoundBtn from '../components/RoundBtn.svelte';
-	import H1 from '../components/H1.svelte';
+	import RoundBtn from './RoundBtn.svelte';
+	import H1 from './H1.svelte';
 	import CloseIcon from '../assets/icons/cancel.svg';
 	/**
 	 * @type {string}
