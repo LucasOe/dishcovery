@@ -1,12 +1,12 @@
 <script lang="ts">
+	import type { Enums, Tables } from "../../database.types";
 	import TestImg from "$lib/assets/img/test-img.jpg";
 	import Tag from "$lib/components/Tag.svelte";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 
-	let recipeTime: number = 5;
-	let difficulty: string = "einfach";
+	export let recipe: Tables<"recipes">;
 </script>
 
 <div
@@ -14,33 +14,28 @@
 	style={`background-image: url(${TestImg})`}
 >
 	<div id="card-stack" class="z-10">
-		<!-- Card Infos -->
 		<div class="z-10 flex flex-col gap-sm p-lg">
-			<!-- stars -->
+			<h1 class="font-header text-fs-header text-light">{recipe.name}</h1>
 
-			<!-- header -->
-			<h1 class="font-header text-fs-header text-light">Recipe Name</h1>
-
-			<!-- tags, this is shitty, should be dynamic somehow with the super duper base -->
 			<div class="flex flex-row gap-sm">
 				<Tag text="schnell"></Tag>
 				<Tag text="toll"></Tag>
 				<Tag text="lecker"></Tag>
 			</div>
 
-			<!-- infos (time, difficulty, price), needs to be dynamic as well lul -->
 			<div class="flex flex-row gap-md">
 				<div class="flex flex-row gap-xs">
 					<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
-					<p>{recipeTime} Min.</p>
+					<p>{recipe.duration} Min.</p>
 				</div>
 				<div class="flex flex-row gap-xs">
 					<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
-					<p>{difficulty}</p>
+					<p>{recipe.difficulty}</p>
 				</div>
 				<div class="flex flex-row gap-xs">
-					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
-					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+					{#each { length: recipe.price?.length || 0 } as _}
+						<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+					{/each}
 				</div>
 			</div>
 		</div>
