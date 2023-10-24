@@ -1,12 +1,11 @@
 <script>
-	import CloseIcon from '../../assets/icons/cancel.svg';
-	import ClockIcon from '../../assets/icons/clock.svg';
-	import DifficultyIcon from '../../assets/icons/difficulty.svg';
-	import EuroIcon from '../../assets/icons/euro.svg';
-	import MoreIcon from '../../assets/icons/more.svg';
+	import ClockIcon from '$lib/assets/icons/clock.svg';
+	import DifficultyIcon from '$lib/assets/icons/difficulty.svg';
+	import EuroIcon from '$lib/assets/icons/euro.svg';
+	import MoreIcon from '$lib/assets/icons/more.svg';
 
-	import PageTopBar from '../../components/PageTopBar.svelte';
-	import RoundBtn from '../../components/RoundBtn.svelte';
+	import PageTopBar from '$lib/components/PageTopBar.svelte';
+	import RoundBtn from '$lib/components/RoundBtn.svelte';
 
 	let recipeTime = 5;
 	let difficulty = 'einfach';
