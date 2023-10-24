@@ -13,7 +13,8 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.38.2",
-		"swing": "^3.1.4"
+		"swing": "^3.1.4",
+		"tailwind-merge": "^1.14.0"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
