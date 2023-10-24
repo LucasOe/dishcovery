@@ -109,20 +109,20 @@
 
 	<div>
 		<div>
-			<label for="title" class="block mb-1 text-xl font-semibold">Titel</label>
+			<label for="title" class="mb-1 block text-xl font-semibold">Titel</label>
 			<input
 				type="text"
 				id="title"
-				class=" text-white text-xl h-10 w-full rounded-sm bg-[#2A2A2A]"
+				class=" text-white h-10 w-full rounded-sm bg-[#2A2A2A] text-xl"
 			/>
 		</div>
 	</div>
 	<!-- pictures -->
 	<div id="app">
-		<p class="block mb-1 text-xl font-semibold" id="app">Bilder</p>
+		<p class="mb-1 block text-xl font-semibold" id="app">Bilder</p>
 		<div class="flex flex-row gap-2">
 			<button>
-				<img class="upload inline w-10 h-10 drop-shadow-md" src={UploadIcon} alt="" />
+				<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
 			</button>
 			<button class="chan" />
 			<input style="display:none" type="file" accept=".jpg, .jpeg, .png" />
@@ -136,11 +136,11 @@
 	<!-- Kind -->
 	<div>
 		<p class="text-xl font-semibold">Art</p>
-		<div class="button-box rounded-sm mt-2 bg-[#363636]">
+		<div class="button-box mt-2 rounded-sm bg-[#363636]">
 			<div class="buttons text-left">
 				{#each buttons as button, index (button.text)}
 					<button
-						class="m-2 p-2 rounded-sm"
+						class="m-2 rounded-sm p-2"
 						style="border: 2px solid {button.borderColor}"
 						on:click={() => changeBorderColor(index)}
 					>
@@ -153,11 +153,11 @@
 	<!-- Category -->
 	<div>
 		<p class="text-xl font-semibold">Kategorie</p>
-		<div class="button-box rounded-sm mt-2 bg-[#363636]">
+		<div class="button-box mt-2 rounded-sm bg-[#363636]">
 			<div class="buttons text-left">
 				{#each buttons2 as button, index2 (button.text)}
 					<button
-						class="m-2 p-2 rounded-sm"
+						class="m-2 rounded-sm p-2"
 						style="border: 2px solid {button.borderColor}"
 						on:click={() => changeBorderColor2(index2)}
 					>
@@ -171,45 +171,45 @@
 	<!-- Difficulty -->
 	<div class="flex flex-row gap-2">
 		<p class="text-xl font-semibold">
-			<img alt="Difficulty" class="inline w-10 h-10 drop-shadow-md mr-4" src={DifficultyIcon} />
+			<img alt="Difficulty" class="mr-4 inline h-10 w-10 drop-shadow-md" src={DifficultyIcon} />
 			Schwierigkeit
 		</p>
 	</div>
 
 	<div class="col-span-2">
-		<div class="relative h-10 rounded-sm shadow-md bg-[#2A2A2A]">
-			<button class="text-xl m-2 font-semibold rounded-md" on:click={toggleDropdownDifficult}>
+		<div class="relative h-10 rounded-sm bg-[#2A2A2A] shadow-md">
+			<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownDifficult}>
 				{selectedDifficult}
 			</button>
 
 			<ul
-				class="absolute text-xl font-semibold rounded-md bg-[#2A2A2A] w-full overflow-y-auto z-10 shadow-md"
+				class="absolute z-10 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold shadow-md"
 				style="display: {isOpenDifficult ? 'block' : 'none'}"
 			>
 				{#each difficults as difficult (difficult)}
-					<li class="cursor-pointer ml-5">
+					<li class="ml-5 cursor-pointer">
 						<button on:click={() => selectDifficult(difficult)}>{difficult}</button>
 					</li>
 				{/each}
 			</ul>
 
-			<button class="absolute top-0 right-0" on:click={toggleDropdownDifficult}
-				><img alt="Dropdown" class="inline w-10 h-10 drop-shadow-md" src={DropDownIcon} /></button
+			<button class="absolute right-0 top-0" on:click={toggleDropdownDifficult}
+				><img alt="Dropdown" class="inline h-10 w-10 drop-shadow-md" src={DropDownIcon} /></button
 			>
 		</div>
 	</div>
 
 	<!-- Time and Price -->
-	<div class="grid grid-flow-row-dense grid-cols-3 grid-rows-1 relative">
+	<div class="relative grid grid-flow-row-dense grid-cols-3 grid-rows-1">
 		<div class="col-span-2">
 			<p class="text-xl font-semibold">
-				<img alt="Time" class="inline w-10 h-10 drop-shadow-md mr-4" src={ClockIcon} />
+				<img alt="Time" class="mr-4 inline h-10 w-10 drop-shadow-md" src={ClockIcon} />
 				Zeit
 			</p>
 		</div>
 		<div>
 			<p class="text-xl font-semibold">
-				<img alt="Price" class="inline w-10 h-10 drop-shadow-md mr-4" src={PriceIcon} />
+				<img alt="Price" class="mr-4 inline h-10 w-10 drop-shadow-md" src={PriceIcon} />
 				Preis
 			</p>
 		</div>
@@ -218,89 +218,89 @@
 	<div class="grid grid-flow-row-dense grid-cols-3 grid-rows-1">
 		<!-- Time -->
 		<div class="col-span-2">
-			<div class="relative h-10 rounded-sm shadow-md bg-[#2A2A2A] mr-5">
-				<button class="text-xl m-2 font-semibold rounded-md" on:click={toggleDropdownTime}>
+			<div class="relative mr-5 h-10 rounded-sm bg-[#2A2A2A] shadow-md">
+				<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownTime}>
 					{selectedTime}
 				</button>
 
 				<ul
-					class="absolute text-xl font-semibold rounded-md bg-[#2A2A2A] h-20 w-full overflow-y-auto z-10"
+					class="absolute z-10 h-20 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold"
 					style="display: {isOpenTime ? 'block' : 'none'}"
 				>
 					{#each times as time (time)}
-						<li class="cursor-pointer ml-5">
+						<li class="ml-5 cursor-pointer">
 							<button on:click={() => selectTime(time)}>{time}</button>
 						</li>
 					{/each}
 				</ul>
 
-				<button class="absolute top-0 right-0" on:click={toggleDropdownTime}
-					><img alt="Dropdown" class="inline w-10 h-10 drop-shadow-md" src={DropDownIcon} /></button
+				<button class="absolute right-0 top-0" on:click={toggleDropdownTime}
+					><img alt="Dropdown" class="inline h-10 w-10 drop-shadow-md" src={DropDownIcon} /></button
 				>
 			</div>
 		</div>
 
 		<!-- Price -->
 		<div>
-			<div class="relative h-10 rounded-sm shadow-md bg-[#2A2A2A]">
-				<button class="text-xl m-2 font-semibold rounded-md" on:click={toggleDropdownPrice}>
+			<div class="relative h-10 rounded-sm bg-[#2A2A2A] shadow-md">
+				<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownPrice}>
 					{selectedPrice}
 				</button>
 
 				<ul
-					class="absolute text-xl font-semibold rounded-md bg-[#2A2A2A] w-full overflow-y-auto z-10"
+					class="absolute z-10 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold"
 					style="display: {isOpenPrice ? 'block' : 'none'}"
 				>
 					{#each prices as price (price)}
-						<li class="cursor-pointer ml-5">
+						<li class="ml-5 cursor-pointer">
 							<button on:click={() => selectPrice(price)}>{price}</button>
 						</li>
 					{/each}
 				</ul>
 
-				<button class="absolute top-0 right-0" on:click={toggleDropdownPrice}
-					><img alt="Dropdown" class="inline w-10 h-10 drop-shadow-md" src={DropDownIcon} /></button
+				<button class="absolute right-0 top-0" on:click={toggleDropdownPrice}
+					><img alt="Dropdown" class="inline h-10 w-10 drop-shadow-md" src={DropDownIcon} /></button
 				>
 			</div>
 		</div>
 	</div>
 	<!-- Ingredients -->
 	<div>
-		<p class="block mb-1 text-xl font-semibold">Zutaten</p>
+		<p class="mb-1 block text-xl font-semibold">Zutaten</p>
 		<div class="flex flex-row gap-2">
 			<button class="upload-btn"
-				><img alt="Close" class="inline w-10 h-10 drop-shadow-md" src={UploadIcon} /></button
+				><img alt="Close" class="inline h-10 w-10 drop-shadow-md" src={UploadIcon} /></button
 			>
 		</div>
 	</div>
 
 	<!-- Worksteps -->
 	<div>
-		<p class="block mb-1 text-xl font-semibold">Arbeitsschritte</p>
+		<p class="mb-1 block text-xl font-semibold">Arbeitsschritte</p>
 		<div class="relative">
-			<p class="block mb-1 text-xl font-semibold text-[#FFC532]">1.Schritt</p>
+			<p class="mb-1 block text-xl font-semibold text-[#FFC532]">1.Schritt</p>
 			<input
 				type="text"
-				class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
+				class="text-white bg-gray-800 h-60 w-full rounded-sm text-xl focus:outline-none"
 				style="background-color: #2A2A2A;"
 				placeholder="Hier eingeben..."
 			/>
 		</div>
 		<div>
-			<img alt="Close" class="inline w-10 h-10 drop-shadow-md mt-4" src={UploadIcon} />
+			<img alt="Close" class="mt-4 inline h-10 w-10 drop-shadow-md" src={UploadIcon} />
 		</div>
 	</div>
 	<div>
-		<p class="block mb-1 text-xl font-semibold">Beschreibung (optional)</p>
+		<p class="mb-1 block text-xl font-semibold">Beschreibung (optional)</p>
 		<input
 			type="text"
-			class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
+			class="text-white bg-gray-800 h-60 w-full rounded-sm text-xl focus:outline-none"
 			style="background-color: #2A2A2A;"
 			placeholder="Hier eingeben..."
 		/>
 	</div>
 	<div>
-		<button class="text-xl font-semibold w-full h-16 bg-[#FFC532] rounded-sm text-[#212121]">
+		<button class="h-16 w-full rounded-sm bg-[#FFC532] text-xl font-semibold text-[#212121]">
 			Rezept veröffentlichen
 		</button>
 	</div>
