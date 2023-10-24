@@ -1,7 +1,7 @@
-<script>
-	import AddIcon from '../assets/icons/add.svg';
-	import FilterIcon from '../assets/icons/filter.svg';
-	import RecipeIcon from '../assets/icons/recipes.svg';
+<script lang="ts">
+	import AddIcon from '$lib/assets/icons/add.svg';
+	import FilterIcon from '$lib/assets/icons/filter.svg';
+	import RecipeIcon from '$lib/assets/icons/recipes.svg';
 
 	let tabs = [
 		{ name: 'Kochbuch', link: 'recipes', icon: RecipeIcon },

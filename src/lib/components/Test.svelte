@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { supabase } from '../functions/createClient';
+	import { supabase } from '$lib/functions/createClient';
 	import { onMount } from 'svelte';
 
 	type Recipe = {

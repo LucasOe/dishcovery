@@ -1,13 +1,13 @@
-<script>
-	import TestImg from '../assets/img/test-img.jpg';
-	import Tag from './Tag.svelte';
-	import ClockIcon from '../assets/icons/clock.svg';
-	import DifficultyIcon from '../assets/icons/difficulty.svg';
-	import EuroIcon from '../assets/icons/euro.svg';
-	import H1 from './H1.svelte';
+<script lang="ts">
+	import TestImg from '$lib/assets/img/test-img.jpg';
+	import Tag from '$lib/components/Tag.svelte';
+	import ClockIcon from '$lib/assets/icons/clock.svg';
+	import DifficultyIcon from '$lib/assets/icons/difficulty.svg';
+	import EuroIcon from '$lib/assets/icons/euro.svg';
+	import H1 from '$lib/components/H1.svelte';
 
-	let recipeTime = 5;
-	let difficulty = 'einfach';
+	let recipeTime: number = 5;
+	let difficulty: string = 'einfach';
 </script>
 
 <div

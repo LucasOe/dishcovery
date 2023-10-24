@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import BottomNav from '$lib/components/BottomNav.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Header from '$lib/components/Header.svelte';

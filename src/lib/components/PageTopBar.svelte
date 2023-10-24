@@ -1,11 +1,9 @@
-<script>
-	import RoundBtn from './RoundBtn.svelte';
-	import H1 from './H1.svelte';
-	import CloseIcon from '../assets/icons/cancel.svg';
-	/**
-	 * @type {string}
-	 */
-	export let header;
+<script lang="ts">
+	import RoundBtn from '$lib/components/RoundButton.svelte';
+	import H1 from '$lib/components/H1.svelte';
+	import CloseIcon from '$lib/assets/icons/cancel.svg';
+
+	export let header: string;
 </script>
 
 <div class="flex justify-between">
