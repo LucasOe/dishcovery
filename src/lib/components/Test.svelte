@@ -1,21 +1,17 @@
 <script lang="ts">
-	import { supabase } from '$lib/functions/createClient';
-	import { onMount } from 'svelte';
+	import { supabase } from "$lib/functions/createClient";
+	import type { Tables } from "$lib/../database.types";
 
-	type Recipe = {
-		created_at: string;
-		description: string | null;
-		id: number;
-		name: string | null;
-	};
-	let recipes: Recipe[] = [];
+	import { onMount } from "svelte";
+
+	let recipes: Tables<"recipes">[];
 
 	onMount(() => {
 		fetchRecipes();
 	});
 
 	const fetchRecipes = async () => {
-		let { data } = await supabase.from('recipes').select();
+		let { data } = await supabase.from("recipes").select();
 		if (data) recipes = data;
 	};
 </script>
