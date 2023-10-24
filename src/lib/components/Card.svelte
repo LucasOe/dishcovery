@@ -4,7 +4,6 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
-	import H1 from "$lib/components/H1.svelte";
 
 	let recipeTime: number = 5;
 	let difficulty: string = "einfach";
@@ -20,7 +19,7 @@
 			<!-- stars -->
 
 			<!-- header -->
-			<H1 text="Recipe Name" />
+			<h1 class="font-header text-fs-header text-light">Recipe Name</h1>
 
 			<!-- tags, this is shitty, should be dynamic somehow with the super duper base -->
 			<div class="flex flex-row gap-sm">
