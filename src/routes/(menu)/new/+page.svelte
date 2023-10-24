@@ -1,54 +1,53 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount } from "svelte";
 
-	import UploadIcon from '$lib/assets/icons/upload.svg';
-	import DifficultyIcon from '$lib/assets/icons/difficulty.svg';
-	import DropDownIcon from '$lib/assets/icons/dropdown.svg';
-	import ClockIcon from '$lib/assets/icons/clock.svg';
-	import PriceIcon from '$lib/assets/icons/price.svg';
-	import PageTopBar from '$lib/components/PageTopBar.svelte';
+	import UploadIcon from "$lib/assets/icons/upload.svg";
+	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
+	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
+	import ClockIcon from "$lib/assets/icons/clock.svg";
+	import PriceIcon from "$lib/assets/icons/price.svg";
 
 	// Kind
 	let buttons = [
-		{ text: 'Frühstück', borderColor: '#7D7C7C' },
-		{ text: 'Abendessen', borderColor: '#7D7C7C' },
-		{ text: 'Snack', borderColor: '#7D7C7C' },
-		{ text: 'Gebäck', borderColor: '#7D7C7C' },
-		{ text: 'Cocktail', borderColor: '#7D7C7C' }
+		{ text: "Frühstück", borderColor: "#7D7C7C" },
+		{ text: "Abendessen", borderColor: "#7D7C7C" },
+		{ text: "Snack", borderColor: "#7D7C7C" },
+		{ text: "Gebäck", borderColor: "#7D7C7C" },
+		{ text: "Cocktail", borderColor: "#7D7C7C" },
 	];
 	function changeBorderColor(index: number) {
-		if (buttons[index].borderColor === '#7D7C7C') {
-			buttons[index].borderColor = '#FFC532';
+		if (buttons[index].borderColor === "#7D7C7C") {
+			buttons[index].borderColor = "#FFC532";
 		} else {
-			buttons[index].borderColor = '#7D7C7C';
+			buttons[index].borderColor = "#7D7C7C";
 		}
 	}
 
 	// Category
 	let buttons2 = [
-		{ text: 'Vegetarisch', borderColor: '#7D7C7C' },
-		{ text: 'Vegan', borderColor: '#7D7C7C' },
-		{ text: 'Pizza', borderColor: '#7D7C7C' },
-		{ text: 'Ohne Nüsse', borderColor: '#7D7C7C' },
-		{ text: 'Burger', borderColor: '#7D7C7C' },
-		{ text: 'Herzhaft', borderColor: '#7D7C7C' },
-		{ text: 'Wenig Zutaten', borderColor: '#7D7C7C' },
-		{ text: 'Salat', borderColor: '#7D7C7C' },
-		{ text: 'Schnell', borderColor: '#7D7C7C' }
+		{ text: "Vegetarisch", borderColor: "#7D7C7C" },
+		{ text: "Vegan", borderColor: "#7D7C7C" },
+		{ text: "Pizza", borderColor: "#7D7C7C" },
+		{ text: "Ohne Nüsse", borderColor: "#7D7C7C" },
+		{ text: "Burger", borderColor: "#7D7C7C" },
+		{ text: "Herzhaft", borderColor: "#7D7C7C" },
+		{ text: "Wenig Zutaten", borderColor: "#7D7C7C" },
+		{ text: "Salat", borderColor: "#7D7C7C" },
+		{ text: "Schnell", borderColor: "#7D7C7C" },
 	];
 
 	function changeBorderColor2(index2: number) {
-		if (buttons2[index2].borderColor === '#7D7C7C') {
-			buttons2[index2].borderColor = '#FFC532';
+		if (buttons2[index2].borderColor === "#7D7C7C") {
+			buttons2[index2].borderColor = "#FFC532";
 		} else {
-			buttons2[index2].borderColor = '#7D7C7C';
+			buttons2[index2].borderColor = "#7D7C7C";
 		}
 	}
 
 	// Difficulty
 	let isOpenDifficult = false;
 	let selectedDifficult: string | null = null;
-	let difficults = ['leicht', 'mittel', 'schwer'];
+	let difficults = ["leicht", "mittel", "schwer"];
 
 	onMount(() => {
 		selectedDifficult = difficults[0];
@@ -66,7 +65,7 @@
 	// Time
 	let isOpenTime = false;
 	let selectedTime: string | null = null;
-	let times = ['5 Min.', '10 Min.', '15 Min.', '20 Min.', '25 Min.', '30 Min.'];
+	let times = ["5 Min.", "10 Min.", "15 Min.", "20 Min.", "25 Min.", "30 Min."];
 
 	onMount(() => {
 		selectedTime = times[0];
@@ -84,7 +83,7 @@
 	// Price
 	let isOpenPrice = false;
 	let selectedPrice: string | null = null;
-	let prices = ['€', '€€', '€€€'];
+	let prices = ["€", "€€", "€€€"];
 
 	onMount(() => {
 		selectedPrice = prices[0];
@@ -100,21 +99,11 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Add Recipe</title>
-	<meta name="description" content="Add Recipe" />
-</svelte:head>
 <div class="space-y-4">
-	<PageTopBar header="Neues Rezept" />
-
 	<div>
 		<div>
 			<label for="title" class="mb-1 block text-xl font-semibold">Titel</label>
-			<input
-				type="text"
-				id="title"
-				class=" text-white h-10 w-full rounded-sm bg-[#2A2A2A] text-xl"
-			/>
+			<input type="text" id="title" class=" text-white h-10 w-full rounded-sm bg-[#2A2A2A] text-xl" />
 		</div>
 	</div>
 	<!-- pictures -->
@@ -268,9 +257,7 @@
 	<div>
 		<p class="mb-1 block text-xl font-semibold">Zutaten</p>
 		<div class="flex flex-row gap-2">
-			<button class="upload-btn"
-				><img alt="Close" class="inline h-10 w-10 drop-shadow-md" src={UploadIcon} /></button
-			>
+			<button class="upload-btn"><img alt="Close" class="inline h-10 w-10 drop-shadow-md" src={UploadIcon} /></button>
 		</div>
 	</div>
 

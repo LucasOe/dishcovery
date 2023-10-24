@@ -2,14 +2,7 @@
 	import img from "$lib/assets/img/test-img.jpg";
 	import edit from "$lib/assets/icons/edit.svg";
 	import Tag from "$lib/components/Tag.svelte";
-	import PageTopBar from "$lib/components/PageTopBar.svelte";
 </script>
-
-<svelte:head>
-	<title>Profil</title>
-	<meta name="description" content="Profil" />
-</svelte:head>
-<PageTopBar header="Kochbuch" />
 
 <div class="text-column flex flex-col items-center justify-center">
 	<img class="w-44 rounded-full" alt="User" src={img} />
