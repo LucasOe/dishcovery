@@ -1,26 +1,14 @@
 <script lang="ts">
-	import UploadIcon from '../../assets/icons/upload.svg';
-	import DifficultyIcon from '../../assets/icons/difficulty.svg';
-	import DropDownIcon from '../../assets/icons/dropdown.svg';
-	import ClockIcon from '../../assets/icons/clock.svg';
-	import PriceIcon from '../../assets/icons/price.svg';
 	import { onMount } from 'svelte';
+
+	import UploadIcon from '$lib/assets/icons/upload.svg';
+	import DifficultyIcon from '$lib/assets/icons/difficulty.svg';
+	import DropDownIcon from '$lib/assets/icons/dropdown.svg';
+	import ClockIcon from '$lib/assets/icons/clock.svg';
+	import PriceIcon from '$lib/assets/icons/price.svg';
 	import PageTopBar from '$lib/components/PageTopBar.svelte';
 
-	//Picture
-	let preview: string | ArrayBuffer | null;
-	let fileinput: HTMLInputElement;
-
-	const onFileSelected = (event) => {
-		let image = event.target.files[0];
-		let reader = new FileReader();
-		reader.readAsDataURL(image);
-		reader.onload = (e) => {
-			preview = e.target.result;
-		};
-	};
-
-	//Kind
+	// Kind
 	let buttons = [
 		{ text: 'Frühstück', borderColor: '#7D7C7C' },
 		{ text: 'Abendessen', borderColor: '#7D7C7C' },
@@ -36,7 +24,7 @@
 		}
 	}
 
-	//Categorie
+	// Category
 	let buttons2 = [
 		{ text: 'Vegetarisch', borderColor: '#7D7C7C' },
 		{ text: 'Vegan', borderColor: '#7D7C7C' },
@@ -57,7 +45,7 @@
 		}
 	}
 
-	//Difficult
+	// Difficulty
 	let isOpenDifficult = false;
 	let selectedDifficult: string | null = null;
 	let difficults = ['leicht', 'mittel', 'schwer'];
@@ -75,7 +63,7 @@
 		isOpenDifficult = false;
 	}
 
-	//Time
+	// Time
 	let isOpenTime = false;
 	let selectedTime: string | null = null;
 	let times = ['5 Min.', '10 Min.', '15 Min.', '20 Min.', '25 Min.', '30 Min.'];
@@ -93,7 +81,7 @@
 		isOpenTime = false;
 	}
 
-	//Price
+	// Price
 	let isOpenPrice = false;
 	let selectedPrice: string | null = null;
 	let prices = ['€', '€€', '€€€'];
@@ -109,19 +97,6 @@
 	function selectPrice(price: string) {
 		selectedPrice = price;
 		isOpenPrice = false;
-	}
-
-	//Worksteps
-
-	let textFields: any[] = [];
-	let nextTextFieldId = 0;
-
-	function addTextField() {
-		const newTextField = {
-			id: nextTextFieldId++,
-			value: ''
-		};
-		textFields = [...textFields, newTextField];
 	}
 </script>
 
@@ -144,43 +119,23 @@
 	</div>
 	<!-- pictures -->
 	<div id="app">
-		<label class="block mb-1 text-xl font-semibold" id="app">Bilder</label>
+		<p class="block mb-1 text-xl font-semibold" id="app">Bilder</p>
 		<div class="flex flex-row gap-2">
-			<img
-				class="upload inline w-10 h-10 drop-shadow-md"
-				src={UploadIcon}
-				alt=""
-				on:click={() => {
-					fileinput.click();
-				}}
-			/>
-			<div
-				class="chan"
-				on:click={() => {
-					fileinput.click();
-				}}
-			/>
-			<input
-				style="display:none"
-				type="file"
-				accept=".jpg, .jpeg, .png"
-				on:change={(e) => onFileSelected(e)}
-				bind:this={fileinput}
-			/>
+			<button>
+				<img class="upload inline w-10 h-10 drop-shadow-md" src={UploadIcon} alt="" />
+			</button>
+			<button class="chan" />
+			<input style="display:none" type="file" accept=".jpg, .jpeg, .png" />
 			<p class="mt-2.5">Bilder hochladen</p>
 		</div>
 	</div>
 	<div>
-		<label class="text-xl font-semibold">Preview</label>
-		{#if preview}
-			<img class="preview" src={preview} alt="d" />
-		{:else}
-			<img class="preview" src="" alt="" />
-		{/if}
+		<p class="text-xl font-semibold">Preview</p>
+		<img class="preview" src="" alt="" />
 	</div>
 	<!-- Kind -->
 	<div>
-		<label class="text-xl font-semibold">Art</label>
+		<p class="text-xl font-semibold">Art</p>
 		<div class="button-box rounded-sm mt-2 bg-[#363636]">
 			<div class="buttons text-left">
 				{#each buttons as button, index (button.text)}
@@ -197,7 +152,7 @@
 	</div>
 	<!-- Category -->
 	<div>
-		<label class="text-xl font-semibold">Kategorie</label>
+		<p class="text-xl font-semibold">Kategorie</p>
 		<div class="button-box rounded-sm mt-2 bg-[#363636]">
 			<div class="buttons text-left">
 				{#each buttons2 as button, index2 (button.text)}
@@ -215,13 +170,10 @@
 
 	<!-- Difficulty -->
 	<div class="flex flex-row gap-2">
-		<label class="text-xl font-semibold"
-			><img
-				alt="Difficulty"
-				class="inline w-10 h-10 drop-shadow-md mr-4"
-				src={DifficultyIcon}
-			/>Schwierigkeit</label
-		>
+		<p class="text-xl font-semibold">
+			<img alt="Difficulty" class="inline w-10 h-10 drop-shadow-md mr-4" src={DifficultyIcon} />
+			Schwierigkeit
+		</p>
 	</div>
 
 	<div class="col-span-2">
@@ -235,8 +187,8 @@
 				style="display: {isOpenDifficult ? 'block' : 'none'}"
 			>
 				{#each difficults as difficult (difficult)}
-					<li class="cursor-pointer ml-5" on:click={() => selectDifficult(difficult)}>
-						{difficult}
+					<li class="cursor-pointer ml-5">
+						<button on:click={() => selectDifficult(difficult)}>{difficult}</button>
 					</li>
 				{/each}
 			</ul>
@@ -250,18 +202,16 @@
 	<!-- Time and Price -->
 	<div class="grid grid-flow-row-dense grid-cols-3 grid-rows-1 relative">
 		<div class="col-span-2">
-			<label class="text-xl font-semibold"
-				><img alt="Time" class="inline w-10 h-10 drop-shadow-md mr-4" src={ClockIcon} />Zeit</label
-			>
+			<p class="text-xl font-semibold">
+				<img alt="Time" class="inline w-10 h-10 drop-shadow-md mr-4" src={ClockIcon} />
+				Zeit
+			</p>
 		</div>
 		<div>
-			<label class="text-xl font-semibold"
-				><img
-					alt="Price"
-					class="inline w-10 h-10 drop-shadow-md mr-4"
-					src={PriceIcon}
-				/>Preis</label
-			>
+			<p class="text-xl font-semibold">
+				<img alt="Price" class="inline w-10 h-10 drop-shadow-md mr-4" src={PriceIcon} />
+				Preis
+			</p>
 		</div>
 	</div>
 
@@ -278,8 +228,8 @@
 					style="display: {isOpenTime ? 'block' : 'none'}"
 				>
 					{#each times as time (time)}
-						<li class="cursor-pointer ml-5" on:click={() => selectTime(time)}>
-							{time}
+						<li class="cursor-pointer ml-5">
+							<button on:click={() => selectTime(time)}>{time}</button>
 						</li>
 					{/each}
 				</ul>
@@ -302,8 +252,8 @@
 					style="display: {isOpenPrice ? 'block' : 'none'}"
 				>
 					{#each prices as price (price)}
-						<li class="cursor-pointer ml-5" on:click={() => selectPrice(price)}>
-							{price}
+						<li class="cursor-pointer ml-5">
+							<button on:click={() => selectPrice(price)}>{price}</button>
 						</li>
 					{/each}
 				</ul>
@@ -316,7 +266,7 @@
 	</div>
 	<!-- Ingredients -->
 	<div>
-		<label class="block mb-1 text-xl font-semibold">Zutaten</label>
+		<p class="block mb-1 text-xl font-semibold">Zutaten</p>
 		<div class="flex flex-row gap-2">
 			<button class="upload-btn"
 				><img alt="Close" class="inline w-10 h-10 drop-shadow-md" src={UploadIcon} /></button
@@ -326,9 +276,9 @@
 
 	<!-- Worksteps -->
 	<div>
-		<label class="block mb-1 text-xl font-semibold">Arbeitsschritte</label>
+		<p class="block mb-1 text-xl font-semibold">Arbeitsschritte</p>
 		<div class="relative">
-			<label class="block mb-1 text-xl font-semibold text-[#FFC532]">1.Schritt</label>
+			<p class="block mb-1 text-xl font-semibold text-[#FFC532]">1.Schritt</p>
 			<input
 				type="text"
 				class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
@@ -336,30 +286,12 @@
 				placeholder="Hier eingeben..."
 			/>
 		</div>
-
-		<div class="relative">
-			{#each textFields as textField, index (textField.id)}
-				<div>
-					<label class="block mb-1 text-xl font-semibold text-[#FFC532]">{index + 2}. Schritt</label
-					>
-					<input
-						type="text"
-						class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
-						style="background-color: #2A2A2A;"
-						placeholder="Hier eingeben..."
-						bind:value={textField.value}
-					/>
-				</div>
-			{/each}
-		</div>
 		<div>
-			<button on:click={addTextField}
-				><img alt="Close" class="inline w-10 h-10 drop-shadow-md mt-4" src={UploadIcon} /></button
-			>
+			<img alt="Close" class="inline w-10 h-10 drop-shadow-md mt-4" src={UploadIcon} />
 		</div>
 	</div>
 	<div>
-		<label class="block mb-1 text-xl font-semibold">Beschreibung (optional)</label>
+		<p class="block mb-1 text-xl font-semibold">Beschreibung (optional)</p>
 		<input
 			type="text"
 			class="text-white text-xl h-60 w-full rounded-sm bg-gray-800 focus:outline-none"
@@ -368,8 +300,8 @@
 		/>
 	</div>
 	<div>
-		<button class="text-xl font-semibold w-full h-16 bg-[#FFC532] rounded-sm text-[#212121]"
-			>Rezept veröffentlichen</button
-		>
+		<button class="text-xl font-semibold w-full h-16 bg-[#FFC532] rounded-sm text-[#212121]">
+			Rezept veröffentlichen
+		</button>
 	</div>
 </div>
