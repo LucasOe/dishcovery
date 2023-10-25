@@ -21,6 +21,9 @@
 				{#each recipe.categories as category}
 					<Tag text={category.name || ""} />
 				{/each}
+				{#each recipe.types as type}
+					<Tag text={type.name || ""} />
+				{/each}
 			</div>
 
 			<div class="flex flex-row gap-md">

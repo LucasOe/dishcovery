@@ -14,7 +14,7 @@
 	});
 
 	const fetchRecipes = async () => {
-		let { data } = await supabase.from("recipes").select(`*, categories(id, name)`);
+		let { data } = await supabase.from("recipes").select(`*, categories(*), types(*)`);
 		if (data) recipes = data;
 	};
 </script>
