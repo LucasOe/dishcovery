@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Tables } from "../../database.types";
+	import type { Recipe } from "../../database.types";
 	import TestImg from "$lib/assets/img/test-img.jpg";
 	import Tag from "$lib/components/Tag.svelte";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 
-	export let recipe: Tables<"recipes">;
+	export let recipe: Recipe;
 </script>
 
 <div
@@ -18,9 +18,9 @@
 			<h1 class="font-header text-fs-header text-light">{recipe.name}</h1>
 
 			<div class="flex flex-row gap-sm">
-				<Tag text="schnell" />
-				<Tag text="toll" />
-				<Tag text="lecker" />
+				{#each recipe.categories as category}
+					<Tag text={category.name || ""} />
+				{/each}
 			</div>
 
 			<div class="flex flex-row gap-md">
