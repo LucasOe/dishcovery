@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Enums, Tables } from "../../database.types";
+	import type { Tables } from "../../database.types";
 	import TestImg from "$lib/assets/img/test-img.jpg";
 	import Tag from "$lib/components/Tag.svelte";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -18,9 +18,9 @@
 			<h1 class="font-header text-fs-header text-light">{recipe.name}</h1>
 
 			<div class="flex flex-row gap-sm">
-				<Tag text="schnell"></Tag>
-				<Tag text="toll"></Tag>
-				<Tag text="lecker"></Tag>
+				<Tag text="schnell" />
+				<Tag text="toll" />
+				<Tag text="lecker" />
 			</div>
 
 			<div class="flex flex-row gap-md">
