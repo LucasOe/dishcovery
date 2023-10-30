@@ -12,15 +12,15 @@ export interface Database {
       categories: {
         Row: {
           id: number
-          name: string | null
+          name: string
         }
         Insert: {
           id?: number
-          name?: string | null
+          name: string
         }
         Update: {
           id?: number
-          name?: string | null
+          name?: string
         }
         Relationships: []
       }
@@ -62,19 +62,19 @@ export interface Database {
       }
       recipes_categories: {
         Row: {
-          category_id: number | null
+          category_id: number
           id: number
-          recipe_id: number | null
+          recipe_id: number
         }
         Insert: {
-          category_id?: number | null
+          category_id: number
           id?: number
-          recipe_id?: number | null
+          recipe_id: number
         }
         Update: {
-          category_id?: number | null
+          category_id?: number
           id?: number
-          recipe_id?: number | null
+          recipe_id?: number
         }
         Relationships: [
           {
@@ -94,18 +94,18 @@ export interface Database {
       recipes_types: {
         Row: {
           id: number
-          recipe_id: number | null
-          type_id: number | null
+          recipe_id: number
+          type_id: number
         }
         Insert: {
           id?: number
-          recipe_id?: number | null
-          type_id?: number | null
+          recipe_id: number
+          type_id: number
         }
         Update: {
           id?: number
-          recipe_id?: number | null
-          type_id?: number | null
+          recipe_id?: number
+          type_id?: number
         }
         Relationships: [
           {
@@ -125,15 +125,15 @@ export interface Database {
       types: {
         Row: {
           id: number
-          name: string | null
+          name: string
         }
         Insert: {
           id?: number
-          name?: string | null
+          name: string
         }
         Update: {
           id?: number
-          name?: string | null
+          name?: string
         }
         Relationships: []
       }
