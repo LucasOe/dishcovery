@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
