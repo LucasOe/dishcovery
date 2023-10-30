@@ -2,8 +2,6 @@
 	import "../app.css";
 </script>
 
-<div class="relative mx-auto flex h-full w-full max-w-[48rem] flex-col content-between gap-16 p-12">
-	<div class="h-full w-full font-default text-base text-light">
-		<slot />
-	</div>
+<div class="mx-auto flex min-h-[100dvh] max-w-[48rem] p-12 font-default text-base text-light">
+	<slot />
 </div>
