@@ -7,7 +7,7 @@
 <div class="flex flex-wrap gap-sm rounded-sm bg-[#363636] p-sm">
 	{#each tags as tag}
 		<button>
-			<Tag text={tag} />
+			<Tag text={tag} color="gray" />
 		</button>
 	{/each}
 </div>
