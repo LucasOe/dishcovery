@@ -1,4 +1,8 @@
 <script lang="ts">
+	import type { Enums, Tables } from "../../../database.types";
+	import { supabase } from "$lib/functions/createClient";
+	import { onMount } from "svelte";
+
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -6,6 +10,27 @@
 	import TagList from "$lib/components/TagList.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
+
+	let types: Tables<"types">[] = [];
+	let categories: Tables<"categories">[] = [];
+	let difficulty: Enums<"difficulty">[] = ["einfach", "fortgeschritten", "schwer"];
+	let duration: Enums<"duration">[] = ["< 5", "5", "10", "15", "20", "30", "45", "60", "90", "180", "240", "240 <"];
+	let price: Enums<"price">[] = ["€", "€€", "€€€"];
+
+	onMount(() => {
+		fetchTypes();
+		fetchCategories();
+	});
+
+	const fetchTypes = async () => {
+		let { data } = await supabase.from("types").select(`*`);
+		if (data) types = data;
+	};
+
+	const fetchCategories = async () => {
+		let { data } = await supabase.from("categories").select(`*`);
+		if (data) categories = data;
+	};
 </script>
 
 <div class="space-y-lg">
@@ -28,25 +53,23 @@
 	</Section>
 
 	<Section title="Art">
-		<TagList tags={["Frühstück", "Abendessen", "Snack", "Gebäck", "Cocktail"]} />
+		<TagList tags={categories.map((category) => category.name)} />
 	</Section>
 
 	<Section title="Kategorie">
-		<TagList
-			tags={["Vegetarisch", "Vegan", "Pizza", "Ohne Nüsse", "Burger", "Herzhaft", "Wenig Zutaten", "Salat", "Schnell"]}
-		/>
+		<TagList tags={types.map((type) => type.name)} />
 	</Section>
 
 	<Section title="Schwierigkeit" icon={DifficultyIcon}>
-		<Dropdown entries={["leicht", "mittel", "schwer"]} />
+		<Dropdown entries={difficulty} />
 	</Section>
 
 	<Section title="Zeit" icon={ClockIcon}>
-		<Dropdown entries={["5 Min.", "10 Min.", "15 Min.", "20 Min.", "25 Min.", "30 Min."]} />
+		<Dropdown entries={duration} />
 	</Section>
 
 	<Section title="Preis" icon={PriceIcon}>
-		<Dropdown entries={["€", "€€", "€€€"]} />
+		<Dropdown entries={price} />
 	</Section>
 
 	<Section title="Zutaten">
@@ -55,8 +78,6 @@
 			<p class="text-lg text-gray-300">Zutat hinzufügen</p>
 		</div>
 	</Section>
-
-	<!-- Worksteps -->
 
 	<Section title="Arbeitsschritte">
 		<div class="space-y-sm">
