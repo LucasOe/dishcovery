@@ -10,12 +10,12 @@
 
 <div class="space-y-lg">
 	<Section title="Titel">
-		<input type="text" id="title" class=" text-white h-10 w-full rounded-sm bg-[#2A2A2A] text-xl" />
+		<input type="text" class=" text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
 	</Section>
 
 	<Section title="Beschreibung">
 		<textarea
-			class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl focus:outline-none"
+			class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 			placeholder="Hier eingeben..."
 		/>
 	</Section>
@@ -23,7 +23,7 @@
 	<Section title="Bilder">
 		<div class="flex items-center gap-2">
 			<img class="h-10 w-10" src={UploadIcon} alt="Bild hinzufügen" />
-			<p>Bild hinzufügen</p>
+			<p class="text-lg text-gray-300">Bild hinzufügen</p>
 		</div>
 	</Section>
 
@@ -52,7 +52,7 @@
 	<Section title="Zutaten">
 		<div class="flex items-center gap-2">
 			<img class="h-10 w-10" src={UploadIcon} alt="Zutat hinzufügen" />
-			<p>Zutat hinzufügen</p>
+			<p class="text-lg text-gray-300">Zutat hinzufügen</p>
 		</div>
 	</Section>
 
@@ -60,16 +60,14 @@
 
 	<Section title="Arbeitsschritte">
 		<div class="space-y-sm">
-			<p class=" block text-xl font-semibold text-[#FFC532]">1.Schritt</p>
+			<p class="text-xl font-semibold text-yellow">1. Schritt</p>
 			<textarea
-				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl focus:outline-none"
+				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 				placeholder="Hier eingeben..."
 			/>
 			<img alt="Close" class="h-10 w-10" src={UploadIcon} />
 		</div>
 	</Section>
 
-	<button class="h-16 w-full rounded-sm bg-[#FFC532] text-xl font-semibold text-[#212121]">
-		Rezept veröffentlichen
-	</button>
+	<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Rezept veröffentlichen</button>
 </div>
