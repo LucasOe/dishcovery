@@ -2,6 +2,6 @@
 	export let text: string;
 </script>
 
-<div class="rounded-sm border-bw-sm border-yellow px-md py-xs font-bold text-yellow">
-	<p>{text}</p>
+<div class="rounded-sm border-bw-sm border-yellow px-md py-xs">
+	<p class="font-bold text-yellow">{text}</p>
 </div>
