@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { twMerge } from "tailwind-merge";
+
 	import type { Recipe } from "../../database.types";
 	import TestImg from "$lib/assets/img/test-img.jpg";
 	import Tag from "$lib/components/Tag.svelte";
@@ -10,7 +12,7 @@
 </script>
 
 <div
-	class="relative flex grow overflow-hidden rounded-xl bg-cover bg-center shadow-shadow"
+	class={twMerge("relative flex overflow-hidden rounded-xl bg-cover bg-center shadow-shadow", $$props.class)}
 	style={`background-image: url(${TestImg})`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">

@@ -19,10 +19,10 @@
 	};
 </script>
 
-<main class="flex h-full w-full flex-col justify-center gap-16">
+<main class="flex w-full flex-col gap-16">
 	<TopNav />
 	{#if recipes[0] != null}
-		<Card recipe={recipes[0]} />
+		<Card recipe={recipes[0]} class="flex-auto" />
 	{/if}
 	<BottomNav />
 </main>
