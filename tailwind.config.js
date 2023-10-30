@@ -28,8 +28,8 @@ export default {
 				xxxl: "6.25rem", //100px
 			},
 			fontSize: {
-				"fs-text": "14px",
-				"fs-header": "32px",
+				base: "0.875rem",
+				xxl: "2rem",
 			},
 			borderRadius: {
 				DEFAULT: "0.125rem", //2px
@@ -40,8 +40,9 @@ export default {
 				full: "9999px",
 			},
 			borderWidth: {
-				"bw-sm": "0.125rem", //2px
-				"bw-md": "0.25rem", //4px
+				DEFAULT: "0.125rem",
+				sm: "0.125rem", //2px
+				md: "0.25rem", //4px
 			},
 			boxShadow: {
 				shadow: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",

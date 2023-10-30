@@ -11,7 +11,7 @@
 
 <div class="flex flex-col gap-6">
 	<div class="flex justify-between">
-		<h1 class="font-header text-fs-header text-light">{$page.data.title || "Page Title"}</h1>
+		<h1 class="text-xxl font-header text-light">{$page.data.title || "Page Title"}</h1>
 		<RoundButton src={CloseIcon} alt="Close" link={"/"} class="drop-shadow-md" size="md" />
 	</div>
 

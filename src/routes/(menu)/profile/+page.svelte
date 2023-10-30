@@ -7,7 +7,7 @@
 <div class="text-column flex flex-col items-center justify-center">
 	<img class="w-44 rounded-full" alt="User" src={img} />
 	<div class="mt-lg flex flex-col items-center">
-		<h1 class="font-header text-fs-header text-light">Jennifer Hoffmann</h1>
+		<h1 class="text-xxl font-header text-light">Jennifer Hoffmann</h1>
 		<p>25, Hamburg (DE)</p>
 	</div>
 	<div class="mt-lg flex gap-2">
