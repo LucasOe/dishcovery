@@ -10,36 +10,34 @@
 </script>
 
 <div
-	class="relative flex w-full grow items-end overflow-hidden rounded-xl bg-gray-900 bg-cover bg-center shadow-shadow"
+	class="relative flex grow overflow-hidden rounded-xl bg-cover bg-center shadow-shadow"
 	style={`background-image: url(${TestImg})`}
 >
-	<div id="card-stack" class="z-10">
-		<div class="z-10 flex flex-col gap-sm p-lg">
-			<h1 class="font-header text-fs-header text-light">{recipe.name}</h1>
+	<div class="z-10 flex flex-col gap-sm self-end p-lg">
+		<h1 class="font-header text-fs-header text-light">{recipe.name}</h1>
 
-			<div class="flex flex-row gap-sm">
-				{#each recipe.categories as category}
-					<Tag text={category.name || ""} />
-				{/each}
-				{#each recipe.types as type}
-					<Tag text={type.name || ""} />
-				{/each}
+		<div class="flex gap-sm">
+			{#each recipe.categories as category}
+				<Tag text={category.name || ""} />
+			{/each}
+			{#each recipe.types as type}
+				<Tag text={type.name || ""} />
+			{/each}
+		</div>
+
+		<div class="flex gap-md">
+			<div class="flex gap-xs">
+				<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
+				<p>{recipe.duration} Min.</p>
 			</div>
-
-			<div class="flex flex-row gap-md">
-				<div class="flex flex-row gap-xs">
-					<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
-					<p>{recipe.duration} Min.</p>
-				</div>
-				<div class="flex flex-row gap-xs">
-					<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
-					<p>{recipe.difficulty}</p>
-				</div>
-				<div class="flex flex-row gap-xs">
-					{#each { length: recipe.price?.length || 0 } as _}
-						<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
-					{/each}
-				</div>
+			<div class="flex gap-xs">
+				<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
+				<p>{recipe.difficulty}</p>
+			</div>
+			<div class="flex gap-xs">
+				{#each { length: recipe.price?.length || 0 } as _}
+					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+				{/each}
 			</div>
 		</div>
 	</div>
