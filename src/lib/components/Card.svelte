@@ -18,10 +18,10 @@
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
-				<Tag text={category.name || ""} />
+				<Tag text={category.name || ""} color="yellow" />
 			{/each}
 			{#each recipe.types as type}
-				<Tag text={type.name || ""} />
+				<Tag text={type.name || ""} color="yellow" />
 			{/each}
 		</div>
 
