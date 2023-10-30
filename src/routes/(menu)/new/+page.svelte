@@ -7,6 +7,7 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import TagList from "$lib/components/TagList.svelte";
+	import Section from "$lib/components/Section.svelte";
 
 	// Difficulty
 	let isOpenDifficult = false;
@@ -63,51 +64,36 @@
 	}
 </script>
 
-<div class="space-y-4">
-	<div>
-		<div>
-			<label for="title" class="mb-1 block text-xl font-semibold">Titel</label>
-			<input type="text" id="title" class=" text-white h-10 w-full rounded-sm bg-[#2A2A2A] text-xl" />
+<div class="space-y-lg">
+	<Section title="Titel">
+		<input type="text" id="title" class=" text-white h-10 w-full rounded-sm bg-[#2A2A2A] text-xl" />
+	</Section>
+
+	<Section title="Beschreibung">
+		<textarea
+			class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl focus:outline-none"
+			placeholder="Hier eingeben..."
+		/>
+	</Section>
+
+	<Section title="Bilder">
+		<div class="flex items-center gap-2">
+			<img class="h-10 w-10" src={UploadIcon} alt="" />
+			<p>Bild hinzufügen</p>
 		</div>
-	</div>
-	<!-- pictures -->
-	<div id="app">
-		<p class="mb-1 block text-xl font-semibold" id="app">Bilder</p>
-		<div class="flex flex-row gap-2">
-			<button>
-				<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
-			</button>
-			<button class="chan" />
-			<input style="display:none" type="file" accept=".jpg, .jpeg, .png" />
-			<p class="mt-2.5">Bilder hochladen</p>
-		</div>
-	</div>
-	<div>
-		<p class="text-xl font-semibold">Preview</p>
-		<img class="preview" src="" alt="" />
-	</div>
-	<!-- Kind -->
-	<div>
-		<p class="text-xl font-semibold">Art</p>
+	</Section>
+
+	<Section title="Art">
 		<TagList tags={["Frühstück", "Abendessen", "Snack", "Gebäck", "Cocktail"]} />
-	</div>
-	<!-- Category -->
-	<div>
-		<p class="text-xl font-semibold">Kategorie</p>
+	</Section>
+
+	<Section title="Kategorie">
 		<TagList
 			tags={["Vegetarisch", "Vegan", "Pizza", "Ohne Nüsse", "Burger", "Herzhaft", "Wenig Zutaten", "Salat", "Schnell"]}
 		/>
-	</div>
+	</Section>
 
-	<!-- Difficulty -->
-	<div class="flex flex-row gap-2">
-		<p class="text-xl font-semibold">
-			<img alt="Difficulty" class="mr-4 inline h-10 w-10 drop-shadow-md" src={DifficultyIcon} />
-			Schwierigkeit
-		</p>
-	</div>
-
-	<div class="col-span-2">
+	<Section title="Schwierigkeit" icon={DifficultyIcon}>
 		<div class="relative h-10 rounded-sm bg-[#2A2A2A] shadow-md">
 			<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownDifficult}>
 				{selectedDifficult}
@@ -124,113 +110,79 @@
 				{/each}
 			</ul>
 
-			<button class="absolute right-0 top-0" on:click={toggleDropdownDifficult}
-				><img alt="Dropdown" class="inline h-10 w-10 drop-shadow-md" src={DropDownIcon} /></button
+			<button class="absolute right-0 top-0" on:click={toggleDropdownDifficult}>
+				<img alt="Dropdown" class="h-10 w-10" src={DropDownIcon} />
+			</button>
+		</div>
+	</Section>
+
+	<Section title="Zeit" icon={ClockIcon}>
+		<div class="relative h-10 rounded-sm bg-[#2A2A2A] shadow-md">
+			<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownTime}>
+				{selectedTime}
+			</button>
+
+			<ul
+				class="absolute z-10 h-20 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold"
+				style="display: {isOpenTime ? 'block' : 'none'}"
 			>
+				{#each times as time (time)}
+					<li class="ml-5 cursor-pointer">
+						<button on:click={() => selectTime(time)}>{time}</button>
+					</li>
+				{/each}
+			</ul>
+
+			<button class="absolute right-0 top-0" on:click={toggleDropdownTime}>
+				<img alt="Dropdown" class="h-10 w-10" src={DropDownIcon} />
+			</button>
 		</div>
-	</div>
+	</Section>
 
-	<!-- Time and Price -->
-	<div class="relative grid grid-flow-row-dense grid-cols-3 grid-rows-1">
-		<div class="col-span-2">
-			<p class="text-xl font-semibold">
-				<img alt="Time" class="mr-4 inline h-10 w-10 drop-shadow-md" src={ClockIcon} />
-				Zeit
-			</p>
+	<Section title="Preis" icon={PriceIcon}>
+		<div class="relative h-10 rounded-sm bg-[#2A2A2A] shadow-md">
+			<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownPrice}>
+				{selectedPrice}
+			</button>
+
+			<ul
+				class="absolute z-10 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold"
+				style="display: {isOpenPrice ? 'block' : 'none'}"
+			>
+				{#each prices as price (price)}
+					<li class="ml-5 cursor-pointer">
+						<button on:click={() => selectPrice(price)}>{price}</button>
+					</li>
+				{/each}
+			</ul>
+
+			<button class="absolute right-0 top-0" on:click={toggleDropdownPrice}>
+				<img alt="Dropdown" class="h-10 w-10" src={DropDownIcon} />
+			</button>
 		</div>
-		<div>
-			<p class="text-xl font-semibold">
-				<img alt="Price" class="mr-4 inline h-10 w-10 drop-shadow-md" src={PriceIcon} />
-				Preis
-			</p>
+	</Section>
+
+	<Section title="Zutaten">
+		<div class="flex items-center gap-2">
+			<img class="h-10 w-10" src={UploadIcon} alt="" />
+			<p>Zutat hinzufügen</p>
 		</div>
-	</div>
-
-	<div class="grid grid-flow-row-dense grid-cols-3 grid-rows-1">
-		<!-- Time -->
-		<div class="col-span-2">
-			<div class="relative mr-5 h-10 rounded-sm bg-[#2A2A2A] shadow-md">
-				<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownTime}>
-					{selectedTime}
-				</button>
-
-				<ul
-					class="absolute z-10 h-20 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold"
-					style="display: {isOpenTime ? 'block' : 'none'}"
-				>
-					{#each times as time (time)}
-						<li class="ml-5 cursor-pointer">
-							<button on:click={() => selectTime(time)}>{time}</button>
-						</li>
-					{/each}
-				</ul>
-
-				<button class="absolute right-0 top-0" on:click={toggleDropdownTime}
-					><img alt="Dropdown" class="inline h-10 w-10 drop-shadow-md" src={DropDownIcon} /></button
-				>
-			</div>
-		</div>
-
-		<!-- Price -->
-		<div>
-			<div class="relative h-10 rounded-sm bg-[#2A2A2A] shadow-md">
-				<button class="m-2 rounded-md text-xl font-semibold" on:click={toggleDropdownPrice}>
-					{selectedPrice}
-				</button>
-
-				<ul
-					class="absolute z-10 w-full overflow-y-auto rounded-md bg-[#2A2A2A] text-xl font-semibold"
-					style="display: {isOpenPrice ? 'block' : 'none'}"
-				>
-					{#each prices as price (price)}
-						<li class="ml-5 cursor-pointer">
-							<button on:click={() => selectPrice(price)}>{price}</button>
-						</li>
-					{/each}
-				</ul>
-
-				<button class="absolute right-0 top-0" on:click={toggleDropdownPrice}
-					><img alt="Dropdown" class="inline h-10 w-10 drop-shadow-md" src={DropDownIcon} /></button
-				>
-			</div>
-		</div>
-	</div>
-	<!-- Ingredients -->
-	<div>
-		<p class="mb-1 block text-xl font-semibold">Zutaten</p>
-		<div class="flex flex-row gap-2">
-			<button class="upload-btn"><img alt="Close" class="inline h-10 w-10 drop-shadow-md" src={UploadIcon} /></button>
-		</div>
-	</div>
+	</Section>
 
 	<!-- Worksteps -->
-	<div>
-		<p class="mb-1 block text-xl font-semibold">Arbeitsschritte</p>
-		<div class="relative">
-			<p class="mb-1 block text-xl font-semibold text-[#FFC532]">1.Schritt</p>
-			<input
-				type="text"
-				class="text-white bg-gray-800 h-60 w-full rounded-sm text-xl focus:outline-none"
-				style="background-color: #2A2A2A;"
+
+	<Section title="Arbeitsschritte">
+		<div class="space-y-sm">
+			<p class=" block text-xl font-semibold text-[#FFC532]">1.Schritt</p>
+			<textarea
+				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl focus:outline-none"
 				placeholder="Hier eingeben..."
 			/>
+			<img alt="Close" class="h-10 w-10" src={UploadIcon} />
 		</div>
-		<div>
-			<img alt="Close" class="mt-4 inline h-10 w-10 drop-shadow-md" src={UploadIcon} />
-		</div>
-	</div>
-	<div>
-		<p class="mb-1 block text-xl font-semibold">Beschreibung (optional)</p>
-		<input
-			type="text"
-			class="text-white bg-gray-800 h-60 w-full rounded-sm text-xl focus:outline-none"
-			style="background-color: #2A2A2A;"
-			placeholder="Hier eingeben..."
-		/>
-	</div>
-	<div>
-		<button class="h-16 w-full rounded-sm bg-[#FFC532] text-xl font-semibold text-[#212121]">
-			Rezept veröffentlichen
-		</button>
-	</div>
+	</Section>
+
+	<button class="h-16 w-full rounded-sm bg-[#FFC532] text-xl font-semibold text-[#212121]">
+		Rezept veröffentlichen
+	</button>
 </div>
