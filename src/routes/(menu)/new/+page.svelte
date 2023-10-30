@@ -61,15 +61,15 @@
 	</Section>
 
 	<Section title="Schwierigkeit" icon={DifficultyIcon}>
-		<Dropdown entries={difficulty} />
+		<Dropdown entries={difficulty.map((difficulty) => ({ id: difficulty, name: difficulty }))} />
 	</Section>
 
 	<Section title="Zeit" icon={ClockIcon}>
-		<Dropdown entries={duration} />
+		<Dropdown entries={duration.map((duration) => ({ id: duration, name: `${duration} Min.` }))} />
 	</Section>
 
 	<Section title="Preis" icon={PriceIcon}>
-		<Dropdown entries={price} />
+		<Dropdown entries={price.map((price) => ({ id: price, name: price }))} />
 	</Section>
 
 	<Section title="Zutaten">
