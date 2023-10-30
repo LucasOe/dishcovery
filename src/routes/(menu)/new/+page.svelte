@@ -6,43 +6,7 @@
 	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import PriceIcon from "$lib/assets/icons/price.svg";
-
-	// Kind
-	let buttons = [
-		{ text: "Frühstück", borderColor: "#7D7C7C" },
-		{ text: "Abendessen", borderColor: "#7D7C7C" },
-		{ text: "Snack", borderColor: "#7D7C7C" },
-		{ text: "Gebäck", borderColor: "#7D7C7C" },
-		{ text: "Cocktail", borderColor: "#7D7C7C" },
-	];
-	function changeBorderColor(index: number) {
-		if (buttons[index].borderColor === "#7D7C7C") {
-			buttons[index].borderColor = "#FFC532";
-		} else {
-			buttons[index].borderColor = "#7D7C7C";
-		}
-	}
-
-	// Category
-	let buttons2 = [
-		{ text: "Vegetarisch", borderColor: "#7D7C7C" },
-		{ text: "Vegan", borderColor: "#7D7C7C" },
-		{ text: "Pizza", borderColor: "#7D7C7C" },
-		{ text: "Ohne Nüsse", borderColor: "#7D7C7C" },
-		{ text: "Burger", borderColor: "#7D7C7C" },
-		{ text: "Herzhaft", borderColor: "#7D7C7C" },
-		{ text: "Wenig Zutaten", borderColor: "#7D7C7C" },
-		{ text: "Salat", borderColor: "#7D7C7C" },
-		{ text: "Schnell", borderColor: "#7D7C7C" },
-	];
-
-	function changeBorderColor2(index2: number) {
-		if (buttons2[index2].borderColor === "#7D7C7C") {
-			buttons2[index2].borderColor = "#FFC532";
-		} else {
-			buttons2[index2].borderColor = "#7D7C7C";
-		}
-	}
+	import TagList from "$lib/components/TagList.svelte";
 
 	// Difficulty
 	let isOpenDifficult = false;
@@ -125,36 +89,14 @@
 	<!-- Kind -->
 	<div>
 		<p class="text-xl font-semibold">Art</p>
-		<div class="button-box mt-2 rounded-sm bg-[#363636]">
-			<div class="buttons text-left">
-				{#each buttons as button, index (button.text)}
-					<button
-						class="m-2 rounded-sm p-2"
-						style="border: 2px solid {button.borderColor}"
-						on:click={() => changeBorderColor(index)}
-					>
-						{button.text}
-					</button>
-				{/each}
-			</div>
-		</div>
+		<TagList tags={["Frühstück", "Abendessen", "Snack", "Gebäck", "Cocktail"]} />
 	</div>
 	<!-- Category -->
 	<div>
 		<p class="text-xl font-semibold">Kategorie</p>
-		<div class="button-box mt-2 rounded-sm bg-[#363636]">
-			<div class="buttons text-left">
-				{#each buttons2 as button, index2 (button.text)}
-					<button
-						class="m-2 rounded-sm p-2"
-						style="border: 2px solid {button.borderColor}"
-						on:click={() => changeBorderColor2(index2)}
-					>
-						{button.text}
-					</button>
-				{/each}
-			</div>
-		</div>
+		<TagList
+			tags={["Vegetarisch", "Vegan", "Pizza", "Ohne Nüsse", "Burger", "Herzhaft", "Wenig Zutaten", "Salat", "Schnell"]}
+		/>
 	</div>
 
 	<!-- Difficulty -->
