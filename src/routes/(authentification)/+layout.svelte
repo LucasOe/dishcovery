@@ -1,6 +1,5 @@
 <script lang="ts">
-	import RoundButton from "$lib/components/RoundButton.svelte";
-	import CloseIcon from "$lib/assets/icons/cancel.svg";
+	import HatYellow from "$lib/assets/icons/hat_yellow.svg";
 
 	import { page } from "$app/stores";
 	import H1 from "$lib/components/H1.svelte";
@@ -11,10 +10,10 @@
 </svelte:head>
 
 <div class="flex w-full flex-col gap-6">
-	<div class="flex justify-between">
+	<div class="flex justify-center flex-col items-center gap-2">
+		<img width="100" src="{HatYellow}" alt="Logo"/>
 		<H1>{$page.data.title || "Page Title"}</H1>
-		<RoundButton src={CloseIcon} alt="Close" link={"/"} class="drop-shadow-md" size="md" />
+		<p class="font-bold text-gray-300">Schön Dich wieder zu sehen.</p>
 	</div>
-
 	<slot />
 </div>

@@ -22,7 +22,7 @@
 <main class="flex w-full flex-col gap-16">
 	<TopNav />
 	{#if recipes[0] != null}
-		<Card recipe={recipes[0]} class="flex-auto" />
+			<Card recipe={recipes[0]} class="flex-auto" />
 	{/if}
 	<BottomNav />
 </main>
