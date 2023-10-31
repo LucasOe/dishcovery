@@ -2,10 +2,12 @@
 	import img from "$lib/assets/img/test-img.jpg";
 	import edit from "$lib/assets/icons/edit.svg";
 	import Tag from "$lib/components/Tag.svelte";
+	import FadeIn from "$lib/components/FadeIn.svelte";
 </script>
 
+<FadeIn>
 <div class="text-column flex flex-col items-center justify-center">
-	<img class="w-44 rounded-full" alt="User" src={img} />
+	<img class="w-44 rounded-full" alt="User" src={img} width="176" height="176"/>
 	<div class="mt-lg flex flex-col items-center">
 		<h1 class="text-xxl font-header text-light">Jennifer Hoffmann</h1>
 		<p>25, Hamburg (DE)</p>
@@ -14,7 +16,7 @@
 		<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 			<p class="font-bold">Rezepte</p>
 			<p class="text-lg font-bold">3</p>
-			<div class="block h-full w-2 bg-gray-300" />
+			<span class="block h-full w-2 bg-gray-300"></span>
 		</div>
 		<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 			<p class="font-bold">Follower</p>
@@ -46,3 +48,4 @@
 		<img class="w-44 rounded-md" alt="User" src={img} />
 	</div>
 </div>
+</FadeIn>

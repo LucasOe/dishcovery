@@ -10,6 +10,7 @@
 	import TagList from "$lib/components/TagList.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
+	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let types: Tables<"types">[] = [];
 	let categories: Tables<"categories">[] = [];
@@ -33,62 +34,64 @@
 	};
 </script>
 
-<div class="space-y-lg">
-	<Section title="Titel">
-		<input type="text" class=" text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
-	</Section>
+<FadeIn>
+	<div class="space-y-lg">
+		<Section title="Titel">
+			<input type="text" class=" text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
+		</Section>
 
-	<Section title="Beschreibung">
+		<Section title="Beschreibung">
 		<textarea
-			class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
-			placeholder="Hier eingeben..."
-		/>
-	</Section>
-
-	<Section title="Bilder">
-		<div class="flex items-center gap-2">
-			<img class="h-10 w-10" src={UploadIcon} alt="Bild hinzufügen" />
-			<p class="text-lg text-gray-300">Bild hinzufügen</p>
-		</div>
-	</Section>
-
-	<Section title="Art">
-		<TagList tags={categories.map((category) => category.name)} />
-	</Section>
-
-	<Section title="Kategorie">
-		<TagList tags={types.map((type) => type.name)} />
-	</Section>
-
-	<Section title="Schwierigkeit" icon={DifficultyIcon}>
-		<Dropdown entries={difficulty.map((difficulty) => ({ id: difficulty, name: difficulty }))} />
-	</Section>
-
-	<Section title="Zeit" icon={ClockIcon}>
-		<Dropdown entries={duration.map((duration) => ({ id: duration, name: `${duration} Min.` }))} />
-	</Section>
-
-	<Section title="Preis" icon={PriceIcon}>
-		<Dropdown entries={price.map((price) => ({ id: price, name: price }))} />
-	</Section>
-
-	<Section title="Zutaten">
-		<div class="flex items-center gap-2">
-			<img class="h-10 w-10" src={UploadIcon} alt="Zutat hinzufügen" />
-			<p class="text-lg text-gray-300">Zutat hinzufügen</p>
-		</div>
-	</Section>
-
-	<Section title="Arbeitsschritte">
-		<div class="space-y-sm">
-			<p class="text-xl font-semibold text-yellow">1. Schritt</p>
-			<textarea
 				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 				placeholder="Hier eingeben..."
-			/>
-			<img alt="Close" class="h-10 w-10" src={UploadIcon} />
-		</div>
-	</Section>
+		></textarea>
+		</Section>
 
-	<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Rezept veröffentlichen</button>
-</div>
+		<Section title="Bilder">
+			<div class="flex items-center gap-2">
+				<img class="h-10 w-10" src={UploadIcon} alt="Bild hinzufügen" />
+				<p class="text-lg text-gray-300">Bild hinzufügen</p>
+			</div>
+		</Section>
+
+		<Section title="Art">
+			<TagList tags={categories.map((category) => category.name)} />
+		</Section>
+
+		<Section title="Kategorie">
+			<TagList tags={types.map((type) => type.name)} />
+		</Section>
+
+		<Section title="Schwierigkeit" icon={DifficultyIcon}>
+			<Dropdown entries={difficulty.map((difficulty) => ({ id: difficulty, name: difficulty }))} />
+		</Section>
+
+		<Section title="Zeit" icon={ClockIcon}>
+			<Dropdown entries={duration.map((duration) => ({ id: duration, name: `${duration} Min.` }))} />
+		</Section>
+
+		<Section title="Preis" icon={PriceIcon}>
+			<Dropdown entries={price.map((price) => ({ id: price, name: price }))} />
+		</Section>
+
+		<Section title="Zutaten">
+			<div class="flex items-center gap-2">
+				<img class="h-10 w-10" src={UploadIcon} alt="Zutat hinzufügen" />
+				<p class="text-lg text-gray-300">Zutat hinzufügen</p>
+			</div>
+		</Section>
+
+		<Section title="Arbeitsschritte">
+			<div class="space-y-sm">
+				<p class="text-xl font-semibold text-yellow">1. Schritt</p>
+				<textarea
+						class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
+						placeholder="Hier eingeben..."
+				></textarea>
+				<img alt="Close" class="h-10 w-10" src={UploadIcon} />
+			</div>
+		</Section>
+
+		<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Rezept veröffentlichen</button>
+	</div>
+</FadeIn>
