@@ -47,6 +47,15 @@ export default {
 			boxShadow: {
 				shadow: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",
 			},
+			animation: {
+				fade: "fade .3s ease",
+			},
+			keyframes: {
+				fade: {
+					"0%": { opacity: 0, transform: "translateY(3.125rem)" },
+					"100%": { opacity: 1, transform: "translateY(0)" },
+				},
+			},
 		},
 	},
 	plugins: [],

@@ -5,11 +5,13 @@
 	import MoreIcon from "$lib/assets/icons/more.svg";
 
 	import RoundButton from "$lib/components/RoundButton.svelte";
+	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let recipeTime: number = 5;
 	let difficulty: string = "einfach";
 </script>
 
+<FadeIn>
 <div class="space-y-4">
 	<a href={"/"} class="flex w-full flex-row items-center justify-between rounded-lg bg-gray-500 p-md drop-shadow-xl">
 		<!-- Left side -->
@@ -37,3 +39,4 @@
 		<RoundButton src={MoreIcon} alt="More" link={"/"} size="sm" class="bg-gray-900 shadow-none" />
 	</a>
 </div>
+</FadeIn>
