@@ -15,7 +15,7 @@
 		<Section title="Passwort">
 			<input type="password" class=" text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
 		</Section>
-		<div class="flex justify-between">
+		<div class="flex justify-between items-center">
 			<Checkbox name="remember" label="Angemeldet bleiben"></Checkbox>
 			<LinkText link="/reset-password" title="Passwort zurücksetzen">Passwort vergessen?</LinkText>
 		</div>
