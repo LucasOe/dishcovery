@@ -3,22 +3,20 @@
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Button from "$lib/components/Button.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
-	import Checkbox from "$lib/components/Checkbox.svelte";
 	import TextInput from "$lib/components/TextInput.svelte";
 </script>
 
 <FadeIn>
 	<div class="space-y-lg">
+		<Section title="Benutzername">
+			<TextInput type="text" />
+		</Section>
 		<Section title="E-Mail Adresse">
 			<TextInput type="text" />
 		</Section>
 		<Section title="Passwort">
-			<TextInput type="password" />
+			<TextInput type="passwort" />
 		</Section>
-		<div class="flex items-center justify-between">
-			<Checkbox name="remember" label="Angemeldet bleiben"></Checkbox>
-			<LinkText link="/reset-password" title="Passwort zurücksetzen">Passwort vergessen?</LinkText>
-		</div>
 
 		<Button>Login</Button>
 		<div class="flex items-center justify-between">
