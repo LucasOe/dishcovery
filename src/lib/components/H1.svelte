@@ -1,1 +1,1 @@
-<h1 class="text-xxl font-header text-light"><slot/></h1>
+<h1 class="font-header text-xxl text-light"><slot /></h1>

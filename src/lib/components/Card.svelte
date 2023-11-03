@@ -16,7 +16,7 @@
 	style={`background-image: url(${TestImg})`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
-		<h1 class="text-xxl font-header text-light">{recipe.name}</h1>
+		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
