@@ -5,24 +5,22 @@
 	import TopNav from "$lib/components/TopNav.svelte";
 
 	import { supabase } from "$lib/functions/createClient";
-	import { onMount } from "svelte";
-
-	let recipes: Recipe[] = [];
-
-	onMount(() => {
-		fetchRecipes();
-	});
 
 	const fetchRecipes = async () => {
-		let { data } = await supabase.from("recipes").select(`*, categories(*), types(*)`);
-		if (data) recipes = data;
+		let { data, error } = await supabase.from("recipes").select(`*, categories(*), types(*)`);
+		if (data) return data;
+		else throw error;
 	};
 </script>
 
 <main class="flex w-full flex-col gap-16">
 	<TopNav />
-	{#if recipes[0] != null}
+	{#await fetchRecipes()}
+		<p>Loading...</p>
+	{:then recipes}
 		<Card recipe={recipes[0]} class="flex-auto" />
-	{/if}
+	{:catch error}
+		<p>Something went wrong: {error}</p>
+	{/await}
 	<BottomNav />
 </main>
