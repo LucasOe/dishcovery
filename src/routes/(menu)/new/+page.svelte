@@ -14,9 +14,6 @@
 
 	let types: Tables<"types">[] = [];
 	let categories: Tables<"categories">[] = [];
-	let difficulty: Enums<"difficulty">[] = ["einfach", "fortgeschritten", "schwer"];
-	let duration: Enums<"duration">[] = ["< 5", "5", "10", "15", "20", "30", "45", "60", "90", "180", "240", "240 <"];
-	let price: Enums<"price">[] = ["€", "€€", "€€€"];
 
 	onMount(() => {
 		fetchTypes();
@@ -41,10 +38,10 @@
 		</Section>
 
 		<Section title="Beschreibung">
-		<textarea
+			<textarea
 				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 				placeholder="Hier eingeben..."
-		></textarea>
+			></textarea>
 		</Section>
 
 		<Section title="Bilder">
@@ -63,15 +60,33 @@
 		</Section>
 
 		<Section title="Schwierigkeit" icon={DifficultyIcon}>
-			<Dropdown entries={difficulty.map((difficulty) => ({ id: difficulty, name: difficulty }))} />
+			<Dropdown
+				entries={[
+					{ id: 1, name: "Einfach" },
+					{ id: 2, name: "Mittel" },
+					{ id: 3, name: "Schwer" },
+				]}
+			/>
 		</Section>
 
 		<Section title="Zeit" icon={ClockIcon}>
-			<Dropdown entries={duration.map((duration) => ({ id: duration, name: `${duration} Min.` }))} />
+			<Dropdown
+				entries={[
+					{ id: 5, name: "5 Min." },
+					{ id: 10, name: "10 Min." },
+					{ id: 15, name: "15 Min." },
+				]}
+			/>
 		</Section>
 
 		<Section title="Preis" icon={PriceIcon}>
-			<Dropdown entries={price.map((price) => ({ id: price, name: price }))} />
+			<Dropdown
+				entries={[
+					{ id: 1, name: "€" },
+					{ id: 2, name: "€€" },
+					{ id: 3, name: "€€€" },
+				]}
+			/>
 		</Section>
 
 		<Section title="Zutaten">
@@ -85,8 +100,8 @@
 			<div class="space-y-sm">
 				<p class="text-xl font-semibold text-yellow">1. Schritt</p>
 				<textarea
-						class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
-						placeholder="Hier eingeben..."
+					class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
+					placeholder="Hier eingeben..."
 				></textarea>
 				<img alt="Close" class="h-10 w-10" src={UploadIcon} />
 			</div>

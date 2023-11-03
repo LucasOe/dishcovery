@@ -24,39 +24,62 @@ export interface Database {
         }
         Relationships: []
       }
-      recipes: {
+      ingredients: {
         Row: {
-          created_at: string
-          description: string | null
-          difficulty: Database["public"]["Enums"]["difficulty"] | null
-          duration: Database["public"]["Enums"]["duration"] | null
+          amount: string | null
           id: number
-          ingredients: string | null
-          name: string | null
-          price: Database["public"]["Enums"]["price"] | null
-          steps: string | null
+          ingredient: string
+          recipe_id: number
         }
         Insert: {
-          created_at?: string
-          description?: string | null
-          difficulty?: Database["public"]["Enums"]["difficulty"] | null
-          duration?: Database["public"]["Enums"]["duration"] | null
+          amount?: string | null
           id?: number
-          ingredients?: string | null
-          name?: string | null
-          price?: Database["public"]["Enums"]["price"] | null
-          steps?: string | null
+          ingredient: string
+          recipe_id: number
         }
         Update: {
+          amount?: string | null
+          id?: number
+          ingredient?: string
+          recipe_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ingredients_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      recipes: {
+        Row: {
+          cost: number
+          created_at: string
+          description: string | null
+          difficulty: number
+          id: number
+          name: string
+          preperation_time: number
+        }
+        Insert: {
+          cost: number
           created_at?: string
           description?: string | null
-          difficulty?: Database["public"]["Enums"]["difficulty"] | null
-          duration?: Database["public"]["Enums"]["duration"] | null
+          difficulty: number
           id?: number
-          ingredients?: string | null
-          name?: string | null
-          price?: Database["public"]["Enums"]["price"] | null
-          steps?: string | null
+          name: string
+          preperation_time: number
+        }
+        Update: {
+          cost?: number
+          created_at?: string
+          description?: string | null
+          difficulty?: number
+          id?: number
+          name?: string
+          preperation_time?: number
         }
         Relationships: []
       }
@@ -80,12 +103,14 @@ export interface Database {
           {
             foreignKeyName: "recipes_categories_category_id_fkey"
             columns: ["category_id"]
+            isOneToOne: false
             referencedRelation: "categories"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "recipes_categories_recipe_id_fkey"
             columns: ["recipe_id"]
+            isOneToOne: false
             referencedRelation: "recipes"
             referencedColumns: ["id"]
           }
@@ -111,13 +136,44 @@ export interface Database {
           {
             foreignKeyName: "recipes_types_recipe_id_fkey"
             columns: ["recipe_id"]
+            isOneToOne: false
             referencedRelation: "recipes"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "recipes_types_type_id_fkey"
             columns: ["type_id"]
+            isOneToOne: false
             referencedRelation: "types"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      steps: {
+        Row: {
+          description: string
+          id: number
+          number: number
+          recipe_id: number
+        }
+        Insert: {
+          description: string
+          id?: number
+          number: number
+          recipe_id: number
+        }
+        Update: {
+          description?: string
+          id?: number
+          number?: number
+          recipe_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "steps_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
             referencedColumns: ["id"]
           }
         ]
@@ -145,21 +201,7 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      difficulty: "einfach" | "fortgeschritten" | "schwer"
-      duration:
-        | "< 5"
-        | "5"
-        | "10"
-        | "15"
-        | "20"
-        | "30"
-        | "45"
-        | "60"
-        | "90"
-        | "180"
-        | "240"
-        | "240 <"
-      price: "€" | "€€" | "€€€"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never

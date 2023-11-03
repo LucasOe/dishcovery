@@ -4,7 +4,7 @@
 	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
 
 	type Entry = {
-		id: string;
+		id: string | number;
 		name: string;
 	};
 

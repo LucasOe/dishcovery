@@ -20,24 +20,24 @@
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
-				<Tag text={category.name || ""} color="yellow" />
+				<Tag text={category.name} color="yellow" />
 			{/each}
 			{#each recipe.types as type}
-				<Tag text={type.name || ""} color="yellow" />
+				<Tag text={type.name} color="yellow" />
 			{/each}
 		</div>
 
 		<div class="flex gap-md">
 			<div class="flex gap-xs">
 				<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
-				<p>{recipe.duration} Min.</p>
+				<p>{recipe.preperation_time} Min.</p>
 			</div>
 			<div class="flex gap-xs">
 				<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
-				<p>{recipe.difficulty}</p>
+				<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
 			</div>
 			<div class="flex gap-xs">
-				{#each { length: recipe.price?.length || 0 } as _}
+				{#each { length: recipe.cost } as _}
 					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
 				{/each}
 			</div>
