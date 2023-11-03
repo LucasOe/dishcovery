@@ -1,7 +1,5 @@
 <script lang="ts">
-	import type { Enums, Tables } from "../../../database.types";
-	import { supabase } from "$lib/functions/createClient";
-	import { onMount } from "svelte";
+	import { fetchCategories, fetchTypes } from "$lib/functions/db";
 
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
@@ -11,24 +9,6 @@
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
-
-	let types: Tables<"types">[] = [];
-	let categories: Tables<"categories">[] = [];
-
-	onMount(() => {
-		fetchTypes();
-		fetchCategories();
-	});
-
-	const fetchTypes = async () => {
-		let { data } = await supabase.from("types").select(`*`);
-		if (data) types = data;
-	};
-
-	const fetchCategories = async () => {
-		let { data } = await supabase.from("categories").select(`*`);
-		if (data) categories = data;
-	};
 </script>
 
 <FadeIn>
@@ -51,13 +31,17 @@
 			</div>
 		</Section>
 
-		<Section title="Art">
-			<TagList tags={categories.map((category) => category.name)} />
-		</Section>
+		{#await fetchTypes() then types}
+			<Section title="Art">
+				<TagList tags={types.map((type) => type.name)} />
+			</Section>
+		{/await}
 
-		<Section title="Kategorie">
-			<TagList tags={types.map((type) => type.name)} />
-		</Section>
+		{#await fetchCategories() then categories}
+			<Section title="Kategorie">
+				<TagList tags={categories.map((category) => category.name)} />
+			</Section>
+		{/await}
 
 		<Section title="Schwierigkeit" icon={DifficultyIcon}>
 			<Dropdown
