@@ -12,7 +12,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@supabase/supabase-js": "^2.38.2",
+		"@supabase/supabase-js": "^2.38.4",
 		"swing": "^3.1.4",
 		"tailwind-merge": "^1.14.0"
 	},
