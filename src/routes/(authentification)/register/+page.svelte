@@ -20,7 +20,7 @@
         password: password,
       });
       if (data) {
-        goto("../dashboard");
+        goto("/profile");
       } else {
         console.log(error);
       }
