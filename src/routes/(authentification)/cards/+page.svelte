@@ -18,26 +18,38 @@
     let yCoord = 0;
 
     let threshhold = 150;
-    let swipeDirection = 'none';
+
+    enum direction {
+        none,
+        left,
+        right,
+        up
+    }
+    let swipeDirection = direction.none;
 
     let transformValue = `translate(170px, 170px)`
 
     function handlePan(event) {
+
         xCoord = event.detail.x - centerX
         yCoord = event.detail.y - centerY
+
         if (!touchStarted) {
             xStart = xCoord;
             yStart = yCoord;
             touchStarted = true;
         }
+
         transformValue = `translate(${event.detail.x - cardW/2}px, ${event.detail.y - cardH/2}px) rotate(${xCoord/15}deg)`
+
         if (xCoord - xStart > threshhold) {
-            swipeDirection = 'right';
-        } else if (xCoord - xStart < -threshhold) {
-            swipeDirection = 'left';
+            swipeDirection = direction.right;
+        }
+        else if (xCoord - xStart < -threshhold) {
+            swipeDirection = direction.left;
         }
         else {
-            swipeDirection = 'none'
+            swipeDirection = direction.none
         }
     }
 
@@ -53,8 +65,8 @@
 <p>X Start: {xStart}</p>
 <p>X Coordinate: {xCoord}</p>
 <p>Y Coordinate: {yCoord}</p>
-<p>Swipe Direction: {swipeDirection}</p>
+<p>Swipe Direction: {swipeDirection.valueOf()}</p>
 <div use:pan={{delay: 0}} on:pan={handlePan} on:touchon:mouseup={handlePanEnd} on:touchend={handlePanEnd} class="bg-gray-300" style="width: {containerW}px; height: {containerH}px">
-    <div class="bg-yellow rounded-2xl {!touchStarted && 'duration-300'}" style="height: {cardW}px; width: {cardH}px; transform: {transformValue}"></div>
+    <div class="{swipeDirection === direction.none ? 'bg-yellow' : swipeDirection === direction.left ? 'bg-red' : 'bg-gray-900'} rounded-2xl {!touchStarted && 'duration-300'}" style="height: {cardW}px; width: {cardH}px; transform: {transformValue}"></div>
 </div>
 </FadeIn>
