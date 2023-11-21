@@ -1,4 +1,5 @@
-import colors from "tailwindcss/colors.js";
+import theme from "tailwindcss/defaultTheme.js";
+
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,7 +8,6 @@ export default {
 		colors: {
 			transparent: "transparent",
 			yellow: "#FFC532",
-			yellowHexA: "#FFC532AA",
 			gray: {
 				900: "#212121",
 				500: "#2c2c2c",
@@ -15,7 +15,6 @@ export default {
 			},
 			light: "#f8f8f8",
 			red: "#ED5D49",
-			redHexA: "#ED5D49AA",
 		},
 		fontFamily: {
 			default: ["Work Sans, sans-serif"],
@@ -49,9 +48,9 @@ export default {
 				md: "0.25rem", //4px
 			},
 			boxShadow: {
-				gray: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",
-				yellow: `0px 20px 100px -35px ${colors.yellowHexA}`,
-				red: `0px 20px 100px -35px ${colors.redHexA}`,
+				shadowGray: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",
+				shadowYellow: "0px 20px 100px -35px rgba(255,197,50, .4)",
+				shadowRed: "0px 20px 100px -35px rgba(237, 93, 73, .4)",
 			},
 			animation: {
 				fade: "fade .3s ease",
