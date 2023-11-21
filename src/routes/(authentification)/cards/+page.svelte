@@ -27,7 +27,7 @@
     }
     let swipeDirection = direction.none;
 
-    let transformValue = `translate(170px, 170px)`
+    let transformValue = `translate(${centerX - cardW/2}px, ${centerY - cardH/2}px)`
 
     function handlePan(event) {
 
@@ -54,8 +54,9 @@
     }
 
     function handlePanEnd() {
+        swipeDirection = direction.none
         touchStarted = false;
-        transformValue = `translate(${centerX- cardW/2}px, ${centerY- cardH/2}px)`
+        transformValue = `translate(${centerX - cardW/2}px, ${centerY - cardH/2}px)`
         xCoord = 0;
         yCoord = 0;
     }
@@ -67,6 +68,8 @@
 <p>Y Coordinate: {yCoord}</p>
 <p>Swipe Direction: {swipeDirection.valueOf()}</p>
 <div use:pan={{delay: 0}} on:pan={handlePan} on:touchon:mouseup={handlePanEnd} on:touchend={handlePanEnd} class="bg-gray-300" style="width: {containerW}px; height: {containerH}px">
-    <div class="{swipeDirection === direction.none ? 'bg-yellow' : swipeDirection === direction.left ? 'bg-red' : 'bg-gray-900'} rounded-2xl {!touchStarted && 'duration-300'}" style="height: {cardW}px; width: {cardH}px; transform: {transformValue}"></div>
+    <div class="{!touchStarted && 'duration-300'}" style="eight: {cardW}px; width: {cardH}px; transform: {transformValue}">
+        <div class="{swipeDirection === direction.none ? 'bg-gray-900' : swipeDirection === direction.right ? 'bg-yellow' : 'bg-light'} rounded-2xl duration-300" style="height: {cardW}px; width: {cardH}px"></div>
+    </div>
 </div>
 </FadeIn>
