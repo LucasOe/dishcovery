@@ -1,3 +1,5 @@
+import colors from "tailwindcss/colors.js";
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ["./src/**/*.{html,js,svelte,ts}"],
@@ -5,6 +7,7 @@ export default {
 		colors: {
 			transparent: "transparent",
 			yellow: "#FFC532",
+			yellowHexA: "#FFC532AA",
 			gray: {
 				900: "#212121",
 				500: "#2c2c2c",
@@ -12,6 +15,7 @@ export default {
 			},
 			light: "#f8f8f8",
 			red: "#ED5D49",
+			redHexA: "#ED5D49AA",
 		},
 		fontFamily: {
 			default: ["Work Sans, sans-serif"],
@@ -45,7 +49,9 @@ export default {
 				md: "0.25rem", //4px
 			},
 			boxShadow: {
-				shadow: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",
+				gray: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",
+				yellow: `0px 20px 100px -35px ${colors.yellowHexA}`,
+				red: `0px 20px 100px -35px ${colors.redHexA}`,
 			},
 			animation: {
 				fade: "fade .3s ease",
