@@ -57,6 +57,7 @@
         swipeDirection = direction.none
         touchStarted = false;
         transformValue = `translate(${centerX - cardW/2}px, ${centerY - cardH/2}px)`
+        console.log('here')
         xCoord = 0;
         yCoord = 0;
     }
@@ -67,7 +68,7 @@
 <p>X Coordinate: {xCoord}</p>
 <p>Y Coordinate: {yCoord}</p>
 <p>Swipe Direction: {swipeDirection.valueOf()}</p>
-<div use:pan={{delay: 0}} on:pan={handlePan} on:touchon:mouseup={handlePanEnd} on:touchend={handlePanEnd} class="bg-gray-300" style="width: {containerW}px; height: {containerH}px">
+<div use:pan={{delay: 0}} on:pan={handlePan} on:mouseup={handlePanEnd} on:touchend={handlePanEnd} class="bg-gray-300" style="width: {containerW}px; height: {containerH}px">
     <div class="{!touchStarted && 'duration-300'}" style="eight: {cardW}px; width: {cardH}px; transform: {transformValue}">
         <div class="{swipeDirection === direction.none ? 'bg-gray-900' : swipeDirection === direction.right ? 'bg-yellow' : 'bg-light'} rounded-2xl duration-300" style="height: {cardW}px; width: {cardH}px"></div>
     </div>
