@@ -7,7 +7,7 @@
 	import TextInput from "$lib/components/TextInput.svelte";
 	import supabase from "../../supa";
 	import { goto } from "$app/navigation";
-	
+
 
 	let email = "";
 	let password = "";
@@ -15,7 +15,7 @@
 
 
 	async function handleLogin() {
-  
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -51,7 +51,7 @@
 	</div>
 </FadeIn>
 		</Section>-->
-	
+
 		<div class="loginFormContainer">
 			<form class="loginForm" on:submit|preventDefault={handleLogin}>
 			  <input style="color: black;" type="email" bind:value={email} placeholder="email@email.com" />
@@ -61,4 +61,3 @@
 			<a href="/register">Not a Member? Sign up!</a>
 		  </div>
 
-		

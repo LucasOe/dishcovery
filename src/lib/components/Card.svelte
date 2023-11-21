@@ -12,7 +12,7 @@
 </script>
 
 <div
-	class={twMerge("relative flex overflow-hidden rounded-xl bg-cover bg-center shadow-shadow", $$props.class)}
+	class={twMerge("relative flex overflow-hidden rounded-xl bg-cover bg-center", $$props.class)}
 	style={`background-image: url(${TestImg})`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
@@ -43,7 +43,4 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- linear gradient fade for info content -->
-	<div class="absolute h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-900" />
 </div>

@@ -4,6 +4,7 @@
 	import BottomNav from "$lib/components/BottomNav.svelte";
 	import Card from "$lib/components/Card.svelte";
 	import TopNav from "$lib/components/TopNav.svelte";
+	import CardSwiper from "$lib/components/CardSwiper.svelte";
 </script>
 
 <main class="flex w-full flex-col gap-16">
@@ -11,7 +12,9 @@
 		<p>Loading...</p>
 	{:then recipes}
 		<TopNav />
-		<Card recipe={recipes[0]} class="flex-auto" />
+		<CardSwiper>
+			<Card recipe={recipes[0]} class="flex-auto" />
+		</CardSwiper>
 		<BottomNav />
 	{:catch error}
 		<p>Something went wrong: {error}</p>
