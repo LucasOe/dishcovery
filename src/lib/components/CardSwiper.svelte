@@ -70,7 +70,7 @@
 </style>
 
 <div use:pan={{delay: 0}} on:pan={handlePan} on:mouseup={handlePanEnd} on:touchend={handlePanEnd} class="flex-auto">
-    <div class="overflow-hidden h-full {!touchStarted ? 'transition-transform-slow' : 'transition-transform-instant'} {swipeDirection === direction.none ? 'bg-gray-900 border-gray-900 shadow-gray' : swipeDirection === direction.right ? 'border-yellow bg-yellow shadow-yellow' : ' border-red bg-red shadow-red'}  border-2 rounded-xl relative flex" bind:offsetHeight={cardH} bind:offsetWidth={cardW} style="transform: {transformValue}">
+    <div class="overflow-hidden h-full {!touchStarted ? 'transition-transform-slow' : 'transition-transform-instant'} {swipeDirection === direction.none ? 'bg-gray-900 border-gray-900 shadow-shadowGray' : swipeDirection === direction.right ? 'border-yellow bg-yellow shadow-shadowYellow' : ' border-red bg-red shadow-shadowRed'}  border-2 rounded-xl relative flex" bind:offsetHeight={cardH} bind:offsetWidth={cardW} style="transform: {transformValue}">
         <slot/>
         <div class="absolute h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-900"></div>
     </div>
