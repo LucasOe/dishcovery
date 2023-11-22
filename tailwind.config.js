@@ -50,6 +50,7 @@ export default {
 				shadowGray: "0px 20px 100px -35px rgba(0, 0, 0, 0.72)",
 				shadowYellow: "0px 20px 100px -35px rgba(255,197,50, .4)",
 				shadowRed: "0px 20px 100px -35px rgba(237, 93, 73, .4)",
+				shadowLight: "0px 20px 100px -35px rgba(255, 255, 255, .4)",
 			},
 			animation: {
 				fade: "fade .3s ease",
