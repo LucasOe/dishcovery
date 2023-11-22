@@ -15,7 +15,9 @@
 	export let touchStarted = false;
 	$: animClass = !touchStarted ? 'transition-transform-slow' : 'transition-transform-instant'
 	export let swipeDirection = direction.none;
-	$: swipeClass = swipeDirection === direction.none ? 'bg-gray-900 border-gray-900 shadow-shadowGray' : swipeDirection === direction.right ? 'border-yellow bg-yellow shadow-shadowYellow' : ' border-red bg-red shadow-shadowRed'
+	$: swipeClass = swipeDirection === direction.none ? 'bg-gray-900 border-gray-900 shadow-shadowGray' :
+					swipeDirection === direction.right ? 'border-yellow bg-yellow shadow-shadowYellow' :
+					swipeDirection === direction.left ?' border-red bg-red shadow-shadowRed' : ' border-light bg-light shadow-shadowLight'
 
 </script>
 

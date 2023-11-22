@@ -1,7 +1,6 @@
 <script lang="ts">
 
 
-
     import {pan} from 'svelte-gestures';
     import {direction} from "$lib/functions/helper";
     import Card from "$lib/components/Card.svelte";
@@ -46,6 +45,9 @@
         else if (xCoord - xStart < -threshhold) {
             swipeDirection = direction.left;
         }
+        else if (yCoord - yStart < -threshhold*1) {
+            swipeDirection = direction.up;
+        }
         else {
             swipeDirection = direction.none
         }
@@ -62,8 +64,11 @@
         else if(swipeDirection === direction.left) {
             transformValue = `translate(-120vw, 0px) rotate(-50deg)`
         }
-        else {
+        else if(swipeDirection === direction.right) {
             transformValue = `translate(120vw, 0px) rotate(50deg)`
+        }
+        else {
+            transformValue = `translate(0vw, -100vh) rotate(0deg)`
         }
     }
 </script>
