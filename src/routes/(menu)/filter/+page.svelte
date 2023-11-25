@@ -5,19 +5,34 @@
 	import Section from "$lib/components/Section.svelte";
 	import TagList from "$lib/components/TagList.svelte";
 
+	
+	const filterOptions = [
+    { name: 'Bewertung', options: ['alle', '2+', '3+', '4+'] },
+    { name: 'Preis', options: ['alle', '€', '€€', '€€€'] },
+    { name: 'Dauer', options: ['alle', '<10 Min.', '<30 Min.', '<60 Min.'] },
+    { name: 'Schwierigkeit', options: ['alle', 'einfach', 'fortgeschritten', 'schwer'] },
+  ];
+
+  const selectedFilters = {
+    Bewertung: 'alle',
+    Preis: 'alle',
+    Dauer: 'alle',
+    Schwierigkeit: 'alle',
+  };
+
+  const handleFilterChange = (filter, value) => {
+    selectedFilters[filter] = value;
+  };
+	
 </script>
-
-
 
 <FadeIn>
 	<div class="space-y-lg">
-		<Section title="Titel">
-			
-		</Section>
+		<Section title="Titel"></Section>
 		{#await fetchTypes() then types}
-		<Section title="Art">
-			<TagList tags={types.map((type) => type.name)} />
-		</Section>
+			<Section title="Art">
+				<TagList tags={types.map((type) => type.name)} />
+			</Section>
 		{/await}
 
 		{#await fetchCategories() then categories}
@@ -26,52 +41,32 @@
 			</Section>
 		{/await}
 
-<section>
-	
-		<div class="flex items-center">
-	<div class="mr-20">Bewertung</div>
-	
-			<div class="flex items-center flex-col justify-center text-center">
-				<input type="radio" name="options"  id="option1">
-	
-			</div>
-			
-			<div class="flex items-center flex-grow">
-				<div class="border-t border-r border-b border-gray-500 flex-grow h-1"></div>
-			</div>
-			
-			<div class="flex items-center flex-col justify-center text-center">
-				<input type="radio" name="options" class="" id="option2">
-			
-			</div>
-	
-			<div class="flex items-center flex-grow">
-				<div class="border-t border-r border-b border-gray-500 flex-grow h-1"></div>
-			</div>
-			<div class="flex items-center flex-col justify-center text-center">
-				<input type="radio" name="options" class="" id="option2">
-			
-			</div>
-	
-			<div class="flex items-center flex-grow">
-				<div class="border-t border-r border-b border-gray-500 flex-grow h-1"></div>
-			</div>
-			<div class="flex items-center flex-col justify-center text-center">
-				<input type="radio" name="options" class="" id="option2">
-			</div>			
-		</div>
 
 
-	
-	
+		<component>
+			{#each filterOptions as filter}
+			  <Section title={filter.name}>
+				<div class="flex items-center">
+				  {#each filter.options as option}
+					<div class="text-center">
+					  <button
+						class={`focus:shadow-outline mb-2 mr-20 h-6 w-6 rounded-full border border-gray-300 focus:outline-none ${selectedFilters[filter.name] === option ? 'text-white bg-yellow' : 'bg-gray-900'}`}
+						on:click={() => handleFilterChange(filter.name, option)}
+					  ></button>
+					  <p class="mr-20 text-sm">{option}</p>
+					</div>
+				  {/each}
+				</div>
+			  </Section>
+			{/each}
+		  </component>
+				
+		  
+		  
 
-	
-	
-	
-</section>
 
-<section>
-	<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Filter anwenden</button>
-</section>
+
+
+		<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Filter anwenden</button>
 	</div>
 </FadeIn>
