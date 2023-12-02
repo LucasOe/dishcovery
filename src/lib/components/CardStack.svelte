@@ -34,7 +34,7 @@
             yStart = yCoord;
             touchStarted = true;
         }
-        scale = 1 + Math.abs((xCoord-xStart)/(cardW*15))
+        scale = 1 + Math.abs((xCoord-xStart)/(cardW * 15))
         rotation = (xCoord-xStart)/30 + "deg";
         transformValue = `translate(${xCoord - xStart}px, ${yCoord - yStart}px) rotate(${rotation}) scale(${scale})`
 
@@ -42,10 +42,10 @@
             swipeDirection = direction.right;
 
         }
-        else if (xCoord - xStart < -threshhold) {
+        else if (xCoord - xStart < - threshhold) {
             swipeDirection = direction.left;
         }
-        else if (yCoord - yStart < -threshhold*1) {
+        else if (yCoord - yStart < - threshhold) {
             swipeDirection = direction.up;
         }
         else {
