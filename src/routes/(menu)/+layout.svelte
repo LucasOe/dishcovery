@@ -3,7 +3,6 @@
 	import CloseIcon from "$lib/assets/icons/cancel.svg";
 
 	import { page } from "$app/stores";
-	import H1 from "$lib/components/H1.svelte";
 </script>
 
 <svelte:head>
@@ -12,7 +11,7 @@
 
 <div class="flex w-full flex-col gap-6">
 	<div class="flex justify-between">
-		<H1>{$page.data.title || "Page Title"}</H1>
+		<h1 class="font-header text-xxl text-light">{$page.data.title || "Page Title"}</h1>
 		<RoundButton src={CloseIcon} alt="Close" link={"/"} class="drop-shadow-md" size="md" />
 	</div>
 
