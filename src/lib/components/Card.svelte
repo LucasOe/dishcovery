@@ -14,7 +14,7 @@
 	export let transformValue = "";
 	export let touchStarted = false;
 	$: animClass = !touchStarted ? "transition-transform-slow" : "transition-transform-instant";
-	export let swipeDirection = direction.none;
+	export let swipeDirection: direction = direction.none;
 	$: swipeClass =
 		swipeDirection === direction.none
 			? "bg-gray-900 border-gray-900 shadow-shadowGray"

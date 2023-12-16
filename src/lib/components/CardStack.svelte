@@ -1,6 +1,4 @@
-<script lang="js">
-	// @ts-nocheck
-
+<script lang="ts">
 	import { pan } from "svelte-gestures";
 	import { direction } from "$lib/functions/helper";
 	import Card from "$lib/components/Card.svelte";
@@ -24,7 +22,7 @@
 	let scale;
 	let rotation;
 
-	function handlePan(event) {
+	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
 		xCoord = event.detail.x;
 		yCoord = event.detail.y;
 
