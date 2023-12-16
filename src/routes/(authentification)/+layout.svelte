@@ -10,8 +10,8 @@
 </svelte:head>
 
 <div class="flex w-full flex-col gap-6">
-	<div class="flex justify-center flex-col items-center gap-2">
-		<img width="100" src="{HatYellow}" alt="Logo"/>
+	<div class="flex flex-col items-center justify-center gap-2">
+		<img width="100" src={HatYellow} alt="Logo" />
 		<H1>{$page.data.title || "Page Title"}</H1>
 		<p class="font-bold text-gray-300">Schön Dich wieder zu sehen.</p>
 	</div>

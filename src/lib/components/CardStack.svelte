@@ -1,4 +1,6 @@
-<script lang="ts">
+<script lang="js">
+	// @ts-nocheck
+
 	import { pan } from "svelte-gestures";
 	import { direction } from "$lib/functions/helper";
 	import Card from "$lib/components/Card.svelte";
@@ -16,7 +18,7 @@
 	let threshhold = 150;
 	let touchStarted = false;
 
-	let swipeDirection: direction = direction.none;
+	let swipeDirection = direction.none;
 
 	let transformValue = `translate(0px, 0px)`;
 	let scale;
