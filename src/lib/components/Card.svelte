@@ -1,33 +1,40 @@
 <script lang="ts">
 	import { twMerge } from "tailwind-merge";
 
-	import type { Recipe } from "../../database.types";
+	import type { Recipe } from "$types/database.types";
+	import { Direction } from "$types/card.types";
 	import TestImg from "$lib/assets/img/test-img.jpg";
 	import Tag from "$lib/components/Tag.svelte";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import H1 from "$lib/components/H1.svelte";
-	import { direction } from "$lib/functions/helper";
 
 	export let recipe: Recipe;
 	export let transformValue = "";
-	export let touchStarted = false;
-	$: animClass = !touchStarted ? "transition-transform-slow" : "transition-transform-instant";
-	export let swipeDirection: direction = direction.none;
-	$: swipeClass =
-		swipeDirection === direction.none
-			? "bg-gray-900 border-gray-900 shadow-shadowGray"
-			: swipeDirection === direction.right
-				? "border-yellow bg-yellow shadow-shadowYellow"
-				: swipeDirection === direction.left
-					? " border-red bg-red shadow-shadowRed"
-					: " border-light bg-light shadow-shadowLight";
+	export let isTouching = false;
+	export let swipeDirection: Direction = Direction.None;
+
+	$: animClass = !isTouching ? "transition-transform-slow" : "transition-transform-instant";
+	$: swipeClass = (() => {
+		switch (swipeDirection) {
+			case Direction.None:
+				return "border-gray-900 shadow-shadowGray";
+			case Direction.Left:
+				return "border-red shadow-shadowRed";
+			case Direction.Right:
+				return "border-yellow shadow-shadowYellow";
+			default:
+				return "border-light shadow-shadowLight";
+		}
+	})();
 </script>
 
 <div
 	class={twMerge(
-		"relative z-10 flex overflow-hidden rounded-xl border-2 bg-cover bg-center " + animClass + " " + swipeClass,
+		"relative z-10 flex overflow-hidden rounded-xl border-2 bg-cover bg-center",
+		animClass,
+		swipeClass,
 		$$props.class
 	)}
 	style={`background-image: url(${TestImg}); transform: ${transformValue}`}

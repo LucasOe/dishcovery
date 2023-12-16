@@ -1,4 +1,4 @@
-import type { Recipe, Tables } from "../../database.types";
+import type { Recipe, Tables } from "$types/database.types";
 import { supabase } from "./createClient";
 
 export const fetchRecipes = async (): Promise<Recipe[]> => {
