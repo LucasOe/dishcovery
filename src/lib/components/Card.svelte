@@ -8,7 +8,6 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
-	import H1 from "$lib/components/H1.svelte";
 
 	export let recipe: Recipe;
 	export let transformValue = "";
@@ -40,7 +39,7 @@
 	style={`background-image: url(${TestImg}); transform: ${transformValue}`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
-		<H1>{recipe.name}</H1>
+		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
