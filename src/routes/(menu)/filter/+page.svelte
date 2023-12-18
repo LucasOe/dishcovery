@@ -6,10 +6,10 @@
 	import TagList from "$lib/components/TagList.svelte";
 
 	type Filters = {
-		Bewertung: String;
-		Preis: String;
-		Dauer: String;
-		Schwierigkeit: String;
+		Bewertung: string;
+		Preis: string;
+		Dauer: string;
+		Schwierigkeit: string;
 	};
 
 	const filterOptions: { name: keyof Filters; options: string[] }[] = [

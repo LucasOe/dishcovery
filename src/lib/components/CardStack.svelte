@@ -35,7 +35,7 @@
 		transformValue = `translate(${xCoord - xStart}px, ${yCoord - yStart}px) rotate(${rotation}deg)`;
 
 		swipeDirection = (() => {
-			if (xCoord - xStart > threshhold) return Direction.Right;
+			if (xCoord - xStart > +threshhold) return Direction.Right;
 			if (xCoord - xStart < -threshhold) return Direction.Left;
 			if (yCoord - yStart < -threshhold) return Direction.Up;
 			return Direction.None;
