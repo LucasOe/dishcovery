@@ -14,7 +14,7 @@
 	export let isTouching = false;
 	export let swipeDirection: Direction = Direction.None;
 
-	$: animClass = !isTouching ? "transition-transform-slow" : "transition-transform-instant";
+	$: animClass = isTouching ? "transition-transform-instant" : "transition-transform-slow";
 	$: swipeClass = (() => {
 		switch (swipeDirection) {
 			case Direction.None:
@@ -73,7 +73,7 @@
 	.transition-transform-slow {
 		transition:
 			all 300ms,
-			transform 250ms;
+			transform 500ms;
 	}
 	.transition-transform-instant {
 		transition:
