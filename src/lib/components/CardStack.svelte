@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { pan } from "svelte-gestures";
-	import { onMount } from "svelte";
+	import {pan} from "svelte-gestures";
+	import {onMount} from "svelte";
 
-	import { Direction } from "$types/card.types";
+	import {Direction} from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
-	import { fetchRecipes } from "$lib/functions/db";
+	import {fetchRecipes} from "$lib/functions/db";
+	import type {Recipe} from "$types/database.types";
 
 	let xStart = 0;
 	let yStart = 0;
@@ -50,7 +51,31 @@
 		})();
 	}
 
-	function addCard() {
+	function handlePanEnd(recipe: Recipe) {
+		isTouching = false;
+		transformValue = (() => {
+			switch (swipeDirection) {
+				case Direction.Left:
+					handleCardSelection(recipe);
+					return "translate(-200vw, 0px) rotate(-50deg)";
+				case Direction.Right:
+					handleCardSelection(recipe);
+					return "translate(200vw, 0px) rotate(50deg)";
+				case Direction.Up:
+					return "translate(0vw, -100vh) rotate(0deg)";
+				default:
+					return "translate(0px, 0px)";
+			}
+		})();
+	}
+
+	function handleCardSelection(recipe: Recipe) {
+		console.log()
+		console.log(swipeDirection == Direction.Right ? recipe.name + " liked" : recipe.name + " disliked");
+		provideNewCards()
+	}
+
+	function provideNewCards() {
 		setTimeout(function() {
 			currentRecipe++;
 			cards.pop();
@@ -62,25 +87,6 @@
 		}, 300);
 	}
 
-	function handlePanEnd() {
-		isTouching = false;
-		switch (swipeDirection) {
-			case Direction.Left:
-				transformValue =  "translate(-200vw, 0px) rotate(-50deg)";
-				addCard();
-				return;
-			case Direction.Right:
-				transformValue = "translate(200vw, 0px) rotate(50deg)";
-				addCard();
-				return;
-			case Direction.Up:
-				transformValue = "translate(0vw, -100vh) rotate(0deg)";
-				return;
-			default:
-				transformValue = "translate(0px, 0px)";
-				return;
-		}
-	}
 </script>
 
 <div class="relative flex h-full w-full">
@@ -94,16 +100,16 @@
 							  {isTouching}
 							  class={"absolute h-full w-full"}/>
 		{/each}
+
+		<button
+				class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
+				use:pan={{ delay: 0 }}
+				on:pan={handlePan}
+				on:mouseup={() => handlePanEnd(recipes[currentRecipe])}
+				on:touchend={handlePanEnd}
+				on:touchcancel={handlePanEnd}>
+		</button>
 	{:catch error}
 		<p>Something went wrong: {error}</p>
 	{/await}
-
-	<button
-		class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
-		use:pan={{ delay: 0 }}
-		on:pan={handlePan}
-		on:mouseup={handlePanEnd}
-		on:touchend={handlePanEnd}
-		on:touchcancel={handlePanEnd}>
-	</button>
 </div>
