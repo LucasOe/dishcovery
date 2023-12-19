@@ -1,11 +1,11 @@
 <script lang="ts">
-	import {pan} from "svelte-gestures";
-	import {onMount} from "svelte";
+	import { pan } from "svelte-gestures";
+	import { onMount } from "svelte";
 
-	import {Direction} from "$types/card.types";
+	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
-	import {fetchRecipes} from "$lib/functions/db";
-	import type {Recipe} from "$types/database.types";
+	import { fetchRecipes } from "$lib/functions/db";
+	import type { Recipe } from "$types/database.types";
 
 	let xStart = 0;
 	let yStart = 0;
@@ -19,7 +19,11 @@
 	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
 
-	let cards = [{Card, id: 2}, {Card, id: 1}, {Card, id: 0}];
+	let cards = [
+		{ Card, id: 2 },
+		{ Card, id: 1 },
+		{ Card, id: 0 },
+	];
 	let currentRecipe = 0;
 
 	onMount(() => {
@@ -70,23 +74,22 @@
 	}
 
 	function handleCardSelection(recipe: Recipe) {
-		console.log()
+		console.log();
 		console.log(swipeDirection == Direction.Right ? recipe.name + " liked" : recipe.name + " disliked");
-		provideNewCards()
+		provideNewCards();
 	}
 
 	function provideNewCards() {
-		setTimeout(function() {
+		setTimeout(function () {
 			currentRecipe++;
 			cards.pop();
-			setTimeout(function() {
+			setTimeout(function () {
 				transformValue = "translate(0px, 0px)";
-				cards = [{Card, id: currentRecipe + cards.length}, ...cards];
+				cards = [{ Card, id: currentRecipe + cards.length }, ...cards];
 			}, 1);
 			swipeDirection = Direction.None;
 		}, 300);
 	}
-
 </script>
 
 <div class="relative flex h-full w-full">
@@ -94,20 +97,25 @@
 		<p class="relative flex w-full items-center justify-center">Loading...</p>
 	{:then recipes}
 		{#each cards as item, i}
-			<svelte:component this={Card} key={i} recipe={recipes[item.id]}
-							  swipeDirection="{i === cards.length-1 ? swipeDirection : Direction.None}"
-							  transformValue={i === cards.length-1 ? transformValue : ""}
-							  {isTouching}
-							  class={"absolute h-full w-full"}/>
+			<svelte:component
+				this={Card}
+				key={i}
+				recipe={recipes[item.id]}
+				swipeDirection={i === cards.length - 1 ? swipeDirection : Direction.None}
+				transformValue={i === cards.length - 1 ? transformValue : ""}
+				{isTouching}
+				class={"absolute h-full w-full"}
+			/>
 		{/each}
 
 		<button
-				class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
-				use:pan={{ delay: 0 }}
-				on:pan={handlePan}
-				on:mouseup={() => handlePanEnd(recipes[currentRecipe])}
-				on:touchend={handlePanEnd}
-				on:touchcancel={handlePanEnd}>
+			class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
+			use:pan={{ delay: 0 }}
+			on:pan={handlePan}
+			on:mouseup={() => handlePanEnd(recipes[currentRecipe])}
+			on:touchend={handlePanEnd}
+			on:touchcancel={handlePanEnd}
+		>
 		</button>
 	{:catch error}
 		<p>Something went wrong: {error}</p>
