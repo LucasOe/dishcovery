@@ -13,6 +13,9 @@
 	let xCoord = 0;
 	let yCoord = 0;
 
+	let xDist = 0;
+	let yDist = 0;
+
 	let threshold = 150;
 	let isTouching = false;
 
@@ -35,8 +38,12 @@
 	});
 
 	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
+
 		xCoord = event.detail.x;
 		yCoord = event.detail.y;
+
+		xDist = xCoord - xStart;
+		yDist = yCoord - yStart;
 
 		if (!isTouching) {
 			xStart = xCoord;
@@ -44,13 +51,13 @@
 			isTouching = true;
 		}
 
-		let rotation = (xCoord - xStart) / 30;
-		transformValue = `translate(${xCoord - xStart}px, ${yCoord - yStart}px) rotate(${rotation}deg)`;
+		let rotation = xDist / 30;
+		transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
 		swipeDirection = (() => {
-			if (xCoord - xStart > +threshold) return Direction.Right;
-			if (xCoord - xStart < -threshold) return Direction.Left;
-			if (yCoord - yStart < -threshold) return Direction.Up;
+			if (xDist > +threshold) return Direction.Right;
+			if (xDist < -threshold) return Direction.Left;
+			if (yDist < -threshold) return Direction.Up;
 			return Direction.None;
 		})();
 	}
