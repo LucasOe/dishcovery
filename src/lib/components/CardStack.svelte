@@ -18,6 +18,9 @@
 	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
 
+	let cards = [{Card, id: 2}, {Card, id: 1}, {Card, id: 0}];
+	let currentRecipe = 0;
+
 	onMount(() => {
 		threshold = Math.min(window.innerWidth * 0.1, 150);
 
@@ -47,21 +50,36 @@
 		})();
 	}
 
+	function addCard() {
+		setTimeout(function() {
+			currentRecipe++;
+			cards.pop();
+			setTimeout(function() {
+				transformValue = "translate(0px, 0px)";
+				cards = [{Card, id: currentRecipe + 2}, ...cards];
+			}, 1);
+			swipeDirection = Direction.None;
+		}, 300);
+	}
+
 	function handlePanEnd() {
 		isTouching = false;
-
-		transformValue = (() => {
-			switch (swipeDirection) {
-				case Direction.Left:
-					return "translate(-200vw, 0px) rotate(-50deg)";
-				case Direction.Right:
-					return "translate(200vw, 0px) rotate(50deg)";
-				case Direction.Up:
-					return "translate(0vw, -100vh) rotate(0deg)";
-				default:
-					return "translate(0px, 0px)";
-			}
-		})();
+		switch (swipeDirection) {
+			case Direction.Left:
+				transformValue =  "translate(-200vw, 0px) rotate(-50deg)";
+				addCard();
+				return;
+			case Direction.Right:
+				transformValue = "translate(200vw, 0px) rotate(50deg)";
+				addCard();
+				return;
+			case Direction.Up:
+				transformValue = "translate(0vw, -100vh) rotate(0deg)";
+				return;
+			default:
+				transformValue = "translate(0px, 0px)";
+				return;
+		}
 	}
 </script>
 
@@ -69,8 +87,13 @@
 	{#await fetchRecipes()}
 		<p class="relative flex w-full items-center justify-center">Loading...</p>
 	{:then recipes}
-		<Card recipe={recipes[1]} class="absolute h-full w-full" />
-		<Card recipe={recipes[0]} class="absolute h-full w-full" {transformValue} {isTouching} {swipeDirection} />
+		{#each cards as item, i}
+			<svelte:component this={Card} key={i} recipe={recipes[item.id]}
+							  swipeDirection="{i === cards.length-1 ? swipeDirection : Direction.None}"
+							  transformValue={i === cards.length-1 ? transformValue : ""}
+							  {isTouching}
+							  class={"absolute h-full w-full"}/>
+		{/each}
 	{:catch error}
 		<p>Something went wrong: {error}</p>
 	{/await}
@@ -81,7 +104,6 @@
 		on:pan={handlePan}
 		on:mouseup={handlePanEnd}
 		on:touchend={handlePanEnd}
-		on:mouseleave={handlePanEnd}
-		on:touchcancel={handlePanEnd}
-	/>
+		on:touchcancel={handlePanEnd}>
+	</button>
 </div>
