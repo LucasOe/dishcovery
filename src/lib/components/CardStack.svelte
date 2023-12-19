@@ -5,9 +5,6 @@
 	import Card from "$lib/components/Card.svelte";
 	import { fetchRecipes } from "$lib/functions/db";
 
-	let cardW = 0;
-	let cardH = 0;
-
 	let xStart = 0;
 	let yStart = 0;
 
@@ -66,8 +63,8 @@
 	on:pan={handlePan}
 	on:mouseup={handlePanEnd}
 	on:touchend={handlePanEnd}
-	bind:offsetHeight={cardH}
-	bind:offsetWidth={cardW}
+	on:mouseleave={handlePanEnd}
+	on:touchcancel={handlePanEnd}
 >
 	{#await fetchRecipes()}
 		<p class=" relative flex w-full items-center justify-center">Loading...</p>
