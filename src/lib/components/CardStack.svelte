@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { pan } from "svelte-gestures";
+	import { onMount } from "svelte";
 
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
@@ -11,11 +12,19 @@
 	let xCoord = 0;
 	let yCoord = 0;
 
-	let threshhold = 150;
+	let threshold = 150;
 	let isTouching = false;
 
 	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
+
+	onMount(() => {
+		threshold = Math.min(window.innerWidth * 0.1, 150);
+
+		window.addEventListener("resize", function () {
+			threshold = Math.min(window.innerWidth * 0.1, 150);
+		});
+	});
 
 	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
 		xCoord = event.detail.x;
@@ -31,9 +40,9 @@
 		transformValue = `translate(${xCoord - xStart}px, ${yCoord - yStart}px) rotate(${rotation}deg)`;
 
 		swipeDirection = (() => {
-			if (xCoord - xStart > +threshhold) return Direction.Right;
-			if (xCoord - xStart < -threshhold) return Direction.Left;
-			if (yCoord - yStart < -threshhold) return Direction.Up;
+			if (xCoord - xStart > +threshold) return Direction.Right;
+			if (xCoord - xStart < -threshold) return Direction.Left;
+			if (yCoord - yStart < -threshold) return Direction.Up;
 			return Direction.None;
 		})();
 	}
@@ -44,9 +53,9 @@
 		transformValue = (() => {
 			switch (swipeDirection) {
 				case Direction.Left:
-					return "translate(-120vw, 0px) rotate(-50deg)";
+					return "translate(-200vw, 0px) rotate(-50deg)";
 				case Direction.Right:
-					return "translate(120vw, 0px) rotate(50deg)";
+					return "translate(200vw, 0px) rotate(50deg)";
 				case Direction.Up:
 					return "translate(0vw, -100vh) rotate(0deg)";
 				default:
@@ -67,7 +76,7 @@
 	{/await}
 
 	<button
-		class="z-[99] h-full w-full after:w-screen active:fixed active:left-0 active:top-0 active:h-screen"
+		class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
 		use:pan={{ delay: 0 }}
 		on:pan={handlePan}
 		on:mouseup={handlePanEnd}
