@@ -81,7 +81,7 @@
 			cards.pop();
 			setTimeout(function() {
 				transformValue = "translate(0px, 0px)";
-				cards = [{Card, id: currentRecipe + 2}, ...cards];
+				cards = [{Card, id: currentRecipe + cards.length}, ...cards];
 			}, 1);
 			swipeDirection = Direction.None;
 		}, 300);
