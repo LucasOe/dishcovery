@@ -74,7 +74,6 @@
 	}
 
 	function handleCardSelection(recipe: Recipe) {
-		console.log();
 		console.log(swipeDirection == Direction.Right ? recipe.name + " liked" : recipe.name + " disliked");
 		provideNewCards();
 	}
