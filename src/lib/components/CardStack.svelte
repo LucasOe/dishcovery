@@ -57,21 +57,23 @@
 	}
 </script>
 
-<button
-	class="relative flex h-full"
-	use:pan={{ delay: 0 }}
-	on:pan={handlePan}
-	on:mouseup={handlePanEnd}
-	on:touchend={handlePanEnd}
-	on:mouseleave={handlePanEnd}
-	on:touchcancel={handlePanEnd}
->
+<div class="relative flex h-full w-full">
 	{#await fetchRecipes()}
-		<p class=" relative flex w-full items-center justify-center">Loading...</p>
+		<p class="relative flex w-full items-center justify-center">Loading...</p>
 	{:then recipes}
 		<Card recipe={recipes[1]} class="absolute h-full w-full" />
 		<Card recipe={recipes[0]} class="absolute h-full w-full" {transformValue} {isTouching} {swipeDirection} />
 	{:catch error}
 		<p>Something went wrong: {error}</p>
 	{/await}
-</button>
+
+	<button
+		class="z-[99] flex h-full w-full after:w-screen active:fixed active:left-0 active:top-0 active:h-screen"
+		use:pan={{ delay: 0 }}
+		on:pan={handlePan}
+		on:mouseup={handlePanEnd}
+		on:touchend={handlePanEnd}
+		on:mouseleave={handlePanEnd}
+		on:touchcancel={handlePanEnd}
+	/>
+</div>
