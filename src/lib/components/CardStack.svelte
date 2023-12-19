@@ -16,7 +16,6 @@
 
 	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
-	let rotation;
 
 	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
 		xCoord = event.detail.x;
@@ -28,7 +27,7 @@
 			isTouching = true;
 		}
 
-		rotation = (xCoord - xStart) / 30;
+		let rotation = (xCoord - xStart) / 30;
 		transformValue = `translate(${xCoord - xStart}px, ${yCoord - yStart}px) rotate(${rotation}deg)`;
 
 		swipeDirection = (() => {
@@ -68,7 +67,7 @@
 	{/await}
 
 	<button
-		class="z-[99] flex h-full w-full after:w-screen active:fixed active:left-0 active:top-0 active:h-screen"
+		class="z-[99] h-full w-full after:w-screen active:fixed active:left-0 active:top-0 active:h-screen"
 		use:pan={{ delay: 0 }}
 		on:pan={handlePan}
 		on:mouseup={handlePanEnd}
