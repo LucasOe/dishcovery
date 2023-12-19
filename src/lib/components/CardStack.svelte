@@ -69,8 +69,8 @@
 	{#await fetchRecipes()}
 		<p class=" relative flex w-full items-center justify-center">Loading...</p>
 	{:then recipes}
-		<Card recipe={recipes[1]} class="absolute h-full w-full flex-auto" />
-		<Card recipe={recipes[0]} class="absolute h-full w-full flex-auto" {transformValue} {isTouching} {swipeDirection} />
+		<Card recipe={recipes[1]} class="absolute h-full w-full" />
+		<Card recipe={recipes[0]} class="absolute h-full w-full" {transformValue} {isTouching} {swipeDirection} />
 	{:catch error}
 		<p>Something went wrong: {error}</p>
 	{/await}

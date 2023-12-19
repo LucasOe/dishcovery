@@ -14,15 +14,13 @@
 
 <div class="flex items-center justify-between">
 	<!-- Nav -->
-	<ul class="flex gap-xl">
+	<div class="flex gap-xl">
 		{#each tabs as tab}
-			<li>
-				<a href={tab.link}>
-					<img class="h-6 w-6" alt={tab.name} src={tab.icon} />
-				</a>
-			</li>
+			<a href={tab.link}>
+				<img class="h-6 w-6" alt={tab.name} src={tab.icon} />
+			</a>
 		{/each}
-	</ul>
+	</div>
 
 	<!-- Profile -->
 	<div>
