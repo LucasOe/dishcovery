@@ -21,11 +21,7 @@
 	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
 
-	let cards = [
-		{ Card, id: 2 },
-		{ Card, id: 1 },
-		{ Card, id: 0 },
-	];
+	let recipeIds = [0, 1, 2];
 	let currentRecipe = 0;
 
 	onMount(() => {
@@ -82,13 +78,11 @@
 	function provideNewCards() {
 		setTimeout(() => {
 			currentRecipe++;
-			cards.pop();
+			recipeIds.pop();
 
-			setTimeout(() => {
-				transformValue = "translate(0px, 0px)";
-				cards = [{ Card, id: currentRecipe + cards.length }, ...cards];
-			}, 1);
+			recipeIds = [currentRecipe + recipeIds.length, ...recipeIds];
 
+			transformValue = "translate(0px, 0px)";
 			swipeDirection = Direction.None;
 		}, 300);
 	}
@@ -98,12 +92,12 @@
 	{#await fetchRecipes()}
 		<p class="relative flex w-full items-center justify-center">Loading...</p>
 	{:then recipes}
-		{#each cards as item, i}
+		{#each recipeIds as id, i (id)}
 			<Card
-				recipe={recipes[item.id % recipes.length]}
-				swipeDirection={i === cards.length - 1 ? swipeDirection : Direction.None}
-				transformValue={i === cards.length - 1 ? transformValue : ""}
-				isTouching={i === cards.length - 1 ? isTouching : false}
+				recipe={recipes[id % recipes.length]}
+				swipeDirection={i === recipeIds.length - 1 ? swipeDirection : Direction.None}
+				transformValue={i === recipeIds.length - 1 ? transformValue : ""}
+				isTouching={i === recipeIds.length - 1 ? isTouching : false}
 				class={"absolute h-full w-full"}
 			/>
 		{/each}
