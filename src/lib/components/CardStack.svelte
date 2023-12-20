@@ -5,7 +5,6 @@
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import { fetchRecipes } from "$lib/functions/db";
-	import type { Recipe } from "$types/database.types";
 
 	let xStart = 0;
 	let yStart = 0;
@@ -38,7 +37,6 @@
 	});
 
 	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
-
 		xCoord = event.detail.x;
 		yCoord = event.detail.y;
 
@@ -62,37 +60,35 @@
 		})();
 	}
 
-	function handlePanEnd(recipe: Recipe) {
+	function handlePanEnd() {
 		isTouching = false;
-		transformValue = (() => {
-			switch (swipeDirection) {
-				case Direction.Left:
-					handleCardSelection(recipe);
-					return "translate(-200vw, 0px) rotate(-50deg)";
-				case Direction.Right:
-					handleCardSelection(recipe);
-					return "translate(200vw, 0px) rotate(50deg)";
-				case Direction.Up:
-					return "translate(0vw, -100vh) rotate(0deg)";
-				default:
-					return "translate(0px, 0px)";
-			}
-		})();
+		transformValue = getTransformValue(swipeDirection);
+		if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewCards();
 	}
 
-	function handleCardSelection(recipe: Recipe) {
-		console.log(swipeDirection == Direction.Right ? recipe.name + " liked" : recipe.name + " disliked");
-		provideNewCards();
+	function getTransformValue(direction: Direction) {
+		switch (direction) {
+			case Direction.Left:
+				return "translate(-200vw, 0px) rotate(-50deg)";
+			case Direction.Right:
+				return "translate(200vw, 0px) rotate(50deg)";
+			case Direction.Up:
+				return "translate(0vw, -100vh) rotate(0deg)";
+			default:
+				return "translate(0px, 0px)";
+		}
 	}
 
 	function provideNewCards() {
-		setTimeout(function () {
+		setTimeout(() => {
 			currentRecipe++;
 			cards.pop();
-			setTimeout(function () {
+
+			setTimeout(() => {
 				transformValue = "translate(0px, 0px)";
 				cards = [{ Card, id: currentRecipe + cards.length }, ...cards];
 			}, 1);
+
 			swipeDirection = Direction.None;
 		}, 300);
 	}
@@ -103,13 +99,11 @@
 		<p class="relative flex w-full items-center justify-center">Loading...</p>
 	{:then recipes}
 		{#each cards as item, i}
-			<svelte:component
-				this={Card}
-				key={i}
-				recipe={recipes[item.id]}
+			<Card
+				recipe={recipes[item.id % recipes.length]}
 				swipeDirection={i === cards.length - 1 ? swipeDirection : Direction.None}
 				transformValue={i === cards.length - 1 ? transformValue : ""}
-				{isTouching}
+				isTouching={i === cards.length - 1 ? isTouching : false}
 				class={"absolute h-full w-full"}
 			/>
 		{/each}
@@ -118,7 +112,7 @@
 			class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
 			use:pan={{ delay: 0 }}
 			on:pan={handlePan}
-			on:mouseup={() => handlePanEnd(recipes[currentRecipe])}
+			on:mouseup={handlePanEnd}
 			on:touchend={handlePanEnd}
 			on:touchcancel={handlePanEnd}
 		>
