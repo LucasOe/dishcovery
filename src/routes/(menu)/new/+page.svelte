@@ -9,16 +9,40 @@
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
+	import type { Entry } from "$types/dropdown.types";
+
+	let title: string;
+	let description: string;
+	let types: string[];
+	let categories: string[];
+	let difficulty: Entry;
+	let preperation_time: Entry;
+	let cost: Entry;
+
+	function logRecipe() {
+		let recipe = {
+			title: title,
+			description: description,
+			types: types,
+			categories: categories,
+			difficulty: difficulty.id,
+			preperation_time: preperation_time.id,
+			cost: cost.id,
+		};
+
+		console.log(recipe);
+	}
 </script>
 
 <FadeIn>
 	<div class="space-y-lg">
 		<Section title="Titel">
-			<input type="text" class=" text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
+			<input bind:value={title} type="text" class="text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
 		</Section>
 
 		<Section title="Beschreibung">
 			<textarea
+				bind:value={description}
 				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 				placeholder="Hier eingeben..."
 			></textarea>
@@ -31,20 +55,21 @@
 			</div>
 		</Section>
 
-		{#await fetchTypes() then types}
+		{#await fetchTypes() then _types}
 			<Section title="Art">
-				<TagList tags={types.map((type) => type.name)} />
+				<TagList bind:selected={types} tags={_types.map((type) => type.name)} />
 			</Section>
 		{/await}
 
-		{#await fetchCategories() then categories}
+		{#await fetchCategories() then _categories}
 			<Section title="Kategorie">
-				<TagList tags={categories.map((category) => category.name)} />
+				<TagList bind:selected={categories} tags={_categories.map((category) => category.name)} />
 			</Section>
 		{/await}
 
 		<Section title="Schwierigkeit" icon={DifficultyIcon}>
 			<Dropdown
+				bind:selected={difficulty}
 				entries={[
 					{ id: 1, name: "Einfach" },
 					{ id: 2, name: "Mittel" },
@@ -55,6 +80,7 @@
 
 		<Section title="Zeit" icon={ClockIcon}>
 			<Dropdown
+				bind:selected={preperation_time}
 				entries={[
 					{ id: 5, name: "5 Min." },
 					{ id: 10, name: "10 Min." },
@@ -65,6 +91,7 @@
 
 		<Section title="Preis" icon={PriceIcon}>
 			<Dropdown
+				bind:selected={cost}
 				entries={[
 					{ id: 1, name: "€" },
 					{ id: 2, name: "€€" },
@@ -91,6 +118,8 @@
 			</div>
 		</Section>
 
-		<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Rezept veröffentlichen</button>
+		<button on:click={logRecipe} class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
+			Rezept veröffentlichen
+		</button>
 	</div>
 </FadeIn>
