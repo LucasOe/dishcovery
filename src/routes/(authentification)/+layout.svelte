@@ -10,9 +10,9 @@
 
 <div class="flex w-full flex-col gap-6">
 	<div class="flex flex-col items-center justify-center gap-2">
-		<img width="100" src={HatYellow} alt="Logo" />
+		<img src={HatYellow} alt="Logo" />
 		<h1 class="font-header text-xxl text-light">{$page.data.title || "Page Title"}</h1>
-		<p class="font-bold text-gray-300">Schön Dich wieder zu sehen.</p>
+		<p class="text-xl font-bold text-gray-300">{$page.data.subtitle || "Page Subtitle"}</p>
 	</div>
 	<slot />
 </div>
