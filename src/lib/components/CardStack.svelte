@@ -33,17 +33,18 @@
 	});
 
 	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
+
 		xCoord = event.detail.x;
 		yCoord = event.detail.y;
-
-		xDist = xCoord - xStart;
-		yDist = yCoord - yStart;
 
 		if (!isTouching) {
 			xStart = xCoord;
 			yStart = yCoord;
 			isTouching = true;
 		}
+
+		xDist = xCoord - xStart;
+		yDist = yCoord - yStart;
 
 		let rotation = xDist / 30;
 		transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
@@ -59,7 +60,12 @@
 	function handlePanEnd() {
 		isTouching = false;
 		transformValue = getTransformValue(swipeDirection);
+		xDist = 0;
+		yDist = 0;
+
+		setTimeout(() => {
 		if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewCards();
+		}, 300);
 	}
 
 	function getTransformValue(direction: Direction) {
@@ -76,15 +82,13 @@
 	}
 
 	function provideNewCards() {
-		setTimeout(() => {
+		transformValue = "translate(0px, 0px)";
 			currentRecipe++;
 			recipeIds.pop();
 
 			recipeIds = [currentRecipe + recipeIds.length, ...recipeIds];
 
-			transformValue = "translate(0px, 0px)";
 			swipeDirection = Direction.None;
-		}, 300);
 	}
 </script>
 
@@ -96,9 +100,9 @@
 			<Card
 				recipe={recipes[id % recipes.length]}
 				swipeDirection={i === recipeIds.length - 1 ? swipeDirection : Direction.None}
-				transformValue={i === recipeIds.length - 1 ? transformValue : ""}
+				transformValue={i === recipeIds.length - 1 ? transformValue : "translate(0px, 0px)"}
 				isTouching={i === recipeIds.length - 1 ? isTouching : false}
-				class={"absolute h-full w-full"}
+				class={"absolute h-full w-full "}
 			/>
 		{/each}
 
