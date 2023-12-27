@@ -2,8 +2,7 @@
 	import Tag from "$lib/components/Tag.svelte";
 
 	export let tags: string[];
-
-	let selected: string[] = [];
+	export let selected: string[] = [];
 
 	function toggleSelect(tag: string) {
 		const index = selected.indexOf(tag);
