@@ -2,20 +2,17 @@
 	import { twMerge } from "tailwind-merge";
 
 	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
-
-	type Entry = {
-		id: string | number;
-		name: string;
-	};
+	import type { Entry } from "$types/dropdown.types";
 
 	export let entries: Entry[];
-	let selectedEntry: Entry = entries[0];
+	export let selected: Entry = entries[0];
+
 	let menuOpen = false;
 </script>
 
 <div class="relative space-y-xs rounded-sm bg-gray-500">
 	<button on:click={() => (menuOpen = !menuOpen)} class="flex w-full justify-between">
-		<button class="rounded-md px-sm text-xl font-semibold">{selectedEntry.name}</button>
+		<button class="rounded-md px-sm text-xl font-semibold">{selected.name}</button>
 		<img alt="Dropdown" class="h-10 w-10" src={DropDownIcon} />
 	</button>
 
@@ -26,13 +23,15 @@
 		)}
 	>
 		{#each entries as entry}
-			<li class={twMerge("cursor-pointer text-xl font-semibold", entry.id == selectedEntry.id && "text-yellow")}>
+			<li class={twMerge("cursor-pointer text-xl font-semibold", entry.id == selected.id && "text-yellow")}>
 				<button
 					on:click={() => {
-						selectedEntry = entry;
+						selected = entry;
 						menuOpen = false;
-					}}>{entry.name}</button
+					}}
 				>
+					{entry.name}
+				</button>
 			</li>
 		{/each}
 	</ul>

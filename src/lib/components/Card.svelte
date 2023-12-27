@@ -3,7 +3,6 @@
 
 	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
-	import TestImg from "$lib/assets/img/test-img.jpg";
 	import Tag from "$lib/components/Tag.svelte";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
