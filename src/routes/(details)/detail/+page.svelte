@@ -47,16 +47,16 @@
 			</div>
 			<div class="pointer-events-none mt-3 flex gap-md">
 				<div class="flex select-none gap-xs">
-					<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
+					<img alt="Clock" class="size-5" src={ClockIcon} />
 					<p>{recipeDetails.preperation_time} Min.</p>
 				</div>
 				<div class="flex select-none gap-xs">
-					<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
+					<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
 					<p>{["Einfach", "Mittel", "Schwer"][recipeDetails.difficulty]}</p>
 				</div>
 				<div class="flex select-none gap-xs">
 					{#each { length: recipeDetails.cost } as _}
-						<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+						<img alt="Euro" class="size-5" src={EuroIcon} />
 					{/each}
 				</div>
 			</div>
@@ -83,9 +83,9 @@
 					<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
 						<div>
 							{#if completedSteps[index]}
-								<div class="h-6 w-6 rounded-[999px] border-2 border-yellow bg-yellow"></div>
+								<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
 							{:else}
-								<div class="h-6 w-6 rounded-[999px] border-2 border-gray-300 bg-gray-900"></div>
+								<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
 							{/if}
 						</div>
 						<div>

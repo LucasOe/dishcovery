@@ -35,7 +35,7 @@
 			<Tag text="Schnell" />
 		</div>
 		<div class="mt-lg flex font-bold text-gray-300">
-			<img class="mr-5 h-5 w-5" alt="User" src={edit} />
+			<img class="size-5 mr-5" alt="User" src={edit} />
 			<p>Profil bearbeiten</p>
 		</div>
 

@@ -6,7 +6,7 @@
 <div>
 	<div class="mb-sm flex items-center gap-4">
 		{#if icon}
-			<img alt={icon} src={icon} class="h-6 w-6" />
+			<img alt={icon} src={icon} class="size-6" />
 		{/if}
 		<p class="text-xl font-semibold">{title}</p>
 	</div>
