@@ -41,7 +41,7 @@
 		swipeClass,
 		$$props.class
 	)}
-	style={`background-image: url(${recipe.image}); transform: ${transformValue}`}
+	style={`background-image: url(${recipe.images[0].image}); transform: ${transformValue}`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
