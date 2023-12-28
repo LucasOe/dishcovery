@@ -5,7 +5,8 @@ export type Enums<T extends keyof Database["public"]["Enums"]> = Database["publi
 
 export type Recipe = Tables<"recipes"> & {
 	categories: Tables<"categories">[];
-	types: Tables<"types">[];
+	images: Tables<"images">[];
 	ingredients: Tables<"ingredients">[];
 	steps: Tables<"steps">[];
+	types: Tables<"types">[];
 };

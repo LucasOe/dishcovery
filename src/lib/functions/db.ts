@@ -1,19 +1,20 @@
 import type { Recipe, Tables } from "$types/database.types";
 import { supabase } from "./createClient";
 
-export const fetchAllRecipes = async (): Promise<Recipe[]> => {
-	const { data, error } = await supabase.from("recipes").select(`*, categories(*), types(*), ingredients(*), steps(*)`);
+export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
+	const { data, error } = await supabase
+		.from("recipes")
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
+		.in("id", [ids]);
 	if (data) return data;
 	else throw error;
 };
 
-export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
-	const { data, error } = await supabase.from("recipes").select(`*, categories(*), types(*)`).in("id", [ids]);
-	if (data) return data;
-	else throw error;
-};
 export const fetchRecipe = async (id: number): Promise<Recipe[]> => {
-	const { data, error } = await supabase.from("recipes").select(`*, categories(*), types(*)`).in("id", [id]);
+	const { data, error } = await supabase
+		.from("recipes")
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
+		.in("id", [id]);
 	if (data) return data;
 	else throw error;
 };
