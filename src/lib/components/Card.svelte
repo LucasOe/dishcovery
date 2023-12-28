@@ -10,15 +10,18 @@
 	import { selectedRecipe } from "$lib/functions/stores";
 
 	export let recipe: Recipe;
+
+	export let isLast = false;
+	export let isFirst = false;
 	export let transformValue = "";
 	export let isTouching = false;
 	export let swipeDirection: Direction = Direction.None;
 
-	$: animClass = isTouching ? "transition-transform-instant" : "transition-transform-slow";
+	$: animClass = isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow";
 	$: swipeClass = (() => {
-		switch (swipeDirection) {
+		switch (isLast ? swipeDirection : Direction.None ) {
 			case Direction.None:
-				return "border-gray-900 shadow-shadowGray";
+				return "border-gray-900";
 			case Direction.Left:
 				return "border-red shadow-shadowRed";
 			case Direction.Right:
@@ -27,6 +30,7 @@
 				return "border-light shadow-shadowLight";
 		}
 	})();
+	$: shadowClass = isFirst ? "shadow-shadowGray" : "";
 
 	function selectRecipe(): void {
 		selectedRecipe.set(recipe);
@@ -37,11 +41,12 @@
 <div
 	class={twMerge(
 		"z-9 relative flex overflow-hidden rounded-xl border-2 bg-cover bg-center",
+		shadowClass,
 		animClass,
 		swipeClass,
 		$$props.class
 	)}
-	style={`background-image: url(${recipe.images[0].image}); transform: ${transformValue}`}
+	style={`background-image: url(${recipe.images[0].image}); transform: ${isLast ? transformValue : "translate(0px, 0px)"}`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
