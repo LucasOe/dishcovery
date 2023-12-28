@@ -19,7 +19,7 @@
 
 	$: animClass = isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow";
 	$: swipeClass = (() => {
-		switch (isLast ? swipeDirection : Direction.None ) {
+		switch (isLast ? swipeDirection : Direction.None) {
 			case Direction.None:
 				return "border-gray-900";
 			case Direction.Left:
@@ -46,7 +46,9 @@
 		swipeClass,
 		$$props.class
 	)}
-	style={`background-image: url(${recipe.images[0].image}); transform: ${isLast ? transformValue : "translate(0px, 0px)"}`}
+	style={`background-image: url(${recipe.images[0].image}); transform: ${
+		isLast ? transformValue : "translate(0px, 0px)"
+	}`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
