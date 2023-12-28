@@ -7,6 +7,7 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
+	import { selectedRecipe } from "$lib/functions/stores";
 
 	export let recipe: Recipe;
 	export let transformValue = "";
@@ -26,11 +27,16 @@
 				return "border-light shadow-shadowLight";
 		}
 	})();
+
+	function selectRecipe(): void {
+		selectedRecipe.set(recipe);
+	}
 </script>
 
+<a on:click={selectRecipe} href="/detail" class="absolute top-[-1rem] z-10">Open Details</a>
 <div
 	class={twMerge(
-		"relative z-10 flex overflow-hidden rounded-xl border-2 bg-cover bg-center",
+		"z-9 relative flex overflow-hidden rounded-xl border-2 bg-cover bg-center",
 		animClass,
 		swipeClass,
 		$$props.class

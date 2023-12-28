@@ -32,7 +32,7 @@
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
 		recipes.reverse();
-	}
+	};
 
 	onMount(() => {
 		threshold = Math.min(window.innerWidth * 0.1, 150);
@@ -66,7 +66,7 @@
 			if (yDist < -threshold) return Direction.Up;
 			return Direction.None;
 		})();
-	}
+	};
 
 	const handlePanEnd = () => {
 		isTouching = false;
@@ -78,7 +78,7 @@
 		setTimeout(() => {
 			if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewRecipe();
 		}, 300);
-	}
+	};
 
 	//transform value for card
 	const getTransformValue = (direction: Direction) => {
@@ -92,10 +92,9 @@
 			default:
 				return "translate(0px, 0px)";
 		}
-	}
+	};
 
 	const provideNewRecipe = async () => {
-
 		isLoading = true;
 
 		// remove last element
@@ -114,7 +113,7 @@
 				handleError(true, err);
 			});
 		currentRecipe++;
-	}
+	};
 
 	const handleError = (isError: boolean, errorMessage: string) => {
 		if (isError) {
