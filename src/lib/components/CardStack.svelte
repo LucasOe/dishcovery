@@ -5,6 +5,7 @@
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import { fetchRecipe, fetchRecipes } from "$lib/functions/db";
+	import type { Recipe } from "$types/database.types";
 
 	let xStart = 0;
 	let yStart = 0;
@@ -26,7 +27,7 @@
 	let transformValue = "translate(0px, 0px)";
 
 	let initialRecipes = [3, 2, 1];
-	let recipes = [];
+	let recipes: Recipe[] = [];
 	let currentRecipe = 1;
 
 	const initRecipes = async () => {
