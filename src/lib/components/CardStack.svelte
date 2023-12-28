@@ -27,7 +27,7 @@
 	let transformValue = "translate(0px, 0px)";
 
 	let initialRecipes = [3, 2, 1];
-	let recipes: Recipe[] = [];
+	let recipes = [];
 	let currentRecipe = 1;
 
 	const initRecipes = async () => {
@@ -76,9 +76,7 @@
 		yDist = 0;
 
 		//wait for animation to finish
-		setTimeout(() => {
-			if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewRecipe();
-		}, 300);
+		if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewRecipe();
 	};
 
 	//transform value for card
@@ -96,35 +94,37 @@
 	};
 
 	const provideNewRecipe = async () => {
-		isLoading = true;
-
-		// remove last element
-		recipes = recipes.slice(0, -1);
-		transformValue = "translate(0px, 0px)";
-		swipeDirection = Direction.None;
-
 		// add new recipe
-		await fetchRecipe(currentRecipe + recipes.length + 1)
+		isLoading = true;
+		const newRecipe = await fetchRecipe(currentRecipe + recipes.length + 1)
 			.then((recipe) => {
 				isLoading = false;
-				recipes = [recipe[0], ...recipes];
-				handleError(false, "");
+				return recipe;
 			})
 			.catch((err) => {
 				handleError(true, err);
 			});
-		currentRecipe++;
+
+		swipeDirection = Direction.None;
+
+		// wait for animation to finish
+		setTimeout(() => {
+			recipes = [newRecipe[0], ...recipes.slice(0, -1)];
+			transformValue = "translate(0px, 0px)";
+			currentRecipe++;
+		}, 300);
 	};
 
-	const handleError = (isError: boolean, errorMessage: string) => {
-		if (isError) {
+	const handleError = (error: boolean, message: string) => {
+		if (error) {
 			isError = true;
-			errorMessage = errorMessage;
+			errorMessage = message;
 		} else {
 			isError = false;
 			errorMessage = "";
 		}
 	};
+
 </script>
 
 <div class="relative flex h-full w-full">
@@ -136,18 +136,19 @@
 			{errorMessage}
 		</div>
 	{/if}
-
-	{#each recipes as recipe, i}
-		<Card
-			{recipe}
-			isLast = {i === recipes.length - 1}
-			isFirst = {i === 0}
-			swipeDirection={swipeDirection}
-			transformValue={transformValue}
-			isTouching={isTouching}
-			class={"absolute h-full w-full "}
-		/>
-	{/each}
+	{#key recipes}
+		{#each recipes as recipe, i}
+			<Card
+				{recipe}
+				isLast={i === recipes.length - 1}
+				isFirst={i === 0}
+				{swipeDirection}
+				{transformValue}
+				{isTouching}
+				class={"absolute h-full w-full "}
+			/>
+		{/each}
+	{/key}
 	<button
 		class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
 		use:pan={{ delay: 0 }}
