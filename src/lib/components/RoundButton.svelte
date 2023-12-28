@@ -13,11 +13,11 @@
 	class={twMerge(
 		"rounded-full bg-gray-500 drop-shadow-xl duration-150 hover:bg-[#383838]",
 		{
-			sm: "h-10 w-10 p-3",
-			md: "h-14 w-14 p-4",
+			sm: "size-10 p-3",
+			md: "size-14 p-4",
 		}[size],
 		$$props.class
 	)}
 >
-	<img {src} {alt} class="h-full w-full" />
+	<img {src} {alt} class="size-full" />
 </a>

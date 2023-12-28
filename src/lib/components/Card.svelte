@@ -62,21 +62,21 @@
 
 		<div class="pointer-events-none flex gap-md">
 			<div class="flex select-none gap-xs">
-				<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
+				<img alt="Clock" class="size-5" src={ClockIcon} />
 				<p>{recipe.preperation_time} Min.</p>
 			</div>
 			<div class="flex select-none gap-xs">
-				<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
+				<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
 				<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
 			</div>
 			<div class="flex select-none gap-xs">
 				{#each { length: recipe.cost } as _}
-					<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+					<img alt="Euro" class="size-5" src={EuroIcon} />
 				{/each}
 			</div>
 		</div>
 	</div>
-	<div class="absolute h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-900"></div>
+	<div class="size-full absolute bg-gradient-to-b from-transparent from-50% to-gray-900"></div>
 </div>
 
 <style>

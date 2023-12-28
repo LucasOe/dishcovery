@@ -21,16 +21,16 @@
 					<div class="text-lg font-semibold text-yellow">Rezeptname</div>
 					<div class="flex flex-row gap-sm">
 						<div class="flex flex-row gap-xs">
-							<img alt="Clock" class="h-5 w-5" src={ClockIcon} />
+							<img alt="Clock" class="size-5" src={ClockIcon} />
 							<p>{recipeTime} Min.</p>
 						</div>
 						<div class="flex flex-row gap-xs">
-							<img alt="Difficulty" class="h-5 w-5" src={DifficultyIcon} />
+							<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
 							<p>{difficulty}</p>
 						</div>
 						<div class="flex flex-row gap-xs">
-							<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
-							<img alt="Euro" class="h-5 w-5" src={EuroIcon} />
+							<img alt="Euro" class="size-5" src={EuroIcon} />
+							<img alt="Euro" class="size-5" src={EuroIcon} />
 						</div>
 					</div>
 				</div>

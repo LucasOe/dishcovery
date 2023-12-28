@@ -127,12 +127,12 @@
 	};
 </script>
 
-<div class="relative flex h-full w-full">
+<div class="size-full relative flex">
 	{#if isLoading}
-		<div class="absolute flex h-40 w-40 items-center justify-center rounded-full bg-yellow">LOADING...</div>
+		<div class="size-40 absolute flex items-center justify-center rounded-full bg-yellow">LOADING...</div>
 	{/if}
 	{#if isError}
-		<div class="absolute flex h-40 w-40 items-center justify-center rounded-full bg-red">
+		<div class="size-40 absolute flex items-center justify-center rounded-full bg-red">
 			{errorMessage}
 		</div>
 	{/if}
@@ -140,16 +140,16 @@
 	{#each recipes as recipe, i}
 		<Card
 			{recipe}
-			isLast = {i === recipes.length - 1}
-			isFirst = {i === 0}
-			swipeDirection={swipeDirection}
-			transformValue={transformValue}
-			isTouching={isTouching}
-			class={"absolute h-full w-full "}
+			isLast={i === recipes.length - 1}
+			isFirst={i === 0}
+			{swipeDirection}
+			{transformValue}
+			{isTouching}
+			class={"size-full absolute "}
 		/>
 	{/each}
 	<button
-		class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
+		class="size-full active:h-dvh after:w-dvh z-[99] active:fixed active:left-0 active:top-0"
 		use:pan={{ delay: 0 }}
 		on:pan={handlePan}
 		on:mouseup={handlePanEnd}
