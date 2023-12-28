@@ -13,7 +13,7 @@
 <div class="relative space-y-xs rounded-sm bg-gray-500">
 	<button on:click={() => (menuOpen = !menuOpen)} class="flex w-full justify-between">
 		<button class="rounded-md px-sm text-xl font-semibold">{selected.name}</button>
-		<img alt="Dropdown" class="h-10 w-10" src={DropDownIcon} />
+		<img alt="Dropdown" class="size-10" src={DropDownIcon} />
 	</button>
 
 	<ul

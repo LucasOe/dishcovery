@@ -50,7 +50,7 @@
 
 		<Section title="Bilder">
 			<div class="flex items-center gap-2">
-				<img class="h-10 w-10" src={UploadIcon} alt="Bild hinzufügen" />
+				<img class="size-10" src={UploadIcon} alt="Bild hinzufügen" />
 				<p class="text-lg text-gray-300">Bild hinzufügen</p>
 			</div>
 		</Section>
@@ -102,7 +102,7 @@
 
 		<Section title="Zutaten">
 			<div class="flex items-center gap-2">
-				<img class="h-10 w-10" src={UploadIcon} alt="Zutat hinzufügen" />
+				<img class="size-10" src={UploadIcon} alt="Zutat hinzufügen" />
 				<p class="text-lg text-gray-300">Zutat hinzufügen</p>
 			</div>
 		</Section>
@@ -114,7 +114,7 @@
 					class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 					placeholder="Hier eingeben..."
 				></textarea>
-				<img alt="Close" class="h-10 w-10" src={UploadIcon} />
+				<img alt="Close" class="size-10" src={UploadIcon} />
 			</div>
 		</Section>
 

@@ -17,7 +17,7 @@
 	<div class="flex gap-xl">
 		{#each tabs as tab}
 			<a href={tab.link}>
-				<img class="h-6 w-6" alt={tab.name} src={tab.icon} />
+				<img class="size-6" alt={tab.name} src={tab.icon} />
 			</a>
 		{/each}
 	</div>
@@ -25,7 +25,7 @@
 	<!-- Profile -->
 	<div>
 		<a href={profileTab.link}>
-			<div class="h-10 w-10 rounded-full bg-yellow" />
+			<div class="size-10 rounded-full bg-yellow" />
 		</a>
 	</div>
 </div>
