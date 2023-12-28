@@ -2,6 +2,6 @@ import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async () => {
 	return {
-		title: "Willkommen zurück!",
+		title: "Details",
 	};
 };
