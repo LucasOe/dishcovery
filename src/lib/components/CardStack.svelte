@@ -139,9 +139,11 @@
 	{#each recipes as recipe, i}
 		<Card
 			{recipe}
-			swipeDirection={i === recipes.length - 1 ? swipeDirection : Direction.None}
-			transformValue={i === recipes.length - 1 ? transformValue : "translate(0px, 0px)"}
-			isTouching={i === recipes.length - 1 ? isTouching : false}
+			isLast = {i === recipes.length - 1}
+			isFirst = {i === 0}
+			swipeDirection={swipeDirection}
+			transformValue={transformValue}
+			isTouching={isTouching}
 			class={"absolute h-full w-full "}
 		/>
 	{/each}
