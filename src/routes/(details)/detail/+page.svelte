@@ -1,7 +1,6 @@
 <script lang="ts">
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Tag from "$lib/components/Tag.svelte";
-	import { fetchRecipes } from "$lib/functions/db";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
@@ -35,7 +34,7 @@
 
 <FadeIn>
 	{#if recipeDetails}
-		<img src={recipeDetails.image} class="aspect-square h-64 w-full object-cover" alt="" />
+		<img src={recipeDetails.images[0].image} class="aspect-square h-64 w-full object-cover" alt="" />
 		<div class="mt-5">
 			<h1 class="mt-5 font-header text-xxl text-light">{recipeDetails.name}</h1>
 			<div class="mt-2 flex gap-sm">
@@ -81,7 +80,7 @@
 			</div>
 			<div class="mt-5 flex flex-col gap-3">
 				{#each recipeDetails.steps as step, index}
-					<div class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
+					<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
 						<div>
 							{#if completedSteps[index]}
 								<div class="h-6 w-6 rounded-[999px] border-2 border-yellow bg-yellow"></div>
@@ -95,7 +94,7 @@
 							</h2>
 							<p class={completedSteps[index] ? "completed" : ""}>{step.description}</p>
 						</div>
-					</div>
+					</button>
 				{/each}
 			</div>
 		</div>
@@ -132,10 +131,5 @@
 	.step .completed {
 		opacity: 0.5;
 		text-decoration: line-through;
-	}
-
-	.step .checkmark {
-		color: green;
-		margin-left: 10px;
 	}
 </style>
