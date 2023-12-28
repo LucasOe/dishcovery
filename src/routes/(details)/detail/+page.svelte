@@ -20,6 +20,17 @@
 	function toggleAccordion() {
 		isOpen = !isOpen;
 	}
+
+	//Steps
+	let completedSteps: boolean[] = [];
+
+	$: if (recipeDetails && recipeDetails.steps) {
+		completedSteps = recipeDetails.steps.map(() => false);
+	}
+
+	function toggleStep(index: number) {
+		completedSteps[index] = !completedSteps[index];
+	}
 </script>
 
 <FadeIn>
@@ -69,14 +80,27 @@
 				</div>
 			</div>
 			<div class="mt-5 flex flex-col gap-3">
-				{#each recipeDetails.steps as step}
-					<div>
-						<h2 class="font-semibold">Schritt {step.number}:</h2>
-						<p>{step.description}</p>
+				{#each recipeDetails.steps as step, index}
+					<div class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
+						<div>
+							{#if completedSteps[index]}
+								<div class="h-6 w-6 rounded-[999px] border-2 border-yellow bg-yellow"></div>
+							{:else}
+								<div class="h-6 w-6 rounded-[999px] border-2 border-gray-300 bg-gray-900"></div>
+							{/if}
+						</div>
+						<div>
+							<h2 class={completedSteps[index] ? "completed font-semibold" : "font-semibold text-yellow"}>
+								Schritt {step.number}:
+							</h2>
+							<p class={completedSteps[index] ? "completed" : ""}>{step.description}</p>
+						</div>
 					</div>
 				{/each}
 			</div>
 		</div>
+	{:else}
+		<p>Es tut uns Leid, es ist etwas schief gelaufen.</p>
 	{/if}
 </FadeIn>
 
@@ -97,5 +121,21 @@
 	}
 	.chevron.open {
 		transform: rotate(180deg);
+	}
+
+	.step {
+		cursor: pointer;
+		opacity: 1;
+		transition: opacity 0.3s ease;
+	}
+
+	.step .completed {
+		opacity: 0.5;
+		text-decoration: line-through;
+	}
+
+	.step .checkmark {
+		color: green;
+		margin-left: 10px;
 	}
 </style>
