@@ -4,7 +4,7 @@
 
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
-	import { fetchRecipes } from "$lib/functions/db";
+	import { fetchRecipe, fetchRecipes } from "$lib/functions/db";
 
 	let xStart = 0;
 	let yStart = 0;
@@ -18,22 +18,33 @@
 	let threshold = 150;
 	let isTouching = false;
 
+	let isLoading = false;
+	let isError = false;
+	let errorMessage = "";
+
 	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
 
-	let recipeIds = [0, 1, 2];
-	let currentRecipe = 0;
+	let initialRecipes = [3, 2, 1];
+	let recipes = [];
+	let currentRecipe = 1;
+
+	const initRecipes = async () => {
+		recipes = await fetchRecipes(initialRecipes);
+		recipes.reverse();
+	}
 
 	onMount(() => {
 		threshold = Math.min(window.innerWidth * 0.1, 150);
+
+		initRecipes();
 
 		window.addEventListener("resize", function () {
 			threshold = Math.min(window.innerWidth * 0.1, 150);
 		});
 	});
 
-	function handlePan(event: CustomEvent<{ x: number; y: number; target: EventTarget }>) {
-
+	const handlePan = (event: CustomEvent<{ x: number; y: number; target: EventTarget }>) => {
 		xCoord = event.detail.x;
 		yCoord = event.detail.y;
 
@@ -57,18 +68,20 @@
 		})();
 	}
 
-	function handlePanEnd() {
+	const handlePanEnd = () => {
 		isTouching = false;
 		transformValue = getTransformValue(swipeDirection);
 		xDist = 0;
 		yDist = 0;
 
+		//wait for animation to finish
 		setTimeout(() => {
-		if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewCards();
+			if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewRecipe();
 		}, 300);
 	}
 
-	function getTransformValue(direction: Direction) {
+	//transform value for card
+	const getTransformValue = (direction: Direction) => {
 		switch (direction) {
 			case Direction.Left:
 				return "translate(-200vw, 0px) rotate(-50deg)";
@@ -81,41 +94,65 @@
 		}
 	}
 
-	function provideNewCards() {
+	const provideNewRecipe = async () => {
+
+		isLoading = true;
+
+		// remove last element
+		recipes = recipes.slice(0, -1);
 		transformValue = "translate(0px, 0px)";
-			currentRecipe++;
-			recipeIds.pop();
+		swipeDirection = Direction.None;
 
-			recipeIds = [currentRecipe + recipeIds.length, ...recipeIds];
-
-			swipeDirection = Direction.None;
+		// add new recipe
+		await fetchRecipe(currentRecipe + recipes.length + 1)
+			.then((recipe) => {
+				isLoading = false;
+				recipes = [recipe[0], ...recipes];
+				handleError(false, "");
+			})
+			.catch((err) => {
+				handleError(true, err);
+			});
+		currentRecipe++;
 	}
+
+	const handleError = (isError: boolean, errorMessage: string) => {
+		if (isError) {
+			isError = true;
+			errorMessage = errorMessage;
+		} else {
+			isError = false;
+			errorMessage = "";
+		}
+	};
 </script>
 
 <div class="relative flex h-full w-full">
-	{#await fetchRecipes()}
-		<p class="relative flex w-full items-center justify-center">Loading...</p>
-	{:then recipes}
-		{#each recipeIds as id, i (id)}
-			<Card
-				recipe={recipes[id % recipes.length]}
-				swipeDirection={i === recipeIds.length - 1 ? swipeDirection : Direction.None}
-				transformValue={i === recipeIds.length - 1 ? transformValue : "translate(0px, 0px)"}
-				isTouching={i === recipeIds.length - 1 ? isTouching : false}
-				class={"absolute h-full w-full "}
-			/>
-		{/each}
+	{#if isLoading}
+		<div class="absolute flex h-40 w-40 items-center justify-center rounded-full bg-yellow">LOADING...</div>
+	{/if}
+	{#if isError}
+		<div class="absolute flex h-40 w-40 items-center justify-center rounded-full bg-red">
+			{errorMessage}
+		</div>
+	{/if}
 
-		<button
-			class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
-			use:pan={{ delay: 0 }}
-			on:pan={handlePan}
-			on:mouseup={handlePanEnd}
-			on:touchend={handlePanEnd}
-			on:touchcancel={handlePanEnd}
-		>
-		</button>
-	{:catch error}
-		<p>Something went wrong: {error}</p>
-	{/await}
+	{#each recipes as recipe, i}
+		<Card
+			{recipe}
+			swipeDirection={i === recipes.length - 1 ? swipeDirection : Direction.None}
+			transformValue={i === recipes.length - 1 ? transformValue : "translate(0px, 0px)"}
+			isTouching={i === recipes.length - 1 ? isTouching : false}
+			class={"absolute h-full w-full "}
+		/>
+	{/each}
+	<button
+		class="z-[99] h-full w-full after:w-[100dvh] active:fixed active:left-0 active:top-0 active:h-[100dvh]"
+		use:pan={{ delay: 0 }}
+		on:pan={handlePan}
+		on:mouseup={handlePanEnd}
+		on:touchend={handlePanEnd}
+		on:touchcancel={handlePanEnd}
+	>
+	</button>
 </div>
