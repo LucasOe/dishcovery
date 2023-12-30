@@ -89,10 +89,10 @@
 							{/if}
 						</div>
 						<div>
-							<h2 class={completedSteps[index] ? "completed font-semibold" : "font-semibold text-yellow"}>
+							<h2 class={completedSteps[index] ? "completed font-semibold text-left" : "font-semibold text-yellow text-left"}>
 								Schritt {step.number}:
 							</h2>
-							<p class={completedSteps[index] ? "completed" : ""}>{step.description}</p>
+							<p class={completedSteps[index] ? "completed text-left" : " text-left"}>{step.description}</p>
 						</div>
 					</button>
 				{/each}

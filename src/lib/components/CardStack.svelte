@@ -7,6 +7,8 @@
 	import { fetchRecipe, fetchRecipes } from "$lib/functions/db";
 	import type { Recipe } from "$types/database.types";
 
+	import { goto } from '$app/navigation';
+
 	let xStart = 0;
 	let yStart = 0;
 
@@ -69,6 +71,14 @@
 		})();
 	};
 
+	
+
+    function handleSwipeCompletion() {
+        if (swipeDirection === Direction.Up) { 
+            goto('/detail'); 
+        }
+    }
+
 	const handlePanEnd = () => {
 		isTouching = false;
 		transformValue = getTransformValue(swipeDirection);
@@ -77,6 +87,8 @@
 
 		//wait for animation to finish
 		if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewRecipe();
+
+		handleSwipeCompletion();
 	};
 
 	//transform value for card
