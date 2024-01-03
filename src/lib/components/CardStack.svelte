@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { pan } from "svelte-gestures";
-	import { onMount } from "svelte";
+	import {pan} from "svelte-gestures";
+	import {onMount} from "svelte";
 
-	import { Direction } from "$types/card.types";
+	import {Direction} from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
-	import { fetchRecipe, fetchRecipes } from "$lib/functions/db";
-	import type { Recipe } from "$types/database.types";
+	import {fetchRecipe, fetchRecipes} from "$lib/functions/db";
+	import type {Recipe} from "$types/database.types";
 
-	import { goto } from '$app/navigation';
+	import {goto} from '$app/navigation';
 
 	let xStart = 0;
 	let yStart = 0;
@@ -21,6 +21,7 @@
 	let threshold = 150;
 	let isTouching = false;
 
+	let isAnimationOver = true;
 	let isLoading = false;
 	let isError = false;
 	let errorMessage = "";
@@ -48,52 +49,44 @@
 	});
 
 	const handlePan = (event: CustomEvent<{ x: number; y: number; target: EventTarget }>) => {
-		xCoord = event.detail.x;
-		yCoord = event.detail.y;
+		if(isAnimationOver) {
+			xCoord = event.detail.x;
+			yCoord = event.detail.y;
 
-		if (!isTouching) {
-			xStart = xCoord;
-			yStart = yCoord;
-			isTouching = true;
+			if (!isTouching) {
+				xStart = xCoord;
+				yStart = yCoord;
+				isTouching = true;
+			}
+
+			xDist = xCoord - xStart;
+			yDist = yCoord - yStart;
+
+			let rotation = xDist / 30;
+			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
+
+			swipeDirection = (() => {
+				if (xDist > +threshold) return Direction.Right;
+				if (xDist < -threshold) return Direction.Left;
+				if (yDist < -threshold) return Direction.Up;
+				return Direction.None;
+			})();
 		}
-
-		xDist = xCoord - xStart;
-		yDist = yCoord - yStart;
-
-		let rotation = xDist / 30;
-		transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
-
-		swipeDirection = (() => {
-			if (xDist > +threshold) return Direction.Right;
-			if (xDist < -threshold) return Direction.Left;
-			if (yDist < -threshold) return Direction.Up;
-			return Direction.None;
-		})();
 	};
-
-	
-
-    function handleSwipeCompletion() {
-        if (swipeDirection === Direction.Up) { 
-            goto('/detail'); 
-        }
-    }
 
 	const handlePanEnd = () => {
 		isTouching = false;
-		transformValue = getTransformValue(swipeDirection);
+		transformValue = getTransformValue();
 		xDist = 0;
 		yDist = 0;
 
 		//wait for animation to finish
-		if (swipeDirection == Direction.Left || swipeDirection == Direction.Right) provideNewRecipe();
-
-		handleSwipeCompletion();
+		handleCardAction();
 	};
 
 	//transform value for card
-	const getTransformValue = (direction: Direction) => {
-		switch (direction) {
+	const getTransformValue = () => {
+		switch (swipeDirection) {
 			case Direction.Left:
 				return "translate(-200vw, 0px) rotate(-50deg)";
 			case Direction.Right:
@@ -105,31 +98,65 @@
 		}
 	};
 
-	const provideNewRecipe = async () => {
-		// add new recipe
-		isLoading = true;
-		const newRecipe = await fetchRecipe(currentRecipe + recipes.length + 1)
-			.then((recipe) => {
-				isLoading = false;
-				return recipe;
-			})
-			.catch((err) => {
-				handleError(true, err);
-			});
+	const handleCardAction = async () => {
+		switch(swipeDirection) {
+			case Direction.Left:
+			case Direction.Right:
+				await handleCardChoice();
+				break;
+			case Direction.Up:
+				showDetailPage();
+				break;
+			default:
+				break;
+		}
+	};
 
-		swipeDirection = Direction.None;
+	const showDetailPage = () => {
+		goto('/detail');
+	}
+
+	const handleCardChoice = async () => {
+
+		isAnimationOver = false;
 
 		// wait for animation to finish
 		setTimeout(() => {
-			recipes = [newRecipe[0], ...recipes.slice(0, -1)];
+			recipes = [...recipes.slice(0, -1)];
+			swipeDirection = Direction.None;
 			transformValue = "translate(0px, 0px)";
 			currentRecipe++;
+			isAnimationOver = true;
 		}, 300);
-	};
+
+		isLoading = true;
+
+		// add new recipe
+		await fetchRecipe(currentRecipe + recipes.length + 1)
+				.then((recipe) => {
+					isLoading = false;
+					addRecipeToStack(isAnimationOver, recipe);
+				})
+				.catch((err) => {
+					handleError(true, err);
+				});
+	}
+
+	const addRecipeToStack = (isAnimationOver: boolean, recipe: Recipe[]) => {
+		if (isAnimationOver) {
+			recipes = [recipe[0], ...recipes]
+		}
+		else {
+			setTimeout(() => {
+				recipes = [recipe[0], ...recipes]
+			}, 300);
+		}
+	}
 
 	const handleError = (error: boolean, message: string) => {
 		if (error) {
 			isError = true;
+			console.log(isError)
 			errorMessage = message;
 		} else {
 			isError = false;
@@ -139,35 +166,35 @@
 
 </script>
 
-<div class="size-full relative flex">
+<div class="size-full relative flex justify-center items-center">
 	{#if isLoading}
 		<div class="size-40 absolute flex items-center justify-center rounded-full bg-yellow">LOADING...</div>
 	{/if}
 	{#if isError}
-		<div class="size-40 absolute flex items-center justify-center rounded-full bg-red">
+		<div class="size-40 absolute flex items-center justify-center rounded-full bg-red  z-20">
 			{errorMessage}
 		</div>
 	{/if}
 	{#key recipes}
 		{#each recipes as recipe, i}
 			<Card
-				{recipe}
-				isLast={i === recipes.length - 1}
-				isFirst={i === 0}
-				{swipeDirection}
-				{transformValue}
-				{isTouching}
-				class={"size-full absolute "}
+					{recipe}
+					isLast={i === recipes.length - 1}
+					isFirst={i === 0}
+					{swipeDirection}
+					{transformValue}
+					{isTouching}
+					class={"size-full absolute "}
 			/>
 		{/each}
 	{/key}
 	<button
-		class="size-full active:h-dvh after:w-dvh z-[99] active:fixed active:left-0 active:top-0"
-		use:pan={{ delay: 0 }}
-		on:pan={handlePan}
-		on:mouseup={handlePanEnd}
-		on:touchend={handlePanEnd}
-		on:touchcancel={handlePanEnd}
+			class="size-full active:h-dvh after:w-dvh z-[99] active:fixed active:left-0 active:top-0"
+			use:pan={{ delay: 0 }}
+			on:pan={handlePan}
+			on:mouseup={handlePanEnd}
+			on:touchend={handlePanEnd}
+			on:touchcancel={handlePanEnd}
 	>
 	</button>
 </div>
