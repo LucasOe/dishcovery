@@ -13,7 +13,6 @@
 
 	swipeDirection.subscribe(value => {
 		swipeValue = value;
-		console.log(swipeValue);
 	});
 
 	let xStart = 0;
@@ -124,7 +123,7 @@
 	};
 
 	const showDetailPage = () => {
-		goto("/detail");
+		goto("recipe/" + currentRecipe);
 	};
 
 	const handleCardChoice = async () => {
@@ -153,12 +152,12 @@
 			});
 	};
 
-	const addRecipeToStack = (isAnimationOver: boolean, recipe: Recipe[]) => {
+	const addRecipeToStack = (isAnimationOver: boolean, recipe: Recipe) => {
 		if (isAnimationOver) {
-			recipes = [recipe[0], ...recipes];
+			recipes = [recipe, ...recipes];
 		} else {
 			setTimeout(() => {
-				recipes = [recipe[0], ...recipes];
+				recipes = [recipe, ...recipes];
 			}, 300);
 		}
 	};
