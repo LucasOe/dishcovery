@@ -9,6 +9,7 @@
 
 	import { goto } from "$app/navigation";
 	import {selectedRecipe, swipeDirection} from "$lib/functions/stores";
+	import Spinner from "$lib/components/Spinner.svelte";
 	let swipeValue:Direction = Direction.None;
 
 	swipeDirection.subscribe(value => {
@@ -176,7 +177,7 @@
 
 <div class="relative flex size-full items-center justify-center">
 	{#if isLoading}
-		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow">LOADING...</div>
+		<div class="absolute flex size-40 items-center justify-center rounded-full"><Spinner/></div>
 	{/if}
 	{#if isError}
 		<div class="absolute z-20 flex size-40 items-center justify-center rounded-full bg-red">
