@@ -7,7 +7,7 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
-	import { selectedRecipe } from "$lib/functions/stores";
+	import {selectedRecipe, swipeDirection} from "$lib/functions/stores";
 
 	export let recipe: Recipe;
 
@@ -15,11 +15,17 @@
 	export let isFirst = false;
 	export let transformValue = "";
 	export let isTouching = false;
-	export let swipeDirection: Direction = Direction.None;
+
+	let swipeValue:Direction = Direction.None;
+
+	swipeDirection.subscribe(value => {
+		swipeValue = value;
+		console.log(swipeValue);
+	});
 
 	$: animClass = isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow";
 	$: swipeClass = (() => {
-		switch (isLast ? swipeDirection : Direction.None) {
+		switch (isLast ? swipeValue : Direction.None) {
 			case Direction.None:
 				return "border-gray-900";
 			case Direction.Left:
@@ -37,7 +43,6 @@
 	}
 </script>
 
-<a on:click={selectRecipe} href="/detail" class="absolute top-[-1rem] z-10">Open Details</a>
 <div
 	class={twMerge(
 		"z-9 relative flex overflow-hidden rounded-xl border-2 bg-cover bg-center",

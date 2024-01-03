@@ -8,6 +8,19 @@
 	import type { Recipe } from "$types/database.types";
 
 	import { goto } from "$app/navigation";
+	import {selectedRecipe, swipeDirection} from "$lib/functions/stores";
+	let swipeValue:Direction = Direction.None;
+
+	swipeDirection.subscribe(value => {
+		swipeValue = value;
+		console.log(swipeValue);
+	});
+
+	let recipeValue: Recipe | null = null;
+
+	selectedRecipe.subscribe((value: Recipe | null) => {
+		recipeValue = value;
+	});
 
 	let xStart = 0;
 	let yStart = 0;
@@ -26,7 +39,6 @@
 	let isError = false;
 	let errorMessage = "";
 
-	let swipeDirection: Direction = Direction.None;
 	let transformValue = "translate(0px, 0px)";
 
 	let initialRecipes = [3, 2, 1];
@@ -36,6 +48,7 @@
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
 		recipes.reverse();
+		selectedRecipe.set(recipes.slice(-1)[0])
 	};
 
 	onMount(() => {
@@ -65,14 +78,18 @@
 			let rotation = xDist / 30;
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
-			swipeDirection = (() => {
-				if (xDist > +threshold) return Direction.Right;
-				if (xDist < -threshold) return Direction.Left;
-				if (yDist < -threshold) return Direction.Up;
-				return Direction.None;
-			})();
+
+			swipeDirection.set(direction(xDist, yDist, threshold));
 		}
 	};
+
+	function direction(xDist, yDist, threshold) {
+		if (xDist > +threshold) return Direction.Right;
+		if (xDist < -threshold) return Direction.Left;
+		if (yDist < -threshold) return Direction.Up;
+		return Direction.None;
+	}
+
 
 	const handlePanEnd = () => {
 		isTouching = false;
@@ -86,7 +103,7 @@
 
 	//transform value for card
 	const getTransformValue = () => {
-		switch (swipeDirection) {
+		switch (swipeValue) {
 			case Direction.Left:
 				return "translate(-200vw, 0px) rotate(-50deg)";
 			case Direction.Right:
@@ -99,7 +116,7 @@
 	};
 
 	const handleCardAction = async () => {
-		switch (swipeDirection) {
+		switch (swipeValue) {
 			case Direction.Left:
 			case Direction.Right:
 				await handleCardChoice();
@@ -122,10 +139,11 @@
 		// wait for animation to finish
 		setTimeout(() => {
 			recipes = [...recipes.slice(0, -1)];
-			swipeDirection = Direction.None;
+			swipeDirection.set(Direction.None);
 			transformValue = "translate(0px, 0px)";
 			currentRecipe++;
 			isAnimationOver = true;
+			selectedRecipe.set(recipes.slice(-1)[0])
 		}, 300);
 
 		isLoading = true;
@@ -178,7 +196,6 @@
 				{recipe}
 				isLast={i === recipes.length - 1}
 				isFirst={i === 0}
-				{swipeDirection}
 				{transformValue}
 				{isTouching}
 				class={"absolute size-full "}
