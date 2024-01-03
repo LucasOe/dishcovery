@@ -7,7 +7,7 @@
 	<div class="relative flex cursor-pointer items-center rounded-full">
 		<input
 			type="checkbox"
-			class="before:content[''] size-5 peer relative cursor-pointer appearance-none rounded-md border border-gray-300 transition-all checked:border-yellow"
+			class="before:content[''] peer relative size-5 cursor-pointer appearance-none rounded-md border border-gray-300 transition-all checked:border-yellow"
 			id={name}
 		/>
 		<div
