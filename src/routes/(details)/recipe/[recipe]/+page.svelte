@@ -5,6 +5,7 @@
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
+	import Spinner from "$lib/components/Spinner.svelte";
 
 	export let data;
 
@@ -32,7 +33,7 @@
 
 <FadeIn>
 	{#if isLoading}
-		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow">LOADING...</div>
+		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow"><Spinner/></div>
 	{/if}
 	{#if recipe}
 		<img src={recipe.images[0].image} class="aspect-square h-64 w-full object-cover" alt="" />
