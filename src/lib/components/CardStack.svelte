@@ -8,11 +8,11 @@
 	import type { Recipe } from "$types/database.types";
 
 	import { goto } from "$app/navigation";
-	import {selectedRecipe, swipeDirection} from "$lib/functions/stores";
+	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import Spinner from "$lib/components/Spinner.svelte";
-	let swipeValue:Direction = Direction.None;
+	let swipeValue: Direction = Direction.None;
 
-	swipeDirection.subscribe(value => {
+	swipeDirection.subscribe((value) => {
 		swipeValue = value;
 	});
 
@@ -42,7 +42,7 @@
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
 		recipes.reverse();
-		selectedRecipe.set(recipes.slice(-1)[0])
+		selectedRecipe.set(recipes.slice(-1)[0]);
 	};
 
 	onMount(() => {
@@ -72,7 +72,6 @@
 			let rotation = xDist / 30;
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
-
 			swipeDirection.set(direction(xDist, yDist, threshold));
 		}
 	};
@@ -83,7 +82,6 @@
 		if (yDist < -threshold) return Direction.Up;
 		return Direction.None;
 	}
-
 
 	const handlePanEnd = () => {
 		isTouching = false;
@@ -137,7 +135,7 @@
 			transformValue = "translate(0px, 0px)";
 			currentRecipe++;
 			isAnimationOver = true;
-			selectedRecipe.set(recipes.slice(-1)[0])
+			selectedRecipe.set(recipes.slice(-1)[0]);
 		}, 300);
 
 		isLoading = true;
@@ -177,7 +175,9 @@
 
 <div class="relative flex size-full items-center justify-center">
 	{#if isLoading}
-		<div class="absolute flex size-40 items-center justify-center rounded-full"><Spinner/></div>
+		<div class="absolute flex size-40 items-center justify-center rounded-full">
+			<Spinner />
+		</div>
 	{/if}
 	{#if isError}
 		<div class="absolute z-20 flex size-40 items-center justify-center rounded-full bg-red">
