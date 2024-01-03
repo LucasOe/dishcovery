@@ -12,7 +12,6 @@
 	let recipe = data.recipe;
 	let isLoading = false;
 
-
 	//Accordion
 	let isOpen = false;
 	function toggleAccordion() {
@@ -33,7 +32,9 @@
 
 <FadeIn>
 	{#if isLoading}
-		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow"><Spinner/></div>
+		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow">
+			<Spinner />
+		</div>
 	{/if}
 	{#if recipe}
 		<img src={recipe.images[0].image} class="aspect-square h-64 w-full object-cover" alt="" />
@@ -92,7 +93,7 @@
 						</div>
 						<div>
 							<h2
-									class={completedSteps[index]
+								class={completedSteps[index]
 									? "completed text-left font-semibold"
 									: "text-left font-semibold text-yellow"}
 							>

@@ -13,7 +13,7 @@
 </script>
 
 <button
-		on:click={() => handleClick()}
+	on:click={() => handleClick()}
 	{...$$props}
 	class={twMerge(
 		"rounded-full bg-gray-500 drop-shadow-xl duration-150 hover:bg-[#383838]",

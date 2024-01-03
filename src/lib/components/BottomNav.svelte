@@ -3,29 +3,26 @@
 	import AddToListIcon from "$lib/assets/icons/addToList.svg";
 	import OpenIcon from "$lib/assets/icons/open.svg";
 	import RoundButton from "$lib/components/RoundButton.svelte";
-	import {goto} from "$app/navigation";
-	import {Direction} from "$types/card.types";
-	import {selectedRecipe, swipeDirection} from "$lib/functions/stores";
-	let swipeValue:Direction = Direction.None;
-	swipeDirection.subscribe(value => {
+	import { goto } from "$app/navigation";
+	import { Direction } from "$types/card.types";
+	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
+	let swipeValue: Direction = Direction.None;
+	swipeDirection.subscribe((value) => {
 		swipeValue = value;
 	});
 
-
 	const openRecipe = () => {
-		console.log(selectedRecipe)
-		goto("recipe/0" );
-	}
+		console.log(selectedRecipe);
+		goto("recipe/0");
+	};
 
 	const rejectRecipe = () => {
-		swipeDirection.set(Direction.Left)
-	}
+		swipeDirection.set(Direction.Left);
+	};
 
 	const likeRecipe = () => {
-		swipeDirection.set(Direction.Right)
-	}
-
-
+		swipeDirection.set(Direction.Right);
+	};
 </script>
 
 <div class="flex items-center justify-center gap-xxl">

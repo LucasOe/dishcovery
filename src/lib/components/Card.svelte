@@ -7,7 +7,7 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
-	import {selectedRecipe, swipeDirection} from "$lib/functions/stores";
+	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
 
 	export let recipe: Recipe;
 
@@ -16,9 +16,9 @@
 	export let transformValue = "";
 	export let isTouching = false;
 
-	let swipeValue:Direction = Direction.None;
+	let swipeValue: Direction = Direction.None;
 
-	swipeDirection.subscribe(value => {
+	swipeDirection.subscribe((value) => {
 		swipeValue = value;
 	});
 

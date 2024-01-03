@@ -17,11 +17,9 @@ export const fetchRecipe = async (id: number): Promise<Recipe> => {
 		.in("id", [id]);
 	if (data && data.length > 0) {
 		return data[0];
-	}
-	else if(data) {
-		return data[0]
-	}
-	else throw error;
+	} else if (data) {
+		return data[0];
+	} else throw error;
 };
 
 export const fetchTypes = async (): Promise<Tables<"types">[]> => {
