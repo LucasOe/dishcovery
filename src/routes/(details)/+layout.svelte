@@ -3,10 +3,7 @@
 	import CloseIcon from "$lib/assets/icons/cancel.svg";
 
 	import { page } from "$app/stores";
-	import {goto} from "$app/navigation";
-	const navigateHome = () => {
-		goto("/")
-	}
+	import {navigateHome} from "$lib/functions/navigation";
 </script>
 
 <svelte:head>

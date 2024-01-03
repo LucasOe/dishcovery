@@ -6,6 +6,7 @@
 
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
+	import {navigateHome} from "$lib/functions/navigation";
 
 	let recipeTime: number = 5;
 	let difficulty: string = "einfach";
@@ -36,7 +37,7 @@
 				</div>
 			</div>
 
-			<RoundButton src={MoreIcon} alt="More" link={"/"} size="sm" class="bg-gray-900 shadow-none" />
+			<RoundButton src={MoreIcon} alt="More" action="{navigateHome}" size="sm" class="bg-gray-900 shadow-none" />
 		</a>
 	</div>
 </FadeIn>
