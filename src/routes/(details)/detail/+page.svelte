@@ -89,7 +89,11 @@
 							{/if}
 						</div>
 						<div>
-							<h2 class={completedSteps[index] ? "completed font-semibold text-left" : "font-semibold text-yellow text-left"}>
+							<h2
+								class={completedSteps[index]
+									? "completed text-left font-semibold"
+									: "text-left font-semibold text-yellow"}
+							>
 								Schritt {step.number}:
 							</h2>
 							<p class={completedSteps[index] ? "completed text-left" : " text-left"}>{step.description}</p>

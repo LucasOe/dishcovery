@@ -78,7 +78,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="size-full absolute bg-gradient-to-b from-transparent from-50% to-gray-900"></div>
+	<div class="absolute size-full bg-gradient-to-b from-transparent from-50% to-gray-900"></div>
 </div>
 
 <style>

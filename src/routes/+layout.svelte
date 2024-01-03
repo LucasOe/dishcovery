@@ -2,6 +2,6 @@
 	import "../app.css";
 </script>
 
-<div class="min-h-dvh mx-auto flex max-w-[44rem] p-12 font-default text-base text-light">
+<div class="mx-auto flex min-h-dvh max-w-[44rem] p-12 font-default text-base text-light">
 	<slot />
 </div>
