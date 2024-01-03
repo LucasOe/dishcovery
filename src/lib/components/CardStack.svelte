@@ -16,12 +16,6 @@
 		console.log(swipeValue);
 	});
 
-	let recipeValue: Recipe | null = null;
-
-	selectedRecipe.subscribe((value: Recipe | null) => {
-		recipeValue = value;
-	});
-
 	let xStart = 0;
 	let yStart = 0;
 
