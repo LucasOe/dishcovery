@@ -20,7 +20,6 @@
 
 	swipeDirection.subscribe(value => {
 		swipeValue = value;
-		console.log(swipeValue);
 	});
 
 	$: animClass = isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow";

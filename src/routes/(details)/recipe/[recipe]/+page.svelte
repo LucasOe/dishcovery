@@ -5,16 +5,14 @@
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
-	import { selectedRecipe } from "$lib/functions/stores";
-	import type { Recipe } from "$types/database.types";
 
-	let recipeDetails: Recipe | null = null;
+	export let data;
 
-	selectedRecipe.subscribe((value: Recipe | null) => {
-		recipeDetails = value;
-	});
+	let recipe = data.recipe;
+	let isLoading = false;
 
-	//Accrdion
+
+	//Accordion
 	let isOpen = false;
 	function toggleAccordion() {
 		isOpen = !isOpen;
@@ -23,8 +21,8 @@
 	//Steps
 	let completedSteps: boolean[] = [];
 
-	$: if (recipeDetails && recipeDetails.steps) {
-		completedSteps = recipeDetails.steps.map(() => false);
+	$: if (recipe && recipe.steps) {
+		completedSteps = recipe.steps.map(() => false);
 	}
 
 	function toggleStep(index: number) {
@@ -33,29 +31,32 @@
 </script>
 
 <FadeIn>
-	{#if recipeDetails}
-		<img src={recipeDetails.images[0].image} class="aspect-square h-64 w-full object-cover" alt="" />
+	{#if isLoading}
+		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow">LOADING...</div>
+	{/if}
+	{#if recipe}
+		<img src={recipe.images[0].image} class="aspect-square h-64 w-full object-cover" alt="" />
 		<div class="mt-5">
-			<h1 class="mt-5 font-header text-xxl text-light">{recipeDetails.name}</h1>
+			<h1 class="mt-5 font-header text-xxl text-light">{recipe.name}</h1>
 			<div class="mt-2 flex gap-sm">
-				{#each recipeDetails.categories as category}
+				{#each recipe.categories as category}
 					<Tag text={category.name} color="yellow" class="select-none" />
 				{/each}
-				{#each recipeDetails.types as type}
+				{#each recipe.types as type}
 					<Tag text={type.name} color="yellow" class="select-none" />
 				{/each}
 			</div>
 			<div class="pointer-events-none mt-3 flex gap-md">
 				<div class="flex select-none gap-xs">
 					<img alt="Clock" class="size-5" src={ClockIcon} />
-					<p>{recipeDetails.preperation_time} Min.</p>
+					<p>{recipe.preperation_time} Min.</p>
 				</div>
 				<div class="flex select-none gap-xs">
 					<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-					<p>{["Einfach", "Mittel", "Schwer"][recipeDetails.difficulty]}</p>
+					<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
 				</div>
 				<div class="flex select-none gap-xs">
-					{#each { length: recipeDetails.cost } as _}
+					{#each { length: recipe.cost } as _}
 						<img alt="Euro" class="size-5" src={EuroIcon} />
 					{/each}
 				</div>
@@ -66,7 +67,7 @@
 					<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="20" height="20" />
 				</button>
 				<div class={`accordion-content ${isOpen ? "open" : ""}`}>
-					{#each recipeDetails.ingredients as ingredient}
+					{#each recipe.ingredients as ingredient}
 						<li class="flex flex-row gap-4">
 							<div class="w-12">
 								{ingredient.amount}
@@ -79,7 +80,7 @@
 				</div>
 			</div>
 			<div class="mt-5 flex flex-col gap-3">
-				{#each recipeDetails.steps as step, index}
+				{#each recipe.steps as step, index}
 					<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
 						<div>
 							{#if completedSteps[index]}
@@ -90,7 +91,7 @@
 						</div>
 						<div>
 							<h2
-								class={completedSteps[index]
+									class={completedSteps[index]
 									? "completed text-left font-semibold"
 									: "text-left font-semibold text-yellow"}
 							>
