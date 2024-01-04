@@ -6,6 +6,7 @@
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
 	import Spinner from "$lib/components/Spinner.svelte";
+	import type { Recipe } from "$types/database.types.js";
 
 	export let data;
 
@@ -27,6 +28,12 @@
 
 	function toggleStep(index: number) {
 		completedSteps[index] = !completedSteps[index];
+	}
+
+	function getRecipeSteps(recipe: Recipe) {
+		return recipe.steps.sort((a, b) => {
+			return a.number - b.number;
+		});
 	}
 </script>
 
@@ -82,7 +89,7 @@
 				</div>
 			</div>
 			<div class="mt-5 flex flex-col gap-3">
-				{#each recipe.steps as step, index}
+				{#each getRecipeSteps(recipe) as step, index}
 					<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
 						<div>
 							{#if completedSteps[index]}
