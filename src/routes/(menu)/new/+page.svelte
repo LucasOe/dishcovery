@@ -35,6 +35,7 @@
 	let difficulty: Entry;
 	let preperation_time: Entry;
 	let cost: Entry;
+	let images: string[] = [];
 
 	function logRecipe() {
 		let recipe = {
@@ -45,18 +46,18 @@
 			difficulty: difficulty.id,
 			preperation_time: preperation_time.id,
 			cost: cost.id,
+			images: images,
 		};
 
 		console.log(recipe);
 	}
 
-	//picture
-	let preview: string;
 	let fileInput: HTMLInputElement;
 
 	function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (!e.currentTarget.files) return null;
-		preview = URL.createObjectURL(e.currentTarget.files[0]);
+		for (const file of e.currentTarget.files) images.push(URL.createObjectURL(file));
+		images = images;
 	}
 </script>
 
@@ -76,15 +77,19 @@
 
 		<Section title="Bilder">
 			<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
-			<button on:click={() => fileInput.click()}>
+			<button class="inline" on:click={() => fileInput.click()}>
 				<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
 			</button>
-			<p class="mt-2.5">Bilder hochladen</p>
+			<p class="inline pl-2">Bilder hochladen</p>
 		</Section>
 
-		<Section title="Preview">
-			<img class="preview" src={preview} alt="" />
-		</Section>
+		{#if images.length > 0}
+			<Section title="Bilder Vorschau">
+				{#each images as image}
+					<img src={image} alt="Bildvorschau" />
+				{/each}
+			</Section>
+		{/if}
 
 		{#await fetchTypes() then _types}
 			<Section title="Art">
