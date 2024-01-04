@@ -7,6 +7,8 @@
 	import Chevron from "$lib/assets/icons/dropdown.svg";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import type { Recipe } from "$types/database.types.js";
+	import { swipeDirection } from "$lib/functions/stores";
+	import { Direction } from "$types/card.types";
 
 	export let data;
 
@@ -35,6 +37,8 @@
 			return a.number - b.number;
 		});
 	}
+
+	swipeDirection.set(Direction.None);
 </script>
 
 <FadeIn>

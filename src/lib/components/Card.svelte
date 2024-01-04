@@ -7,6 +7,9 @@
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
+	import Like from "$lib/assets/icons/addToList.svg";
+	import Dislike from "$lib/assets/icons/reject.svg";
+	import Open from "$lib/assets/icons/open.svg";
 	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
 
 	export let recipe: Recipe;
@@ -15,6 +18,8 @@
 	export let isFirst = false;
 	export let transformValue = "";
 	export let isTouching = false;
+
+	let iconSize = 20;
 
 	let swipeValue: Direction = Direction.None;
 
@@ -55,6 +60,37 @@
 	}`}
 >
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
+		<div>
+			<img
+				class={`${
+					isLast && swipeValue == Direction.Right ? "opacity-100" : "opacity-0"
+				} absolute left-xxl top-xxl z-10 w-xxl duration-300`}
+				src={Like}
+				alt="Like Icon"
+			/>
+			<img
+				class={`${
+					isLast && swipeValue == Direction.Left ? "opacity-100" : "opacity-0"
+				} absolute right-xxl top-xxl z-10 w-xxl duration-300`}
+				src={Dislike}
+				alt="Dislike Icon"
+			/>
+			<img
+				class={`${
+					isLast && swipeValue == Direction.Up ? "opacity-100" : "opacity-0"
+				} absolute bottom-0 left-0 right-0 top-0 z-10 m-auto w-xxl brightness-200 duration-300`}
+				src={Open}
+				alt="Open Icon"
+			/>
+			<div
+				class={`${
+					isLast && (swipeValue == Direction.Up || swipeValue == Direction.Left || swipeValue == Direction.Right)
+						? "size-full bg-gradient-to-t from-transparent from-10% to-gray-500 opacity-100"
+						: "opacity-0"
+				} z-1 absolute left-0 top-0 duration-300`}
+			></div>
+		</div>
+
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
