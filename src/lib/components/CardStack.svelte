@@ -36,7 +36,7 @@
 	let transformValue = "translate(0px, 0px)";
 
 	let initialRecipes = [3, 2, 1];
-	let recipes = [];
+	let recipes: Recipe[] = [];
 	let currentRecipe = 1;
 
 	const initRecipes = async () => {
@@ -76,7 +76,7 @@
 		}
 	};
 
-	function direction(xDist, yDist, threshold) {
+	function direction(xDist: number, yDist: number, threshold: number) {
 		if (xDist > +threshold) return Direction.Right;
 		if (xDist < -threshold) return Direction.Left;
 		if (yDist < -threshold) return Direction.Up;
