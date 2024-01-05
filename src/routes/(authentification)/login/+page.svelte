@@ -1,49 +1,42 @@
 <script lang="ts">
 	import { supabase } from "$lib/functions/createClient";
 	import { goto } from "$app/navigation";
+	import Section from "$lib/components/Section.svelte";
   
 	let email = "";
 	let password = "";
+	let error: any = null;
   
 	async function handleLogin() {
-	  const { data, error } = await supabase.auth.signInWithPassword({
+	  const { data, error: authError } = await supabase.auth.signInWithPassword({
 		email: email,
 		password: password,
 	  });
   
 	  if (data && data.user) {
-		
 		goto("/profile");
 	  } else {
-	
-		console.error(error);
+		error = authError;
+		console.error(authError);
 	  }
 	}
-  </script>
-  
-  <div class="loginFormContainer">
+</script>
+
+<div class="flex flex-col space-y-lg">
 	<form class="loginForm" on:submit|preventDefault={handleLogin}>
-	  <input style="color: black;" type="email" bind:value={email} placeholder="email@email.com" />
-	  <input style="color: black;" type="password" bind:value={password} placeholder="Password" />
-	  <button type="submit">Login</button>
+		<Section title="E-Mail Adresse">
+			<input class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none" type="email" bind:value={email} placeholder="email@email.com" />
+		</Section>
+		<Section title="Passwort">
+			<input class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none" type="password" bind:value={password} placeholder="Password" />
+		</Section>
+		<button class="h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow" type="submit">
+			Login
+		</button>
 	</form>
 	<a href="/register">Not a Member? Sign up!</a>
-  </div>
-  
 
-
-
- <!-- 	<Section title="E-Mail Adresse">
- 			<TextInput type="text" />
- 		</Section>
- 		<Section title="Passwort">
- 			<TextInput type="password" />
- 			<div class="flex items-center justify-between">
- 			<Checkbox name="remember" label="Angemeldet bleiben"></Checkbox>
- 			<LinkText link="/reset-password" title="Passwort zurücksetzen">Passwort vergessen?</LinkText>
- 		</div>
- @@ -30,3 +50,15 @@
- 		</div>
- 	</div>
- </FadeIn>
- 		</Section>-->
+	{#if error}
+		<p class="text-red-500">{error.message}</p>
+	{/if}
+</div>
