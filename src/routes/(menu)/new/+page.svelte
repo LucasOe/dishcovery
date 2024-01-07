@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
-	import { fetchCategories, fetchTypes } from "$lib/functions/db";
+	import { fetchCategories, fetchTypes, insertRecipe } from "$lib/functions/db";
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -11,12 +9,11 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import type { Entry } from "$types/dropdown.types";
-	import type { Tables } from "$types/database.types";
 
 	let name: string;
 	let description: string;
-	let types: string[];
-	let categories: string[];
+	let types: Entry[];
+	let categories: Entry[];
 	let difficulty: Entry;
 	let preperation_time: Entry;
 	let cost: Entry;
@@ -24,19 +21,14 @@
 	let steps: string[] = [""];
 
 	function logRecipe() {
-		let recipe: Tables<"recipes"> = {
-			id: 0,
-			cost: cost.id,
-			created_at: null,
+		insertRecipe({
+			name: name,
 			description: description,
 			difficulty: difficulty.id,
-			name: name,
+			cost: cost.id,
 			preperation_time: preperation_time.id,
-		};
-
-		console.log(recipe);
-		console.log(images);
-		console.log(steps);
+			categories: categories.map((category) => category.id),
+		});
 	}
 
 	let fileInput: HTMLInputElement;
@@ -82,13 +74,13 @@
 
 		{#await fetchTypes() then _types}
 			<Section title="Art">
-				<TagList bind:selected={types} tags={_types.map((type) => type.name)} />
+				<TagList bind:selected={types} tags={_types} />
 			</Section>
 		{/await}
 
 		{#await fetchCategories() then _categories}
 			<Section title="Kategorie">
-				<TagList bind:selected={categories} tags={_categories.map((category) => category.name)} />
+				<TagList bind:selected={categories} tags={_categories} />
 			</Section>
 		{/await}
 
