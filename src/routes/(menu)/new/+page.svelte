@@ -2,7 +2,6 @@
 	import { onMount } from "svelte";
 
 	import { fetchCategories, fetchTypes } from "$lib/functions/db";
-
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -12,23 +11,9 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import type { Entry } from "$types/dropdown.types";
+	import type { Tables } from "$types/database.types";
 
-	let textFields: { id: number; value: string }[] = [];
-	let nextTextFieldId = 0;
-
-	function addTextField() {
-		const newTextField = {
-			id: nextTextFieldId++,
-			value: "",
-		};
-		textFields = [...textFields, newTextField];
-	}
-
-	onMount(() => {
-		addTextField();
-	});
-
-	let title: string;
+	let name: string;
 	let description: string;
 	let types: string[];
 	let categories: string[];
@@ -36,20 +21,22 @@
 	let preperation_time: Entry;
 	let cost: Entry;
 	let images: string[] = [];
+	let steps: string[] = [""];
 
 	function logRecipe() {
-		let recipe = {
-			title: title,
-			description: description,
-			types: types,
-			categories: categories,
-			difficulty: difficulty.id,
-			preperation_time: preperation_time.id,
+		let recipe: Tables<"recipes"> = {
+			id: 0,
 			cost: cost.id,
-			images: images,
+			created_at: null,
+			description: description,
+			difficulty: difficulty.id,
+			name: name,
+			preperation_time: preperation_time.id,
 		};
 
 		console.log(recipe);
+		console.log(images);
+		console.log(steps);
 	}
 
 	let fileInput: HTMLInputElement;
@@ -64,7 +51,7 @@
 <FadeIn>
 	<div class="space-y-lg">
 		<Section title="Titel">
-			<input bind:value={title} type="text" class="text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
+			<input bind:value={name} type="text" class="text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
 		</Section>
 
 		<Section title="Beschreibung">
@@ -146,17 +133,25 @@
 		</Section>
 
 		<Section title="Arbeitsschritte">
-			{#each textFields as textField, index (textField.id)}
+			{#each steps as step, index}
 				<div class="space-y-sm">
 					<p class="text-xl font-semibold text-yellow">{index + 1}. Schritt</p>
 					<textarea
-						bind:value={textField.value}
+						bind:value={step}
 						class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
 						placeholder="Hier eingeben..."
-					></textarea>
-					<button on:click={addTextField}><img alt="Close" class="h-10 w-10" src={UploadIcon} /></button>
+					/>
 				</div>
 			{/each}
+			<button
+				on:click={() => {
+					steps.push("");
+					steps = steps;
+				}}
+				class="mt-sm"
+			>
+				<img alt="Close" class="size-10" src={UploadIcon} />
+			</button>
 		</Section>
 		<button on:click={logRecipe} class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
 			Rezept veröffentlichen

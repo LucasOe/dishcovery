@@ -1,4 +1,4 @@
 export type Entry = {
-	id: string | number;
+	id: number;
 	name: string;
 };
