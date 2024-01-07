@@ -24,25 +24,21 @@
 	});
 
 	// prettier-ignore
-	const swipeClasses: Record<Direction, string> = {
+	const swipeClass: Record<Direction, string> = {
 		[Direction.None]:  "",
 		[Direction.Left]:  "border-red shadow-shadowRed",
 		[Direction.Right]: "border-yellow shadow-shadowYellow",
 		[Direction.Up]:    "border-light shadow-shadowLight",
 		[Direction.Down]:  "",
 	};
-
-	$: swipeClass = isLast ? swipeClasses[swipeValue] : "";
-	$: animClass = isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow";
-	$: shadowClass = isFirst ? "shadow-shadowGray" : "";
 </script>
 
 <div
 	class={twMerge(
-		"flex overflow-hidden rounded-xl bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 before:content-['']",
-		swipeClass,
-		animClass,
-		shadowClass,
+		"flex overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900",
+		isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow",
+		isLast ? swipeClass[swipeValue] : "",
+		isFirst ? "shadow-shadowGray" : "",
 		$$props.class
 	)}
 	style={`
