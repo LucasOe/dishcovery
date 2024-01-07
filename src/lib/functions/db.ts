@@ -31,3 +31,40 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 	if (data) return data;
 	else throw error;
 };
+
+export const insertRecipe = async (recipe: {
+	cost: number;
+	description: string;
+	difficulty: number;
+	name: string;
+	preperation_time: number;
+	categories: number[];
+}) => {
+	// Insert into `recipes`
+	const { data: recipe_data, error: recipe_error } = await supabase
+		.from("recipes")
+		.insert({
+			name: recipe.name,
+			description: recipe.description,
+			difficulty: recipe.difficulty,
+			cost: recipe.cost,
+			preperation_time: recipe.preperation_time,
+		})
+		.select()
+		.single();
+	if (recipe_error) throw recipe_error;
+
+	// Insert into `recipe_categories`
+	const { error: category_error } = await supabase.from("recipe_categories").insert(
+		recipe.categories.map((category) => ({
+			recipe_id: recipe_data.id,
+			category_id: category,
+		}))
+	);
+	if (category_error) throw category_error;
+
+	// TODO: Insert into `recipe_types`
+	// TODO: Insert into `ingredients`
+	// TODO: Insert into `images`
+	// TODO: Insert into `steps`
+};
