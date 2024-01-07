@@ -14,12 +14,10 @@ export const fetchRecipe = async (id: number): Promise<Recipe> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
-		.in("id", [id]);
-	if (data && data.length > 0) {
-		return data[0];
-	} else if (data) {
-		return data[0];
-	} else throw error;
+		.eq("id", id)
+		.maybeSingle();
+	if (data) return data;
+	else throw error;
 };
 
 export const fetchTypes = async (): Promise<Tables<"types">[]> => {
