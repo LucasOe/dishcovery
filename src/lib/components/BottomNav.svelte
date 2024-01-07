@@ -6,14 +6,15 @@
 	import { goto } from "$app/navigation";
 	import { Direction } from "$types/card.types";
 	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
-	let swipeValue: Direction = Direction.None;
-	swipeDirection.subscribe((value) => {
-		swipeValue = value;
+	import type { Recipe } from "$types/database.types";
+
+	let selected: Recipe;
+	selectedRecipe.subscribe((recipe) => {
+		selected = recipe;
 	});
 
 	const openRecipe = () => {
-		console.log(selectedRecipe);
-		goto("recipe/0");
+		goto(`recipe/${selected.id}`);
 	};
 
 	const rejectRecipe = () => {
