@@ -2,10 +2,10 @@
 	import { twMerge } from "tailwind-merge";
 
 	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
-	import type { Entry } from "$types/dropdown.types";
+	import type { DisplayValue } from "$types/database.types";
 
-	export let entries: Entry[];
-	export let selected: Entry = entries[0];
+	export let entries: DisplayValue[];
+	export let selected: DisplayValue = entries[0];
 
 	let menuOpen = false;
 </script>
