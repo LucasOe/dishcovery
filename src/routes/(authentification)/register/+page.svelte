@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { supabase } from "$lib/functions/createClient";
+	import { goto } from "$app/navigation";
+	import type { AuthError } from "@supabase/supabase-js";
 
+	import { supabase } from "$lib/functions/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
 
@@ -8,14 +10,18 @@
 	let email: string;
 	let password: string;
 	let password_repeat: string;
+	let error: AuthError;
 
 	async function handleRegister() {
 		if (password !== password_repeat) return;
 
-		const { data, error } = await supabase.auth.signUp({
+		const { data, error: auth_error } = await supabase.auth.signUp({
 			email: email,
 			password: password,
 		});
+
+		if (data.user) goto("/profile");
+		if (auth_error) error = auth_error;
 	}
 </script>
 
@@ -73,4 +79,8 @@
 		</div>
 		<LinkText link="/" title="Als Gast beitreten">Als Gast beitreten</LinkText>
 	</div>
+
+	{#if error}
+		<p class="text-red-500">{error.message}</p>
+	{/if}
 </div>

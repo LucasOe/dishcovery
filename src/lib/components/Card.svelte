@@ -19,8 +19,6 @@
 	export let transformValue = "";
 	export let isTouching = false;
 
-	let iconSize = 20;
-
 	let swipeValue: Direction = Direction.None;
 
 	swipeDirection.subscribe((value) => {
@@ -41,10 +39,6 @@
 		}
 	})();
 	$: shadowClass = isFirst ? "shadow-shadowGray" : "";
-
-	function selectRecipe(): void {
-		selectedRecipe.set(recipe);
-	}
 </script>
 
 <div
