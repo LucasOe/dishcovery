@@ -82,31 +82,28 @@ export interface Database {
       recipes: {
         Row: {
           cost: number
-          created_at: string
+          created_at: string | null
           description: string | null
           difficulty: number
           id: number
-          image: string | null
           name: string
           preperation_time: number
         }
         Insert: {
           cost: number
-          created_at?: string
+          created_at?: string | null
           description?: string | null
           difficulty: number
           id?: number
-          image?: string | null
           name: string
           preperation_time: number
         }
         Update: {
           cost?: number
-          created_at?: string
+          created_at?: string | null
           description?: string | null
           difficulty?: number
           id?: number
-          image?: string | null
           name?: string
           preperation_time?: number
         }
