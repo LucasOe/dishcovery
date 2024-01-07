@@ -85,9 +85,11 @@
 
 		{#if images.length > 0}
 			<Section title="Bilder Vorschau">
-				{#each images as image}
-					<img src={image} alt="Bildvorschau" />
-				{/each}
+				<div class="grid grid-cols-4 gap-4">
+					{#each images as image}
+						<img src={image} alt="Bildvorschau" />
+					{/each}
+				</div>
 			</Section>
 		{/if}
 
