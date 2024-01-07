@@ -8,15 +8,15 @@
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import type { Entry } from "$types/dropdown.types";
+	import type { DisplayValue } from "$types/database.types";
 
 	let name: string;
 	let description: string;
-	let types: Entry[];
-	let categories: Entry[];
-	let difficulty: Entry;
-	let preperation_time: Entry;
-	let cost: Entry;
+	let types: DisplayValue[];
+	let categories: DisplayValue[];
+	let difficulty: DisplayValue;
+	let preperation_time: DisplayValue;
+	let cost: DisplayValue;
 	let images: string[] = [];
 	let steps: string[] = [""];
 
