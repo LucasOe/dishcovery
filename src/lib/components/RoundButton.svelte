@@ -8,6 +8,7 @@
 </script>
 
 <button
+	{...$$props}
 	on:click={action()}
 	class={twMerge(
 		"rounded-full bg-gray-500 drop-shadow-xl duration-150 hover:bg-[#383838]",
@@ -17,7 +18,6 @@
 		}[size],
 		$$props.class
 	)}
-	{...$$props}
 >
 	<img {src} {alt} class="size-full" />
 </button>
