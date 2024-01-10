@@ -141,7 +141,7 @@
 		isLoading = true;
 
 		// add new recipe
-		await fetchRecipe(currentRecipe + recipes.length + 1)
+		await fetchRecipe(currentRecipe + initialRecipes.length)
 			.then((recipe) => {
 				isLoading = false;
 				addRecipeToStack(isAnimationOver, recipe);
