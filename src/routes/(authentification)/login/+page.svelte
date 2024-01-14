@@ -40,12 +40,13 @@
 		</Section>
 		<button
 			type="submit"
-			class="h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
+			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
 		>
 			Login
 		</button>
 	</form>
 	<a href="/register">Not a Member? Sign up!</a>
+	<a href="/forgetpassword">Forget Password? Reset it here!</a>
 
 	{#if error}
 		<p class="text-red-500">{error.message}</p>
