@@ -1,4 +1,4 @@
-import type { PageLoad } from "./$types";
+import type { PageLoad } from "../login/$types";
 
 export const load: PageLoad = async () => {
 	return {
