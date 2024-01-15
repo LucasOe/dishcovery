@@ -43,9 +43,16 @@
 		const { data, error: auth_error } = await supabase.auth.signUp({
 			email: email.content,
 			password: password.content,
+			options: {
+				data: {
+					avatar_url: "https://avatars.dicebear.com/api/avataaars/John.svg",
+				},
+			},
 		});
 
-		if (data.user) goto("/profile");
+		if (data.user)  {
+			goto("/profile");
+		}
 		if (auth_error) error = auth_error;
 	}
 
