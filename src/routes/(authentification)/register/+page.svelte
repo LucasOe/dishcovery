@@ -103,7 +103,7 @@
 				bind:value={password_repeat.content}
 				id="password_repeat"
 				type="password"
-				minlength="6"
+				minlength="8"
 				class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 				required
 		/>
