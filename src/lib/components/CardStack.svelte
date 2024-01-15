@@ -164,13 +164,17 @@
 	const handleError = (error: boolean, message: string) => {
 		if (error) {
 			isError = true;
-			console.log(isError);
-			errorMessage = message;
+			isLoading = false;
+			setErrorMessage(message)
 		} else {
 			isError = false;
 			errorMessage = "";
 		}
 	};
+
+	const setErrorMessage = (message: string) => {
+		errorMessage = message == null? "Es gibt keine weiteren Rezepte mehr." : message;
+	}
 </script>
 
 <div class="relative flex size-full items-center justify-center">
@@ -180,7 +184,7 @@
 		</div>
 	{/if}
 	{#if isError}
-		<div class="absolute z-20 flex size-40 items-center justify-center rounded-full bg-red">
+		<div class="absolute flex size-40 items-center text-center justify-center rounded-full bg-red">
 			{errorMessage}
 		</div>
 	{/if}
