@@ -34,13 +34,12 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 
 export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
-	const { session, user } = data;
-	if (user) {
+	if (data.user) {
 		return {
-			id: user.id,
-			username: user.user_metadata.username,
-			email: user.email!,
-			avatar_url: user.user_metadata.avatar_url,
+			id: data.user.id,
+			username: data.user.user_metadata.username,
+			email: data.user.email!,
+			avatar_url: data.user.user_metadata.avatar_url,
 		};
 	} else throw error;
 };
