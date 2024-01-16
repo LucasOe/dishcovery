@@ -38,18 +38,17 @@
 			preperation_time: preperation_time.id,
 		});
 
-		insertRecipeCategories(
+		await insertRecipeCategories(
 			id,
 			categories.map((category) => category.id)
 		);
 
-		insertRecipeTypes(
+		await insertRecipeTypes(
 			id,
 			types.map((type) => type.id)
 		);
 
-		let paths = await uploadRecipeImages(id, images);
-		console.log(paths);
+		const paths = await uploadRecipeImages(id, images);
 		await insertRecipeImages(id, paths);
 
 		goto(`/recipe/${id}`);
