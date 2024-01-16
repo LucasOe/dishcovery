@@ -51,7 +51,7 @@
 		});
 
 		if (data.user) {
-			goto("/profile");
+			goto("/register_success");
 		}
 		if (auth_error) error = auth_error;
 	}
