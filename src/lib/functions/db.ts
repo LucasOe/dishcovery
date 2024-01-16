@@ -44,15 +44,28 @@ export const fetchCurrentUser = async (): Promise<User> => {
 	} else throw error;
 };
 
+export const uploadRecipeImages = async (id: number, files: Blob[]): Promise<string[]> => {
+	const paths: string[] = [];
+	files.forEach(async (file, index) => {
+		const { data, error } = await supabase.storage.from("images").upload(`recipe${id}-${index}.jpg`, file, {
+			cacheControl: "3600",
+			upsert: false,
+		});
+		if (error) throw error;
+
+		const { data: path } = supabase.storage.from("images").getPublicUrl(data.path);
+		paths.push(path.publicUrl);
+	});
+	return paths;
+};
+
 export const insertRecipe = async (recipe: {
 	cost: number;
 	description: string;
 	difficulty: number;
 	name: string;
 	preperation_time: number;
-	categories: number[];
-	types: number[];
-}) => {
+}): Promise<number> => {
 	// Insert into `recipes`
 	const { data: recipe_data, error: recipe_error } = await supabase
 		.from("recipes")
@@ -67,25 +80,35 @@ export const insertRecipe = async (recipe: {
 		.single();
 	if (recipe_error) throw recipe_error;
 
-	// Insert into `recipe_categories`
+	return recipe_data.id;
+};
+
+export const insertRecipeCategories = async (id: number, categories: number[]) => {
 	const { error: category_error } = await supabase.from("recipes_categories").insert(
-		recipe.categories.map((category) => ({
-			recipe_id: recipe_data.id,
+		categories.map((category) => ({
+			recipe_id: id,
 			category_id: category,
 		}))
 	);
 	if (category_error) throw category_error;
+};
 
-	// Insert into `recipe_types`
+export const insertRecipeTypes = async (id: number, types: number[]) => {
 	const { error: type_error } = await supabase.from("recipes_types").insert(
-		recipe.types.map((type) => ({
-			recipe_id: recipe_data.id,
+		types.map((type) => ({
+			recipe_id: id,
 			type_id: type,
 		}))
 	);
 	if (type_error) throw type_error;
+};
 
-	// TODO: Insert into `ingredients`
-	// TODO: Insert into `images`
-	// TODO: Insert into `steps`
+export const insertRecipeImages = async (id: number, images: string[]) => {
+	const { error: image_error } = await supabase.from("images").insert(
+		images.map((image) => ({
+			recipe_id: id,
+			image: image,
+		}))
+	);
+	if (image_error) throw image_error;
 };
