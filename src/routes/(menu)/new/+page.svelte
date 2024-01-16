@@ -28,6 +28,7 @@
 			cost: cost.id,
 			preperation_time: preperation_time.id,
 			categories: categories.map((category) => category.id),
+			types: types.map((type) => type.id),
 		});
 	}
 

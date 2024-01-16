@@ -34,13 +34,12 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 
 export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
-	const { session, user } = data;
-	if (user) {
+	if (data.user) {
 		return {
-			id: user.id,
-			username: user.user_metadata.username,
-			email: user.email!,
-			avatar_url: user.user_metadata.avatar_url,
+			id: data.user.id,
+			username: data.user.user_metadata.username,
+			email: data.user.email!,
+			avatar_url: data.user.user_metadata.avatar_url,
 		};
 	} else throw error;
 };
@@ -52,6 +51,7 @@ export const insertRecipe = async (recipe: {
 	name: string;
 	preperation_time: number;
 	categories: number[];
+	types: number[];
 }) => {
 	// Insert into `recipes`
 	const { data: recipe_data, error: recipe_error } = await supabase
@@ -68,7 +68,7 @@ export const insertRecipe = async (recipe: {
 	if (recipe_error) throw recipe_error;
 
 	// Insert into `recipe_categories`
-	const { error: category_error } = await supabase.from("recipe_categories").insert(
+	const { error: category_error } = await supabase.from("recipes_categories").insert(
 		recipe.categories.map((category) => ({
 			recipe_id: recipe_data.id,
 			category_id: category,
@@ -76,7 +76,15 @@ export const insertRecipe = async (recipe: {
 	);
 	if (category_error) throw category_error;
 
-	// TODO: Insert into `recipe_types`
+	// Insert into `recipe_types`
+	const { error: type_error } = await supabase.from("recipes_types").insert(
+		recipe.types.map((type) => ({
+			recipe_id: recipe_data.id,
+			type_id: type,
+		}))
+	);
+	if (type_error) throw type_error;
+
 	// TODO: Insert into `ingredients`
 	// TODO: Insert into `images`
 	// TODO: Insert into `steps`
