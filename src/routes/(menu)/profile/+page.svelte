@@ -16,6 +16,12 @@
 	onMount(async () => {
 		user = await fetchCurrentUser();
 	});
+
+	const logout = async () => {
+		const { error } = await supabase.auth.signOut();
+		if (error) console.log("Error logging out:", error.message);
+		else goto("/");
+	};
 </script>
 
 <FadeIn>
@@ -28,6 +34,7 @@
 				</h1>
 				<p>25, Hamburg (DE)</p>
 			</div>
+			<button on:click={() => logout()} class="mt-md flex font-bold text-gray-300">Ausloggen</button>
 			<div class="mt-lg flex gap-2">
 				<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 					<p class="font-bold">Rezepte</p>
