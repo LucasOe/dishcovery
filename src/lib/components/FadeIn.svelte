@@ -1,10 +1,10 @@
 <script>
-	import { fly } from 'svelte/transition';
-	import {quintOut} from "svelte/easing";
-	import {onMount} from "svelte";
+	import { fly } from "svelte/transition";
+	import { quintOut } from "svelte/easing";
+	import { onMount } from "svelte";
 
 	let ready = false;
-	onMount(() => ready = true);
+	onMount(() => (ready = true));
 </script>
 
 {#if ready}
