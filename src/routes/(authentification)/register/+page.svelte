@@ -45,6 +45,7 @@
 			password: password.content,
 			options: {
 				data: {
+					full_name: username.content,
 					username: username.content,
 					avatar_url: "https://avatars.dicebear.com/api/avataaars/John.svg",
 				},

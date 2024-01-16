@@ -3,13 +3,33 @@
 	import edit from "$lib/assets/icons/edit.svg";
 	import Tag from "$lib/components/Tag.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
+	import {supabase} from "$lib/functions/createClient";
+	import {onMount} from "svelte";
+	import LoadingContent from "$lib/components/LoadingContent.svelte";
+
+	let userData;
+	let userLoaded = false;
+
+	onMount(async () => {
+				const { data, error } = await supabase.auth.refreshSession()
+				const { session, user } = data
+				userData = user
+				userLoaded = true;
+			}
+	)
 </script>
 
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center">
 		<img class="w-44 rounded-full" alt="User" src={img} width="176" height="176" />
-		<div class="mt-lg flex flex-col items-center">
-			<h1 class="font-header text-xxl text-light">Jennifer Hoffmann</h1>
+		<div class="mt-lg flex flex-col items-center w-full">
+				<h1 class="font-header text-xxl h-xl w-full text-light text-center block">
+					{#if userLoaded}
+						{userData.user_metadata.username}
+					{:else}
+						<LoadingContent/>
+					{/if}
+				</h1>
 			<p>25, Hamburg (DE)</p>
 		</div>
 		<div class="mt-lg flex gap-2">
