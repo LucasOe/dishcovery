@@ -46,16 +46,18 @@ export const fetchCurrentUser = async (): Promise<User> => {
 
 export const uploadRecipeImages = async (id: number, files: Blob[]): Promise<string[]> => {
 	const paths: string[] = [];
-	files.forEach(async (file, index) => {
-		const { data, error } = await supabase.storage.from("images").upload(`recipe${id}-${index}.jpg`, file, {
-			cacheControl: "3600",
-			upsert: false,
-		});
+	for (let index = 0; index < files.length; index++) {
+		const { data: path, error } = await supabase.storage
+			.from("images")
+			.upload(`recipe${id}-${index}.jpg`, files[index], {
+				cacheControl: "3600",
+				upsert: false,
+			});
 		if (error) throw error;
 
-		const { data: path } = supabase.storage.from("images").getPublicUrl(data.path);
-		paths.push(path.publicUrl);
-	});
+		const { data: publicUrl } = await supabase.storage.from("images").getPublicUrl(path.path);
+		paths.push(publicUrl.publicUrl);
+	}
 	return paths;
 };
 
