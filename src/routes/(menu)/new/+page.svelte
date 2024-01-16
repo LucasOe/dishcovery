@@ -1,5 +1,13 @@
 <script lang="ts">
-	import { fetchCategories, fetchTypes, insertRecipe } from "$lib/functions/db";
+	import {
+		fetchCategories,
+		fetchTypes,
+		insertRecipe,
+		insertRecipeCategories,
+		insertRecipeImages,
+		insertRecipeTypes,
+		uploadRecipeImages,
+	} from "$lib/functions/db";
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -9,6 +17,7 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import type { DisplayValue } from "$types/database.types";
+	import { goto } from "$app/navigation";
 
 	let name: string;
 	let description: string;
@@ -17,26 +26,40 @@
 	let difficulty: DisplayValue;
 	let preperation_time: DisplayValue;
 	let cost: DisplayValue;
-	let images: string[] = [];
+	let images: Blob[] = [];
 	let steps: string[] = [""];
 
-	function logRecipe() {
-		insertRecipe({
+	async function publishRecipe() {
+		let id = await insertRecipe({
 			name: name,
 			description: description,
 			difficulty: difficulty.id,
 			cost: cost.id,
 			preperation_time: preperation_time.id,
-			categories: categories.map((category) => category.id),
-			types: types.map((type) => type.id),
 		});
+
+		insertRecipeCategories(
+			id,
+			categories.map((category) => category.id)
+		);
+
+		insertRecipeTypes(
+			id,
+			types.map((type) => type.id)
+		);
+
+		let paths = await uploadRecipeImages(id, images);
+		console.log(paths);
+		await insertRecipeImages(id, paths);
+
+		goto(`/recipe/${id}`);
 	}
 
 	let fileInput: HTMLInputElement;
 
 	function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (!e.currentTarget.files) return null;
-		for (const file of e.currentTarget.files) images.push(URL.createObjectURL(file));
+		for (const file of e.currentTarget.files) images.push(file);
 		images = images;
 	}
 </script>
@@ -67,7 +90,7 @@
 			<Section title="Bilder Vorschau">
 				<div class="grid grid-cols-4 gap-4">
 					{#each images as image}
-						<img src={image} alt="Bildvorschau" />
+						<img src={URL.createObjectURL(image)} alt="Bildvorschau" />
 					{/each}
 				</div>
 			</Section>
@@ -146,7 +169,7 @@
 				<img alt="Close" class="size-10" src={UploadIcon} />
 			</button>
 		</Section>
-		<button on:click={logRecipe} class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
+		<button on:click={publishRecipe} class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
 			Rezept veröffentlichen
 		</button>
 	</div>
