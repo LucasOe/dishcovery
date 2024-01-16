@@ -40,6 +40,7 @@ export const fetchCurrentUser = async (): Promise<User> => {
 			id: user.id,
 			username: user.user_metadata.username,
 			email: user.email!,
+			avatar_url: user.user_metadata.avatar_url,
 		};
 	} else throw error;
 };

@@ -2,6 +2,8 @@
 	import AddIcon from "$lib/assets/icons/add.svg";
 	import FilterIcon from "$lib/assets/icons/filter.svg";
 	import RecipeIcon from "$lib/assets/icons/recipes.svg";
+	import {onMount} from "svelte";
+	import {fetchCurrentUser} from "$lib/functions/db";
 
 	let tabs = [
 		{ name: "Kochbuch", link: "recipes", icon: RecipeIcon },
@@ -10,6 +12,11 @@
 	];
 
 	let profileTab = { name: "profile", link: "profile", icon: AddIcon };
+	let user;
+
+	onMount(async () => {
+		user = await fetchCurrentUser();
+	});
 </script>
 
 <div class="flex items-center justify-between">
