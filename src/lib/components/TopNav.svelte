@@ -32,7 +32,7 @@
 
 	<!-- Profile -->
 	<div>
-		<a href={profileTab.link}>
+		<a href={`${user? profileTab.link : "/login"}`}>
 			<div class={`size-14 rounded-full border-yellow border-[2px] overflow-hidden`}>
 				{#if user}
 					<img class="rounded-full" alt="profile" src={user.avatar_url} />
