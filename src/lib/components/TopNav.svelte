@@ -2,6 +2,7 @@
 	import AddIcon from "$lib/assets/icons/add.svg";
 	import FilterIcon from "$lib/assets/icons/filter.svg";
 	import RecipeIcon from "$lib/assets/icons/recipes.svg";
+	import UserIcon from "$lib/assets/icons/ic_user.svg";
 	import {onMount} from "svelte";
 	import {fetchCurrentUser} from "$lib/functions/db";
 
@@ -32,7 +33,13 @@
 	<!-- Profile -->
 	<div>
 		<a href={profileTab.link}>
-			<div class="size-10 rounded-full bg-yellow" />
+			<div class={`size-14 rounded-full border-yellow border-[2px] overflow-hidden`}>
+				{#if user}
+					<img class="rounded-full" alt="profile" src={user.avatar_url} />
+				{:else}
+					<img class="rounded-full" alt="profile" src={UserIcon} />
+				{/if}
+			</div>
 		</a>
 	</div>
 </div>
