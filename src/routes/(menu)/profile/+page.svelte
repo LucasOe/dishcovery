@@ -21,7 +21,7 @@
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center">
 		{#if user}
-			<img class="w-44 rounded-full" alt="User" src={img} width="176" height="176" />
+			<img class="w-44 rounded-full" alt="User" src={user.avatar_url} width="176" height="176" />
 			<div class="mt-lg flex w-full flex-col items-center">
 				<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
 					{user.username}
