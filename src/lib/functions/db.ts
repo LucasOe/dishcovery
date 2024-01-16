@@ -1,5 +1,5 @@
-import type { Recipe, Tables } from "$types/database.types";
-import { supabase } from "./createClient";
+import type {Recipe, Tables, User} from "$types/database.types";
+import {supabase} from "./createClient";
 
 export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
 	const { data, error } = await supabase
@@ -31,6 +31,20 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 	if (data) return data;
 	else throw error;
 };
+
+export const fetchCurrentUser = async (): Promise<User> =>{
+
+	const { data, error } = await supabase.auth.refreshSession()
+	const { session, user } = data
+	if (user) {
+		return {
+			id: user.id,
+			username: user.user_metadata.username,
+			email: user.email!,
+		}
+	}
+	else throw error;
+}
 
 export const insertRecipe = async (recipe: {
 	cost: number;

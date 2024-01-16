@@ -6,30 +6,28 @@
 	import {supabase} from "$lib/functions/createClient";
 	import {onMount} from "svelte";
 	import LoadingContent from "$lib/components/LoadingContent.svelte";
+	import {fetchCurrentUser} from "$lib/functions/db";
+	import Button from "$lib/components/Button.svelte";
+	import {goto} from "$app/navigation";
+	import Spinner from "$lib/components/Spinner.svelte";
 
-	let userData;
-	let userLoaded = false;
+	let user;
 
 	onMount(async () => {
-				const { data, error } = await supabase.auth.refreshSession()
-				const { session, user } = data
-				userData = user
-				userLoaded = true;
+				user = await fetchCurrentUser()
 			}
 	)
+
 </script>
 
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center">
+		{#if user}
 		<img class="w-44 rounded-full" alt="User" src={img} width="176" height="176" />
 		<div class="mt-lg flex flex-col items-center w-full">
-				<h1 class="font-header text-xxl h-xl w-full text-light text-center block">
-					{#if userLoaded}
-						{userData.user_metadata.username}
-					{:else}
-						<LoadingContent/>
-					{/if}
-				</h1>
+			<h1 class="font-header text-xxl h-xl w-full text-light text-center block">
+					{user.username}
+			</h1>
 			<p>25, Hamburg (DE)</p>
 		</div>
 		<div class="mt-lg flex gap-2">
@@ -67,5 +65,8 @@
 			<img class="w-44 rounded-md" alt="User" src={img} />
 			<img class="w-44 rounded-md" alt="User" src={img} />
 		</div>
+		{:else}
+			<Spinner/>
+		{/if}
 	</div>
 </FadeIn>
