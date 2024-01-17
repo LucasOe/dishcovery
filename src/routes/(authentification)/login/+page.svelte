@@ -19,10 +19,7 @@
 		});
 
 		//Fetch and set current user
-		const user = await fetchCurrentUser().then((user) => {
-			return user;
-		});
-		currentUser.set(user);
+		currentUser.set(await fetchCurrentUser());
 
 		// Handle Redirect
 		if (data.user) goto("/profile");
