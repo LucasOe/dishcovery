@@ -48,7 +48,7 @@
 		</div>
 	{/if}
 	{#if recipe}
-		<img src={recipe.images[0].image} class="aspect-square h-64 w-full object-cover" alt="" />
+		<img src={recipe.images[0].image} class="maharkus h-64 w-full object-cover" alt="" style:--recipe="image-{recipe.id}"/>
 		<div class="mt-5">
 			<h1 class="mt-5 font-header text-xxl text-light">{recipe.name}</h1>
 			<div class="mt-2 flex gap-sm">
@@ -122,6 +122,9 @@
 </FadeIn>
 
 <style>
+	.maharkus {
+		view-transition-name: var(--recipe);
+	}
 	.accordion-content {
 		overflow: hidden;
 		max-height: 0;
