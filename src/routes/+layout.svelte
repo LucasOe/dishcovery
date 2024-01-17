@@ -11,7 +11,7 @@
 	});
 </script>
 
-<div class="mx-auto flex min-h-dvh max-w-[44rem] font-default text-base text-light">
+<div class="mx-auto flex min-h-dvh max-w-[36rem] font-default text-base text-light">
 	<ViewTransition />
 	<slot />
 </div>
