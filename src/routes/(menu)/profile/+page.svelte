@@ -4,21 +4,19 @@
 	import Tag from "$lib/components/Tag.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import { supabase } from "$lib/functions/createClient";
-	import { onMount } from "svelte";
-	import LoadingContent from "$lib/components/LoadingContent.svelte";
-	import { fetchCurrentUser } from "$lib/functions/db";
-	import Button from "$lib/components/Button.svelte";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
+	import {currentUser} from "$lib/functions/stores";
 
 	let user;
 
-	onMount(async () => {
-		user = await fetchCurrentUser();
+	currentUser.subscribe((value) => {
+		user = value;
 	});
 
 	const logout = async () => {
 		const { error } = await supabase.auth.signOut();
+		currentUser.set(null)
 		if (error) console.log("Error logging out:", error.message);
 		else goto("/");
 	};
