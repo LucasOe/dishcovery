@@ -35,6 +35,7 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
 	if (data.user) {
+		console.log(data.user)
 		return {
 			id: data.user.id,
 			username: data.user.user_metadata.username,
@@ -112,5 +113,29 @@ export const insertRecipeImages = async (id: number, images: string[]) => {
 			image: image,
 		}))
 	);
+	if (image_error) throw image_error;
+};
+
+
+
+export const uploadAvatarImage = async (id: number, file: File): Promise<string> => {
+	const { data: path, error } = await supabase
+		.storage
+		.from('avatars')
+		.upload(`avatar_${id}.jpg`, file, {
+			cacheControl: '3600',
+			upsert: false
+		})
+	if (error) throw error;
+
+	const { data: publicUrl } = supabase.storage.from("avatars").getPublicUrl(path.path);
+
+	return publicUrl.publicUrl;
+};
+
+export const insertAvatarImage = async (id: number, image: string) => {
+	const { error: image_error } = await supabase.from("profiles")
+		.update({avatar_url: image})
+		.match({id: id})
 	if (image_error) throw image_error;
 };

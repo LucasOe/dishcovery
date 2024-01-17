@@ -7,8 +7,13 @@
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import {currentUser} from "$lib/functions/stores";
+	import {uploadAvatarImage} from "$lib/functions/db";
+	import {insertAvatarImage} from "$lib/functions/db.js";
+	import {onMount} from "svelte";
 
 	let user;
+	let image;
+	let fileInput: HTMLInputElement;
 
 	currentUser.subscribe((value) => {
 		user = value;
@@ -20,12 +25,23 @@
 		if (error) console.log("Error logging out:", error.message);
 		else goto("/");
 	};
+
+
+	async function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
+		if (!e.currentTarget.files) return null;
+		image = e.currentTarget.files[0];
+		const path = await uploadAvatarImage(user.id, image);
+		await insertAvatarImage(user.id, path);
+	}
 </script>
 
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center">
 		{#if user}
-			<img class="w-44 rounded-full" alt="User" src={user.avatar_url} width="176" height="176" />
+			<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
+			<button class="inline" on:click={() => fileInput.click()}>
+				<img class="w-44 rounded-full" alt="User" src={user.avatar_url} width="176" height="176" />
+			</button>
 			<div class="mt-lg flex w-full flex-col items-center">
 				<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
 					{user.username}
