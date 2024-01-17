@@ -32,8 +32,14 @@
 				</h1>
 				<p>25, Hamburg (DE)</p>
 			</div>
-			<button on:click={() => logout()} class="mt-md flex font-bold text-gray-300">Ausloggen</button>
-			<div class="mt-lg flex gap-2">
+			<div class="flex justify-center items-center gap-5">
+				<div class="mt-lg flex font-bold text-gray-300">
+					<img class="mr-5 size-5" alt="User" src={edit} />
+					<p>Profil bearbeiten</p>
+				</div>
+				<button on:click={() => logout()} class="mt-lg flex font-bold text-gray-300">Ausloggen</button>
+			</div>
+			<div class="mt-lg flex gap-2 hidden">
 				<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 					<p class="font-bold">Rezepte</p>
 					<p class="text-lg font-bold">3</p>
@@ -54,10 +60,6 @@
 				<Tag text="Thailändisch" />
 				<Tag text="Chinesisch" />
 				<Tag text="Schnell" />
-			</div>
-			<div class="mt-lg flex font-bold text-gray-300">
-				<img class="mr-5 size-5" alt="User" src={edit} />
-				<p>Profil bearbeiten</p>
 			</div>
 
 			<div class="my-lg grid grid-cols-2 gap-5">
