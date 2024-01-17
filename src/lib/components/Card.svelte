@@ -28,25 +28,24 @@
 		[Direction.None]:  "",
 		[Direction.Left]:  "border-red shadow-shadowRed",
 		[Direction.Right]: "border-yellow shadow-shadowYellow",
-		[Direction.Up]:    "border-light shadow-shadowLight ",
+		[Direction.Up]:    "border-light shadow-shadowLight w-[110%]",
 		[Direction.Down]:  "",
 	};
 </script>
 
 <div
 	class={twMerge(
-		"flex overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 ",
+		"size-full w-[100%] absolute flex justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 ",
 		isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow",
 		isLast ? swipeClass[swipeValue] : "",
-		isFirst ? "shadow-shadowGray" : "",
-		$$props.class
+		isFirst ? "shadow-shadowGray" : ""
 	)}
 	style={`
 		transform: ${isLast ? transformValue : "translate(0px, 0px)"};
 	`}
 >
 
-	<div class="z-10 flex flex-col gap-sm self-end p-lg">
+	<div class=" z-10 flex flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
@@ -75,7 +74,7 @@
 		</div>
 	</div>
 
-	<img src={recipe.images[0].image} class="transition-image absolute top-0 max-w-[200%] translate-x-[-50%] ml-[50%] h-full z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
+	<img src={recipe.images[0].image} class="transition-image absolute top-0 max-w-[200%] h-full z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
 
 	<div>
 		<img
@@ -104,11 +103,9 @@
 		/>
 		<div
 			class={`
-				absolute left-0 top-0 duration-300
+				absolute left-0 top-0 duration-300 size-full bg-gradient-to-t from-transparent from-10% to-gray-500
 				${
-					isLast && (swipeValue === Direction.Up || swipeValue === Direction.Left || swipeValue == Direction.Right)
-						? "size-full bg-gradient-to-t from-transparent from-10% to-gray-500 opacity-100"
-						: "opacity-0"
+					(isLast && (swipeValue === Direction.Up || swipeValue === Direction.Left || swipeValue == Direction.Right)) ? "opacity-100" : "opacity-0"
 				}
 			`}></div>
 	</div>
@@ -121,11 +118,15 @@
 	.transition-transform-slow {
 		transition:
 			translate 300ms,
-			transform 500ms;
+			transform 500ms,
+			width 300ms,
+			border 500ms;
 	}
 	.transition-transform-instant {
 		transition:
 			translate 300ms,
-			transform 0s;
+			transform 0s,
+			width 500ms,
+			border 500ms;
 	}
 </style>

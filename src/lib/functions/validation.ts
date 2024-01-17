@@ -9,7 +9,6 @@ export const validateUsername = (username: string): boolean => {
 };
 
 export const validatePassword = (password: string): boolean => {
-	console.log(password);
 	const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 	return passwordRegex.test(password);
 };
