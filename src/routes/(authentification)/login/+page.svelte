@@ -4,17 +4,24 @@
 
 	import { supabase } from "$lib/functions/createClient";
 	import Section from "$lib/components/Section.svelte";
+	import {currentUser} from "$lib/functions/stores";
+	import {fetchCurrentUser} from "$lib/functions/db";
 
 	let email = "";
 	let password = "";
 	let error: AuthError;
 
 	async function handleLogin() {
+		// Sign in User
 		const { data, error: auth_error } = await supabase.auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
 
+		//Fetch and set current user
+		currentUser.set(await fetchCurrentUser());
+
+		// Handle Redirect
 		if (data.user) goto("/profile");
 		if (auth_error) error = auth_error;
 	}
@@ -24,23 +31,23 @@
 	<form on:submit|preventDefault={handleLogin}>
 		<Section title="E-Mail Adresse">
 			<input
-				bind:value={email}
-				type="email"
-				placeholder="email@email.com"
-				class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+					bind:value={email}
+					type="email"
+					placeholder="email@email.com"
+					class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			/>
 		</Section>
 		<Section title="Passwort">
 			<input
-				bind:value={password}
-				type="password"
-				placeholder="Password"
-				class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+					bind:value={password}
+					type="password"
+					placeholder="Password"
+					class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			/>
 		</Section>
 		<button
-			type="submit"
-			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
+				type="submit"
+				class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
 		>
 			Login
 		</button>
