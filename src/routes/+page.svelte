@@ -4,7 +4,7 @@
 	import CardStack from "$lib/components/CardStack.svelte";
 </script>
 
-<main class="flex w-full flex-col gap-16 p-12">
+<main class="flex w-full flex-col gap-16 p-8">
 	<TopNav />
 	<CardStack />
 	<BottomNav />

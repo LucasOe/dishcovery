@@ -24,6 +24,7 @@
 
 	let xDist = 0;
 	let yDist = 0;
+	let rotation = 0;
 
 	let threshold = 150;
 	let isTouching = false;
@@ -69,7 +70,7 @@
 			xDist = xCoord - xStart;
 			yDist = yCoord - yStart;
 
-			let rotation = xDist / 30;
+			rotation = (xDist / 30);
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
 			swipeDirection.set(direction(xDist, yDist, threshold));
@@ -101,7 +102,7 @@
 			case Direction.Right:
 				return "translate(200vw, 0px) rotate(50deg)";
 			case Direction.Up:
-				return "translate(0vw, 0vh) rotate(0deg)";
+				return `translate(${xDist}px, -40vh) rotate(${rotation}deg)`;
 			default:
 				return "translate(0px, 0px)";
 		}

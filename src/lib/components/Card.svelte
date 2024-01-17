@@ -28,14 +28,14 @@
 		[Direction.None]:  "",
 		[Direction.Left]:  "border-red shadow-shadowRed",
 		[Direction.Right]: "border-yellow shadow-shadowYellow",
-		[Direction.Up]:    "border-light shadow-shadowLight",
+		[Direction.Up]:    "border-light shadow-shadowLight ",
 		[Direction.Down]:  "",
 	};
 </script>
 
 <div
 	class={twMerge(
-		"flex overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900",
+		"flex overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 ",
 		isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow",
 		isLast ? swipeClass[swipeValue] : "",
 		isFirst ? "shadow-shadowGray" : "",
@@ -75,13 +75,13 @@
 		</div>
 	</div>
 
-	<img src={recipe.images[0].image} class="maharkus absolute top-0 left-0 w-[200%] h-full object-cover z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
+	<img src={recipe.images[0].image} class="transition-image absolute top-0 max-w-[200%] translate-x-[-50%] ml-[50%] h-full z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
 
 	<div>
 		<img
 			class={`
 				absolute left-xxl top-xxl z-10 size-xxl duration-300
-				${isLast && swipeValue == Direction.Right ? "opacity-100" : "opacity-0"}
+				${isLast && swipeValue === Direction.Right ? "opacity-100" : "opacity-0"}
 			`}
 			src={Like}
 			alt="Like Icon"
@@ -89,7 +89,7 @@
 		<img
 			class={`
 				absolute right-xxl top-xxl z-10 size-xxl duration-300
-				${isLast && swipeValue == Direction.Left ? "opacity-100" : "opacity-0"}
+				${isLast && swipeValue === Direction.Left ? "opacity-100" : "opacity-0"}
 			`}
 			src={Dislike}
 			alt="Dislike Icon"
@@ -97,7 +97,7 @@
 		<img
 			class={`
 				absolute bottom-0 left-0 right-0 top-0 z-10 m-auto size-xxl brightness-200 duration-300
-				${isLast && swipeValue == Direction.Up ? "opacity-100" : "opacity-0"}
+				${isLast && swipeValue === Direction.Up ? "opacity-100" : "opacity-0"}
 			`}
 			src={Open}
 			alt="Open Icon"
@@ -106,17 +106,16 @@
 			class={`
 				absolute left-0 top-0 duration-300
 				${
-					isLast && (swipeValue == Direction.Up || swipeValue == Direction.Left || swipeValue == Direction.Right)
+					isLast && (swipeValue === Direction.Up || swipeValue === Direction.Left || swipeValue == Direction.Right)
 						? "size-full bg-gradient-to-t from-transparent from-10% to-gray-500 opacity-100"
 						: "opacity-0"
 				}
-			`}
-		/>
+			`}></div>
 	</div>
 </div>
 
 <style>
-	.maharkus {
+	.transition-image {
 		view-transition-name: var(--recipe);
 	}
 	.transition-transform-slow {
