@@ -35,7 +35,6 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
 	if (data.user) {
-		console.log(data.user)
 		return {
 			id: data.user.id,
 			username: data.user.user_metadata.username,
