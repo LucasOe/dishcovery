@@ -30,7 +30,7 @@
 				<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
 					{user.username}
 				</h1>
-				<p>25, Hamburg (DE)</p>
+				<p class="hidden">25, Hamburg (DE)</p>
 			</div>
 			<div class="flex justify-center items-center gap-5">
 				<div class="mt-lg flex font-bold text-gray-300">
