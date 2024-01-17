@@ -42,10 +42,10 @@
 		$$props.class
 	)}
 	style={`
-		background-image: url(${recipe.images[0].image});
 		transform: ${isLast ? transformValue : "translate(0px, 0px)"};
 	`}
 >
+
 	<div class="z-10 flex flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
@@ -74,6 +74,8 @@
 			</div>
 		</div>
 	</div>
+
+	<img src={recipe.images[0].image} class="maharkus absolute top-0 left-0 w-[200%] h-full object-cover z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
 
 	<div>
 		<img
@@ -114,6 +116,9 @@
 </div>
 
 <style>
+	.maharkus {
+		view-transition-name: var(--recipe);
+	}
 	.transition-transform-slow {
 		transition:
 			translate 300ms,

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ViewTransition from './Navigation.svelte'
 	import "../app.css";
 	import {onMount} from "svelte";
 	import {fetchCurrentUser} from "$lib/functions/db";
@@ -10,6 +11,7 @@
 	});
 </script>
 
-<div class="mx-auto flex min-h-dvh max-w-[44rem] p-12 font-default text-base text-light">
+<div class="mx-auto flex min-h-dvh max-w-[44rem] font-default text-base text-light">
+	<ViewTransition />
 	<slot />
 </div>
