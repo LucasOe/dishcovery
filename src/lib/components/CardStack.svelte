@@ -9,7 +9,7 @@
 	import { goto } from "$app/navigation";
 	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import Spinner from "$lib/components/Spinner.svelte";
-	import {fetchRecipe, fetchRecipes} from "$lib/functions/database/recipes";
+	import { fetchRecipe, fetchRecipes } from "$lib/functions/database/recipes";
 
 	let swipeVisual: Direction = Direction.None;
 
@@ -19,7 +19,7 @@
 			case Direction.Left:
 			case Direction.Right:
 				transformValue = getTransformValue();
-				await handleCardChoice()
+				await handleCardChoice();
 				break;
 			case Direction.Up:
 				transformValue = getTransformValue();
@@ -29,7 +29,6 @@
 				break;
 		}
 	});
-
 
 	let xStart = 0;
 	let yStart = 0;
@@ -85,7 +84,7 @@
 			xDist = xCoord - xStart;
 			yDist = yCoord - yStart;
 
-			rotation = (xDist / 30);
+			rotation = xDist / 30;
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
 			swipeVisual = direction(xDist, yDist, threshold);
@@ -120,7 +119,6 @@
 				return "translate(0px, 0px)";
 		}
 	};
-
 
 	const showDetailPage = () => {
 		goto("recipe/" + currentRecipe);
@@ -192,14 +190,7 @@
 	{/if}
 	{#key recipes}
 		{#each recipes as recipe, i}
-			<Card
-				{recipe}
-				isLast={i === recipes.length - 1}
-				isFirst={i === 0}
-				{transformValue}
-				{isTouching}
-				{swipeVisual}
-			/>
+			<Card {recipe} isLast={i === recipes.length - 1} isFirst={i === 0} {transformValue} {isTouching} {swipeVisual} />
 		{/each}
 	{/key}
 	<button

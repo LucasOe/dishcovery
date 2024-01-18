@@ -48,7 +48,12 @@
 		</div>
 	{/if}
 	{#if recipe}
-		<img src={recipe.images[0].image} class="transition-image h-64 w-full object-cover" alt="" style:--recipe="image-{recipe.id}"/>
+		<img
+			src={recipe.images[0].image}
+			class="transition-image h-64 w-full object-cover"
+			alt=""
+			style:--recipe="image-{recipe.id}"
+		/>
 		<div class="p-8 pt-4">
 			<h1 class="mt-5 font-header text-xxl text-light transition-name" style:--recipe-name="name-{recipe.id}">{recipe.name}</h1>
 			<div class="custom-animation">
