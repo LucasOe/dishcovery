@@ -7,6 +7,7 @@
 	import { currentUser } from "$lib/functions/stores";
 
 	let userData;
+	let profileTab;
 
 	let tabs = [
 		{ name: "Kochbuch", link: "recipes", icon: RecipeIcon },
@@ -14,11 +15,10 @@
 		{ name: "filter", link: "filter", icon: FilterIcon },
 	];
 
-	let profileTab = { name: "profile", link: "profile", icon: AddIcon };
-
 	onMount(async () => {
 		currentUser.subscribe((value) => {
 			userData = value;
+			profileTab = { name: "profile", link: "profile/" + userData.username, icon: AddIcon };
 		});
 	});
 </script>
