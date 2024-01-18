@@ -41,7 +41,7 @@
 >
 
 	<div class=" z-10 flex flex-col gap-sm self-end p-lg w-full">
-		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
+		<h1 class="font-header text-xxl text-light transition-name" style:--recipe-name="name-{recipe.id}">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
@@ -107,9 +107,7 @@
 </div>
 
 <style>
-	.transition-image {
-		view-transition-name: var(--recipe);
-	}
+	
 	.transition-transform-slow {
 		transition:
 			translate 300ms,
