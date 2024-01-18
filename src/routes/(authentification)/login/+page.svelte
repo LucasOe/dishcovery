@@ -5,7 +5,7 @@
 	import { supabase } from "$lib/functions/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import {currentUser} from "$lib/functions/stores";
-	import {fetchCurrentUser} from "$lib/functions/db";
+	import {fetchCurrentUserId, fetchUserData} from "$lib/functions/db";
 
 	let email = "";
 	let password = "";
@@ -19,7 +19,8 @@
 		});
 
 		//Fetch and set current user
-		currentUser.set(await fetchCurrentUser());
+		const userID = await fetchCurrentUserId();
+		currentUser.set(await fetchUserData(userID));
 
 		// Handle Redirect
 		if (data.user) goto("/profile");
