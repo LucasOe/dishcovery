@@ -3,8 +3,8 @@
 	import FilterIcon from "$lib/assets/icons/filter.svg";
 	import RecipeIcon from "$lib/assets/icons/recipes.svg";
 	import UserIcon from "$lib/assets/icons/ic_user.svg";
-	import {onMount} from "svelte";
-	import {currentUser} from "$lib/functions/stores";
+	import { onMount } from "svelte";
+	import { currentUser } from "$lib/functions/stores";
 
 	let userData;
 
@@ -35,8 +35,8 @@
 
 	<!-- Profile -->
 	<div>
-		<a href={`${userData? profileTab.link : "/login"}`}>
-			<div class={`size-14 rounded-full border-yellow border-[2px] overflow-hidden`}>
+		<a href={`${userData ? profileTab.link : "/login"}`}>
+			<div class={`size-14 overflow-hidden rounded-full border-[2px] border-yellow`}>
 				{#if userData}
 					<img class="rounded-full" alt="profile" src={userData.avatar_url} />
 				{:else}

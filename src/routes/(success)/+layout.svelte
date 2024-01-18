@@ -10,7 +10,7 @@
 
 <div class="flex w-full flex-col gap-6 p-12">
 	<div class="flex flex-col items-center justify-center gap-2">
-		<img class="w-32 h-full" src={Mail} alt="Logo" />
+		<img class="h-full w-32" src={Mail} alt="Logo" />
 		<h1 class="font-header text-xxl text-light">{$page.data.title || "Page Title"}</h1>
 	</div>
 	<slot />
