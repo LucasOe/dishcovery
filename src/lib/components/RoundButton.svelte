@@ -1,10 +1,11 @@
 <script lang="ts">
+	import type { MouseEventHandler } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
 	export let src: string;
 	export let alt: string;
 	export let size: "sm" | "md" = "md";
-	export let action: Function;
+	export let action: () => MouseEventHandler<HTMLButtonElement> | null | undefined;
 </script>
 
 <button
