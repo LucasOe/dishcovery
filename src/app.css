@@ -5,10 +5,8 @@
 .transition-name {
 	transform: scale(1);
 	view-transition-name: var(--recipe-name);
-	transition: transform 1s ease-in-out;
 }
 
 .transition-image {
 	view-transition-name: var(--recipe);
-	transition: transform 1s ease-in-out;
 }

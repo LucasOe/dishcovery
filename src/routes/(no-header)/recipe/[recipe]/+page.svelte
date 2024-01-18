@@ -130,12 +130,18 @@
 
 <style>
 	@keyframes slidein {
-		0%{opacity: 0}
-		100%{opacity:1}
+		0%{
+			opacity: 0;
+			transform: translateY(100px);
+		}
+		100%{
+			opacity:1;
+			transform: translateY(0px);
+		}
 	}
 	.custom-animation {
 		opacity: 0;
-		animation: .25s ease-in-out .25s forwards slidein;
+		animation: .25s ease forwards slidein;
 	}
 	.accordion-content {
 		overflow: hidden;
