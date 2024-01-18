@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { fetchCategories, fetchTypes } from "$lib/functions/db";
 
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import TagList from "$lib/components/TagList.svelte";
+	import {fetchCategories, fetchTypes} from "$lib/functions/database/recipes";
 
 	type Filters = {
 		Bewertung: string;

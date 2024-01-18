@@ -2,10 +2,10 @@
 	import { goto } from "$app/navigation";
 	import type { AuthError } from "@supabase/supabase-js";
 
-	import { supabase } from "$lib/functions/createClient";
+	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import {currentUser} from "$lib/functions/stores";
-	import {fetchCurrentUserId, fetchUserData} from "$lib/functions/db";
+	import {fetchCurrentUserId, fetchUserData} from "$lib/functions/database/user";
 
 	let email = "";
 	let password = "";

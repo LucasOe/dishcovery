@@ -1,8 +1,8 @@
 import { writable } from "svelte/store";
 
-import { fetchRecipe } from "$lib/functions/db";
 import { Direction } from "$types/card.types";
 import type {Recipe, User} from "$types/database.types";
+import {fetchRecipe} from "$lib/functions/database/recipes";
 
 const initRecipe = await fetchRecipe(1);
 

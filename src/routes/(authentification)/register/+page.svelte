@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import type { AuthError } from "@supabase/supabase-js";
 
-	import { supabase } from "$lib/functions/createClient";
+	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
 	import { validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";

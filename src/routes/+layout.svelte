@@ -2,8 +2,8 @@
 	import ViewTransition from './Navigation.svelte'
 	import "../app.css";
 	import {onMount} from "svelte";
-	import {fetchCurrentUserId, fetchUserData} from "$lib/functions/db";
 	import {currentUser} from "$lib/functions/stores";
+	import {fetchCurrentUserId, fetchUserData} from "$lib/functions/database/user";
 
 	//Fetch and set current user on page load
 	onMount(async () => {
