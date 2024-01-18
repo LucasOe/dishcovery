@@ -3,12 +3,12 @@
 	import "../app.css";
 	import { onMount } from "svelte";
 	import { currentUser } from "$lib/functions/stores";
-	import { fetchCurrentUserId, fetchUserData } from "$lib/functions/database/user";
+	import { fetchCurrentUserId, fetchUserDataById } from "$lib/functions/database/user";
 
 	//Fetch and set current user on page load
 	onMount(async () => {
 		const userID = await fetchCurrentUserId();
-		currentUser.set(await fetchUserData(userID));
+		currentUser.set(await fetchUserDataById(userID));
 	});
 </script>
 
