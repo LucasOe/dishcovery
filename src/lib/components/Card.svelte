@@ -74,7 +74,7 @@
 		</div>
 	</div>
 
-	<img src={recipe.images[0].image} class="transition-image absolute top-0 max-w-[200%] h-full z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
+	<img src={recipe.images[0].image} class="transition-image absolute top-0 max-w-[200%] object-cover h-full z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
 
 	<div>
 		<img
