@@ -72,7 +72,7 @@
 		src={recipe.images[0].image}
 		class="transition-image absolute top-0 z-[-1] h-full max-w-[200%] object-cover"
 		alt=""
-		style:--recipe="image-{recipe.id}"
+		style:--recipe={isLast && "image-{recipe.id}"}
 	/>
 
 	<div>

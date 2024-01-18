@@ -23,7 +23,7 @@
 		currentUser.set(await fetchUserDataById(userID));
 
 		// Handle Redirect
-		if (data.user) goto("/profile");
+		if (data.user) goto("/");
 		if (auth_error) error = auth_error;
 	}
 </script>
