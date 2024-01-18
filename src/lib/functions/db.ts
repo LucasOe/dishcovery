@@ -1,5 +1,6 @@
 import type { Recipe, Tables, User } from "$types/database.types";
 import { supabase } from "./createClient";
+import {error} from "@sveltejs/kit";
 
 export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
 	const { data, error } = await supabase
@@ -32,17 +33,28 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 	else throw error;
 };
 
-export const fetchCurrentUser = async (): Promise<User> => {
+export const fetchCurrentUserId = async (): Promise<string> => {
 	const { data, error } = await supabase.auth.refreshSession();
 	if (data.user) {
+		return data.user.id
+	}
+	else throw error;
+};
+
+export const fetchUserData = async (userId: string): Promise<User> => {
+	const {data, error: image_error } =
+		await supabase.from("profiles")
+			.select(`*`)
+			.eq("id", userId)
+			.maybeSingle();
+	if (data) {
 		return {
-			id: data.user.id,
-			username: data.user.user_metadata.username,
-			email: data.user.email!,
-			avatar_url: data.user.user_metadata.avatar_url,
+			id: data.id,
+			username: data.username,
+			avatar_url: data.avatar_url,
 		};
 	} else throw error;
-};
+}
 
 export const uploadRecipeImages = async (id: number, files: Blob[]): Promise<string[]> => {
 	const paths: string[] = [];
@@ -117,11 +129,11 @@ export const insertRecipeImages = async (id: number, images: string[]) => {
 
 
 
-export const uploadAvatarImage = async (id: number, file: File): Promise<string> => {
+export const uploadAvatarImage = async (userID: number, file: File): Promise<string> => {
 	const { data: path, error } = await supabase
 		.storage
 		.from('avatars')
-		.upload(`avatar_${id}.jpg`, file, {
+		.upload(`avatar_${userID}.jpg`, file, {
 			cacheControl: '3600',
 			upsert: false
 		})
@@ -132,9 +144,9 @@ export const uploadAvatarImage = async (id: number, file: File): Promise<string>
 	return publicUrl.publicUrl;
 };
 
-export const insertAvatarImage = async (id: number, image: string) => {
+export const insertAvatarImage = async (userID: number, image: string) => {
 	const { error: image_error } = await supabase.from("profiles")
 		.update({avatar_url: image})
-		.match({id: id})
+		.match({id: userID})
 	if (image_error) throw image_error;
 };
