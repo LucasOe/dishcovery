@@ -1,8 +1,15 @@
 import { supabase } from "$lib/functions/database/createClient";
+import type { User } from "$types/database.types";
 
 export const fetchCurrentUserId = async (): Promise<string> => {
 	const { data, error } = await supabase.auth.refreshSession();
 	if (data.user) return data.user.id;
+	else throw error;
+};
+
+export const fetchUserData = async (userId: string): Promise<User> => {
+	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
+	if (data) return { id: data.id, username: data.username, avatar_url: data.avatar_url };
 	else throw error;
 };
 
