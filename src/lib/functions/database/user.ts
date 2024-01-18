@@ -7,8 +7,22 @@ export const fetchCurrentUserId = async (): Promise<string> => {
 	else throw error;
 };
 
-export const fetchUserData = async (userId: string): Promise<User> => {
-	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
+export const fetchUserDataById = async (userId: string): Promise<User> => {
+	const { data, error } =
+		await supabase.from("profiles")
+			.select(`*`)
+			.eq("id", userId)
+			.maybeSingle();
+	if (data) return { id: data.id, username: data.username, avatar_url: data.avatar_url };
+	else throw error;
+};
+
+export const fetchUserDataByUsername = async (username: string): Promise<User> => {
+	const { data, error } =
+		await supabase.from("profiles")
+			.select(`*`)
+			.ilike("username", username)
+			.maybeSingle();
 	if (data) return { id: data.id, username: data.username, avatar_url: data.avatar_url };
 	else throw error;
 };
