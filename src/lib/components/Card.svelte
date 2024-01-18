@@ -10,18 +10,13 @@
 	import Like from "$lib/assets/icons/addToList.svg";
 	import Dislike from "$lib/assets/icons/reject.svg";
 	import Open from "$lib/assets/icons/open.svg";
-	import { swipeDirection } from "$lib/functions/stores";
 
 	export let recipe: Recipe;
 	export let isLast = false;
 	export let isFirst = false;
 	export let isTouching = false;
 	export let transformValue = "translate(0px, 0px)";
-
-	let swipeValue: Direction = Direction.None;
-	swipeDirection.subscribe((value) => {
-		swipeValue = value;
-	});
+	export let swipeVisual = Direction.None;
 
 	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
@@ -37,7 +32,7 @@
 	class={twMerge(
 		"size-full w-[100%] absolute flex justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 ",
 		isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow",
-		isLast ? swipeClass[swipeValue] : "",
+		isLast ? swipeClass[swipeVisual] : "",
 		isFirst ? "shadow-shadowGray" : ""
 	)}
 	style={`
@@ -45,7 +40,7 @@
 	`}
 >
 
-	<div class=" z-10 flex flex-col gap-sm self-end p-lg">
+	<div class=" z-10 flex flex-col gap-sm self-end p-lg w-full">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
@@ -80,7 +75,7 @@
 		<img
 			class={`
 				absolute left-xxl top-xxl z-10 size-xxl duration-300
-				${isLast && swipeValue === Direction.Right ? "opacity-100" : "opacity-0"}
+				${isLast && swipeVisual === Direction.Right ? "opacity-100" : "opacity-0"}
 			`}
 			src={Like}
 			alt="Like Icon"
@@ -88,7 +83,7 @@
 		<img
 			class={`
 				absolute right-xxl top-xxl z-10 size-xxl duration-300
-				${isLast && swipeValue === Direction.Left ? "opacity-100" : "opacity-0"}
+				${isLast && swipeVisual === Direction.Left ? "opacity-100" : "opacity-0"}
 			`}
 			src={Dislike}
 			alt="Dislike Icon"
@@ -96,7 +91,7 @@
 		<img
 			class={`
 				absolute bottom-0 left-0 right-0 top-0 z-10 m-auto size-xxl brightness-200 duration-300
-				${isLast && swipeValue === Direction.Up ? "opacity-100" : "opacity-0"}
+				${isLast && swipeVisual === Direction.Up ? "opacity-100" : "opacity-0"}
 			`}
 			src={Open}
 			alt="Open Icon"
@@ -105,7 +100,7 @@
 			class={`
 				absolute left-0 top-0 duration-300 size-full bg-gradient-to-t from-transparent from-10% to-gray-500
 				${
-					(isLast && (swipeValue === Direction.Up || swipeValue === Direction.Left || swipeValue == Direction.Right)) ? "opacity-100" : "opacity-0"
+					(isLast && (swipeVisual === Direction.Up || swipeVisual === Direction.Left || swipeVisual == Direction.Right)) ? "opacity-100" : "opacity-0"
 				}
 			`}></div>
 	</div>

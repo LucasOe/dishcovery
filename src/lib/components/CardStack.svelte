@@ -10,11 +10,26 @@
 	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import {fetchRecipe, fetchRecipes} from "$lib/functions/database/recipes";
-	let swipeValue: Direction = Direction.None;
 
-	swipeDirection.subscribe((value) => {
-		swipeValue = value;
+	let swipeVisual: Direction = Direction.None;
+
+	swipeDirection.subscribe(async (value) => {
+		swipeVisual = value;
+		switch (value) {
+			case Direction.Left:
+			case Direction.Right:
+				transformValue = getTransformValue();
+				await handleCardChoice()
+				break;
+			case Direction.Up:
+				transformValue = getTransformValue();
+				showDetailPage();
+				break;
+			default:
+				break;
+		}
 	});
+
 
 	let xStart = 0;
 	let yStart = 0;
@@ -73,7 +88,7 @@
 			rotation = (xDist / 30);
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
-			swipeDirection.set(direction(xDist, yDist, threshold));
+			swipeVisual = direction(xDist, yDist, threshold);
 		}
 	};
 
@@ -89,14 +104,12 @@
 		transformValue = getTransformValue();
 		xDist = 0;
 		yDist = 0;
-
-		//wait for animation to finish
-		handleCardAction();
+		swipeDirection.set(swipeVisual);
 	};
 
 	//transform value for card
 	const getTransformValue = () => {
-		switch (swipeValue) {
+		switch (swipeVisual) {
 			case Direction.Left:
 				return "translate(-200vw, 0px) rotate(-50deg)";
 			case Direction.Right:
@@ -108,19 +121,6 @@
 		}
 	};
 
-	const handleCardAction = async () => {
-		switch (swipeValue) {
-			case Direction.Left:
-			case Direction.Right:
-				await handleCardChoice();
-				break;
-			case Direction.Up:
-				showDetailPage();
-				break;
-			default:
-				break;
-		}
-	};
 
 	const showDetailPage = () => {
 		goto("recipe/" + currentRecipe);
@@ -132,7 +132,8 @@
 		// wait for animation to finish
 		setTimeout(() => {
 			recipes = [...recipes.slice(0, -1)];
-			swipeDirection.set(Direction.None);
+			swipeVisual = Direction.None;
+			swipeDirection.set(swipeVisual);
 			transformValue = "translate(0px, 0px)";
 			currentRecipe++;
 			isAnimationOver = true;
@@ -197,7 +198,7 @@
 				isFirst={i === 0}
 				{transformValue}
 				{isTouching}
-				class={"absolute size-full "}
+				{swipeVisual}
 			/>
 		{/each}
 	{/key}
