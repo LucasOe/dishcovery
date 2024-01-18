@@ -1,13 +1,10 @@
 <script lang="ts">
 	import {
-		fetchCategories,
-		fetchTypes,
 		insertRecipe,
-		insertRecipeCategories,
-		insertRecipeImages,
+		insertRecipeCategories, insertRecipeImages,
 		insertRecipeTypes,
-		uploadRecipeImages,
-	} from "$lib/functions/db";
+		uploadRecipeImages
+	} from "$lib/functions/database/recipes";
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";

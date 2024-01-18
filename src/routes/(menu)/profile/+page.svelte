@@ -3,13 +3,11 @@
 	import edit from "$lib/assets/icons/edit.svg";
 	import Tag from "$lib/components/Tag.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import { supabase } from "$lib/functions/createClient";
+	import { supabase } from "$lib/functions/database/createClient";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import {currentUser} from "$lib/functions/stores";
-	import {uploadAvatarImage} from "$lib/functions/db";
-	import {insertAvatarImage} from "$lib/functions/db.js";
-	import {onMount} from "svelte";
+	import {insertAvatarImage, uploadAvatarImage} from "$lib/functions/database/user";
 
 	let user;
 	let image;

@@ -4,12 +4,12 @@
 
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
-	import { fetchRecipe, fetchRecipes } from "$lib/functions/db";
 	import type { Recipe } from "$types/database.types";
 
 	import { goto } from "$app/navigation";
 	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import Spinner from "$lib/components/Spinner.svelte";
+	import {fetchRecipe, fetchRecipes} from "$lib/functions/database/recipes";
 	let swipeValue: Direction = Direction.None;
 
 	swipeDirection.subscribe((value) => {
