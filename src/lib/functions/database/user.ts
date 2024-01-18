@@ -25,6 +25,14 @@ export const fetchUserData = async (userId: string): Promise<User> => {
     } else throw error;
 }
 
+export const deleteAvatarImage = async (userID: number): Promise<void> => {
+    const { data, error } = await supabase
+        .storage
+        .from('avatars')
+        .remove([`avatar_${userID}.jpg`])
+    if (error) throw error;
+}
+
 export const uploadAvatarImage = async (userID: number, file: File): Promise<string> => {
     const { data: path, error } = await supabase
         .storage
@@ -33,6 +41,7 @@ export const uploadAvatarImage = async (userID: number, file: File): Promise<str
             cacheControl: '3600',
             upsert: false
         })
+
     if (error) throw error;
 
     const { data: publicUrl } = supabase.storage.from("avatars").getPublicUrl(path.path);

@@ -7,7 +7,7 @@
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import {currentUser} from "$lib/functions/stores";
-	import {insertAvatarImage, uploadAvatarImage} from "$lib/functions/database/user";
+	import {deleteAvatarImage, insertAvatarImage, uploadAvatarImage} from "$lib/functions/database/user";
 
 	let user;
 	let image;
@@ -28,6 +28,9 @@
 	async function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (!e.currentTarget.files) return null;
 		image = e.currentTarget.files[0];
+
+		//Replace old image with new image
+		await deleteAvatarImage(user.id);
 		const path = await uploadAvatarImage(user.id, image);
 		await insertAvatarImage(user.id, path);
 	}
