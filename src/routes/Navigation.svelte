@@ -1,26 +1,25 @@
-<script lang='ts'>
-    import { onMount } from 'svelte';
-    import { onNavigate } from '$app/navigation'
+<script lang="ts">
+	import { onMount } from "svelte";
+	import { onNavigate } from "$app/navigation";
 
-    onNavigate((navigation) => {
-        //@ts-expect-error ViewTransition ist noch zu neu
-        if (!document.startViewTransition) {
-            console.log("View Transition API not supported");
-            return
-        }
+	onNavigate((navigation) => {
+		//@ts-expect-error ViewTransition ist noch zu neu
+		if (!document.startViewTransition) {
+			console.log("View Transition API not supported");
+			return;
+		}
 
-
-        return new Promise((resolve, reject) => {
-            //@ts-ignore
-            document.startViewTransition(async (transition) => {
-                try {
-                    resolve();
-                    await navigation.complete;
-                } catch (error) {
-                    console.error("Error during transition:", error);
-                    reject(error);
-                }
-            });
-        });
-    } )
+		return new Promise((resolve, reject) => {
+			//@ts-ignore
+			document.startViewTransition(async (transition) => {
+				try {
+					resolve();
+					await navigation.complete;
+				} catch (error) {
+					console.error("Error during transition:", error);
+					reject(error);
+				}
+			});
+		});
+	});
 </script>

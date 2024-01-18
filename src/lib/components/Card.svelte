@@ -16,7 +16,7 @@
 	export let isFirst = false;
 	export let isTouching = false;
 	export let transformValue = "translate(0px, 0px)";
-	export let swipeVisual = Direction.None;
+	export let swipeVisual: Direction = Direction.None;
 
 	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
@@ -30,7 +30,7 @@
 
 <div
 	class={twMerge(
-		"size-full w-[100%] absolute flex justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 ",
+		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-50% before:to-gray-900 ",
 		isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow",
 		isLast ? swipeClass[swipeVisual] : "",
 		isFirst ? "shadow-shadowGray" : ""
@@ -39,8 +39,7 @@
 		transform: ${isLast ? transformValue : "translate(0px, 0px)"};
 	`}
 >
-
-	<div class=" z-10 flex flex-col gap-sm self-end p-lg w-full">
+	<div class=" z-10 flex w-full flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light">{recipe.name}</h1>
 
 		<div class="flex gap-sm">
@@ -69,7 +68,12 @@
 		</div>
 	</div>
 
-	<img src={recipe.images[0].image} class="transition-image absolute top-0 max-w-[200%] object-cover h-full z-[-1]" alt="" style:--recipe="image-{recipe.id}" />
+	<img
+		src={recipe.images[0].image}
+		class="transition-image absolute top-0 z-[-1] h-full max-w-[200%] object-cover"
+		alt=""
+		style:--recipe="image-{recipe.id}"
+	/>
 
 	<div>
 		<img
@@ -98,11 +102,14 @@
 		/>
 		<div
 			class={`
-				absolute left-0 top-0 duration-300 size-full bg-gradient-to-t from-transparent from-10% to-gray-500
+				absolute left-0 top-0 size-full bg-gradient-to-t from-transparent from-10% to-gray-500 duration-300
 				${
-					(isLast && (swipeVisual === Direction.Up || swipeVisual === Direction.Left || swipeVisual == Direction.Right)) ? "opacity-100" : "opacity-0"
+					isLast && (swipeVisual === Direction.Up || swipeVisual === Direction.Left || swipeVisual == Direction.Right)
+						? "opacity-100"
+						: "opacity-0"
 				}
-			`}></div>
+			`}
+		></div>
 	</div>
 </div>
 
