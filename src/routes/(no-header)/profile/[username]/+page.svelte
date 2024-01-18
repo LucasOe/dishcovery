@@ -8,14 +8,11 @@
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { currentUser } from "$lib/functions/stores";
 	import { deleteAvatarImage, insertAvatarImage, uploadAvatarImage } from "$lib/functions/database/user";
+	export let data;
 
-	let user;
+	let user = data.user;
 	let image;
 	let fileInput: HTMLInputElement;
-
-	currentUser.subscribe((value) => {
-		user = value;
-	});
 
 	const logout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -36,7 +33,7 @@
 </script>
 
 <FadeIn>
-	<div class="text-column flex flex-col items-center justify-center">
+	<div class="text-column flex flex-col items-center justify-center pt-12">
 		{#if user}
 			<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 			<button class="inline" on:click={() => fileInput.click()}>
