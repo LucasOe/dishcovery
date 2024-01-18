@@ -55,70 +55,72 @@
 			style:--recipe="image-{recipe.id}"
 		/>
 		<div class="p-8 pt-4">
-			<h1 class="mt-5 font-header text-xxl text-light">{recipe.name}</h1>
-			<div class="mt-2 flex gap-sm">
-				{#each recipe.categories as category}
-					<Tag text={category.name} color="yellow" class="select-none" />
-				{/each}
-				{#each recipe.types as type}
-					<Tag text={type.name} color="yellow" class="select-none" />
-				{/each}
-			</div>
-			<div class="pointer-events-none mt-3 flex gap-md">
-				<div class="flex select-none gap-xs">
-					<img alt="Clock" class="size-5" src={ClockIcon} />
-					<p>{recipe.preperation_time} Min.</p>
-				</div>
-				<div class="flex select-none gap-xs">
-					<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-					<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
-				</div>
-				<div class="flex select-none gap-xs">
-					{#each { length: recipe.cost } as _}
-						<img alt="Euro" class="size-5" src={EuroIcon} />
+			<h1 class="mt-5 font-header text-xxl text-light transition-name" style:--recipe-name="name-{recipe.id}">{recipe.name}</h1>
+			<div class="custom-animation">
+				<div class="mt-2 flex gap-sm">
+					{#each recipe.categories as category}
+						<Tag text={category.name} color="yellow" class="select-none" />
+					{/each}
+					{#each recipe.types as type}
+						<Tag text={type.name} color="yellow" class="select-none" />
 					{/each}
 				</div>
-			</div>
-			<div class="mt-5 rounded-sm bg-gray-500">
-				<button on:click={toggleAccordion} class="flex w-full justify-between p-3 text-left font-semibold text-yellow">
-					<div>Zutaten</div>
-					<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="20" height="20" />
-				</button>
-				<div class={`accordion-content ${isOpen ? "open" : ""}`}>
-					{#each recipe.ingredients as ingredient}
-						<li class="flex flex-row gap-4">
-							<div class="w-12">
-								{ingredient.amount}
-							</div>
-							<div class="font-semibold">
-								{ingredient.name}
-							</div>
-						</li>
-					{/each}
+				<div class="pointer-events-none mt-3 flex gap-md">
+					<div class="flex select-none gap-xs">
+						<img alt="Clock" class="size-5" src={ClockIcon} />
+						<p>{recipe.preperation_time} Min.</p>
+					</div>
+					<div class="flex select-none gap-xs">
+						<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
+						<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
+					</div>
+					<div class="flex select-none gap-xs">
+						{#each { length: recipe.cost } as _}
+							<img alt="Euro" class="size-5" src={EuroIcon} />
+						{/each}
+					</div>
 				</div>
-			</div>
-			<div class="mt-5 flex flex-col gap-3">
-				{#each getRecipeSteps(recipe) as step, index}
-					<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
-						<div>
-							{#if completedSteps[index]}
-								<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
-							{:else}
-								<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
-							{/if}
-						</div>
-						<div>
-							<h2
-								class={completedSteps[index]
-									? "completed text-left font-semibold"
-									: "text-left font-semibold text-yellow"}
-							>
-								Schritt {step.number}:
-							</h2>
-							<p class={completedSteps[index] ? "completed text-left" : " text-left"}>{step.description}</p>
-						</div>
+				<div class="mt-5 rounded-sm bg-gray-500">
+					<button on:click={toggleAccordion} class="flex w-full justify-between p-3 text-left font-semibold text-yellow">
+						<div>Zutaten</div>
+						<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="20" height="20" />
 					</button>
-				{/each}
+					<div class={`accordion-content ${isOpen ? "open" : ""}`}>
+						{#each recipe.ingredients as ingredient}
+							<li class="flex flex-row gap-4">
+								<div class="w-12">
+									{ingredient.amount}
+								</div>
+								<div class="font-semibold">
+									{ingredient.name}
+								</div>
+							</li>
+						{/each}
+					</div>
+				</div>
+				<div class="mt-5 flex flex-col gap-3">
+					{#each getRecipeSteps(recipe) as step, index}
+						<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
+							<div>
+								{#if completedSteps[index]}
+									<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
+								{:else}
+									<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
+								{/if}
+							</div>
+							<div>
+								<h2
+									class={completedSteps[index]
+										? "completed text-left font-semibold"
+										: "text-left font-semibold text-yellow"}
+								>
+									Schritt {step.number}:
+								</h2>
+								<p class={completedSteps[index] ? "completed text-left" : " text-left"}>{step.description}</p>
+							</div>
+						</button>
+					{/each}
+				</div>
 			</div>
 		</div>
 	{:else}
@@ -127,8 +129,13 @@
 </FadeIn>
 
 <style>
-	.transition-image {
-		view-transition-name: var(--recipe);
+	@keyframes slidein {
+		0%{opacity: 0}
+		100%{opacity:1}
+	}
+	.custom-animation {
+		opacity: 0;
+		animation: .25s ease-in-out .25s forwards slidein;
 	}
 	.accordion-content {
 		overflow: hidden;
