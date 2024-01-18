@@ -7,7 +7,6 @@
 	import LinkText from "$lib/components/LinkText.svelte";
 	import { validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import {uploadAvatarImage} from "$lib/functions/database/user";
 
 	let username = {
 		content: "",
@@ -50,7 +49,6 @@
 				},
 			},
 		});
-
 
 		if (data.user) {
 			goto("/register_success");

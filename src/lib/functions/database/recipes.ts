@@ -56,7 +56,7 @@ export const insertRecipe = async (recipe: {
 	name: string;
 	preperation_time: number;
 }): Promise<number> => {
-	const { data: recipe_data, error: recipe_error } = await supabase
+	const { data, error } = await supabase
 		.from("recipes")
 		.insert({
 			name: recipe.name,
@@ -67,36 +67,36 @@ export const insertRecipe = async (recipe: {
 		})
 		.select()
 		.single();
-	if (recipe_error) throw recipe_error;
-	else return recipe_data.id;
+	if (data) return data.id;
+	else throw error;
 };
 
 export const insertRecipeCategories = async (id: number, categories: number[]) => {
-	const { error: category_error } = await supabase.from("recipes_categories").insert(
+	const { error } = await supabase.from("recipes_categories").insert(
 		categories.map((category) => ({
 			recipe_id: id,
 			category_id: category,
 		}))
 	);
-	if (category_error) throw category_error;
+	if (error) throw error;
 };
 
 export const insertRecipeTypes = async (id: number, types: number[]) => {
-	const { error: type_error } = await supabase.from("recipes_types").insert(
+	const { error } = await supabase.from("recipes_types").insert(
 		types.map((type) => ({
 			recipe_id: id,
 			type_id: type,
 		}))
 	);
-	if (type_error) throw type_error;
+	if (error) throw error;
 };
 
 export const insertRecipeImages = async (id: number, images: string[]) => {
-	const { error: image_error } = await supabase.from("images").insert(
+	const { error } = await supabase.from("images").insert(
 		images.map((image) => ({
 			recipe_id: id,
 			image: image,
 		}))
 	);
-	if (image_error) throw image_error;
+	if (error) throw error;
 };

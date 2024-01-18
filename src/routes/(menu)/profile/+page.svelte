@@ -6,8 +6,8 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
-	import {currentUser} from "$lib/functions/stores";
-	import {deleteAvatarImage, insertAvatarImage, uploadAvatarImage} from "$lib/functions/database/user";
+	import { currentUser } from "$lib/functions/stores";
+	import { deleteAvatarImage, insertAvatarImage, uploadAvatarImage } from "$lib/functions/database/user";
 
 	let user;
 	let image;
@@ -19,11 +19,10 @@
 
 	const logout = async () => {
 		const { error } = await supabase.auth.signOut();
-		currentUser.set(null)
+		currentUser.set(null);
 		if (error) console.log("Error logging out:", error.message);
 		else goto("/");
 	};
-
 
 	async function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (!e.currentTarget.files) return null;
@@ -49,14 +48,14 @@
 				</h1>
 				<p class="hidden">25, Hamburg (DE)</p>
 			</div>
-			<div class="flex justify-center items-center gap-5">
+			<div class="flex items-center justify-center gap-5">
 				<div class="mt-lg flex font-bold text-gray-300">
 					<img class="mr-5 size-5" alt="User" src={edit} />
 					<p>Profil bearbeiten</p>
 				</div>
 				<button on:click={() => logout()} class="mt-lg flex font-bold text-gray-300">Ausloggen</button>
 			</div>
-			<div class="mt-lg flex gap-2 hidden">
+			<div class="mt-lg flex hidden gap-2">
 				<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
 					<p class="font-bold">Rezepte</p>
 					<p class="text-lg font-bold">3</p>
