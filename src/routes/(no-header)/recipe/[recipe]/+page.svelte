@@ -52,36 +52,34 @@
 			src={recipe.images[0].image}
 			class="transition-image h-64 w-full object-cover"
 			alt=""
-			style:--recipe-image="image-{recipe.id}"
+			style:--recipe="image-{recipe.id}"
 		/>
 		<div class="p-8 pt-4">
 			<h1 class="mt-5 font-header text-xxl text-light transition-name" style:--recipe-name="name-{recipe.id}">{recipe.name}</h1>
-			<div class="mt-2 flex gap-sm transition-tags" style:--recipe-tags="name-{recipe.id}">
-				{#each recipe.categories as category}
-					<Tag text={category.name} color="yellow" class="select-none" />
-				{/each}
-				{#each recipe.types as type}
-					<Tag text={type.name} color="yellow" class="select-none" />
-				{/each}
-			</div>
-			
-			<div class="pointer-events-none mt-3 flex gap-md transition-properties" style:--recipe-properties="name-{recipe.id}">
-				<div class="flex select-none gap-xs">
-					<img alt="Clock" class="size-5" src={ClockIcon} />
-					<p>{recipe.preperation_time} Min.</p>
-				</div>
-				<div class="flex select-none gap-xs">
-					<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-					<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
-				</div>
-				<div class="flex select-none gap-xs">
-					{#each { length: recipe.cost } as _}
-						<img alt="Euro" class="size-5" src={EuroIcon} />
+			<div class="custom-animation">
+				<div class="mt-2 flex gap-sm">
+					{#each recipe.categories as category}
+						<Tag text={category.name} color="yellow" class="select-none" />
+					{/each}
+					{#each recipe.types as type}
+						<Tag text={type.name} color="yellow" class="select-none" />
 					{/each}
 				</div>
-			</div>
-
-			<div class="custom-animation">
+				<div class="pointer-events-none mt-3 flex gap-md">
+					<div class="flex select-none gap-xs">
+						<img alt="Clock" class="size-5" src={ClockIcon} />
+						<p>{recipe.preperation_time} Min.</p>
+					</div>
+					<div class="flex select-none gap-xs">
+						<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
+						<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
+					</div>
+					<div class="flex select-none gap-xs">
+						{#each { length: recipe.cost } as _}
+							<img alt="Euro" class="size-5" src={EuroIcon} />
+						{/each}
+					</div>
+				</div>
 				<div class="mt-5 rounded-sm bg-gray-500">
 					<button on:click={toggleAccordion} class="flex w-full justify-between p-3 text-left font-semibold text-yellow">
 						<div>Zutaten</div>
@@ -143,7 +141,7 @@
 	}
 	.custom-animation {
 		opacity: 0;
-		animation: .85s ease forwards slidein;
+		animation: .25s ease forwards slidein;
 	}
 	.accordion-content {
 		overflow: hidden;
