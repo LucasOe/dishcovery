@@ -59,7 +59,7 @@
 	}
 </script>
 
-<div class="flex flex-col space-y-lg">
+<div class="flex flex-col gap-md">
 	<Section title="Benutzername">
 		<input
 			bind:value={username.content}
