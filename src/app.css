@@ -3,10 +3,20 @@
 @tailwind utilities;
 
 .transition-name {
-	transform: scale(1);
 	view-transition-name: var(--recipe-name);
+	transition: all 3s linear;
 }
 
 .transition-image {
-	view-transition-name: var(--recipe);
+	view-transition-name: var(--recipe-image);
+	transition: all 3s linear;
+}
+
+.transition-tags {
+	view-transition-name: var(--recipe-tags);
+	transition: all 3s linear;
+}
+.transition-properties {
+	view-transition-name: var(--recipe-tags);
+	transition: all 3s linear;
 }
