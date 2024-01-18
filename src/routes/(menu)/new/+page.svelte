@@ -1,9 +1,12 @@
 <script lang="ts">
 	import {
+		fetchCategories,
+		fetchTypes,
 		insertRecipe,
-		insertRecipeCategories, insertRecipeImages,
+		insertRecipeCategories,
+		insertRecipeImages,
 		insertRecipeTypes,
-		uploadRecipeImages
+		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
@@ -26,6 +29,11 @@
 	let images: Blob[] = [];
 	let steps: string[] = [""];
 
+	const uploadAndInsertImages = async (id: number, images: Blob[]) => {
+		const paths = await uploadRecipeImages(id, images);
+		await insertRecipeImages(id, paths);
+	};
+
 	async function publishRecipe() {
 		let id = await insertRecipe({
 			name: name,
@@ -35,18 +43,12 @@
 			preperation_time: preperation_time.id,
 		});
 
-		await insertRecipeCategories(
-			id,
-			categories.map((category) => category.id)
-		);
-
-		await insertRecipeTypes(
-			id,
-			types.map((type) => type.id)
-		);
-
-		const paths = await uploadRecipeImages(id, images);
-		await insertRecipeImages(id, paths);
+		// prettier-ignore
+		await Promise.all([
+			insertRecipeCategories(id, categories.map((category) => category.id)),
+			insertRecipeTypes(id, types.map((type) => type.id)),
+			uploadAndInsertImages(id, images),
+		]);
 
 		goto(`/recipe/${id}`);
 	}
@@ -60,6 +62,7 @@
 	}
 </script>
 
+<!-- svelte-ignore missing-declaration -->
 <FadeIn>
 	<div class="space-y-lg">
 		<Section title="Titel">
