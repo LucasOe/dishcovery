@@ -20,8 +20,6 @@
 
 	const imageTransition = isLast ? `image-${recipe.id}` : "";
 	const headlineTransition = isLast ? `name-${recipe.id}` : "";
-	const tagsTransition = isLast ? `tags-${recipe.id}` : "";
-	const propertiesTransition = isLast ? `tags-${recipe.id}` : "";
 
 	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
@@ -47,7 +45,7 @@
 	<div class=" z-10 flex w-full flex-col gap-sm self-end p-lg">
 		<h1 class="font-header text-xxl text-light transition-name" style:--recipe-name={headlineTransition}>{recipe.name}</h1>
 
-		<div class="flex gap-sm transition-tags" style:--recipe-tags={tagsTransition}>
+		<div class="flex gap-sm">
 			{#each recipe.categories as category}
 				<Tag text={category.name} color="yellow" class="select-none" />
 			{/each}
@@ -56,7 +54,7 @@
 			{/each}
 		</div>
 
-		<div class="pointer-events-none flex gap-md transition-properties" style:--recipe-properties={propertiesTransition}>
+		<div class="pointer-events-none flex gap-md">
 			<div class="flex select-none gap-xs">
 				<img alt="Clock" class="size-5" src={ClockIcon} />
 				<p>{recipe.preperation_time} Min.</p>
@@ -77,7 +75,7 @@
 		src={recipe.images[0].image}
 		class="transition-image absolute top-0 z-[-1] h-full max-w-[200%] object-cover"
 		alt=""
-		style:--recipe-image={imageTransition}
+		style:--recipe={imageTransition}
 	/>
 
 	<div>
