@@ -18,6 +18,9 @@
 	export let transformValue = "translate(0px, 0px)";
 	export let swipeVisual: Direction = Direction.None;
 
+	const imageTransition = isLast ? `image-${recipe.id}` : "";
+	const headlineTransition = isLast ? `name-${recipe.id}` : "";
+
 	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
 		[Direction.None]:  "",
@@ -40,7 +43,7 @@
 	`}
 >
 	<div class=" z-10 flex w-full flex-col gap-sm self-end p-lg">
-		<h1 class="font-header text-xxl text-light transition-name" style:--recipe-name="name-{recipe.id}">{recipe.name}</h1>
+		<h1 class="font-header text-xxl text-light transition-name" style:--recipe-name={headlineTransition}>{recipe.name}</h1>
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
@@ -72,7 +75,7 @@
 		src={recipe.images[0].image}
 		class="transition-image absolute top-0 z-[-1] h-full max-w-[200%] object-cover"
 		alt=""
-		style:--recipe={isLast && "image-{recipe.id}"}
+		style:--recipe={imageTransition}
 	/>
 
 	<div>
@@ -114,19 +117,19 @@
 </div>
 
 <style>
-	
+
 	.transition-transform-slow {
 		transition:
 			translate 300ms,
-			transform 500ms,
-			width 300ms,
-			border 500ms;
+			transform 800ms,
+			width 800ms,
+			border 800ms;
 	}
 	.transition-transform-instant {
 		transition:
-			translate 300ms,
+			translate 500ms,
 			transform 0s,
-			width 500ms,
-			border 500ms;
+			width 800ms,
+			border 800ms;
 	}
 </style>
