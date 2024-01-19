@@ -10,16 +10,16 @@
 	let menuOpen = false;
 </script>
 
-<div class="relative space-y-xs rounded-sm bg-gray-500">
+<div class={twMerge("relative space-y-sm rounded-sm bg-gray-500", menuOpen && "ring-2 ring-gray-300")}>
 	<button on:click={() => (menuOpen = !menuOpen)} class="flex w-full justify-between">
-		<button class="rounded-md px-sm text-xl font-semibold">{selected.name}</button>
-		<img alt="Dropdown" class="size-10" src={DropDownIcon} />
+		<button class="px-sm text-xl font-semibold">{selected.name}</button>
+		<img alt="Dropdown" class={twMerge("size-10 p-1", menuOpen && "rotate-180")} src={DropDownIcon} />
 	</button>
 
 	<ul
 		class={twMerge(
 			"absolute z-10 w-full space-y-xs rounded-md bg-gray-500 px-md py-sm shadow-xl",
-			!menuOpen && "hidden"
+			menuOpen ? "ring-2 ring-gray-300" : "hidden"
 		)}
 	>
 		{#each entries as entry}
