@@ -3,6 +3,7 @@
 	import Section from "$lib/components/Section.svelte";
 	import TagList from "$lib/components/TagList.svelte";
 	import { fetchCategories, fetchTypes } from "$lib/functions/database/recipes";
+	import { twMerge } from "tailwind-merge";
 
 	type Filters = {
 		Bewertung: string;
@@ -31,35 +32,34 @@
 		<Section title="Titel"></Section>
 		{#await fetchTypes() then types}
 			<Section title="Art">
-				<TagList tags={types.map((type) => type.name)} />
+				<TagList tags={types} />
 			</Section>
 		{/await}
 
 		{#await fetchCategories() then categories}
 			<Section title="Kategorie">
-				<TagList tags={categories.map((category) => category.name)} />
+				<TagList tags={categories} />
 			</Section>
 		{/await}
 
-		<component>
-			{#each filterOptions as filter}
-				<Section title={filter.name}>
-					<div class="flex items-center">
-						{#each filter.options as option}
-							<div class="text-center">
-								<button
-									class={`focus:shadow-outline mb-2 mr-20 h-6 w-6 rounded-full border border-gray-300 focus:outline-none ${
-										selectedFilters[filter.name] === option ? "text-white bg-yellow" : "bg-gray-900"
-									}`}
-									on:click={() => (selectedFilters[filter.name] = option)}
-								></button>
-								<p class="mr-20 text-sm">{option}</p>
-							</div>
-						{/each}
-					</div>
-				</Section>
-			{/each}
-		</component>
+		{#each filterOptions as filter}
+			<Section title={filter.name}>
+				<div class="flex items-center">
+					{#each filter.options as option}
+						<div class="text-center">
+							<button
+								class={twMerge(
+									"focus:shadow-outline mb-2 mr-20 h-6 w-6 rounded-full border border-gray-300 focus:outline-none",
+									selectedFilters[filter.name] === option ? "bg-yellow text-white" : "bg-gray-900"
+								)}
+								on:click={() => (selectedFilters[filter.name] = option)}
+							/>
+							<p class="mr-20 text-sm">{option}</p>
+						</div>
+					{/each}
+				</div>
+			</Section>
+		{/each}
 
 		<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">Filter anwenden</button>
 	</div>
