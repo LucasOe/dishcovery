@@ -2,22 +2,21 @@
 export default {
 	content: ["./src/**/*.{html,js,svelte,ts}"],
 	theme: {
-		colors: {
-			transparent: "transparent",
-			yellow: "#FFC532",
-			gray: {
-				900: "#212121",
-				500: "#2c2c2c",
-				300: "#7d7c7c",
-			},
-			light: "#f8f8f8",
-			red: "#ED5D49",
-		},
 		fontFamily: {
 			default: ["Work Sans, sans-serif"],
 			header: ["Chewy, sans-serif"],
 		},
 		extend: {
+			colors: {
+				gray: {
+					900: "#212121",
+					500: "#2c2c2c",
+					300: "#7d7c7c",
+				},
+				yellow: "#ffc532",
+				light: "#f8f8f8",
+				red: "#ed5d49",
+			},
 			spacing: {
 				xs: "0.3125rem", //5px
 				sm: "0.625rem", //10px
