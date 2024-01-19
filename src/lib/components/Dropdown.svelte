@@ -11,7 +11,7 @@
 </script>
 
 <div class={twMerge("relative space-y-sm rounded-sm bg-gray-500", menuOpen && "ring-2 ring-gray-300")}>
-	<button on:click={() => (menuOpen = !menuOpen)} class="flex w-full justify-between">
+	<button type="button" on:click={() => (menuOpen = !menuOpen)} class="flex w-full justify-between">
 		<button class="px-sm text-xl font-semibold">{selected.name}</button>
 		<img alt="Dropdown" class={twMerge("size-10 p-1", menuOpen && "rotate-180")} src={DropDownIcon} />
 	</button>
@@ -25,6 +25,7 @@
 		{#each entries as entry}
 			<li class={twMerge("cursor-pointer text-xl font-semibold", entry.id == selected.id && "text-yellow")}>
 				<button
+					type="button"
 					on:click={() => {
 						selected = entry;
 						menuOpen = false;

@@ -64,7 +64,7 @@
 
 <!-- svelte-ignore missing-declaration -->
 <FadeIn>
-	<form on:submit={publishRecipe} class="space-y-lg">
+	<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
 		<Section title="Titel">
 			<input bind:value={name} placeholder="Hier eingeben..." class="input" required />
 		</Section>
@@ -82,7 +82,7 @@
 				bind:this={fileInput}
 				required
 			/>
-			<button class="inline" on:click={() => fileInput.click()}>
+			<button type="button" class="inline" on:click={() => fileInput.click()}>
 				<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
 			</button>
 			<p class="inline pl-2">Bilder hochladen</p>
@@ -158,6 +158,7 @@
 				</div>
 			{/each}
 			<button
+				type="button"
 				on:click={() => {
 					steps.push("");
 					steps = steps;
