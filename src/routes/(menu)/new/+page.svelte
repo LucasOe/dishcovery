@@ -66,15 +66,11 @@
 <FadeIn>
 	<div class="space-y-lg">
 		<Section title="Titel">
-			<input bind:value={name} type="text" class="text-white h-10 w-full rounded-sm bg-gray-500 text-xl" />
+			<input bind:value={name} type="text" placeholder="Hier eingeben..." class="input" />
 		</Section>
 
 		<Section title="Beschreibung">
-			<textarea
-				bind:value={description}
-				class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
-				placeholder="Hier eingeben..."
-			></textarea>
+			<textarea bind:value={description} placeholder="Hier eingeben..." class="input h-32" />
 		</Section>
 
 		<Section title="Bilder">
@@ -151,11 +147,7 @@
 			{#each steps as step, index}
 				<div class="space-y-sm">
 					<p class="text-xl font-semibold text-yellow">{index + 1}. Schritt</p>
-					<textarea
-						bind:value={step}
-						class="h-32 w-full rounded-sm bg-gray-500 p-sm text-xl placeholder:text-gray-300 focus:outline-none"
-						placeholder="Hier eingeben..."
-					/>
+					<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" />
 				</div>
 			{/each}
 			<button

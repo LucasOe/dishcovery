@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.input {
+		@apply text-white h-10 w-full rounded-sm bg-gray-500 p-2 text-xl placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300;
+	}
+}
+
 .transition-name {
 	transform: scale(1);
 	view-transition-name: var(--recipe-name);
