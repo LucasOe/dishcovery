@@ -64,17 +64,24 @@
 
 <!-- svelte-ignore missing-declaration -->
 <FadeIn>
-	<div class="space-y-lg">
+	<form on:submit={publishRecipe} class="space-y-lg">
 		<Section title="Titel">
-			<input bind:value={name} type="text" placeholder="Hier eingeben..." class="input" />
+			<input bind:value={name} placeholder="Hier eingeben..." class="input" required />
 		</Section>
 
 		<Section title="Beschreibung">
-			<textarea bind:value={description} placeholder="Hier eingeben..." class="input h-32" />
+			<textarea bind:value={description} placeholder="Hier eingeben..." class="input h-32" required />
 		</Section>
 
 		<Section title="Bilder">
-			<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
+			<input
+				class="hidden"
+				type="file"
+				accept=".jpg, .jpeg, .png"
+				on:change={onFileSelected}
+				bind:this={fileInput}
+				required
+			/>
 			<button class="inline" on:click={() => fileInput.click()}>
 				<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
 			</button>
@@ -147,7 +154,7 @@
 			{#each steps as step, index}
 				<div class="space-y-sm">
 					<p class="text-xl font-semibold text-yellow">{index + 1}. Schritt</p>
-					<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" />
+					<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" required />
 				</div>
 			{/each}
 			<button
@@ -160,8 +167,9 @@
 				<img alt="Close" class="size-10" src={UploadIcon} />
 			</button>
 		</Section>
-		<button on:click={publishRecipe} class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
+
+		<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
 			Rezept veröffentlichen
 		</button>
-	</div>
+	</form>
 </FadeIn>
