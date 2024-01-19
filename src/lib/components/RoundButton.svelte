@@ -1,16 +1,15 @@
 <script lang="ts">
-	import type { MouseEventHandler } from "svelte/elements";
 	import { twMerge } from "tailwind-merge";
 
 	export let src: string;
 	export let alt: string;
 	export let size: "sm" | "md" = "md";
-	export let action: () => MouseEventHandler<HTMLButtonElement> | null | undefined;
+	export let action: () => void;
 </script>
 
 <button
 	{...$$props}
-	on:click={action()}
+	on:click={action}
 	class={twMerge(
 		"rounded-full bg-gray-500 drop-shadow-xl duration-150 hover:bg-[#383838]",
 		{
