@@ -18,6 +18,7 @@
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import type { DisplayValue } from "$types/database.types";
 	import { goto } from "$app/navigation";
+	import { twMerge } from "tailwind-merge";
 
 	let name: string;
 	let description: string;
@@ -151,12 +152,26 @@
 		</Section>
 
 		<Section title="Arbeitsschritte">
-			{#each steps as step, index}
-				<div class="space-y-sm">
-					<p class="text-xl font-semibold text-yellow">{index + 1}. Schritt</p>
-					<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" required />
-				</div>
-			{/each}
+			<div class="space-y-sm">
+				{#each steps as step, index}
+					<div>
+						<div class="flex justify-between p-1">
+							<p class="text-xl font-semibold text-yellow">{index + 1}. Schritt</p>
+							{#if index != 0}
+								<button
+									type="button"
+									on:click={() => {
+										steps.splice(index, 1);
+										steps = steps;
+									}}
+									class="text-gray-300">Remove</button
+								>
+							{/if}
+						</div>
+						<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" required />
+					</div>
+				{/each}
+			</div>
 			<button
 				type="button"
 				on:click={() => {
