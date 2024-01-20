@@ -8,6 +8,7 @@
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { currentUser } from "$lib/functions/stores";
 	import { deleteAvatarImage, insertAvatarImage, uploadAvatarImage } from "$lib/functions/database/user";
+
 	export let data;
 
 	let user = data.user;
@@ -36,10 +37,11 @@
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center pt-12">
 		{#if user}
-			<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
-			<button class="inline" on:click={() => fileInput.click()}>
+			<div class="flex size-44 relative">
+				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
+				<button class="size-full absolute inline rounded-full opacity-50 hover:bg-gray-900 duration-300" on:click={() => fileInput.click()}> </button>
 				<img class="w-44 rounded-full" alt="User" src={user.avatar_url} width="176" height="176" />
-			</button>
+			</div>
 			<div class="mt-lg flex w-full flex-col items-center">
 				<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
 					{user.username}
@@ -47,7 +49,7 @@
 				<p class="hidden">25, Hamburg (DE)</p>
 			</div>
 			<div class="flex items-center justify-center gap-5">
-				<div class="mt-lg flex font-bold text-gray-300">
+				<div class="mt-lg flex font-bold text-gray-300 hidden">
 					<img class="mr-5 size-5" alt="User" src={edit} />
 					<p>Profil bearbeiten</p>
 				</div>
