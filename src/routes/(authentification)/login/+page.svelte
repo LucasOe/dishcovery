@@ -4,8 +4,6 @@
 
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
-	import { currentUser } from "$lib/functions/stores";
-	import { fetchCurrentUserId, fetchUserDataById } from "$lib/functions/database/user";
 	import LinkText from "$lib/components/LinkText.svelte";
 
 	let email = "";
@@ -18,10 +16,6 @@
 			email: email,
 			password: password,
 		});
-
-		//Fetch and set current user
-		const userID = await fetchCurrentUserId();
-		currentUser.set(await fetchUserDataById(userID));
 
 		// Handle Redirect
 		if (data.user) goto("/");
