@@ -43,7 +43,9 @@
 	`}
 >
 	<div class=" z-10 flex w-full flex-col gap-sm self-end p-lg">
-		<h1 class="font-header text-xxl text-light transition-name" style:--recipe-name={headlineTransition}>{recipe.name}</h1>
+		<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name={headlineTransition}>
+			{recipe.name}
+		</h1>
 
 		<div class="flex gap-sm">
 			{#each recipe.categories as category}
@@ -55,15 +57,15 @@
 		</div>
 
 		<div class="pointer-events-none flex gap-md">
-			<div class="flex select-none gap-xs">
+			<div class="flex select-none items-center gap-xs">
 				<img alt="Clock" class="size-5" src={ClockIcon} />
 				<p>{recipe.preperation_time} Min.</p>
 			</div>
-			<div class="flex select-none gap-xs">
+			<div class="flex select-none items-center gap-xs">
 				<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
 				<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
 			</div>
-			<div class="flex select-none gap-xs">
+			<div class="flex select-none items-center gap-xs">
 				{#each { length: recipe.cost } as _}
 					<img alt="Euro" class="size-5" src={EuroIcon} />
 				{/each}
@@ -112,12 +114,11 @@
 						: "opacity-0"
 				}
 			`}
-		></div>
+		/>
 	</div>
 </div>
 
 <style>
-
 	.transition-transform-slow {
 		transition:
 			translate 300ms,

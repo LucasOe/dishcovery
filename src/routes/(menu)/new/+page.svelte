@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
 	import {
 		fetchCategories,
 		fetchTypes,
@@ -10,6 +12,8 @@
 		insertRecipeTypes,
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
+	import type { DisplayValue, Ingredient } from "$types/database.types";
+
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -19,8 +23,6 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RemoveIcon from "$lib/assets/icons/cancel.svg";
-	import type { DisplayValue, Ingredient } from "$types/database.types";
-	import { goto } from "$app/navigation";
 
 	let name: string;
 	let description: string;
