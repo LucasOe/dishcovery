@@ -22,3 +22,8 @@ export type DisplayValue = {
 	id: number;
 	name: string;
 };
+
+export type Ingredient = {
+	name: string;
+	amount: string;
+};

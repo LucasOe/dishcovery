@@ -17,7 +17,7 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RemoveIcon from "$lib/assets/icons/cancel.svg";
-	import type { DisplayValue } from "$types/database.types";
+	import type { DisplayValue, Ingredient } from "$types/database.types";
 	import { goto } from "$app/navigation";
 
 	let name: string;
@@ -29,6 +29,7 @@
 	let cost: DisplayValue;
 	let images: Blob[] = [];
 	let steps: string[] = [""];
+	let ingredients: Ingredient[] = [];
 
 	const uploadAndInsertImages = async (id: number, images: Blob[]) => {
 		const paths = await uploadRecipeImages(id, images);
@@ -66,7 +67,7 @@
 <FadeIn>
 	<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
 		<Section title="Titel">
-			<input bind:value={name} placeholder="Hier eingeben..." class="input" required />
+			<input type="text" bind:value={name} placeholder="Hier eingeben..." class="input" required />
 		</Section>
 
 		<Section title="Beschreibung">
@@ -77,15 +78,15 @@
 			<div class="space-y-4">
 				<div class="flex items-center gap-2">
 					<input
-						class="hidden"
 						type="file"
 						accept=".jpg, .jpeg, .png"
 						on:change={onFileSelected}
 						bind:this={fileInput}
+						class="hidden"
 						required
 					/>
 					<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
-						<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
+						<img src={UploadIcon} alt="Bild hochladen" class="upload inline h-10 w-10 drop-shadow-md" />
 					</button>
 					<p class="text-lg text-gray-300">Bild hochladen</p>
 				</div>
@@ -102,7 +103,7 @@
 									}}
 									class="absolute right-0 top-0 m-1 rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
 								>
-									<img src={RemoveIcon} alt="Remove" class="size-4" />
+									<img src={RemoveIcon} alt="Bild entfernen" class="size-4" />
 								</button>
 								<img src={URL.createObjectURL(image)} alt="Bildvorschau" class="h-full object-cover" />
 							</div>
@@ -158,9 +159,52 @@
 		</Section>
 
 		<Section title="Zutaten">
-			<div class="flex items-center gap-2">
-				<img class="h-10 w-10" src={UploadIcon} alt="Zutat hinzufügen" />
-				<p class="text-lg text-gray-300">Zutat hinzufügen</p>
+			<div class="space-y-4">
+				{#if ingredients.length > 0}
+					<div class="flex flex-col gap-2">
+						{#each ingredients as ingredient, index}
+							<div class="flex items-center gap-2">
+								<input
+									type="text"
+									bind:value={ingredient.name}
+									placeholder="Zutat"
+									class="input h-8 grow-[2] basis-0 text-lg"
+								/>
+								<input
+									type="text"
+									bind:value={ingredient.amount}
+									placeholder="Anzahl"
+									class="input h-8 grow-[1] basis-0 text-lg"
+								/>
+								<button
+									type="button"
+									on:click={() => {
+										ingredients.splice(index, 1);
+										ingredients = ingredients;
+									}}
+									class="rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
+								>
+									<img src={RemoveIcon} alt="Bild entfernen" class="size-3" />
+								</button>
+							</div>
+						{/each}
+					</div>
+				{/if}
+
+				<div class="flex items-center gap-2">
+					<button
+						type="button"
+						aria-label="Zutat hinzufügen"
+						on:click={() => {
+							ingredients.push({ name: "", amount: "" });
+							ingredients = ingredients;
+						}}
+						class="h-10 w-10"
+					>
+						<img src={UploadIcon} alt="Zutat hinzufügen" class="upload inline h-10 w-10 drop-shadow-md" />
+					</button>
+					<p class="text-lg text-gray-300">Zutat hinzufügen</p>
+				</div>
 			</div>
 		</Section>
 
@@ -173,11 +217,12 @@
 							{#if index != 0}
 								<button
 									type="button"
+									aria-label="Schritt Entfernen"
 									on:click={() => {
 										steps.splice(index, 1);
 										steps = steps;
 									}}
-									class="text-gray-300">Remove</button
+									class="text-gray-300">Entfernen</button
 								>
 							{/if}
 						</div>
@@ -193,7 +238,7 @@
 							steps = steps;
 						}}
 					>
-						<img alt="Close" class="size-10" src={UploadIcon} />
+						<img src={UploadIcon} alt="Schritt hinzufügen" class="size-10" />
 					</button>
 					<p class="text-lg text-gray-300">Schritt hinzufügen</p>
 				</div>
