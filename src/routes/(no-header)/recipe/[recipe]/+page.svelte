@@ -1,14 +1,12 @@
 <script lang="ts">
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import Tag from "$lib/components/Tag.svelte";
-	import ClockIcon from "$lib/assets/icons/clock.svg";
-	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
-	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import type { Recipe } from "$types/database.types.js";
 	import { swipeDirection } from "$lib/functions/stores";
 	import { Direction } from "$types/card.types";
+	import DetailRow from "$lib/components/DetailRow.svelte";
+	import TagRow from "$lib/components/TagRow.svelte";
 
 	export let data;
 
@@ -55,33 +53,17 @@
 			style:--recipe="image-{recipe.id}"
 		/>
 		<div class="p-8 pt-4">
-			<h1 class="mt-5 font-header text-xxl text-light transition-name" style:--recipe-name="name-{recipe.id}">{recipe.name}</h1>
+			<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
+				{recipe.name}
+			</h1>
 			<div class="custom-animation">
-				<div class="mt-2 flex gap-sm">
-					{#each recipe.categories as category}
-						<Tag text={category.name} color="yellow" class="select-none" />
-					{/each}
-					{#each recipe.types as type}
-						<Tag text={type.name} color="yellow" class="select-none" />
-					{/each}
-				</div>
-				<div class="pointer-events-none mt-3 flex gap-md">
-					<div class="flex select-none gap-xs">
-						<img alt="Clock" class="size-5" src={ClockIcon} />
-						<p>{recipe.preperation_time} Min.</p>
-					</div>
-					<div class="flex select-none gap-xs">
-						<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-						<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
-					</div>
-					<div class="flex select-none gap-xs">
-						{#each { length: recipe.cost } as _}
-							<img alt="Euro" class="size-5" src={EuroIcon} />
-						{/each}
-					</div>
-				</div>
+				<TagRow {recipe} />
+				<DetailRow {recipe} />
 				<div class="mt-5 rounded-sm bg-gray-500">
-					<button on:click={toggleAccordion} class="flex w-full justify-between p-3 text-left font-semibold text-yellow">
+					<button
+						on:click={toggleAccordion}
+						class="flex w-full justify-between p-3 text-left font-semibold text-yellow"
+					>
 						<div>Zutaten</div>
 						<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="20" height="20" />
 					</button>
@@ -130,18 +112,18 @@
 
 <style>
 	@keyframes slidein {
-		0%{
+		0% {
 			opacity: 0;
 			transform: translateY(100px);
 		}
-		100%{
-			opacity:1;
+		100% {
+			opacity: 1;
 			transform: translateY(0px);
 		}
 	}
 	.custom-animation {
 		opacity: 0;
-		animation: .25s ease forwards slidein;
+		animation: 0.25s ease forwards slidein;
 	}
 	.accordion-content {
 		overflow: hidden;

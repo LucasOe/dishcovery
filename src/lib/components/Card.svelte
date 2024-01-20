@@ -3,13 +3,11 @@
 
 	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
-	import Tag from "$lib/components/Tag.svelte";
-	import ClockIcon from "$lib/assets/icons/clock.svg";
-	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
-	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import Like from "$lib/assets/icons/addToList.svg";
 	import Dislike from "$lib/assets/icons/reject.svg";
 	import Open from "$lib/assets/icons/open.svg";
+	import DetailRow from "./DetailRow.svelte";
+	import TagRow from "./TagRow.svelte";
 
 	export let recipe: Recipe;
 	export let isLast = false;
@@ -47,30 +45,8 @@
 			{recipe.name}
 		</h1>
 
-		<div class="flex gap-sm">
-			{#each recipe.categories as category}
-				<Tag text={category.name} color="yellow" class="select-none" />
-			{/each}
-			{#each recipe.types as type}
-				<Tag text={type.name} color="yellow" class="select-none" />
-			{/each}
-		</div>
-
-		<div class="pointer-events-none flex gap-md">
-			<div class="flex select-none items-center gap-xs">
-				<img alt="Clock" class="size-5" src={ClockIcon} />
-				<p>{recipe.preperation_time} Min.</p>
-			</div>
-			<div class="flex select-none items-center gap-xs">
-				<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-				<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
-			</div>
-			<div class="flex select-none items-center gap-xs">
-				{#each { length: recipe.cost } as _}
-					<img alt="Euro" class="size-5" src={EuroIcon} />
-				{/each}
-			</div>
-		</div>
+		<TagRow {recipe} />
+		<DetailRow {recipe} />
 	</div>
 
 	<img
