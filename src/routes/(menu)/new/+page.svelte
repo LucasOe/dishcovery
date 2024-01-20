@@ -5,6 +5,8 @@
 		insertRecipe,
 		insertRecipeCategories,
 		insertRecipeImages,
+		insertRecipeIngredients,
+		insertRecipeSteps,
 		insertRecipeTypes,
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
@@ -47,9 +49,11 @@
 
 		// prettier-ignore
 		await Promise.all([
-			insertRecipeCategories(id, categories.map((category) => category.id)),
-			insertRecipeTypes(id, types.map((type) => type.id)),
 			uploadAndInsertImages(id, images),
+			insertRecipeTypes(id, types.map((type) => type.id)),
+			insertRecipeCategories(id, categories.map((category) => category.id)),
+			insertRecipeIngredients(id, ingredients),
+			insertRecipeSteps(id, steps)
 		]);
 
 		goto(`/recipe/${id}`);
