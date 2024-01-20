@@ -169,6 +169,7 @@
 									bind:value={ingredient.name}
 									placeholder="Zutat"
 									class="input h-8 grow-[2] basis-0 text-lg"
+									required
 								/>
 								<input
 									type="text"
