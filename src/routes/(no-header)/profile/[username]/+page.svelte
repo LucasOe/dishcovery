@@ -27,8 +27,9 @@
 
 		//Replace old image with new image
 		await deleteAvatarImage(user.id);
-		const path = await uploadAvatarImage(user.id, image);
+		const path = await uploadAvatarImage(image);
 		await insertAvatarImage(user.id, path);
+		user.avatar_url = path;
 	}
 </script>
 

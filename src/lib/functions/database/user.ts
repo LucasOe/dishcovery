@@ -1,9 +1,11 @@
 import { supabase } from "$lib/functions/database/createClient";
 import type { User } from "$types/database.types";
 
-export const fetchCurrentUserId = async (): Promise<string> => {
+export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
-	if (data.user) return data.user.id;
+	if (data.user) {
+		return fetchUserDataById(data.user.id);
+	}
 	else throw error;
 };
 
@@ -13,7 +15,7 @@ export const fetchUserDataById = async (userId: string): Promise<User> => {
 			.select(`*`)
 			.eq("id", userId)
 			.maybeSingle();
-	if (data) return { id: data.id, username: data.username, avatar_url: data.avatar_url };
+	if (data) return {...data};
 	else throw error;
 };
 
@@ -32,8 +34,9 @@ export const deleteAvatarImage = async (userID: number) => {
 	if (error) throw error;
 };
 
-export const uploadAvatarImage = async (userID: number, file: File): Promise<string> => {
-	const { data: path, error } = await supabase.storage.from("avatars").upload(`avatar_${userID}.jpg`, file, {
+export const uploadAvatarImage = async (file: File): Promise<string> => {
+	const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+	const { data: path, error } = await supabase.storage.from("avatars").upload(`avatar_${randomString}.jpg`, file, {
 		cacheControl: "3600",
 		upsert: false,
 	});

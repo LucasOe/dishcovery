@@ -3,12 +3,26 @@
 	import "../app.css";
 	import { onMount } from "svelte";
 	import { currentUser } from "$lib/functions/stores";
-	import { fetchCurrentUserId, fetchUserDataById } from "$lib/functions/database/user";
+	import { supabase } from "$lib/functions/database/createClient";
+	import { fetchCurrentUser, fetchUserDataById } from "$lib/functions/database/user";
 
 	//Fetch and set current user on page load
 	onMount(async () => {
-		const userID = await fetchCurrentUserId();
-		currentUser.set(await fetchUserDataById(userID));
+
+		// Fetch the current session
+		const  user  = await fetchCurrentUser();
+
+		// If a session exists, fetch the user's data and set it in the user store
+		if (user) {
+			currentUser.set(await fetchUserDataById(user.id));
+		}
+
+		// Listen to Log in
+		supabase.auth.onAuthStateChange(async (event) => {
+			if (event === "SIGNED_IN") {
+				currentUser.set(await fetchCurrentUser());
+			}
+		});
 	});
 </script>
 

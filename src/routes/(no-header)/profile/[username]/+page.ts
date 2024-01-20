@@ -1,5 +1,5 @@
 import type { PageLoad } from "./$types";
-import {fetchUserDataById, fetchUserDataByUsername} from "$lib/functions/database/user";
+import {fetchUserDataByUsername} from "$lib/functions/database/user";
 import type {User} from "$types/database.types";
 
 export const load: PageLoad = async ({ params }) => {

@@ -11,10 +11,10 @@ export type Recipe = Tables<"recipes"> & {
 	types: Tables<"types">[];
 };
 
-export type User = {
+export type User = Tables<"profiles"> & {
 	id: string;
-	username: string;
-	avatar_url: string;
+	username: string | null;
+	avatar_url: string | null;
 };
 
 // Used for numeric values that map to a string, like categories, types, cost or difficulty

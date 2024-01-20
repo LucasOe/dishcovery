@@ -6,8 +6,7 @@
 	import { onMount } from "svelte";
 	import { currentUser } from "$lib/functions/stores";
 
-	let userData;
-	let profileTab;
+	let user;
 
 	let tabs = [
 		{ name: "Kochbuch", link: "recipes", icon: RecipeIcon },
@@ -17,8 +16,7 @@
 
 	onMount(async () => {
 		currentUser.subscribe((value) => {
-			userData = value;
-			profileTab = { name: "profile", link: "profile/" + userData.username, icon: AddIcon };
+			user = value;
 		});
 	});
 </script>
@@ -35,10 +33,10 @@
 
 	<!-- Profile -->
 	<div>
-		<a href={`${userData ? profileTab.link : "/login"}`}>
+		<a href={`${user ? `/profile/${user.username}` : "/login"}`}>
 			<div class={`size-14 overflow-hidden rounded-full border-[2px] border-yellow`}>
-				{#if userData}
-					<img class="rounded-full" alt="profile" src={userData.avatar_url} />
+				{#if user}
+					<img class="rounded-full" alt="profile" src={user.avatar_url} />
 				{:else}
 					<img class="rounded-full" alt="profile" src={UserIcon} />
 				{/if}
