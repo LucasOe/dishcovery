@@ -11,6 +11,7 @@
 		return new Promise((resolve, reject) => {
 			//@ts-ignore
 			document.startViewTransition(async (transition) => {
+        
 				try {
 					resolve();
 					await navigation.complete;
