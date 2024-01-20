@@ -1,5 +1,5 @@
 import { supabase } from "$lib/functions/database/createClient";
-import type { Recipe, Tables } from "$types/database.types";
+import type { Ingredient, Recipe, Tables } from "$types/database.types";
 
 export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
 	const { data, error } = await supabase
@@ -96,6 +96,28 @@ export const insertRecipeImages = async (id: number, images: string[]) => {
 		images.map((image) => ({
 			recipe_id: id,
 			image: image,
+		}))
+	);
+	if (error) throw error;
+};
+
+export const insertRecipeSteps = async (id: number, steps: string[]) => {
+	const { error } = await supabase.from("steps").insert(
+		steps.map((step, index) => ({
+			recipe_id: id,
+			number: index + 1,
+			description: step,
+		}))
+	);
+	if (error) throw error;
+};
+
+export const insertRecipeIngredients = async (id: number, ingredients: Ingredient[]) => {
+	const { error } = await supabase.from("ingredients").insert(
+		ingredients.map((ingredient) => ({
+			recipe_id: id,
+			name: ingredient.name,
+			amount: ingredient.amount,
 		}))
 	);
 	if (error) throw error;
