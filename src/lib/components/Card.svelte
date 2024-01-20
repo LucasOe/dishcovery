@@ -8,8 +8,14 @@
 	import Open from "$lib/assets/icons/open.svg";
 	import DetailRow from "./DetailRow.svelte";
 	import TagRow from "./TagRow.svelte";
+	import { fetchRatingsByRecipe } from "$lib/functions/database/ratings";
+	import { onMount } from "svelte";
+	import Star from "$lib/assets/icons/star.svg";
+	import StarHalf from "$lib/assets/icons/star_half.svg";
+	import StarEmpty from "$lib/assets/icons/star_empty.svg";
 
 	export let recipe: Recipe;
+	let rating = 0;
 	export let isLast = false;
 	export let isFirst = false;
 	export let isTouching = false;
@@ -21,12 +27,16 @@
 
 	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
-		[Direction.None]:  "",
-		[Direction.Left]:  "border-red shadow-shadowRed",
-		[Direction.Right]: "border-yellow shadow-shadowYellow",
-		[Direction.Up]:    "border-light shadow-shadowLight w-[110%]",
-		[Direction.Down]:  "",
-	};
+    [Direction.None]: "",
+    [Direction.Left]: "border-red shadow-shadowRed",
+    [Direction.Right]: "border-yellow shadow-shadowYellow",
+    [Direction.Up]: "border-light shadow-shadowLight w-[110%]",
+    [Direction.Down]: ""
+  };
+
+	onMount(async () => {
+		rating = await fetchRatingsByRecipe(recipe.id);
+	});
 </script>
 
 <div
@@ -41,6 +51,17 @@
 	`}
 >
 	<div class=" z-10 flex w-full flex-col gap-sm self-end p-lg">
+		<div class="flex gap-1">
+			{#each Array(Math.floor(rating)) as _}
+				<img src={Star} alt="Rating Icon" />
+			{/each}
+			{#if rating % 1 !== 0}
+				<img src={StarHalf} alt="Half Star Icon" />
+			{/if}
+			{#each Array(5 - Math.round(rating)) as _}
+				<img src={StarEmpty} alt="Empty Star Icon" />
+			{/each}
+		</div>
 		<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name={headlineTransition}>
 			{recipe.name}
 		</h1>
@@ -102,6 +123,7 @@
 			width 800ms,
 			border 800ms;
 	}
+
 	.transition-transform-instant {
 		transition:
 			translate 500ms,

@@ -105,6 +105,48 @@ export interface Database {
           }
         ]
       }
+      ratings: {
+        Row: {
+          id: number
+          inCookBook: boolean | null
+          rating: number
+          recipe: number
+          seen: boolean | null
+          user: string
+        }
+        Insert: {
+          id?: number
+          inCookBook?: boolean | null
+          rating?: number
+          recipe: number
+          seen?: boolean | null
+          user: string
+        }
+        Update: {
+          id?: number
+          inCookBook?: boolean | null
+          rating?: number
+          recipe?: number
+          seen?: boolean | null
+          user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ratings_recipe_fkey"
+            columns: ["recipe"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ratings_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       recipes: {
         Row: {
           cost: number
