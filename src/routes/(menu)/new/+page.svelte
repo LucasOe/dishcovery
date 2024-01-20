@@ -16,9 +16,9 @@
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
+	import RemoveIcon from "$lib/assets/icons/cancel.svg";
 	import type { DisplayValue } from "$types/database.types";
 	import { goto } from "$app/navigation";
-	import { twMerge } from "tailwind-merge";
 
 	let name: string;
 	let description: string;
@@ -63,7 +63,6 @@
 	}
 </script>
 
-<!-- svelte-ignore missing-declaration -->
 <FadeIn>
 	<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
 		<Section title="Titel">
@@ -92,8 +91,20 @@
 		{#if images.length > 0}
 			<Section title="Bilder Vorschau">
 				<div class="grid grid-cols-4 gap-4">
-					{#each images as image}
-						<img src={URL.createObjectURL(image)} alt="Bildvorschau" />
+					{#each images as image, index}
+						<div class="relative aspect-[3/5] overflow-hidden rounded-md">
+							<button
+								type="button"
+								on:click={() => {
+									images.splice(index, 1);
+									images = images;
+								}}
+								class="absolute right-0 top-0 m-1 rounded-full bg-red p-2 drop-shadow-xl duration-150 hover:bg-[#be4a3a]"
+							>
+								<img src={RemoveIcon} alt="Remove" class="size-4" />
+							</button>
+							<img src={URL.createObjectURL(image)} alt="Bildvorschau" class="h-full object-cover" />
+						</div>
 					{/each}
 				</div>
 			</Section>
