@@ -2,6 +2,7 @@
 	import { goto } from "$app/navigation";
 	import type { AuthError } from "@supabase/supabase-js";
 
+	import { currentUser } from "$lib/functions/stores";
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
@@ -55,6 +56,18 @@
 		}
 		if (auth_error) error = auth_error;
 	}
+
+	async function handleGuestLogin() {
+		const guestUser = {
+			id: "guest_id",
+			username: "guest",
+			avatar_url: "",
+		};
+
+		currentUser.set(guestUser);
+		localStorage.setItem("guestUser", JSON.stringify(guestUser));
+		goto("/");
+	}
 </script>
 
 <div class="flex flex-col gap-md">
@@ -64,7 +77,7 @@
 			on:input={() => (username.isValid = validateUsername(username.content))}
 			id="username"
 			type="text"
-			class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+			class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			required
 		/>
 		{#if !username.isValid}
@@ -81,7 +94,7 @@
 			on:input={() => (email.isValid = validateEmail(email.content))}
 			id="email"
 			type="email"
-			class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+			class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			required
 		/>
 		{#if !email.isValid}
@@ -97,7 +110,7 @@
 			id="password"
 			type="password"
 			minlength="6"
-			class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+			class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			required
 		/>
 		{#if !password.isValid}
@@ -114,7 +127,7 @@
 			id="password_repeat"
 			type="password"
 			minlength="8"
-			class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+			class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			required
 		/>
 		{#if password.content !== password_repeat.content}
@@ -141,7 +154,7 @@
 			<span>Bereits Mitglied?</span>
 			<LinkText link="/login" title="Login" textColor="text-yellow">Jetzt anmelden</LinkText>
 		</div>
-		<LinkText link="/" title="Als Gast beitreten">Als Gast beitreten</LinkText>
+		<button on:click={handleGuestLogin}> Als Gast beitreten </button>
 	</div>
 
 	{#if error}
