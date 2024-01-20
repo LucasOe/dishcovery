@@ -11,7 +11,7 @@
 </svelte:head>
 
 <div class="flex w-full flex-col gap-6 p-12">
-	<div class="flex justify-between">
+	<div class="flex items-center justify-between">
 		<h1 class="font-header text-xxl text-light">{$page.data.title || "Page Title"}</h1>
 		<RoundButton src={CloseIcon} alt="Close" action={navigateHome} class="drop-shadow-md" size="md" />
 	</div>

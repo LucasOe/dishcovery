@@ -74,41 +74,43 @@
 		</Section>
 
 		<Section title="Bilder">
-			<input
-				class="hidden"
-				type="file"
-				accept=".jpg, .jpeg, .png"
-				on:change={onFileSelected}
-				bind:this={fileInput}
-				required
-			/>
-			<button type="button" class="inline" on:click={() => fileInput.click()}>
-				<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
-			</button>
-			<p class="inline pl-2">Bilder hochladen</p>
-		</Section>
-
-		{#if images.length > 0}
-			<Section title="Bilder Vorschau">
-				<div class="grid grid-cols-4 gap-4">
-					{#each images as image, index}
-						<div class="relative aspect-[3/5] overflow-hidden rounded-md">
-							<button
-								type="button"
-								on:click={() => {
-									images.splice(index, 1);
-									images = images;
-								}}
-								class="absolute right-0 top-0 m-1 rounded-full bg-red p-2 drop-shadow-xl duration-150 hover:bg-[#be4a3a]"
-							>
-								<img src={RemoveIcon} alt="Remove" class="size-4" />
-							</button>
-							<img src={URL.createObjectURL(image)} alt="Bildvorschau" class="h-full object-cover" />
-						</div>
-					{/each}
+			<div class="space-y-4">
+				<div class="flex items-center gap-2">
+					<input
+						class="hidden"
+						type="file"
+						accept=".jpg, .jpeg, .png"
+						on:change={onFileSelected}
+						bind:this={fileInput}
+						required
+					/>
+					<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
+						<img class="upload inline h-10 w-10 drop-shadow-md" src={UploadIcon} alt="" />
+					</button>
+					<p class="text-lg text-gray-300">Bild hochladen</p>
 				</div>
-			</Section>
-		{/if}
+
+				{#if images.length > 0}
+					<div class="grid grid-cols-4 gap-4">
+						{#each images as image, index}
+							<div class="relative aspect-[3/5] overflow-hidden rounded-md">
+								<button
+									type="button"
+									on:click={() => {
+										images.splice(index, 1);
+										images = images;
+									}}
+									class="absolute right-0 top-0 m-1 rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
+								>
+									<img src={RemoveIcon} alt="Remove" class="size-4" />
+								</button>
+								<img src={URL.createObjectURL(image)} alt="Bildvorschau" class="h-full object-cover" />
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</div>
+		</Section>
 
 		{#await fetchTypes() then _types}
 			<Section title="Art">
@@ -182,17 +184,20 @@
 						<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" required />
 					</div>
 				{/each}
+				<div class="flex items-center gap-2">
+					<button
+						type="button"
+						aria-label="Schritt hinzufügen"
+						on:click={() => {
+							steps.push("");
+							steps = steps;
+						}}
+					>
+						<img alt="Close" class="size-10" src={UploadIcon} />
+					</button>
+					<p class="text-lg text-gray-300">Schritt hinzufügen</p>
+				</div>
 			</div>
-			<button
-				type="button"
-				on:click={() => {
-					steps.push("");
-					steps = steps;
-				}}
-				class="mt-sm"
-			>
-				<img alt="Close" class="size-10" src={UploadIcon} />
-			</button>
 		</Section>
 
 		<button class="h-16 w-full rounded-sm bg-yellow text-xl font-semibold text-gray-900">
