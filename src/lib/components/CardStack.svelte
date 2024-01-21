@@ -10,6 +10,7 @@
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { direction, getTransformValue } from "$lib/functions/cardStack";
+	import LinkText from "$lib/components/LinkText.svelte";
 
 
 	let container: HTMLDivElement;
@@ -133,31 +134,33 @@
 		// add new recipe
 		await fetchRecipe(currentRecipe + initialRecipes.length)
 			.then((recipe) => {
-				setTimeout(() => {
-					refreshCardStackContent(recipe);
-					isLoading = false;
-				},
-				!isAnimationOver ? 300 : 0)
+				refreshCardStackContent(isAnimationOver, recipe);
 			})
 			.catch((err) => {
-				refreshCardStackContent();
 				handleError(true, err);
-			});
+				refreshCardStackContent(isAnimationOver);
+			})
 	};
 
-	const refreshCardStackContent = (recipe?: Recipe) => {
-		currentRecipe++;
+	const refreshCardStackContent = (isAnimationOver: boolean, recipe?: Recipe) => {
+		isLoading = false;
 
-		//Remove current Card
-		recipes.shift();
-		cardInstances.shift().$destroy();
+		setTimeout(() => {
 
-		//Add new Card
-		if (recipe) {
-			recipes = [...recipes, recipe];
-			createCardInstance(recipe);
-		}
-		removeCardShadows();
+			currentRecipe++;
+
+			//Remove current Card
+			recipes.shift();
+			cardInstances.shift().$destroy();
+
+			//Add new Card
+			if (recipe) {
+				recipes = [...recipes, recipe];
+				createCardInstance(recipe);
+			}
+
+			removeCardShadows();
+		}, isAnimationOver ? 0 : 300);
 	};
 
 	const createCardInstance = (recipe: Recipe) => {
@@ -179,7 +182,7 @@
 		cardInstances.forEach((instance) => {
 			instance.$set({ isBottom: false });
 		});
-		cardInstances[cardInstances.length - 1].$set({ isBottom: true });
+		cardInstances[cardInstances.length - 1] && cardInstances[cardInstances.length - 1].$set({ isBottom: true });
 	};
 
 	const handleError = (error: boolean, message: string) => {
@@ -210,7 +213,7 @@
 		</div>
 	{/if}
 	{#if isError}
-		<div class="absolute flex size-40 items-center justify-center rounded-full bg-red text-center">
+		<div class="absolute flex flex-col size-48 aspect-square items-center justify-center rounded-full bg-gray-500 text-md font-semibold text-center p-4">
 			{errorMessage}
 		</div>
 	{/if}
