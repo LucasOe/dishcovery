@@ -57,29 +57,11 @@
 	};
 
 	onMount(() => {
-		threshold = Math.min(window.innerWidth * 0.2, 150);
 		initRecipes();
+		scaleThreshhold();
 		window.addEventListener("resize", function () {
-			threshold = Math.min(window.innerWidth * 0.2, 150);
+			scaleThreshhold();
 		});
-	});
-
-	swipeDirection.subscribe(async (value) => {
-		swipeIndicator = value;
-		switch (value) {
-			case Direction.Left:
-			case Direction.Right:
-				transformValue = getTransformValue(swipeIndicator);
-				refreshCardProps();
-				await handleCardChoice();
-				break;
-			case Direction.Up:
-				transformValue = getTransformValue(swipeIndicator);
-				navigateToRecipe(recipe.id);
-				break;
-			default:
-				break;
-		}
 	});
 
 	const handlePanStart = () => {
@@ -120,15 +102,26 @@
 		refreshCardProps();
 	};
 
-	const refreshCardProps = () => {
-		cardInstances[0].$set({
-			transformValue,
-			swipeIndicator: swipeIndicator,
-			isTouching,
-		});
-	};
+	//On Swipe
+	swipeDirection.subscribe(async (value) => {
+		swipeIndicator = value;
+		transformValue = getTransformValue(swipeIndicator);
+		switch (value) {
+			case Direction.Left:
+			case Direction.Right:
+				await handleCardSwipe();
+				break;
+			case Direction.Up:
+				navigateToRecipe(recipe.id);
+				break;
+			default:
+				break;
+		}
+	});
 
-	const handleCardChoice = async () => {
+	const handleCardSwipe = async () => {
+		refreshCardProps();
+
 		// add rating to database
 		await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
 
@@ -148,6 +141,15 @@
 				handleError(true, err);
 				refreshCardStackContent();
 			});
+	};
+
+
+	const refreshCardProps = () => {
+		cardInstances[0].$set({
+			transformValue,
+			swipeIndicator: swipeIndicator,
+			isTouching,
+		});
 	};
 
 	const refreshCardStackContent = (recipe?: Recipe) => {
@@ -174,6 +176,10 @@
 		});
 		cardInstances[cardInstances.length - 1] && cardInstances[cardInstances.length - 1].$set({ isBottom: true });
 	};
+
+	const scaleThreshhold = () => {
+		threshold = Math.min(window.innerWidth * 0.2, 150);
+	}
 
 	const handleError = (error: boolean, message: string) => {
 		if (error) {
