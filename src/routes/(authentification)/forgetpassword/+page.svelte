@@ -54,7 +54,7 @@
 				bind:value={email}
 				type="email"
 				placeholder="email@email.com"
-				class="text-white mt-5 h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				class="mt-5 h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			/>
 		</Section>
 

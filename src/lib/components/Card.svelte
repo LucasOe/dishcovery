@@ -12,14 +12,13 @@
 
 	export let recipe: Recipe;
 	let rating = 0;
-	export let isLast = false;
-	export let isFirst = false;
+	export let isBottom = false;
 	export let isTouching = false;
 	export let transformValue = "translate(0px, 0px)";
 	export let swipeVisual: Direction = Direction.None;
 
-	const imageTransition = isLast ? `image-${recipe.id}` : "";
-	const headlineTransition = isLast ? `name-${recipe.id}` : "";
+	const imageTransition = `image-${recipe.id}`;
+	const headlineTransition = `name-${recipe.id}`;
 
 	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
@@ -33,17 +32,17 @@
 
 <div
 	class={twMerge(
-		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-80% before:to-gray-900 ",
-		isLast && isTouching ? "transition-transform-instant" : "transition-transform-slow",
-		isLast ? swipeClass[swipeVisual] : "",
-		isFirst ? "shadow-shadowGray" : ""
+		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% ",
+		isTouching ? "transition-transform-instant" : "transition-transform-slow",
+		swipeClass[swipeVisual],
+		isBottom ? "shadow-shadowGray" : ""
 	)}
 	style={`
-		transform: ${isLast ? transformValue : "translate(0px, 0px)"};
+		transform: ${transformValue};
 	`}
 >
 	<div class=" z-10 flex w-full flex-col gap-sm self-end p-lg">
-		<Rating {recipe}/>
+		<Rating {recipe} />
 		<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name={headlineTransition}>
 			{recipe.name}
 		</h1>
@@ -54,7 +53,7 @@
 
 	<img
 		src={recipe.images[0].image}
-		class="transition-image absolute top-0 z-[-1]  max-w-[200%] h-4/5"
+		class="transition-image absolute top-0 z-[-1] h-4/5 max-w-[200%]"
 		alt=""
 		style:--recipe={imageTransition}
 	/>
@@ -63,7 +62,7 @@
 		<img
 			class={`
 				absolute left-xxl top-xxl z-10 size-xxl duration-300
-				${isLast && swipeVisual === Direction.Right ? "opacity-100" : "opacity-0"}
+				${swipeVisual === Direction.Right ? "opacity-100" : "opacity-0"}
 			`}
 			src={Like}
 			alt="Like Icon"
@@ -71,7 +70,7 @@
 		<img
 			class={`
 				absolute right-xxl top-xxl z-10 size-xxl duration-300
-				${isLast && swipeVisual === Direction.Left ? "opacity-100" : "opacity-0"}
+				${swipeVisual === Direction.Left ? "opacity-100" : "opacity-0"}
 			`}
 			src={Dislike}
 			alt="Dislike Icon"
@@ -79,7 +78,7 @@
 		<img
 			class={`
 				absolute bottom-0 left-0 right-0 top-0 z-10 m-auto size-xxl brightness-200 duration-300
-				${isLast && swipeVisual === Direction.Up ? "opacity-100" : "opacity-0"}
+				${swipeVisual === Direction.Up ? "opacity-100" : "opacity-0"}
 			`}
 			src={Open}
 			alt="Open Icon"
@@ -88,7 +87,7 @@
 			class={`
 				absolute left-0 top-0 size-full bg-gradient-to-t from-transparent from-10% to-gray-500 duration-300
 				${
-					isLast && (swipeVisual === Direction.Up || swipeVisual === Direction.Left || swipeVisual == Direction.Right)
+					swipeVisual === Direction.Up || swipeVisual === Direction.Left || swipeVisual == Direction.Right
 						? "opacity-100"
 						: "opacity-0"
 				}

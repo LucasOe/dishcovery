@@ -5,26 +5,17 @@ export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
 	if (data.user) {
 		return fetchUserDataById(data.user.id);
-	}
-	else throw error;
+	} else throw error;
 };
 
 export const fetchUserDataById = async (userId: string): Promise<User> => {
-	const { data, error } =
-		await supabase.from("profiles")
-			.select(`*`)
-			.eq("id", userId)
-			.maybeSingle();
-	if (data) return {...data};
+	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
+	if (data) return { ...data };
 	else throw error;
 };
 
 export const fetchUserDataByUsername = async (username: string): Promise<User> => {
-	const { data, error } =
-		await supabase.from("profiles")
-			.select(`*`)
-			.ilike("username", username)
-			.maybeSingle();
+	const { data, error } = await supabase.from("profiles").select(`*`).ilike("username", username).maybeSingle();
 	if (data) return { id: data.id, username: data.username, avatar_url: data.avatar_url };
 	else throw error;
 };
