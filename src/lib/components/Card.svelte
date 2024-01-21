@@ -11,7 +11,6 @@
 	import Rating from "$lib/components/Rating.svelte";
 
 	export let recipe: Recipe;
-	let rating = 0;
 	export let isBottom = false;
 	export let isTouching = false;
 	export let transformValue = "translate(0px, 0px)";
@@ -91,7 +90,8 @@
 						? "opacity-100"
 						: "opacity-0"
 				}
-			`}></div>
+			`}
+		></div>
 	</div>
 </div>
 

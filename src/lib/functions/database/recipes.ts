@@ -20,13 +20,16 @@ export const fetchRecipe = async (id: number): Promise<Recipe> => {
 	else throw error;
 };
 
-
 export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
-	const { data, error } = await supabase.from('ratings').select(`
+	const { data, error } = await supabase
+		.from("ratings")
+		.select(
+			`
   recipes ( * )
-`)
-		.eq('user_id', userID)
-		.eq('inCookBook', true)
+`
+		)
+		.eq("user_id", userID)
+		.eq("inCookBook", true);
 	if (error) throw error;
 
 	const recipes: Recipe[] = [];
