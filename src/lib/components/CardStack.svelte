@@ -47,22 +47,27 @@
 
 	let transformValue = "translate(0px, 0px)";
 
-	const initRecipes = async () => {
-		recipes = await fetchRecipes(initialRecipes);
-		recipes.forEach((recipe) => {
-			container && cardInstances.push(createCardInstance(recipe, container));
-		});
-		selectedRecipe.set(recipes[0]);
-		removeCardShadows();
-	};
-
 	onMount(() => {
-		initRecipes();
+		initCards();
 		scaleThreshhold();
 		window.addEventListener("resize", function () {
 			scaleThreshhold();
 		});
 	});
+
+	const initCards = async () => {
+		// fetch recipes
+		recipes = await fetchRecipes(initialRecipes);
+
+		// create card instances
+		recipes.forEach((recipe) => {
+			container && cardInstances.push(createCardInstance(recipe, container));
+		});
+
+		// set selected recipe
+		selectedRecipe.set(recipes[0]);
+		removeCardShadows();
+	};
 
 	const handlePanStart = () => {
 		isTouching = true;
@@ -120,19 +125,20 @@
 	});
 
 	const handleCardSwipe = async () => {
+
+		// apply transformvalue to card
 		refreshCardProps();
 
 		// add rating to database
 		await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
 
-		// wait for animation to finish
+		// reset state
 		swipeIndicator = Direction.None;
 		swipeDirection.set(swipeIndicator);
 		transformValue = "translate(0px, 0px)";
 
-		isLoading = true;
-
 		// add new recipe
+		isLoading = true;
 		await fetchRecipe(recipe.id + recipes.length)
 			.then((recipe) => {
 				refreshCardStackContent(recipe);
@@ -170,6 +176,7 @@
 		selectedRecipe.set(recipes[0]);
 	};
 
+	//Remove shadows from all cards except the bottom one
 	const removeCardShadows = () => {
 		cardInstances.forEach((instance) => {
 			instance.$set({ isBottom: false });
