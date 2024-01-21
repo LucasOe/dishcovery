@@ -9,31 +9,15 @@
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
+	import { direction, getTransformValue } from "$lib/functions/cardStack";
 
+
+	let container: HTMLDivElement;
+	let cardInstances: Card[] = [];
+	let initialRecipes = [3, 2, 1];
+	let recipes: Recipe[] = [];
+	let currentRecipe = 1;
 	let swipeVisual: Direction = Direction.None;
-
-	swipeDirection.subscribe(async (value) => {
-		swipeVisual = value;
-		switch (value) {
-			case Direction.Left:
-			case Direction.Right:
-				transformValue = getTransformValue();
-				await handleCardChoice();
-
-				cardInstances[0].$set({
-					transformValue,
-					swipeVisual,
-					isTouching,
-				});
-				break;
-			case Direction.Up:
-				transformValue = getTransformValue();
-				showDetailPage();
-				break;
-			default:
-				break;
-		}
-	});
 
 	let xStart = 0;
 	let yStart = 0;
@@ -55,12 +39,6 @@
 
 	let transformValue = "translate(0px, 0px)";
 
-	let container: HTMLDivElement;
-	let cardInstances: Card[] = [];
-	let initialRecipes = [3, 2, 1];
-	let recipes: Recipe[] = [];
-	let currentRecipe = 1;
-
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
 		recipes.forEach((recipe) => {
@@ -73,10 +51,27 @@
 	onMount(() => {
 		threshold = Math.min(window.innerWidth * 0.1, 150);
 		initRecipes();
-
 		window.addEventListener("resize", function () {
 			threshold = Math.min(window.innerWidth * 0.1, 150);
 		});
+	});
+
+	swipeDirection.subscribe(async (value) => {
+		swipeVisual = value;
+		switch (value) {
+			case Direction.Left:
+			case Direction.Right:
+				transformValue = getTransformValue(swipeVisual);
+				await handleCardChoice();
+				refreshCardProps();
+				break;
+			case Direction.Up:
+				transformValue = getTransformValue(swipeVisual);
+				showDetailPage();
+				break;
+			default:
+				break;
+		}
 	});
 
 	const handlePan = (event: CustomEvent<{ x: number; y: number; target: EventTarget }>) => {
@@ -97,42 +92,25 @@
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
 			swipeVisual = direction(xDist, yDist, threshold);
-			cardInstances[0].$set({
-				transformValue,
-				isTouching,
-				swipeVisual,
-			});
+			refreshCardProps();
 		}
 	};
-
-	function direction(xDist: number, yDist: number, threshold: number) {
-		if (xDist > +threshold) return Direction.Right;
-		if (xDist < -threshold) return Direction.Left;
-		if (yDist < -threshold) return Direction.Up;
-		return Direction.None;
-	}
 
 	const handlePanEnd = () => {
 		isTouching = false;
-		transformValue = getTransformValue();
+		transformValue = getTransformValue(swipeVisual);
 		xDist = 0;
 		yDist = 0;
 		swipeDirection.set(swipeVisual);
+		refreshCardProps();
 	};
 
-	//transform value for card
-	const getTransformValue = () => {
-		switch (swipeVisual) {
-			case Direction.Left:
-				return "translate(-200vw, 0px) rotate(-50deg)";
-			case Direction.Right:
-				return "translate(200vw, 0px) rotate(50deg)";
-			case Direction.Up:
-				return `translate(${xDist}px, -40vh) rotate(0deg)`;
-			default:
-				return "translate(0px, 0px)";
-		}
-	};
+	const refreshCardProps = () => {
+		cardInstances[0].$set({
+			transformValue,
+			swipeVisual,
+			isTouching,
+		})};
 
 	const showDetailPage = () => {
 		goto("recipe/" + currentRecipe);
@@ -156,18 +134,18 @@
 		await fetchRecipe(currentRecipe + initialRecipes.length)
 			.then((recipe) => {
 				setTimeout(() => {
-					refreshCardInstances(recipe);
+					refreshCardStackContent(recipe);
 					isLoading = false;
 				},
 				!isAnimationOver ? 300 : 0)
 			})
 			.catch((err) => {
-				refreshCardInstances();
+				refreshCardStackContent();
 				handleError(true, err);
 			});
 	};
 
-	const refreshCardInstances = (recipe?: Recipe) => {
+	const refreshCardStackContent = (recipe?: Recipe) => {
 		currentRecipe++;
 
 		//Remove current Card
@@ -243,7 +221,6 @@
 			on:pan={handlePan}
 			on:mouseup={handlePanEnd}
 			on:touchend={handlePanEnd}
-			on:touchcancel={handlePanEnd}
-		/>
+			on:touchcancel={handlePanEnd}></button>
 	</div>
 </div>
