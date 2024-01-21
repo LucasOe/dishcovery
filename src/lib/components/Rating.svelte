@@ -3,14 +3,14 @@
 	import StarHalf from "$lib/assets/icons/star_half.svg";
 	import StarEmpty from "$lib/assets/icons/star_empty.svg";
 	import { onMount } from "svelte";
-	import { fetchRatingsByRecipe } from "$lib/functions/database/ratings.js";
+	import { fetchAverageRating } from "$lib/functions/database/ratings.js";
 	import type { Recipe } from "$types/database.types";
 
 	export let recipe: Recipe;
 	let rating = 0;
 
 	onMount(async () => {
-		rating = await fetchRatingsByRecipe(recipe.id);
+		rating = await fetchAverageRating(recipe.id);
 	});
 </script>
 
