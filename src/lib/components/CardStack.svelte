@@ -70,8 +70,8 @@
 			case Direction.Left:
 			case Direction.Right:
 				transformValue = getTransformValue(swipeIndicator);
-				await handleCardChoice();
 				refreshCardProps();
+				await handleCardChoice();
 				break;
 			case Direction.Up:
 				transformValue = getTransformValue(swipeIndicator);
