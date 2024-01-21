@@ -18,13 +18,13 @@ export type User = Tables<"profiles"> & {
 };
 
 export type Rating = Tables<"ratings"> & {
-	id: number
-	recipe: number
-	user: string
-	inCookBook: boolean | null
-	rating: number
-	seen: boolean | null
-}
+	id: number;
+	recipe: number;
+	user: string;
+	inCookBook: boolean | null;
+	rating: number;
+	seen: boolean | null;
+};
 
 // Used for numeric values that map to a string, like categories, types, cost or difficulty
 export type DisplayValue = {

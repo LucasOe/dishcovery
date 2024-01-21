@@ -8,9 +8,8 @@
 
 	//Fetch and set current user on page load
 	onMount(async () => {
-
 		// Fetch the current session
-		const  user  = await fetchCurrentUser();
+		const user = await fetchCurrentUser();
 
 		// If a session exists, fetch the user's data and set it in the user store
 		if (user) {

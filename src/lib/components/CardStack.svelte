@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { pan } from "svelte-gestures";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
 	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
@@ -49,19 +49,23 @@
 
 	let transformValue = "translate(0px, 0px)";
 
+	let container: HTMLDivElement;
+	let cardInstances: Card[] = [];
 	let initialRecipes = [3, 2, 1];
 	let recipes: Recipe[] = [];
 	let currentRecipe = 1;
 
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
-		recipes.reverse();
+		recipes.forEach((recipe) => {
+			createCardInstance(recipe);
+		});
 		selectedRecipe.set(recipes.slice(-1)[0]);
+		removeCardShadows();
 	};
 
 	onMount(() => {
 		threshold = Math.min(window.innerWidth * 0.1, 150);
-
 		initRecipes();
 
 		window.addEventListener("resize", function () {
@@ -87,6 +91,11 @@
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
 			swipeVisual = direction(xDist, yDist, threshold);
+			cardInstances[0].$set({
+				transformValue,
+				isTouching,
+				swipeVisual,
+			});
 		}
 	};
 
@@ -103,6 +112,11 @@
 		xDist = 0;
 		yDist = 0;
 		swipeDirection.set(swipeVisual);
+
+		cardInstances[0].$set({
+			transformValue,
+			isTouching,
+		});
 	};
 
 	//transform value for card
@@ -128,13 +142,11 @@
 
 		// wait for animation to finish
 		setTimeout(() => {
-			recipes = [...recipes.slice(0, -1)];
 			swipeVisual = Direction.None;
 			swipeDirection.set(swipeVisual);
 			transformValue = "translate(0px, 0px)";
-			currentRecipe++;
 			isAnimationOver = true;
-			selectedRecipe.set(recipes.slice(-1)[0]);
+			selectedRecipe.set(recipes[0]);
 		}, 300);
 
 		isLoading = true;
@@ -142,22 +154,53 @@
 		// add new recipe
 		await fetchRecipe(currentRecipe + initialRecipes.length)
 			.then((recipe) => {
-				isLoading = false;
-				addRecipeToStack(isAnimationOver, recipe);
+				setTimeout(() => {
+					refreshCardInstances(recipe);
+					isLoading = false;
+				},
+				!isAnimationOver ? 300 : 0)
 			})
 			.catch((err) => {
+				refreshCardInstances();
 				handleError(true, err);
 			});
 	};
 
-	const addRecipeToStack = (isAnimationOver: boolean, recipe: Recipe) => {
-		if (isAnimationOver) {
-			recipes = [recipe, ...recipes];
-		} else {
-			setTimeout(() => {
-				recipes = [recipe, ...recipes];
-			}, 300);
+	const refreshCardInstances = (recipe?: Recipe) => {
+		currentRecipe++;
+
+		//Remove current Card
+		recipes.shift();
+		cardInstances.shift().$destroy();
+
+		//Add new Card
+		if (recipe) {
+			recipes = [...recipes, recipe];
+			createCardInstance(recipe);
 		}
+		removeCardShadows();
+	};
+
+	const createCardInstance = (recipe: Recipe) => {
+		cardInstances.push(
+			new Card({
+			target: container,
+			props: {
+				recipe,
+				isBottom: true,
+				transformValue,
+				isTouching,
+				swipeVisual,
+			},
+			anchor: container.firstChild,
+		}));
+	};
+
+	const removeCardShadows = () => {
+		cardInstances.forEach((instance) => {
+			instance.$set({ isBottom: false });
+		});
+		cardInstances[cardInstances.length - 1].$set({ isBottom: true });
 	};
 
 	const handleError = (error: boolean, message: string) => {
@@ -174,6 +217,11 @@
 	const setErrorMessage = (message: string) => {
 		errorMessage = message == null ? "Es gibt keine weiteren Rezepte mehr." : message;
 	};
+
+	onDestroy(() => {
+		// Clean up card instances when component is destroyed
+		cardInstances.forEach((instance) => instance.$destroy());
+	});
 </script>
 
 <div class="relative flex size-full items-center justify-center">
@@ -187,17 +235,14 @@
 			{errorMessage}
 		</div>
 	{/if}
-	{#key recipes}
-		{#each recipes as recipe, i}
-			<Card {recipe} isLast={i === recipes.length - 1} isFirst={i === 0} {transformValue} {isTouching} {swipeVisual} />
-		{/each}
-	{/key}
-	<button
-		class="after:w-dvh z-[99] size-full active:fixed active:left-0 active:top-0 active:h-dvh"
-		use:pan={{ delay: 0 }}
-		on:pan={handlePan}
-		on:mouseup={handlePanEnd}
-		on:touchend={handlePanEnd}
-		on:touchcancel={handlePanEnd}
-	/>
+	<div class="relative flex size-full items-center justify-center" bind:this={container}>
+		<button
+			class="after:w-dvh z-[99] size-full active:fixed active:left-0 active:top-0 active:h-dvh"
+			use:pan={{ delay: 0 }}
+			on:pan={handlePan}
+			on:mouseup={handlePanEnd}
+			on:touchend={handlePanEnd}
+			on:touchcancel={handlePanEnd}
+		/>
+	</div>
 </div>

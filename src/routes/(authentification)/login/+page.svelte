@@ -30,7 +30,7 @@
 				bind:value={email}
 				type="email"
 				placeholder="bespiel@email.de"
-				class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			/>
 		</Section>
 		<Section title="Passwort">
@@ -38,7 +38,7 @@
 				bind:value={password}
 				type="password"
 				placeholder="Passwort"
-				class="text-white h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
 			/>
 		</Section>
 		<button
@@ -48,14 +48,13 @@
 			Login
 		</button>
 	</form>
-	<div class=" flex flex-col gap-sm mt-8 justify-center items-center">
+	<div class=" mt-8 flex flex-col items-center justify-center gap-sm">
 		<div class="flex flex-row items-center gap-xs">
 			<span>Noch kein Mitglied</span>
 			<LinkText link="/register" title="Registrieren" textColor="text-yellow">Jetzt Registrieren</LinkText>
-		</div> 
+		</div>
 		<LinkText link="/forgetpassword" title="Passwort vergessen">Passwort vergessen?</LinkText>
 	</div>
-	
 
 	{#if error}
 		<p class="text-red-500">{error.message}</p>

@@ -37,9 +37,13 @@
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center pt-12">
 		{#if user}
-			<div class="flex size-44 relative">
+			<div class="relative flex size-44">
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
-				<button class="size-full absolute inline rounded-full opacity-50 hover:bg-gray-900 duration-300" on:click={() => fileInput.click()}> </button>
+				<button
+					class="absolute inline size-full rounded-full opacity-50 duration-300 hover:bg-gray-900"
+					on:click={() => fileInput.click()}
+				>
+				</button>
 				<img class="w-44 rounded-full" alt="User" src={user.avatar_url} width="176" height="176" />
 			</div>
 			<div class="mt-lg flex w-full flex-col items-center">
@@ -49,7 +53,7 @@
 				<p class="hidden">25, Hamburg (DE)</p>
 			</div>
 			<div class="flex items-center justify-center gap-5">
-				<div class="mt-lg flex font-bold text-gray-300 hidden">
+				<div class="mt-lg flex hidden font-bold text-gray-300">
 					<img class="mr-5 size-5" alt="User" src={edit} />
 					<p>Profil bearbeiten</p>
 				</div>
