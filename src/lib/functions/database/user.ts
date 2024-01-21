@@ -1,5 +1,5 @@
 import { supabase } from "$lib/functions/database/createClient";
-import type { User } from "$types/database.types";
+import type { Recipe, User } from "$types/database.types";
 
 export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
@@ -20,7 +20,7 @@ export const fetchUserDataByUsername = async (username: string): Promise<User> =
 	else throw error;
 };
 
-export const deleteAvatarImage = async (userID: number) => {
+export const deleteAvatarImage = async (userID: string) => {
 	const { error } = await supabase.storage.from("avatars").remove([`avatar_${userID}.jpg`]);
 	if (error) throw error;
 };
@@ -37,7 +37,24 @@ export const uploadAvatarImage = async (file: File): Promise<string> => {
 	return publicUrl.publicUrl;
 };
 
-export const insertAvatarImage = async (userID: number, image: string) => {
+export const insertAvatarImage = async (userID: string, image: string) => {
 	const { error } = await supabase.from("profiles").update({ avatar_url: image }).match({ id: userID });
 	if (error) throw error;
+};
+
+
+
+export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
+	const { data, error } = await supabase.from('ratings').select(`
+  recipes ( * )
+`)
+		.eq('user', userID)
+		.eq('inCookBook', true)
+	if (error) throw error;
+
+	const recipes: Recipe[] = [];
+	for (const recipe of data) {
+		recipes.push(recipe.recipes as Recipe);
+	}
+	return { ...recipes };
 };
