@@ -161,19 +161,21 @@
 	const refreshCardStackContent = (recipe?: Recipe) => {
 		isLoading = false;
 
-		//Remove current Card
-		recipes.shift();
-		cardInstances.shift().$destroy();
+		setTimeout(() => {
+			//Remove current Card
+			recipes.shift();
+			cardInstances.shift().$destroy();
 
-		//Add new Card
-		if (recipe) {
-			recipes = [...recipes, recipe];
-			container && cardInstances.push(createCardInstance(recipe, container));
-		}
-		removeCardShadows();
+			//Add new Card
+			if (recipe) {
+				recipes = [...recipes, recipe];
+				container && cardInstances.push(createCardInstance(recipe, container));
+			}
+			removeCardShadows();
 
-		//Change current recipe
-		selectedRecipe.set(recipes[0]);
+			//Change current recipe
+			selectedRecipe.set(recipes[0]);
+		}, 300);
 	};
 
 	//Remove shadows from all cards except the bottom one
