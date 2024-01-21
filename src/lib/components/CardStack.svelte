@@ -3,36 +3,51 @@
 	import { onDestroy, onMount } from "svelte";
 	import { goto } from "$app/navigation";
 
-	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
+	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import { fetchRecipe, fetchRecipes } from "$lib/functions/database/recipes";
 	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
-	import { direction, getTransformValue } from "$lib/functions/cardStack";
+	import { createCardInstance, direction, getTransformValue } from "$lib/functions/cardStack";
+	import { upsertRating } from "$lib/functions/database/ratings";
+	import { spring } from "svelte/motion";
+	import { pannable } from "$lib/functions/pannable";
+	import { navigateToRecipe } from "$lib/functions/navigation";
 
+	let user;
+	let recipe;
+	let swipe;
+	let initialRecipes = [3, 2, 1]
+
+	currentUser.subscribe((value) => {
+		user = value;
+	});
+
+	selectedRecipe.subscribe((value) => {
+		recipe = value;
+	});
+
+	swipeDirection.subscribe((value) => {
+		swipe = value;
+	});
 
 	let container: HTMLDivElement;
 	let cardInstances: Card[] = [];
-	let initialRecipes = [3, 2, 1];
 	let recipes: Recipe[] = [];
-	let currentRecipe = 1;
-	let swipeVisual: Direction = Direction.None;
+	let swipeIndicator: Direction = Direction.None;
 
-	let xStart = 0;
-	let yStart = 0;
-
-	let xCoord = 0;
-	let yCoord = 0;
-
-	let xDist = 0;
-	let yDist = 0;
-	let rotation = 0;
+	const coords = spring(
+		{ x: 0, y: 0 },
+		{
+			stiffness: 0.2,
+			damping: 0.4
+		}
+	);
 
 	let threshold = 150;
 	let isTouching = false;
 
-	let isAnimationOver = true;
 	let isLoading = false;
 	let isError = false;
 	let errorMessage = "";
@@ -42,111 +57,112 @@
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
 		recipes.forEach((recipe) => {
-			createCardInstance(recipe);
+			container && cardInstances.push(
+				createCardInstance(recipe, container)
+			)
 		});
-		selectedRecipe.set(recipes.slice(-1)[0]);
+		selectedRecipe.set(recipes[0]);
 		removeCardShadows();
 	};
 
 	onMount(() => {
-		threshold = Math.min(window.innerWidth * 0.1, 150);
+		threshold = Math.min(window.innerWidth * 0.2, 150);
 		initRecipes();
 		window.addEventListener("resize", function () {
-			threshold = Math.min(window.innerWidth * 0.1, 150);
+			threshold = Math.min(window.innerWidth * 0.2, 150);
 		});
 	});
 
 	swipeDirection.subscribe(async (value) => {
-		swipeVisual = value;
+		swipeIndicator = value;
 		switch (value) {
 			case Direction.Left:
 			case Direction.Right:
-				transformValue = getTransformValue(swipeVisual);
+				transformValue = getTransformValue(swipeIndicator);
 				await handleCardChoice();
 				refreshCardProps();
 				break;
 			case Direction.Up:
-				transformValue = getTransformValue(swipeVisual);
-				showDetailPage();
+				transformValue = getTransformValue(swipeIndicator);
+				navigateToRecipe(recipe.id);
 				break;
 			default:
 				break;
 		}
 	});
 
-	const handlePan = (event: CustomEvent<{ x: number; y: number; target: EventTarget }>) => {
-		if (isAnimationOver) {
-			xCoord = event.detail.x;
-			yCoord = event.detail.y;
+	const handlePanStart = () => {
+		isTouching = true;
+		coords.stiffness = coords.damping = 1;
+		coords.update(($coords) => ({
+			x: 0,
+			y: 0
+		}));
+	};
 
-			if (!isTouching) {
-				xStart = xCoord;
-				yStart = yCoord;
-				isTouching = true;
-			}
+	const handlePanMove = (event) => {
+		let xStart = 0;
+		let yStart = 0;
+		let xDist;
+		let yDist;
+		let rotation;
 
-			xDist = xCoord - xStart;
-			yDist = yCoord - yStart;
+
+			coords.update(($coords) => ({
+				x: $coords.x + event.detail.dx,
+				y: $coords.y + event.detail.dy
+			}));
+
+
+			xDist = $coords.x - xStart;
+			yDist = $coords.y - yStart;
 
 			rotation = xDist / 30;
 			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
-			swipeVisual = direction(xDist, yDist, threshold);
-			refreshCardProps();
-		}
+			swipeIndicator = direction(xDist, yDist, threshold);
+		refreshCardProps();
 	};
 
 	const handlePanEnd = () => {
 		isTouching = false;
-		transformValue = getTransformValue(swipeVisual);
-		xDist = 0;
-		yDist = 0;
-		swipeDirection.set(swipeVisual);
+		transformValue = getTransformValue(swipeIndicator);
+		swipeDirection.set(swipeIndicator);
 		refreshCardProps();
 	};
 
 	const refreshCardProps = () => {
 		cardInstances[0].$set({
 			transformValue,
-			swipeVisual,
+			swipeIndicator: swipeIndicator,
 			isTouching,
 		})};
 
-	const showDetailPage = () => {
-		goto("recipe/" + currentRecipe);
-	};
-
 	const handleCardChoice = async () => {
-		isAnimationOver = false;
+
+		// add rating to database
+		await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right)
 
 		// wait for animation to finish
-		setTimeout(() => {
-			swipeVisual = Direction.None;
-			swipeDirection.set(swipeVisual);
+			swipeIndicator = Direction.None;
+			swipeDirection.set(swipeIndicator);
 			transformValue = "translate(0px, 0px)";
-			isAnimationOver = true;
-			selectedRecipe.set(recipes[0]);
-		}, 300);
 
 		isLoading = true;
 
 		// add new recipe
-		await fetchRecipe(currentRecipe + initialRecipes.length)
+		await fetchRecipe(recipe.id + recipes.length)
 			.then((recipe) => {
-				refreshCardStackContent(isAnimationOver, recipe);
+				refreshCardStackContent(recipe);
 			})
 			.catch((err) => {
 				handleError(true, err);
-				refreshCardStackContent(isAnimationOver);
+				refreshCardStackContent();
 			})
 	};
 
-	const refreshCardStackContent = (isAnimationOver: boolean, recipe?: Recipe) => {
+	const refreshCardStackContent = (recipe?: Recipe) => {
 		isLoading = false;
-
-		setTimeout(() => {
-
-			currentRecipe++;
 
 			//Remove current Card
 			recipes.shift();
@@ -155,26 +171,15 @@
 			//Add new Card
 			if (recipe) {
 				recipes = [...recipes, recipe];
-				createCardInstance(recipe);
+				container && cardInstances.push(
+					createCardInstance(recipe, container)
+				)
 			}
-
 			removeCardShadows();
-		}, isAnimationOver ? 0 : 300);
-	};
 
-	const createCardInstance = (recipe: Recipe) => {
-		container && cardInstances.push(
-			new Card({
-			target: container,
-			props: {
-				recipe,
-				isBottom: true,
-				transformValue,
-				isTouching,
-				swipeVisual,
-			},
-			anchor: container.firstChild,
-		}));
+			//Change current recipe
+			selectedRecipe.set(recipes[0]);
+
 	};
 
 	const removeCardShadows = () => {
@@ -219,10 +224,9 @@
 	<div class="relative flex size-full items-center justify-center" bind:this={container}>
 		<button
 			class="after:w-dvh z-[99] size-full active:fixed active:left-0 active:top-0 active:h-dvh"
-			use:pan={{ delay: 0 }}
-			on:pan={handlePan}
-			on:mouseup={handlePanEnd}
-			on:touchend={handlePanEnd}
-			on:touchcancel={handlePanEnd}></button>
+			use:pannable
+			on:panstart={handlePanStart}
+			on:panmove={handlePanMove}
+			on:panend={handlePanEnd}></button>
 	</div>
 </div>

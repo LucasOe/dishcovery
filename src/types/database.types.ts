@@ -11,20 +11,9 @@ export type Recipe = Tables<"recipes"> & {
 	types: Tables<"types">[];
 };
 
-export type User = Tables<"profiles"> & {
-	id: string;
-	username: string | null;
-	avatar_url: string | null;
-};
+export type User = Tables<"profiles">
 
-export type Rating = Tables<"ratings"> & {
-	id: number;
-	recipe: number;
-	user: string;
-	inCookBook: boolean | null;
-	rating: number;
-	seen: boolean | null;
-};
+export type Rating = Tables<"ratings">
 
 // Used for numeric values that map to a string, like categories, types, cost or difficulty
 export type DisplayValue = {

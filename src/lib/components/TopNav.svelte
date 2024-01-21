@@ -9,7 +9,7 @@
 	let user;
 
 	let tabs = [
-		{ name: "Kochbuch", link: "recipes", icon: RecipeIcon },
+		{ name: "Kochbuch", link: "cookbook", icon: RecipeIcon },
 		{ name: "Add new", link: "new", icon: AddIcon },
 		{ name: "filter", link: "filter", icon: FilterIcon },
 	];
