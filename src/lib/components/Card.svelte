@@ -15,7 +15,7 @@
 	export let isBottom = false;
 	export let isTouching = false;
 	export let transformValue = "translate(0px, 0px)";
-	export let swipeVisual: Direction = Direction.None;
+	export let swipeIndicator: Direction = Direction.None;
 
 	const imageTransition = `image-${recipe.id}`;
 	const headlineTransition = `name-${recipe.id}`;
@@ -34,7 +34,7 @@
 	class={twMerge(
 		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% ",
 		isTouching ? "transition-transform-instant" : "transition-transform-slow",
-		swipeClass[swipeVisual],
+		swipeClass[swipeIndicator],
 		isBottom ? "shadow-shadowGray" : ""
 	)}
 	style={`
@@ -62,7 +62,7 @@
 		<img
 			class={`
 				absolute left-xxl top-xxl z-10 size-xxl duration-300
-				${swipeVisual === Direction.Right ? "opacity-100" : "opacity-0"}
+				${swipeIndicator === Direction.Right ? "opacity-100" : "opacity-0"}
 			`}
 			src={Like}
 			alt="Like Icon"
@@ -70,7 +70,7 @@
 		<img
 			class={`
 				absolute right-xxl top-xxl z-10 size-xxl duration-300
-				${swipeVisual === Direction.Left ? "opacity-100" : "opacity-0"}
+				${swipeIndicator === Direction.Left ? "opacity-100" : "opacity-0"}
 			`}
 			src={Dislike}
 			alt="Dislike Icon"
@@ -78,7 +78,7 @@
 		<img
 			class={`
 				absolute bottom-0 left-0 right-0 top-0 z-10 m-auto size-xxl brightness-200 duration-300
-				${swipeVisual === Direction.Up ? "opacity-100" : "opacity-0"}
+				${swipeIndicator === Direction.Up ? "opacity-100" : "opacity-0"}
 			`}
 			src={Open}
 			alt="Open Icon"
@@ -87,19 +87,17 @@
 			class={`
 				absolute left-0 top-0 size-full bg-gradient-to-t from-transparent from-10% to-gray-500 duration-300
 				${
-					swipeVisual === Direction.Up || swipeVisual === Direction.Left || swipeVisual == Direction.Right
+					swipeIndicator === Direction.Up || swipeIndicator === Direction.Left || swipeIndicator == Direction.Right
 						? "opacity-100"
 						: "opacity-0"
 				}
-			`}
-		/>
+			`}></div>
 	</div>
 </div>
 
 <style>
 	.transition-transform-slow {
 		transition:
-			translate 300ms,
 			transform 800ms,
 			width 800ms,
 			border 800ms;
@@ -108,7 +106,6 @@
 	.transition-transform-instant {
 		transition:
 			translate 500ms,
-			transform 0s,
 			width 800ms,
 			border 800ms;
 	}

@@ -25,7 +25,7 @@ export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> 
 	const { data, error } = await supabase.from('ratings').select(`
   recipes ( * )
 `)
-		.eq('user', userID)
+		.eq('user_id', userID)
 		.eq('inCookBook', true)
 	if (error) throw error;
 

@@ -107,28 +107,22 @@ export interface Database {
       }
       ratings: {
         Row: {
-          id: number
           inCookBook: boolean | null
-          rating: number
+          rating: number | null
           recipe: number
-          seen: boolean | null
-          user: string
+          user_id: string
         }
         Insert: {
-          id?: number
           inCookBook?: boolean | null
-          rating?: number
+          rating?: number | null
           recipe: number
-          seen?: boolean | null
-          user: string
+          user_id: string
         }
         Update: {
-          id?: number
           inCookBook?: boolean | null
-          rating?: number
+          rating?: number | null
           recipe?: number
-          seen?: boolean | null
-          user?: string
+          user_id?: string
         }
         Relationships: [
           {
@@ -139,8 +133,8 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "ratings_user_fkey"
-            columns: ["user"]
+            foreignKeyName: "ratings_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
