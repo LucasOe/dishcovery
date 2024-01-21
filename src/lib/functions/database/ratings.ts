@@ -1,7 +1,7 @@
 import { supabase } from "$lib/functions/database/createClient";
 import type { Rating } from "$types/database.types";
 
-export const fetchRatingsByRecipe = async (id: number): Promise<number> => {
+export const fetchAverageRating = async (id: number): Promise<number> => {
 	const { data, error } = await supabase.from("ratings").select("rating").eq("recipe", id);
 
 	if (error) throw error;
