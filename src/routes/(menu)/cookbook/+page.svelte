@@ -40,7 +40,7 @@
 					>
 						<!-- Left side -->
 						<div class="flex flex-row items-center justify-start gap-md">
-							<img src={EuroIcon} class="aspect-square h-20" alt="" />
+							<img src={recipe.images[0].image} class="aspect-square h-20" alt="" />
 							<div class="flex flex-col gap-xs">
 								<div class="text-lg font-semibold text-yellow">{recipe.name}</div>
 								<div class="flex flex-row gap-sm">
