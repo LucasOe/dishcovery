@@ -10,7 +10,6 @@
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { direction, getTransformValue } from "$lib/functions/cardStack";
-	import LinkText from "$lib/components/LinkText.svelte";
 
 
 	let container: HTMLDivElement;
@@ -62,6 +61,7 @@
 		switch (value) {
 			case Direction.Left:
 			case Direction.Right:
+				console.log(currentRecipe);
 				transformValue = getTransformValue(swipeVisual);
 				await handleCardChoice();
 				refreshCardProps();
@@ -164,7 +164,7 @@
 	};
 
 	const createCardInstance = (recipe: Recipe) => {
-		cardInstances.push(
+		container && cardInstances.push(
 			new Card({
 			target: container,
 			props: {
