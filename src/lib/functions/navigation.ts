@@ -6,4 +6,4 @@ export const navigateHome = () => {
 
 export const navigateToRecipe = (id: number) => {
 	goto("recipe/" + id);
-}
+};

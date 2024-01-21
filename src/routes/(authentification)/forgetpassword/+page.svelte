@@ -41,7 +41,7 @@
 			}
 		} catch (error) {
 			console.error("Fehler beim Senden der Passwort-Wiederherstellungs-E-Mail:", error.message);
-			error = error;
+			throw error;
 		}
 	}
 </script>

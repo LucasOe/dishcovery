@@ -11,9 +11,9 @@ export type Recipe = Tables<"recipes"> & {
 	types: Tables<"types">[];
 };
 
-export type User = Tables<"profiles">
+export type User = Tables<"profiles">;
 
-export type Rating = Tables<"ratings">
+export type Rating = Tables<"ratings">;
 
 // Used for numeric values that map to a string, like categories, types, cost or difficulty
 export type DisplayValue = {

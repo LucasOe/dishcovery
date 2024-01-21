@@ -1,5 +1,5 @@
 import { supabase } from "$lib/functions/database/createClient";
-import type { Recipe, User } from "$types/database.types";
+import type { User } from "$types/database.types";
 
 export const fetchCurrentUser = async (): Promise<User> => {
 	const { data, error } = await supabase.auth.refreshSession();
@@ -16,7 +16,7 @@ export const fetchUserDataById = async (userId: string): Promise<User> => {
 
 export const fetchUserDataByUsername = async (username: string): Promise<User> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).ilike("username", username).maybeSingle();
-	if (data) return {...data};
+	if (data) return { ...data };
 	else throw error;
 };
 

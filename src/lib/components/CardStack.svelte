@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { pan } from "svelte-gestures";
 	import { onDestroy, onMount } from "svelte";
-	import { goto } from "$app/navigation";
 
 	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import { fetchRecipe, fetchRecipes } from "$lib/functions/database/recipes";
@@ -17,8 +15,7 @@
 
 	let user;
 	let recipe;
-	let swipe;
-	let initialRecipes = [3, 2, 1]
+	let initialRecipes = [3, 2, 1];
 
 	currentUser.subscribe((value) => {
 		user = value;
@@ -26,10 +23,6 @@
 
 	selectedRecipe.subscribe((value) => {
 		recipe = value;
-	});
-
-	swipeDirection.subscribe((value) => {
-		swipe = value;
 	});
 
 	let container: HTMLDivElement;
@@ -41,7 +34,7 @@
 		{ x: 0, y: 0 },
 		{
 			stiffness: 0.2,
-			damping: 0.4
+			damping: 0.4,
 		}
 	);
 
@@ -57,9 +50,7 @@
 	const initRecipes = async () => {
 		recipes = await fetchRecipes(initialRecipes);
 		recipes.forEach((recipe) => {
-			container && cardInstances.push(
-				createCardInstance(recipe, container)
-			)
+			container && cardInstances.push(createCardInstance(recipe, container));
 		});
 		selectedRecipe.set(recipes[0]);
 		removeCardShadows();
@@ -96,7 +87,7 @@
 		coords.stiffness = coords.damping = 1;
 		coords.update(($coords) => ({
 			x: 0,
-			y: 0
+			y: 0,
 		}));
 	};
 
@@ -107,20 +98,18 @@
 		let yDist;
 		let rotation;
 
+		coords.update(() => ({
+			x: $coords.x + event.detail.dx,
+			y: $coords.y + event.detail.dy,
+		}));
 
-			coords.update(($coords) => ({
-				x: $coords.x + event.detail.dx,
-				y: $coords.y + event.detail.dy
-			}));
+		xDist = $coords.x - xStart;
+		yDist = $coords.y - yStart;
 
+		rotation = xDist / 30;
+		transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
 
-			xDist = $coords.x - xStart;
-			yDist = $coords.y - yStart;
-
-			rotation = xDist / 30;
-			transformValue = `translate(${xDist}px, ${yDist}px) rotate(${rotation}deg)`;
-
-			swipeIndicator = direction(xDist, yDist, threshold);
+		swipeIndicator = direction(xDist, yDist, threshold);
 		refreshCardProps();
 	};
 
@@ -136,17 +125,17 @@
 			transformValue,
 			swipeIndicator: swipeIndicator,
 			isTouching,
-		})};
+		});
+	};
 
 	const handleCardChoice = async () => {
-
 		// add rating to database
-		await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right)
+		await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
 
 		// wait for animation to finish
-			swipeIndicator = Direction.None;
-			swipeDirection.set(swipeIndicator);
-			transformValue = "translate(0px, 0px)";
+		swipeIndicator = Direction.None;
+		swipeDirection.set(swipeIndicator);
+		transformValue = "translate(0px, 0px)";
 
 		isLoading = true;
 
@@ -158,28 +147,25 @@
 			.catch((err) => {
 				handleError(true, err);
 				refreshCardStackContent();
-			})
+			});
 	};
 
 	const refreshCardStackContent = (recipe?: Recipe) => {
 		isLoading = false;
 
-			//Remove current Card
-			recipes.shift();
-			cardInstances.shift().$destroy();
+		//Remove current Card
+		recipes.shift();
+		cardInstances.shift().$destroy();
 
-			//Add new Card
-			if (recipe) {
-				recipes = [...recipes, recipe];
-				container && cardInstances.push(
-					createCardInstance(recipe, container)
-				)
-			}
-			removeCardShadows();
+		//Add new Card
+		if (recipe) {
+			recipes = [...recipes, recipe];
+			container && cardInstances.push(createCardInstance(recipe, container));
+		}
+		removeCardShadows();
 
-			//Change current recipe
-			selectedRecipe.set(recipes[0]);
-
+		//Change current recipe
+		selectedRecipe.set(recipes[0]);
 	};
 
 	const removeCardShadows = () => {
@@ -217,7 +203,9 @@
 		</div>
 	{/if}
 	{#if isError}
-		<div class="absolute flex flex-col size-48 aspect-square items-center justify-center rounded-full bg-gray-500 text-md font-semibold text-center p-4">
+		<div
+			class="text-md absolute flex aspect-square size-48 flex-col items-center justify-center rounded-full bg-gray-500 p-4 text-center font-semibold"
+		>
 			{errorMessage}
 		</div>
 	{/if}
@@ -227,6 +215,7 @@
 			use:pannable
 			on:panstart={handlePanStart}
 			on:panmove={handlePanMove}
-			on:panend={handlePanEnd}></button>
+			on:panend={handlePanEnd}
+		></button>
 	</div>
 </div>
