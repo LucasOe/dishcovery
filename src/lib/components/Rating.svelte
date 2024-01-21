@@ -4,7 +4,7 @@
 	import StarEmpty from "$lib/assets/icons/star_empty.svg";
 	import { onMount } from "svelte";
 	import { fetchRatingsByRecipe } from "$lib/functions/database/ratings.js";
-  import type { Recipe } from "$types/database.types";
+	import type { Recipe } from "$types/database.types";
 
 	export let recipe: Recipe;
 	let rating = 0;
@@ -15,13 +15,15 @@
 </script>
 
 <div class="flex gap-1">
-	{#each Array(Math.floor(rating)) as _}
-		<img src={Star} alt="Rating Icon" />
-	{/each}
-	{#if rating % 1 !== 0}
-		<img src={StarHalf} alt="Half Star Icon" />
+	{#if rating != 0}
+		{#each Array(Math.floor(rating)) as _}
+			<img src={Star} alt="Rating Icon" />
+		{/each}
+		{#if rating % 1 !== 0}
+			<img src={StarHalf} alt="Half Star Icon" />
+		{/if}
+		{#each Array(5 - Math.round(rating)) as _}
+			<img src={StarEmpty} alt="Empty Star Icon" />
+		{/each}
 	{/if}
-	{#each Array(5 - Math.round(rating)) as _}
-		<img src={StarEmpty} alt="Empty Star Icon" />
-	{/each}
 </div>
