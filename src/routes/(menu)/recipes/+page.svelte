@@ -49,12 +49,15 @@
 								<p>{recipe.time} Min.</p>
 							</div>
 							<div class="flex flex-row gap-xs">
+								{#each Array(Math.floor(recipe.difficulty)) as _}
 								<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
+									{/each}
 								<p>{recipe.difficulty}</p>
 							</div>
 							<div class="flex flex-row gap-xs">
+								{#each Array(Math.floor(recipe.cost)) as _}
 								<img alt="Euro" class="size-5" src={EuroIcon} />
-								<img alt="Euro" class="size-5" src={EuroIcon} />
+								{/each}
 							</div>
 						</div>
 					</div>

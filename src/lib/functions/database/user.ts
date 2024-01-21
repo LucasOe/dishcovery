@@ -53,8 +53,8 @@ export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> 
 	if (error) throw error;
 
 	const recipes: Recipe[] = [];
-	for (const recipe of data) {
-		recipes.push(recipe.recipes as Recipe);
+	for (const object of data) {
+		recipes.push(object.recipes as Recipe);
 	}
 	return { ...recipes };
 };
