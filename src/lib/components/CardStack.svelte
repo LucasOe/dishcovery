@@ -19,6 +19,12 @@
 			case Direction.Right:
 				transformValue = getTransformValue();
 				await handleCardChoice();
+
+				cardInstances[0].$set({
+					transformValue,
+					swipeVisual,
+					isTouching,
+				});
 				break;
 			case Direction.Up:
 				transformValue = getTransformValue();
@@ -112,11 +118,6 @@
 		xDist = 0;
 		yDist = 0;
 		swipeDirection.set(swipeVisual);
-
-		cardInstances[0].$set({
-			transformValue,
-			isTouching,
-		});
 	};
 
 	//transform value for card
