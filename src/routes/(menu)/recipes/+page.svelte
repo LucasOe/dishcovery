@@ -26,7 +26,6 @@
 
 	async function fetchRecipes() {
 		recipes = await fetchRecipesInCookBook(user.id);
-		recipes = Object.values(recipes)
 	}
 </script>
 
