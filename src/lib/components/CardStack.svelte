@@ -61,7 +61,6 @@
 		switch (value) {
 			case Direction.Left:
 			case Direction.Right:
-				console.log(currentRecipe);
 				transformValue = getTransformValue(swipeVisual);
 				await handleCardChoice();
 				refreshCardProps();
