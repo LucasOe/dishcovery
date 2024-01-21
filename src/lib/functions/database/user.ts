@@ -41,21 +41,3 @@ export const insertAvatarImage = async (userID: string, image: string) => {
 	const { error } = await supabase.from("profiles").update({ avatar_url: image }).match({ id: userID });
 	if (error) throw error;
 };
-
-
-
-export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
-	const { data, error } = await supabase.from('ratings').select(`
-  recipes ( * )
-`)
-		.eq('user', userID)
-		.eq('inCookBook', true)
-	if (error) throw error;
-
-	const recipes: Recipe[] = [];
-	//There's probably a way better way to do this
-	for (const obj of data) {
-		recipes.push(obj.recipes as Recipe);
-	}
-	return { ...recipes };
-};

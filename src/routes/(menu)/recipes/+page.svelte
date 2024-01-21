@@ -7,7 +7,7 @@
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import { navigateHome } from "$lib/functions/navigation";
-	import { fetchRecipesInCookBook } from "$lib/functions/database/user";
+	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
 	import type { Recipe } from "$types/database.types";
 	import { currentUser } from "$lib/functions/stores";
 
