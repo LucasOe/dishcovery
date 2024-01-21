@@ -16,7 +16,7 @@ export const fetchUserDataById = async (userId: string): Promise<User> => {
 
 export const fetchUserDataByUsername = async (username: string): Promise<User> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).ilike("username", username).maybeSingle();
-	if (data) return { id: data.id, username: data.username, avatar_url: data.avatar_url };
+	if (data) return {...data};
 	else throw error;
 };
 
