@@ -11,7 +11,6 @@
 	import Rating from "$lib/components/Rating.svelte";
 
 	export let recipe: Recipe;
-	export let isBottom = false;
 	export let isTouching = false;
 	export let transformValue = "translate(0px, 0px)";
 	export let swipeIndicator: Direction = Direction.None;
@@ -31,10 +30,9 @@
 
 <div
 	class={twMerge(
-		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% ",
+		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
 		isTouching ? "transition-transform-instant" : "transition-transform-slow",
-		swipeClass[swipeIndicator],
-		isBottom ? "shadow-shadowGray" : ""
+		swipeClass[swipeIndicator]
 	)}
 	style={`
 		transform: ${transformValue};
