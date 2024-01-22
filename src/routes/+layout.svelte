@@ -19,7 +19,6 @@
 
 	// Listen to Log in
 	supabase.auth.onAuthStateChange(async (event) => {
-		console.log("logging in")
 		if (event === "SIGNED_IN") {
 			currentUser.set(await fetchCurrentUser());
 		}
