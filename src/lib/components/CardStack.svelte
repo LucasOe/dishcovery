@@ -3,7 +3,7 @@
 
 	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import { fetchRecipe, fetchRecipes } from "$lib/functions/database/recipes";
-	import type { Recipe } from "$types/database.types";
+	import type { Recipe, User } from "$types/database.types";
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
@@ -13,8 +13,8 @@
 	import { pannable } from "$lib/functions/pannable";
 	import { navigateToRecipe } from "$lib/functions/navigation";
 
-	let user;
-	let recipe;
+	let user: User | null;
+	let recipe: Recipe;
 	let initialRecipes = [3, 2, 1];
 
 	currentUser.subscribe((value) => {
@@ -72,13 +72,13 @@
 	const handlePanStart = () => {
 		isTouching = true;
 		coords.stiffness = coords.damping = 1;
-		coords.update(($coords) => ({
+		coords.update(() => ({
 			x: 0,
 			y: 0,
 		}));
 	};
 
-	const handlePanMove = (event) => {
+	const handlePanMove = (event: CustomEvent) => {
 		let xStart = 0;
 		let yStart = 0;
 		let xDist;
@@ -125,12 +125,12 @@
 	});
 
 	const handleCardSwipe = async () => {
-
 		// apply transformvalue to card
 		refreshCardProps();
 
 		// add rating to database
-		await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
+		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
+		else console.log("User is null");
 
 		// reset state
 		swipeIndicator = Direction.None;
@@ -149,7 +149,6 @@
 			});
 	};
 
-
 	const refreshCardProps = () => {
 		cardInstances[0].$set({
 			transformValue,
@@ -164,7 +163,7 @@
 		setTimeout(() => {
 			//Remove current Card
 			recipes.shift();
-			cardInstances.shift().$destroy();
+			cardInstances.shift()?.$destroy();
 
 			//Add new Card
 			if (recipe) {
@@ -188,7 +187,7 @@
 
 	const scaleThreshhold = () => {
 		threshold = Math.min(window.innerWidth * 0.2, 150);
-	}
+	};
 
 	const handleError = (error: boolean, message: string) => {
 		if (error) {

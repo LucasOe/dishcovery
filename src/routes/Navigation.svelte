@@ -10,7 +10,7 @@
 
 		return new Promise((resolve, reject) => {
 			//@ts-ignore
-			document.startViewTransition(async (transition) => {
+			document.startViewTransition(async () => {
 				try {
 					resolve();
 					await navigation.complete;
