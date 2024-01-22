@@ -30,8 +30,8 @@
 
 <div
 	class={twMerge(
-		"absolute flex size-full justify-center overflow-hidden rounded-xl border-2 border-gray-900 will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
-		isTouching ? "transition-transform-instant" : "transition-transform-slow",
+		"absolute flex size-full justify-center overflow-hidden rounded-xl border-2 border-gray-900 duration-500 will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
+		isTouching ? "transition-[border,width]" : "transition-[transform,border,width]",
 		swipeClass[swipeIndicator]
 	)}
 	style={`
@@ -92,19 +92,3 @@
 		></div>
 	</div>
 </div>
-
-<style>
-	.transition-transform-slow {
-		transition:
-			transform 800ms,
-			width 800ms,
-			border 800ms;
-	}
-
-	.transition-transform-instant {
-		transition:
-			translate 500ms,
-			width 800ms,
-			border 800ms;
-	}
-</style>
