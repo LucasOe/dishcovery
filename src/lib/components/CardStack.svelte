@@ -127,6 +127,7 @@
 	const handleCardSwipe = async (value) => {
 		// apply transformvalue to card
 		refreshCardProps();
+		console.log(cardInstances)
 
 		// add rating to database
 		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
