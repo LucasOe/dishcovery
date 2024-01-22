@@ -16,6 +16,16 @@
 	let user: User | null;
 	let recipe: Recipe;
 	let initialRecipes = [3, 2, 1];
+	let container: HTMLDivElement;
+	let cardInstances: Card[] = [];
+	let recipes: Recipe[] = [];
+	let swipeIndicator: Direction = Direction.None;
+	let threshold = 150;
+	let isTouching = false;
+	let errorMessage = "";
+	let transformValue = "translate(0px, 0px)";
+
+	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
 
 	currentUser.subscribe((value) => {
 		user = value;
@@ -25,28 +35,16 @@
 		recipe = value;
 	});
 
-	let container: HTMLDivElement;
-	let cardInstances: Card[] = [];
-	let recipes: Recipe[] = [];
-	let swipeIndicator: Direction = Direction.None;
-
-	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
-
-	let threshold = 150;
-	let isTouching = false;
-
-	let isLoading = false;
-	let isError = false;
-	let errorMessage = "";
-
-	let transformValue = "translate(0px, 0px)";
-
 	onMount(() => {
 		initCards();
 		scaleThreshhold();
 		window.addEventListener("resize", function () {
 			scaleThreshhold();
 		});
+	});
+
+	onDestroy(() => {
+		cardInstances.forEach((instance) => instance.$destroy());
 	});
 
 	const initCards = async () => {
@@ -62,11 +60,10 @@
 
 	const handlePanStart = () => {
 		isTouching = true;
-		coords.stiffness = coords.damping = 1;
-		coords.update(() => ({
-			x: 0,
-			y: 0,
-		}));
+
+		coords.stiffness = 1;
+		coords.damping = 1;
+		coords.update(() => ({ x: 0, y: 0 }));
 	};
 
 	const handlePanMove = (event: CustomEvent) => {
@@ -91,18 +88,13 @@
 		refreshCardProps();
 	};
 
-	const handlePanEnd = () => {
+	const handlePanEnd = async () => {
 		isTouching = false;
+
 		transformValue = getTransformValue(swipeIndicator);
 		swipeDirection.set(swipeIndicator);
-		refreshCardProps();
-	};
 
-	//On Swipe
-	swipeDirection.subscribe(async (swipeDirection) => {
-		swipeIndicator = swipeDirection;
-		transformValue = getTransformValue(swipeIndicator);
-		switch (swipeDirection) {
+		switch (swipeIndicator) {
 			case Direction.Left:
 			case Direction.Right:
 				await handleCardSwipe();
@@ -111,7 +103,9 @@
 				goto(`/recipe/${recipe.id}`);
 				break;
 		}
-	});
+
+		refreshCardProps();
+	};
 
 	const handleCardSwipe = async () => {
 		refreshCardProps();
@@ -120,14 +114,13 @@
 		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
 
 		// add new recipe
-		isLoading = true;
 		await fetchRecipe(recipe.id + recipes.length)
 			.then((recipe) => {
 				refreshCardStackContent(recipe);
 			})
 			.catch((err) => {
 				refreshCardStackContent();
-				handleError(true, err);
+				errorMessage = !err ? "Es gibt keine weiteren Rezepte mehr." : err;
 			});
 	};
 
@@ -140,8 +133,6 @@
 	};
 
 	const refreshCardStackContent = (recipe?: Recipe) => {
-		isLoading = false;
-
 		setTimeout(() => {
 			// reset state
 			swipeIndicator = Direction.None;
@@ -166,40 +157,23 @@
 	const scaleThreshhold = () => {
 		threshold = Math.min(window.innerWidth * 0.2, 150);
 	};
-
-	const handleError = (error: boolean, message: string) => {
-		if (error) {
-			isError = true;
-			isLoading = false;
-			setErrorMessage(message);
-		} else {
-			isError = false;
-			errorMessage = "";
-		}
-	};
-
-	const setErrorMessage = (message: string) => {
-		errorMessage = message == null ? "Es gibt keine weiteren Rezepte mehr." : message;
-	};
-
-	onDestroy(() => {
-		cardInstances.forEach((instance) => instance.$destroy());
-	});
 </script>
 
 <div class="relative flex size-full items-center justify-center">
-	{#if isLoading}
+	{#if recipes.length === 0}
 		<div class="absolute flex size-40 items-center justify-center rounded-full">
 			<Spinner />
 		</div>
 	{/if}
-	{#if isError}
+
+	{#if errorMessage}
 		<div
 			class="text-md absolute flex aspect-square size-48 flex-col items-center justify-center rounded-full bg-gray-500 p-4 text-center font-semibold"
 		>
 			{errorMessage}
 		</div>
 	{/if}
+
 	<div class="relative flex size-full items-center justify-center" bind:this={container}>
 		<button
 			class="after:w-dvh z-[99] size-full active:fixed active:left-0 active:top-0 active:h-dvh"
@@ -207,6 +181,6 @@
 			on:panstart={handlePanStart}
 			on:panmove={handlePanMove}
 			on:panend={handlePanEnd}
-		></button>
+		/>
 	</div>
 </div>
