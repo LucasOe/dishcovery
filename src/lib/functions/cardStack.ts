@@ -1,5 +1,5 @@
-import { Direction } from "$types/card.types";
 import Card from "$lib/components/Card.svelte";
+import { Direction } from "$types/card.types";
 import type { Recipe } from "$types/database.types";
 
 export const direction = (xDist: number, yDist: number, threshold: number) => {
@@ -25,10 +25,7 @@ export const getTransformValue = (swipeVisual: Direction) => {
 export const createCardInstance = (recipe: Recipe, container: HTMLDivElement) => {
 	return new Card({
 		target: container,
-		props: {
-			recipe,
-			isBottom: true,
-		},
+		props: { recipe },
 		anchor: container.firstChild as HTMLElement,
 	});
 };

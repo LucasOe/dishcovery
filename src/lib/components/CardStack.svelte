@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from "svelte";
+	import { spring } from "svelte/motion";
 
 	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
 	import { fetchRecipe, fetchRecipes } from "$lib/functions/database/recipes";
@@ -7,11 +8,10 @@
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
-	import {createCardInstance, direction, getTransformValue} from "$lib/functions/cardStack";
+	import { createCardInstance, direction, getTransformValue } from "$lib/functions/cardStack";
 	import { upsertRating } from "$lib/functions/database/ratings";
-	import { spring } from "svelte/motion";
 	import { pannable } from "$lib/functions/pannable";
-	import { navigateToRecipe } from "$lib/functions/navigation";
+	import { goto } from "$app/navigation";
 
 	let user: User | null;
 	let recipe: Recipe;
@@ -30,13 +30,7 @@
 	let recipes: Recipe[] = [];
 	let swipeIndicator: Direction = Direction.None;
 
-	const coords = spring(
-		{ x: 0, y: 0 },
-		{
-			stiffness: 0.2,
-			damping: 0.4,
-		}
-	);
+	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
 
 	let threshold = 150;
 	let isTouching = false;
@@ -56,7 +50,6 @@
 	});
 
 	const initCards = async () => {
-		// fetch recipes
 		recipes = await fetchRecipes(initialRecipes);
 
 		// create card instances
@@ -64,9 +57,7 @@
 			container && cardInstances.push(createCardInstance(recipe, container));
 		});
 
-		// set selected recipe
 		selectedRecipe.set(recipes[0]);
-		removeCardShadows();
 	};
 
 	const handlePanStart = () => {
@@ -114,20 +105,16 @@
 		switch (swipeDirection) {
 			case Direction.Left:
 			case Direction.Right:
-				await handleCardSwipe(swipeDirection);
+				await handleCardSwipe();
 				break;
 			case Direction.Up:
-				navigateToRecipe(recipe.id);
-				break;
-			default:
+				goto(`/recipe/${recipe.id}`);
 				break;
 		}
 	});
 
-	const handleCardSwipe = async (value) => {
-		// apply transformvalue to card
+	const handleCardSwipe = async () => {
 		refreshCardProps();
-		console.log(cardInstances)
 
 		// add rating to database
 		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
@@ -139,8 +126,8 @@
 				refreshCardStackContent(recipe);
 			})
 			.catch((err) => {
-				handleError(true, err);
 				refreshCardStackContent();
+				handleError(true, err);
 			});
 	};
 
@@ -170,19 +157,10 @@
 				recipes = [...recipes, recipe];
 				container && cardInstances.push(createCardInstance(recipe, container));
 			}
-			removeCardShadows();
 
 			//Change current recipe
 			selectedRecipe.set(recipes[0]);
 		}, 300);
-	};
-
-	//Remove shadows from all cards except the bottom one
-	const removeCardShadows = () => {
-		cardInstances.forEach((instance) => {
-			instance.$set({ isBottom: false });
-		});
-		cardInstances[cardInstances.length - 1] && cardInstances[cardInstances.length - 1].$set({ isBottom: true });
 	};
 
 	const scaleThreshhold = () => {
@@ -205,7 +183,6 @@
 	};
 
 	onDestroy(() => {
-		// Clean up card instances when component is destroyed
 		cardInstances.forEach((instance) => instance.$destroy());
 	});
 </script>

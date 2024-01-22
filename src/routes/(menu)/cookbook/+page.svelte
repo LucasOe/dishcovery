@@ -6,12 +6,12 @@
 
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import { navigateHome } from "$lib/functions/navigation";
 	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
-	import type { Recipe } from "$types/database.types";
+	import type { Recipe, User } from "$types/database.types";
 	import { currentUser } from "$lib/functions/stores";
+	import { goto } from "$app/navigation";
 
-	let user;
+	let user: User | null;
 
 	currentUser.subscribe((value) => {
 		user = value;
@@ -25,7 +25,7 @@
 	}
 
 	async function fetchRecipes() {
-		recipes = await fetchRecipesInCookBook(user.id);
+		if (user) recipes = await fetchRecipesInCookBook(user.id);
 	}
 </script>
 
@@ -46,7 +46,7 @@
 								<div class="flex flex-row gap-sm">
 									<div class="flex flex-row gap-xs">
 										<img alt="Clock" class="size-5" src={ClockIcon} />
-										<p>{recipe.time} Min.</p>
+										<p>{recipe.preperation_time} Min.</p>
 									</div>
 									<div class="flex flex-row gap-xs">
 										{#each Array(Math.floor(recipe.difficulty)) as _}
@@ -62,7 +62,7 @@
 								</div>
 							</div>
 						</div>
-						<RoundButton src={MoreIcon} alt="More" action={navigateHome} size="sm" class="bg-gray-900 shadow-none" />
+						<RoundButton src={MoreIcon} alt="More" action={() => goto("/")} size="sm" class="bg-gray-900 shadow-none" />
 					</a>
 				{/each}
 			{/key}
