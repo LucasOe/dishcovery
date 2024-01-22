@@ -7,7 +7,7 @@
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
-	import { createCardInstance, direction, getTransformValue } from "$lib/functions/cardStack";
+	import {createCardInstance, direction, getTransformValue} from "$lib/functions/cardStack";
 	import { upsertRating } from "$lib/functions/database/ratings";
 	import { spring } from "svelte/motion";
 	import { pannable } from "$lib/functions/pannable";
@@ -108,13 +108,13 @@
 	};
 
 	//On Swipe
-	swipeDirection.subscribe(async (value) => {
-		swipeIndicator = value;
+	swipeDirection.subscribe(async (swipeDirection) => {
+		swipeIndicator = swipeDirection;
 		transformValue = getTransformValue(swipeIndicator);
-		switch (value) {
+		switch (swipeDirection) {
 			case Direction.Left:
 			case Direction.Right:
-				await handleCardSwipe();
+				await handleCardSwipe(swipeDirection);
 				break;
 			case Direction.Up:
 				navigateToRecipe(recipe.id);
@@ -124,18 +124,12 @@
 		}
 	});
 
-	const handleCardSwipe = async () => {
+	const handleCardSwipe = async (value) => {
 		// apply transformvalue to card
 		refreshCardProps();
 
 		// add rating to database
 		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
-		else console.log("User is null");
-
-		// reset state
-		swipeIndicator = Direction.None;
-		swipeDirection.set(swipeIndicator);
-		transformValue = "translate(0px, 0px)";
 
 		// add new recipe
 		isLoading = true;
@@ -161,6 +155,11 @@
 		isLoading = false;
 
 		setTimeout(() => {
+			// reset state
+			swipeIndicator = Direction.None;
+			swipeDirection.set(swipeIndicator);
+			transformValue = "translate(0px, 0px)";
+
 			//Remove current Card
 			recipes.shift();
 			cardInstances.shift()?.$destroy();
