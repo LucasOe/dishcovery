@@ -3,11 +3,25 @@
 	import { goto } from "$app/navigation";
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
+	import {validatePassword} from "$lib/functions/validation";
+	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let newPasswordInput: string;
 	let confirmPasswordInput: string;
 	let feedbackMessage: string = "";
 	let token: string | null;
+
+	let password = {
+		content: "",
+		isValid: true,
+	};
+	let confirm_password = {
+		content: "",
+		isValid: true,
+	};
+	let inputs = [password];
+
+	let isFormValid = true;
 
 	onMount(() => {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -44,22 +58,41 @@
 </script>
 
 <div class="flex flex-col space-y-lg">
-	<Section title="Neues Passwort eingeben mit mindestens 6 Zeichen">
+	<Section title="Neues Passwort">
 		<input
+		bind:value={newPasswordInput}
+			on:input={() => (password.isValid = validatePassword(password.content))}
+			id="password"
 			type="password"
-			bind:value={newPasswordInput}
-			id="newPassword"
+			minlength="6"
 			class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+			required
 		/>
+		{#if !password.isValid}
+			<FadeIn>
+				<p class="mt-2 rounded-sm bg-red p-2">
+					Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
+				</p>
+			</FadeIn>
+		{/if}
 	</Section>
-
 	<Section title="Passwort bestätigen">
 		<input
+		bind:value={confirmPasswordInput}
+			on:input={() => (password.isValid = validatePassword(password.content))}
+			id="confirm_password"
 			type="password"
-			bind:value={confirmPasswordInput}
-			id="confirmPassword"
+			minlength="6"
 			class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+			required
 		/>
+		{#if !password.isValid}
+			<FadeIn>
+				<p class="mt-2 rounded-sm bg-red p-2">
+					Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
+				</p>
+			</FadeIn>
+		{/if}
 	</Section>
 
 	<button
