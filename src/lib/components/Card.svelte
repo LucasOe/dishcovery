@@ -18,14 +18,13 @@
 	const imageTransition = `image-${recipe.id}`;
 	const headlineTransition = `name-${recipe.id}`;
 
-	// prettier-ignore
 	const swipeClass: Record<Direction, string> = {
-    [Direction.None]: "",
-    [Direction.Left]: "border-red shadow-shadowRed",
-    [Direction.Right]: "border-yellow shadow-shadowYellow",
-    [Direction.Up]: "border-light shadow-shadowLight w-[110%]",
-    [Direction.Down]: ""
-  };
+		[Direction.None]: "",
+		[Direction.Left]: "border-red shadow-shadowRed",
+		[Direction.Right]: "border-yellow shadow-shadowYellow",
+		[Direction.Up]: "border-light shadow-shadowLight w-[110%]",
+		[Direction.Down]: "",
+	};
 </script>
 
 <div
