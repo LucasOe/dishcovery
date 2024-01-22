@@ -30,7 +30,7 @@
 
 <div
 	class={twMerge(
-		"absolute flex size-full w-[100%] justify-center overflow-hidden rounded-xl border-2 border-gray-900 bg-cover bg-no-repeat will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
+		"absolute flex size-full justify-center overflow-hidden rounded-xl border-2 border-gray-900 will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
 		isTouching ? "transition-transform-instant" : "transition-transform-slow",
 		swipeClass[swipeIndicator]
 	)}
@@ -50,7 +50,7 @@
 
 	<img
 		src={recipe.images[0].image}
-		class="transition-image absolute top-0 z-[-1] h-4/5 max-w-[200%]"
+		class="transition-image absolute top-0 z-[-1] h-4/5 w-full object-cover"
 		alt=""
 		style:--recipe={imageTransition}
 	/>
