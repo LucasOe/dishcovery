@@ -57,7 +57,8 @@
 	}
 </script>
 
-<div class="flex flex-col space-y-lg">
+<div class="flex flex-col space-y-lg pt-12">
+	<h1 class="font-header text-xxl text-light">Passwort zurücksetzen</h1>
 	<Section title="Neues Passwort">
 		<input
 		bind:value={newPasswordInput}
