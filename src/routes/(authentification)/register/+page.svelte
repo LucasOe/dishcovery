@@ -30,7 +30,7 @@
 
 	let isFormValid = true;
 
-	let error: AuthError;
+	let error: AuthError | null = null;
 
 	async function handleRegister() {
 		for (let input of inputs) {
@@ -39,22 +39,29 @@
 				return;
 			}
 		}
-
-		const { data, error: auth_error } = await supabase.auth.signUp({
-			email: email.content,
-			password: password.content,
-			options: {
-				data: {
-					username: username.content,
-					avatar_url: "https://avatars.dicebear.com/api/avataaars/John.svg",
+		try {
+			const { data, error: auth_error } = await supabase.auth.signUp({
+				email: email.content,
+				password: password.content,
+				options: {
+					data: {
+						username: username.content,
+						avatar_url: "https://avatars.dicebear.com/api/avataaars/John.svg",
+					},
 				},
-			},
-		});
+			});
 
-		if (data.user) {
-			goto("/register_success");
+			if (data.user) {
+				goto("/register_success");
+			} else if (auth_error) {
+				throw auth_error;
+			}
+		} catch (e) {
+			error = e as AuthError;
+			setTimeout(() => {
+				error = null;
+			}, 3000);
 		}
-		if (auth_error) error = auth_error;
 	}
 
 	async function handleGuestLogin() {
@@ -158,6 +165,12 @@
 	</div>
 
 	{#if error}
-		<p class="text-red-500">{error.message}</p>
+		<p class="text-red-500">
+			{#if error.message.toLowerCase().includes("signup requires a valid password")}
+				Anmeldung erfordert ein gültiges Passwort
+			{:else}
+				Es ist ein Fehler aufgetreten: {error.message}
+			{/if}
+		</p>
 	{/if}
 </div>
