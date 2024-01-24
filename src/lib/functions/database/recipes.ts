@@ -20,6 +20,18 @@ export const fetchRecipe = async (id: number): Promise<Recipe> => {
 	else throw error;
 };
 
+export const fetchNextRecipe = async (currentId: number): Promise<Recipe> => {
+	const { data, error } = await supabase
+		.from("recipes")
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
+		.gt("id", currentId)
+		.order("id")
+		.limit(1)
+		.maybeSingle();
+	if (data) return data;
+	else throw error;
+};
+
 export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
 	const { data, error } = await supabase
 		.from("ratings")

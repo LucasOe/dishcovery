@@ -3,7 +3,7 @@
 	import { spring } from "svelte/motion";
 
 	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
-	import { fetchRecipe, fetchRecipes } from "$lib/functions/database/recipes";
+	import { fetchNextRecipe, fetchRecipes } from "$lib/functions/database/recipes";
 	import type { Recipe, User } from "$types/database.types";
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
@@ -114,7 +114,7 @@
 		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
 
 		// add new recipe
-		await fetchRecipe(recipe.id + recipes.length)
+		await fetchNextRecipe(recipes[recipes.length - 1].id)
 			.then((recipe) => {
 				refreshCardStackContent(recipe);
 			})
