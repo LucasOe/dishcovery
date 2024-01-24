@@ -3,7 +3,7 @@
 	import { goto } from "$app/navigation";
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
-	import {validatePassword} from "$lib/functions/validation";
+	import { validatePassword } from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let newPasswordInput: string;
@@ -15,10 +15,7 @@
 		content: "",
 		isValid: true,
 	};
-	let confirm_password = {
-		content: "",
-		isValid: true,
-	};
+
 	let inputs = [password];
 
 	let isFormValid = true;
@@ -29,18 +26,24 @@
 	});
 
 	async function resetPassword() {
+		for (let input of inputs) {
+			if (!input.isValid) {
+				isFormValid = false;
+				return;
+			}
+		}
 		try {
-			if (!newPasswordInput || !confirmPasswordInput) {
+			if (!password.content|| !confirmPasswordInput) {
 				feedbackMessage = "Bitte gib ein neues Passwort und bestätige es.";
 				return;
 			}
 
-			if (newPasswordInput !== confirmPasswordInput) {
+			if (password.content!== confirmPasswordInput) {
 				feedbackMessage = "Die Passwörter stimmen nicht überein.";
 				return;
 			}
 
-			const { error } = await supabase.auth.updateUser({ password: newPasswordInput });
+			const { error } = await supabase.auth.updateUser({ password: password.content });
 
 			if (error) {
 				console.error("Fehler beim Zurücksetzen des Passworts:", error.message);
@@ -61,7 +64,7 @@
 	<h1 class="font-header text-xxl text-light">Passwort zurücksetzen</h1>
 	<Section title="Neues Passwort">
 		<input
-		bind:value={newPasswordInput}
+			bind:value={password.content}
 			on:input={() => (password.isValid = validatePassword(password.content))}
 			id="password"
 			type="password"
@@ -79,8 +82,7 @@
 	</Section>
 	<Section title="Passwort bestätigen">
 		<input
-		bind:value={confirmPasswordInput}
-			on:input={() => (password.isValid = validatePassword(password.content))}
+			bind:value={confirmPasswordInput}
 			id="confirm_password"
 			type="password"
 			minlength="6"
