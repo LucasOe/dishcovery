@@ -63,16 +63,11 @@
 				user_id: user.id,
 			});
 
+			// prettier-ignore
 			await Promise.all([
 				uploadAndInsertImages(id, images),
-				insertRecipeTypes(
-					id,
-					types.map((type) => type.id)
-				),
-				insertRecipeCategories(
-					id,
-					categories.map((category) => category.id)
-				),
+				insertRecipeTypes(id, types.map((type) => type.id)),
+				insertRecipeCategories(id, categories.map((category) => category.id)),
 				insertRecipeIngredients(id, ingredients),
 				insertRecipeSteps(id, steps),
 			]);
