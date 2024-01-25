@@ -1,15 +1,8 @@
 <script lang="ts">
-	import ClockIcon from "$lib/assets/icons/clock.svg";
-	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
-	import EuroIcon from "$lib/assets/icons/euro.svg";
-	import MoreIcon from "$lib/assets/icons/more.svg";
-
-	import RoundButton from "$lib/components/RoundButton.svelte";
-	import FadeIn from "$lib/components/FadeIn.svelte";
-	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
 	import type { Recipe, User } from "$types/database.types";
+	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
 	import { currentUser } from "$lib/functions/stores";
-	import { goto } from "$app/navigation";
+	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 
 	let user: User | null;
