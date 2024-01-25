@@ -83,7 +83,7 @@ export const insertRecipe = async (recipe: {
 	difficulty: number;
 	name: string;
 	preperation_time: number;
-	profile_id: string;
+	user_id: string;
 }): Promise<number> => {
 	const { data, error } = await supabase
 		.from("recipes")
@@ -93,11 +93,10 @@ export const insertRecipe = async (recipe: {
 			difficulty: recipe.difficulty,
 			cost: recipe.cost,
 			preperation_time: recipe.preperation_time,
-			profile_id: recipe.profile_id,
+			user_id: recipe.user_id,
 		})
 		.select()
 		.single();
-	console.log(data, error);
 	if (data) return data.id;
 	else throw error;
 };
