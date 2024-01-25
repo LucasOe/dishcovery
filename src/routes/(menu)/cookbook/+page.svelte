@@ -10,6 +10,7 @@
 	import type { Recipe, User } from "$types/database.types";
 	import { currentUser } from "$lib/functions/stores";
 	import { goto } from "$app/navigation";
+	import RecipeCard from "$lib/components/RecipeCard.svelte";
 
 	let user: User | null;
 
@@ -34,36 +35,7 @@
 		{#if recipes.length > 0}
 			{#key recipes}
 				{#each recipes as recipe}
-					<a
-						href={"/recipe/" + recipe.id}
-						class="flex w-full flex-row items-center justify-between rounded-lg bg-gray-500 p-md drop-shadow-xl"
-					>
-						<!-- Left side -->
-						<div class="flex flex-row items-center justify-start gap-md">
-							<img src={recipe.images[0].image} class="aspect-square h-20" alt="" />
-							<div class="flex flex-col gap-xs">
-								<div class="text-lg font-semibold text-yellow">{recipe.name}</div>
-								<div class="flex flex-row gap-sm">
-									<div class="flex flex-row gap-xs">
-										<img alt="Clock" class="size-5" src={ClockIcon} />
-										<p>{recipe.preperation_time} Min.</p>
-									</div>
-									<div class="flex flex-row gap-xs">
-										{#each Array(Math.floor(recipe.difficulty)) as _}
-											<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-										{/each}
-										<p>{recipe.difficulty}</p>
-									</div>
-									<div class="flex flex-row gap-xs">
-										{#each Array(Math.floor(recipe.cost)) as _}
-											<img alt="Euro" class="size-5" src={EuroIcon} />
-										{/each}
-									</div>
-								</div>
-							</div>
-						</div>
-						<RoundButton src={MoreIcon} alt="More" action={() => goto("/")} size="sm" class="bg-gray-900 shadow-none" />
-					</a>
+					<RecipeCard {recipe} />
 				{/each}
 			{/key}
 		{/if}

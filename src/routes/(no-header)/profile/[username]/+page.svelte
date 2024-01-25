@@ -1,19 +1,26 @@
 <script lang="ts">
-	import img from "$lib/assets/img/test-img.jpg";
-	import edit from "$lib/assets/icons/edit.svg";
 	import Tag from "$lib/components/Tag.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import { supabase } from "$lib/functions/database/createClient";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { currentUser } from "$lib/functions/stores";
-	import { deleteAvatarImage, insertAvatarImage, uploadAvatarImage } from "$lib/functions/database/user";
+	import {
+		deleteAvatarImage,
+		fetchUserRecipes,
+		insertAvatarImage,
+		uploadAvatarImage,
+	} from "$lib/functions/database/user";
+	import type { User } from "$types/database.types";
+	import RecipeCard from "$lib/components/RecipeCard.svelte";
 
-	export let data;
-
-	let user = data.user;
 	let image;
 	let fileInput: HTMLInputElement;
+	let user: User | null;
+
+	currentUser.subscribe((value) => {
+		user = value;
+	});
 
 	const logout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -23,7 +30,8 @@
 	};
 
 	async function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
-		if (!e.currentTarget.files) return null;
+		if (!user) return;
+		if (!e.currentTarget.files) return;
 		image = e.currentTarget.files[0];
 
 		//Replace old image with new image
@@ -53,28 +61,9 @@
 				<p class="hidden">25, Hamburg (DE)</p>
 			</div>
 			<div class="flex items-center justify-center gap-5">
-				<div class="mt-lg flex hidden font-bold text-gray-300">
-					<img class="mr-5 size-5" alt="User" src={edit} />
-					<p>Profil bearbeiten</p>
-				</div>
 				<button on:click={() => logout()} class="mt-lg flex font-bold text-gray-300">Ausloggen</button>
 			</div>
-			<div class="mt-lg flex hidden gap-2">
-				<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
-					<p class="font-bold">Rezepte</p>
-					<p class="text-lg font-bold">3</p>
-					<span class="block h-full w-2 bg-gray-300"></span>
-				</div>
-				<div class="flex flex-col items-center border-r-2 border-gray-300 px-lg">
-					<p class="font-bold">Follower</p>
-					<p class="text-lg font-bold">14</p>
-				</div>
-				<div class="flex flex-col items-center px-lg">
-					<p class="font-bold">Following</p>
-					<p class="text-lg font-bold">31</p>
-				</div>
-			</div>
-			<div class="mt-lg flex gap-md">
+			<div class="m-lg flex gap-md">
 				<Tag text="Vegan" />
 				<Tag text="Vegetarisch" />
 				<Tag text="Thailändisch" />
@@ -82,14 +71,15 @@
 				<Tag text="Schnell" />
 			</div>
 
-			<div class="my-lg grid grid-cols-2 gap-5">
-				<img class="w-44 rounded-md" alt="User" src={img} />
-				<img class="w-44 rounded-md" alt="User" src={img} />
-				<img class="w-44 rounded-md" alt="User" src={img} />
-				<img class="w-44 rounded-md" alt="User" src={img} />
-				<img class="w-44 rounded-md" alt="User" src={img} />
-				<img class="w-44 rounded-md" alt="User" src={img} />
-			</div>
+			{#await fetchUserRecipes(user.id)}
+				<Spinner />
+			{:then recipes}
+				<div class="flex flex-col space-y-sm">
+					{#each recipes as recipe}
+						<RecipeCard {recipe} />
+					{/each}
+				</div>
+			{/await}
 		{:else}
 			<Spinner />
 		{/if}
