@@ -8,16 +8,16 @@
 	export let recipe: Recipe;
 </script>
 
-<div class={twMerge("pointer-events-none flex gap-md", $$props.class)}>
-	<div class="flex select-none items-center gap-xs">
+<div class={twMerge("pointer-events-none flex h-8 select-none items-center gap-sm", $$props.class)}>
+	<div class="flex h-full items-center gap-xs p-1">
 		<img alt="Clock" class="size-5" src={ClockIcon} />
-		<p>{recipe.preperation_time} Min.</p>
+		<p class="text-sm font-semibold">{recipe.preperation_time} Min.</p>
 	</div>
-	<div class="flex select-none items-center gap-xs">
+	<div class="flex h-full items-center gap-xs p-1">
 		<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-		<p>{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
+		<p class="text-sm font-semibold">{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
 	</div>
-	<div class="flex select-none items-center gap-xs">
+	<div class="flex h-full items-center gap-xs p-1">
 		{#each { length: recipe.cost } as _}
 			<img alt="Euro" class="size-5" src={EuroIcon} />
 		{/each}
