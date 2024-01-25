@@ -44,7 +44,7 @@
 		</h1>
 
 		<TagRow {recipe} />
-		<DetailRow {recipe} />
+		<DetailRow {recipe} class="mt-3" />
 	</div>
 
 	<img
