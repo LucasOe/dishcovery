@@ -24,6 +24,7 @@
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RemoveIcon from "$lib/assets/icons/cancel.svg";
+	import { range } from "$lib/functions/utils";
 
 	let name: string;
 	let description: string;
@@ -154,11 +155,10 @@
 		<Section title="Zeit" icon={ClockIcon}>
 			<Dropdown
 				bind:selected={preperation_time}
-				entries={[
-					{ id: 5, name: "5 Min." },
-					{ id: 10, name: "10 Min." },
-					{ id: 15, name: "15 Min." },
-				]}
+				entries={range(5, 60, 5).map((value) => ({
+					id: value,
+					name: `${value} Min.`,
+				}))}
 			/>
 		</Section>
 
