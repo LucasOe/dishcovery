@@ -49,35 +49,41 @@
 	};
 
 	async function publishRecipe() {
-    if (!user || loading) return;
+		if (!user || loading) return;
 
-    loading = true;
+		loading = true;
 
-    try {
-      let id = await insertRecipe({
-        name: name,
-        description: description,
-        difficulty: difficulty.id,
-        cost: cost.id,
-        preperation_time: preperation_time.id,
-        profile_id: user.id,
-      });
+		try {
+			let id = await insertRecipe({
+				name: name,
+				description: description,
+				difficulty: difficulty.id,
+				cost: cost.id,
+				preperation_time: preperation_time.id,
+				user_id: user.id,
+			});
 
-      await Promise.all([
-        uploadAndInsertImages(id, images),
-        insertRecipeTypes(id, types.map((type) => type.id)),
-        insertRecipeCategories(id, categories.map((category) => category.id)),
-        insertRecipeIngredients(id, ingredients),
-        insertRecipeSteps(id, steps),
-      ]);
+			await Promise.all([
+				uploadAndInsertImages(id, images),
+				insertRecipeTypes(
+					id,
+					types.map((type) => type.id)
+				),
+				insertRecipeCategories(
+					id,
+					categories.map((category) => category.id)
+				),
+				insertRecipeIngredients(id, ingredients),
+				insertRecipeSteps(id, steps),
+			]);
 
-      goto(`/recipe/${id}`);
-    } catch (error) {
-      console.error("Fehler beim Veröffentlichen des Rezepts:", error);
-    } finally {
-      loading = false;
-    }
-  }
+			goto(`/recipe/${id}`);
+		} catch (error) {
+			console.error("Fehler beim Veröffentlichen des Rezepts:", error);
+		} finally {
+			loading = false;
+		}
+	}
 
 	let fileInput: HTMLInputElement;
 
@@ -276,8 +282,8 @@
 		</button>
 	</form>
 	{#if loading}
-    <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-      <div class="animate-spin rounded-full h-32 w-32 border-t-8 border-yellow"></div>
-    </div>
-  {/if}
+		<div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-900 bg-opacity-50">
+			<div class="h-32 w-32 animate-spin rounded-full border-t-8 border-yellow"></div>
+		</div>
+	{/if}
 </FadeIn>
