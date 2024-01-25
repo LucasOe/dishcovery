@@ -1,7 +1,6 @@
 <script lang="ts">
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import type { Recipe } from "$types/database.types";
-	import { goto } from "$app/navigation";
 	import DetailRow from "./DetailRow.svelte";
 
 	import MoreIcon from "$lib/assets/icons/more.svg";
@@ -27,5 +26,5 @@
 			size="sm"
 			class="ml-auto bg-gray-900 drop-shadow-none"
 		/>
-	</div></a
->
+	</div>
+</a>
