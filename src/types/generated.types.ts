@@ -150,6 +150,7 @@ export interface Database {
           id: number
           name: string
           preperation_time: number
+          profile_id: string | null
         }
         Insert: {
           cost: number
@@ -159,6 +160,7 @@ export interface Database {
           id?: number
           name: string
           preperation_time: number
+          profile_id?: string | null
         }
         Update: {
           cost?: number
@@ -168,8 +170,17 @@ export interface Database {
           id?: number
           name?: string
           preperation_time?: number
+          profile_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "recipes_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       recipes_categories: {
         Row: {
