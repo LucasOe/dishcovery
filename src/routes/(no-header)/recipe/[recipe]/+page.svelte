@@ -56,10 +56,10 @@
 			<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 				{recipe.name}
 			</h1>
-			<div class="custom-animation">
+			<div class="custom-animation space-y-3 py-5">
 				<TagRow {recipe} />
 				<DetailRow {recipe} />
-				<div class="mt-5 rounded-sm bg-gray-500">
+				<div class="rounded-sm bg-gray-500">
 					<button
 						on:click={toggleAccordion}
 						class="flex w-full justify-between p-3 text-left font-semibold text-yellow"
