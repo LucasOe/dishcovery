@@ -37,6 +37,7 @@
 	let steps: string[] = [""];
 	let ingredients: Ingredient[] = [];
 	let user: User | null;
+	let loading = false;
 
 	currentUser.subscribe((value) => {
 		user = value;
@@ -48,28 +49,35 @@
 	};
 
 	async function publishRecipe() {
-		if (!user) return;
+    if (!user || loading) return;
 
-		let id = await insertRecipe({
-			name: name,
-			description: description,
-			difficulty: difficulty.id,
-			cost: cost.id,
-			preperation_time: preperation_time.id,
-			profile_id: user.id,
-		});
+    loading = true;
 
-		// prettier-ignore
-		await Promise.all([
-			uploadAndInsertImages(id, images),
-			insertRecipeTypes(id, types.map((type) => type.id)),
-			insertRecipeCategories(id, categories.map((category) => category.id)),
-			insertRecipeIngredients(id, ingredients),
-			insertRecipeSteps(id, steps)
-		]);
+    try {
+      let id = await insertRecipe({
+        name: name,
+        description: description,
+        difficulty: difficulty.id,
+        cost: cost.id,
+        preperation_time: preperation_time.id,
+        profile_id: user.id,
+      });
 
-		goto(`/recipe/${id}`);
-	}
+      await Promise.all([
+        uploadAndInsertImages(id, images),
+        insertRecipeTypes(id, types.map((type) => type.id)),
+        insertRecipeCategories(id, categories.map((category) => category.id)),
+        insertRecipeIngredients(id, ingredients),
+        insertRecipeSteps(id, steps),
+      ]);
+
+      goto(`/recipe/${id}`);
+    } catch (error) {
+      console.error("Fehler beim Veröffentlichen des Rezepts:", error);
+    } finally {
+      loading = false;
+    }
+  }
 
 	let fileInput: HTMLInputElement;
 
@@ -267,4 +275,9 @@
 			Rezept veröffentlichen
 		</button>
 	</form>
+	{#if loading}
+    <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+      <div class="animate-spin rounded-full h-32 w-32 border-t-8 border-yellow"></div>
+    </div>
+  {/if}
 </FadeIn>
