@@ -46,7 +46,7 @@ export const fetchUserRecipes = async (userID: string): Promise<Recipe[]> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
-		.eq("profile_id", userID);
+		.eq("user_id", userID);
 	if (data) return data;
 	else throw error;
 };
