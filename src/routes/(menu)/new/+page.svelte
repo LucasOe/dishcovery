@@ -12,7 +12,8 @@
 		insertRecipeTypes,
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
-	import type { DisplayValue, Ingredient } from "$types/database.types";
+	import { currentUser } from "$lib/functions/stores";
+	import type { DisplayValue, Ingredient, User } from "$types/database.types";
 
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
@@ -34,6 +35,11 @@
 	let images: Blob[] = [];
 	let steps: string[] = [""];
 	let ingredients: Ingredient[] = [];
+	let user: User | null;
+
+	currentUser.subscribe((value) => {
+		user = value;
+	});
 
 	const uploadAndInsertImages = async (id: number, images: Blob[]) => {
 		const paths = await uploadRecipeImages(id, images);
@@ -41,12 +47,15 @@
 	};
 
 	async function publishRecipe() {
+		if (!user) return;
+
 		let id = await insertRecipe({
 			name: name,
 			description: description,
 			difficulty: difficulty.id,
 			cost: cost.id,
 			preperation_time: preperation_time.id,
+			profile_id: user.id,
 		});
 
 		// prettier-ignore
@@ -252,7 +261,9 @@
 			</div>
 		</Section>
 
-		<button class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow">
+		<button
+			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
+		>
 			Rezept veröffentlichen
 		</button>
 	</form>
