@@ -13,6 +13,7 @@
 	} from "$lib/functions/database/user";
 	import type { User } from "$types/database.types";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
+	import { deleteRecipe } from "$lib/functions/database/recipes";
 
 	let image;
 	let fileInput: HTMLInputElement;
@@ -39,6 +40,11 @@
 		const path = await uploadAvatarImage(image);
 		await insertAvatarImage(user.id, path);
 		user.avatar_url = path;
+	}
+
+	async function onDelete(id: number) {
+		await deleteRecipe(id);
+		goto("/"); // TODO: Avoid reloading entire page when deleting
 	}
 </script>
 
@@ -76,7 +82,7 @@
 			{:then recipes}
 				<div class="flex flex-col space-y-sm">
 					{#each recipes as recipe}
-						<RecipeCard {recipe} />
+						<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
 					{/each}
 				</div>
 			{/await}

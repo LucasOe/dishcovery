@@ -3,9 +3,10 @@
 	import type { Recipe } from "$types/database.types";
 	import DetailRow from "./DetailRow.svelte";
 
-	import MoreIcon from "$lib/assets/icons/more.svg";
+	import RejectIcon from "$lib/assets/icons/reject.svg";
 
 	export let recipe: Recipe;
+	export let action: () => void;
 </script>
 
 <a
@@ -19,10 +20,10 @@
 			<DetailRow {recipe} />
 		</div>
 		<RoundButton
+			{action}
 			type="button"
-			src={MoreIcon}
+			src={RejectIcon}
 			alt="More"
-			action={() => {}}
 			size="sm"
 			class="ml-auto bg-gray-900 drop-shadow-none"
 		/>

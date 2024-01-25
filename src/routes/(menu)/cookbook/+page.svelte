@@ -28,7 +28,7 @@
 		{#if recipes.length > 0}
 			{#key recipes}
 				{#each recipes as recipe}
-					<RecipeCard {recipe} />
+					<RecipeCard {recipe} action={() => {}} />
 				{/each}
 			{/key}
 		{/if}
