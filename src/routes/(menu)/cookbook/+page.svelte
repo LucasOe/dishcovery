@@ -1,36 +1,79 @@
 <script lang="ts">
 	import type { Recipe, User } from "$types/database.types";
 	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
+	import { fetchUserRecipes } from "$lib/functions/database/user";
 	import { currentUser } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 
 	let user: User | null;
+	let cookBookRecipes: Recipe[] = [];
+	let userRecipes: Recipe[] = [];
+	let showCookBook = true;
 
 	currentUser.subscribe((value) => {
 		user = value;
 	});
 
-	let recipes: Recipe[] = [];
-
-	// Reactive statement to fetch recipes when user changes
+	// Reactive statements to fetch recipes when user changes
 	$: {
-		user && fetchRecipes();
+		if (user) {
+			fetchCookBookRecipes();
+			fetchUserSpecificRecipes();
+		}
 	}
 
-	async function fetchRecipes() {
-		if (user) recipes = await fetchRecipesInCookBook(user.id);
+	async function fetchCookBookRecipes() {
+		if (user) cookBookRecipes = await fetchRecipesInCookBook(user.id);
+	}
+
+	async function fetchUserSpecificRecipes() {
+		if (user) userRecipes = await fetchUserRecipes(user.id);
+	}
+
+	function toggleRecipes() {
+		showCookBook = !showCookBook;
 	}
 </script>
 
 <FadeIn>
-	<div class="space-y-4">
-		{#if recipes.length > 0}
-			{#key recipes}
-				{#each recipes as recipe}
-					<RecipeCard {recipe} action={() => {}} />
-				{/each}
-			{/key}
+	<div class="space-y-8">
+		<div class="mb-4">
+			<button on:click={toggleRecipes} class="text-blue-500 underline">
+				{#if showCookBook}
+					Deine Rezepte anzeigen
+				{:else}
+					Rezepte im Kochbuch anzeigen
+				{/if}
+			</button>
+		</div>
+
+		{#if showCookBook}
+			{#if cookBookRecipes.length > 0}
+				<div>
+					<h2 class="text-2xl font-bold mb-2">Rezepte im Kochbuch</h2>
+					{#key cookBookRecipes}
+						{#each cookBookRecipes as recipe}
+							<RecipeCard {recipe} />
+						{/each}
+					{/key}
+				</div>
+			{:else}
+				<p>Keine Rezepte im Kochbuch gefunden.</p>
+			{/if}
+		{:else}
+			{#if userRecipes.length > 0}
+				<div>
+					<h2 class="text-2xl font-bold mb-2">Deine Rezepte</h2>
+					{#key userRecipes}
+						{#each userRecipes as recipe}
+							<RecipeCard {recipe} />
+						{/each}
+					{/key}
+				</div>
+			{:else}
+				<p>Keine eigenen Rezepte gefunden.</p>
+			{/if}
 		{/if}
 	</div>
 </FadeIn>
