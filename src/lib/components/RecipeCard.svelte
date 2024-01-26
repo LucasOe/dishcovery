@@ -15,8 +15,8 @@
 >
 	<div class="flex w-full flex-row items-center gap-md overflow-hidden">
 		<img src={recipe.images[0].image} class="aspect-square size-20 rounded-sm object-cover" alt="Rezept Bild" />
-		<div class="flex flex-col space-y-1">
-			<div class="text-xl font-semibold text-yellow">{recipe.name}</div>
+		<div class="flex flex-col space-y-1 overflow-hidden">
+			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold text-yellow">{recipe.name}</div>
 			<DetailRow {recipe} />
 		</div>
 		<RoundButton
