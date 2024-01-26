@@ -185,6 +185,6 @@
 		on:panstart={handlePanStart}
 		on:panmove={handlePanMove}
 		on:panend={handlePanEnd}
-		class="size-full cursor-pointer"
+		class="flex size-full cursor-pointer items-center justify-center"
 	/>
 </div>
