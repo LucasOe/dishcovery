@@ -4,6 +4,10 @@
 	import CardStack from "$lib/components/CardStack.svelte";
 </script>
 
+<svelte:head>
+	<title>Dishcovery</title>
+</svelte:head>
+
 <main class="flex w-full flex-col gap-16 p-8">
 	<TopNav />
 	<CardStack />
