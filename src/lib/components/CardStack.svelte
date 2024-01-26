@@ -3,7 +3,12 @@
 	import { spring } from "svelte/motion";
 
 	import { user, recipe, swipeDirection } from "$lib/functions/stores";
-	import { fetchNextRecipeNotSeen, fetchNextRecipe, fetchRecipes } from "$lib/functions/database/recipes";
+	import {
+		fetchNextRecipeNotSeen,
+		fetchNextRecipe,
+		fetchRecipes,
+		fetchRecipesNotSeen,
+	} from "$lib/functions/database/recipes";
 	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
@@ -12,6 +17,7 @@
 	import { upsertRating, resetUserRatings } from "$lib/functions/database/ratings";
 	import { pannable } from "$lib/functions/pannable";
 	import { goto } from "$app/navigation";
+	import { fetchCurrentUser } from "$lib/functions/database/user";
 
 	let container: HTMLDivElement;
 	let cardInstances: Card[] = [];
@@ -24,7 +30,10 @@
 
 	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
 
-	onMount(() => {
+	onMount(async () => {
+		// we have to call `fetchCurrentUser` manually, to access `$user`
+		$user = await fetchCurrentUser();
+
 		initCards();
 		scaleThreshhold();
 		window.addEventListener("resize", function () {
@@ -54,8 +63,8 @@
 	});
 
 	async function initCards() {
-		// TODO: Die ersten drei Rezepte sind immer die selben, egal ob der User diese schon bewertet hat.
-		recipes = await fetchRecipes([3, 2, 1]);
+		if ($user) recipes = await fetchRecipesNotSeen($user.id);
+		else recipes = await fetchRecipes([3, 2, 1]);
 
 		// create card instances
 		recipes.forEach((recipe) => {
