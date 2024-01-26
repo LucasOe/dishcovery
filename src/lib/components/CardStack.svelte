@@ -36,7 +36,7 @@
 		cardInstances.forEach((instance) => instance.$destroy());
 	});
 
-	const initCards = async () => {
+	async function initCards() {
 		// TODO: Die ersten drei Rezepte sind immer die selben, egal ob der User diese schon bewertet hat.
 		recipes = await fetchRecipes([3, 2, 1]);
 
@@ -48,17 +48,17 @@
 		$recipe = recipes[0];
 
 		loading = false;
-	};
+	}
 
-	const handlePanStart = () => {
+	function handlePanStart() {
 		isTouching = true;
 
 		coords.stiffness = 1;
 		coords.damping = 1;
 		coords.update(() => ({ x: 0, y: 0 }));
-	};
+	}
 
-	const handlePanMove = (event: CustomEvent) => {
+	function handlePanMove(event: CustomEvent) {
 		let xStart = 0;
 		let yStart = 0;
 		let xDist;
@@ -78,9 +78,9 @@
 
 		swipeIndicator = direction(xDist, yDist, threshold);
 		refreshCardProps();
-	};
+	}
 
-	const handlePanEnd = async () => {
+	async function handlePanEnd() {
 		isTouching = false;
 
 		transformValue = getTransformValue(swipeIndicator);
@@ -97,9 +97,9 @@
 		}
 
 		refreshCardProps();
-	};
+	}
 
-	const handleCardSwipe = async () => {
+	async function handleCardSwipe() {
 		refreshCardProps();
 
 		if ($user) {
@@ -122,17 +122,17 @@
 					console.log(err);
 				});
 		}
-	};
+	}
 
-	const refreshCardProps = () => {
+	function refreshCardProps() {
 		cardInstances[0].$set({
 			transformValue,
 			swipeIndicator: swipeIndicator,
 			isTouching,
 		});
-	};
+	}
 
-	const refreshCardStackContent = (nextRecipe: Recipe | null) => {
+	function refreshCardStackContent(nextRecipe: Recipe | null) {
 		setTimeout(() => {
 			// reset state
 			swipeIndicator = Direction.None;
@@ -152,11 +152,11 @@
 			recipes = recipes; // update component
 			$recipe = recipes[0]; // set current recipe
 		}, 300);
-	};
+	}
 
-	const scaleThreshhold = () => {
+	function scaleThreshhold() {
 		threshold = Math.min(window.innerWidth * 0.2, 150);
-	};
+	}
 
 	async function onReset() {
 		if (!$user) return;
