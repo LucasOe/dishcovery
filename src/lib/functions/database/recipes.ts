@@ -10,6 +10,18 @@ export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
 	else return data;
 };
 
+export const fetchRecipesNotSeen = async (userID: string): Promise<Recipe[]> => {
+	const { data, error } = await supabase
+		.from("recipes")
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
+		.eq("ratings.user_id", userID)
+		.is("ratings", null) // recipe hasn't been rated by user
+		.order("id")
+		.limit(3);
+	if (error) throw error;
+	else return data;
+};
+
 export const fetchRecipe = async (id: number): Promise<Recipe | null> => {
 	const { data, error } = await supabase
 		.from("recipes")
