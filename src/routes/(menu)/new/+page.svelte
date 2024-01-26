@@ -12,7 +12,7 @@
 		insertRecipeTypes,
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
-	import { currentUser } from "$lib/functions/stores";
+	import { user } from "$lib/functions/stores";
 	import type { DisplayValue, Ingredient, User } from "$types/database.types";
 
 	import UploadIcon from "$lib/assets/icons/upload.svg";
@@ -36,12 +36,7 @@
 	let images: Blob[] = [];
 	let steps: string[] = [""];
 	let ingredients: Ingredient[] = [];
-	let user: User | null;
 	let loading = false;
-
-	currentUser.subscribe((value) => {
-		user = value;
-	});
 
 	const uploadAndInsertImages = async (id: number, images: Blob[]) => {
 		const paths = await uploadRecipeImages(id, images);
@@ -49,7 +44,7 @@
 	};
 
 	async function publishRecipe() {
-		if (!user || loading) return;
+		if (!$user || loading) return;
 
 		loading = true;
 
@@ -60,7 +55,7 @@
 				difficulty: difficulty.id,
 				cost: cost.id,
 				preperation_time: preperation_time.id,
-				user_id: user.id,
+				user_id: $user.id,
 			});
 
 			// prettier-ignore

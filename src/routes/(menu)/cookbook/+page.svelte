@@ -1,34 +1,29 @@
 <script lang="ts">
-	import type { Recipe, User } from "$types/database.types";
+	import type { Recipe } from "$types/database.types";
 	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
 	import { fetchUserRecipes } from "$lib/functions/database/user";
-	import { currentUser } from "$lib/functions/stores";
+	import { user } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 
-	let user: User | null;
 	let cookBookRecipes: Recipe[] = [];
 	let userRecipes: Recipe[] = [];
 	let showCookBook = true;
 
-	currentUser.subscribe((value) => {
-		user = value;
-	});
-
 	// Reactive statements to fetch recipes when user changes
 	$: {
-		if (user) {
+		if ($user) {
 			fetchCookBookRecipes();
 			fetchUserSpecificRecipes();
 		}
 	}
 
 	async function fetchCookBookRecipes() {
-		if (user) cookBookRecipes = await fetchRecipesInCookBook(user.id);
+		if ($user) cookBookRecipes = await fetchRecipesInCookBook($user.id);
 	}
 
 	async function fetchUserSpecificRecipes() {
-		if (user) userRecipes = await fetchUserRecipes(user.id);
+		if ($user) userRecipes = await fetchUserRecipes($user.id);
 	}
 
 	function toggleRecipes() {
@@ -54,7 +49,7 @@
 					<h2 class="mb-2 text-2xl font-bold">Rezepte im Kochbuch</h2>
 					{#key cookBookRecipes}
 						{#each cookBookRecipes as recipe}
-							<RecipeCard {recipe} />
+							<RecipeCard {recipe} action={() => console.log("TODO")} />
 						{/each}
 					{/key}
 				</div>
@@ -66,7 +61,7 @@
 				<h2 class="mb-2 text-2xl font-bold">Deine Rezepte</h2>
 				{#key userRecipes}
 					{#each userRecipes as recipe}
-						<RecipeCard {recipe} />
+						<RecipeCard {recipe} action={() => console.log("TODO")} />
 					{/each}
 				{/key}
 			</div>

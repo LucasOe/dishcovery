@@ -3,22 +3,13 @@
 	import FilterIcon from "$lib/assets/icons/filter.svg";
 	import RecipeIcon from "$lib/assets/icons/recipes.svg";
 	import UserIcon from "$lib/assets/icons/ic_user.svg";
-	import { onMount } from "svelte";
-	import { currentUser } from "$lib/functions/stores";
-
-	let user;
+	import { user } from "$lib/functions/stores";
 
 	let tabs = [
 		{ name: "Kochbuch", link: "cookbook", icon: RecipeIcon },
 		{ name: "Add new", link: "new", icon: AddIcon },
 		{ name: "filter", link: "filter", icon: FilterIcon },
 	];
-
-	onMount(async () => {
-		currentUser.subscribe((value) => {
-			user = value;
-		});
-	});
 </script>
 
 <div class="flex items-center justify-between">
@@ -33,10 +24,10 @@
 
 	<!-- Profile -->
 	<div>
-		<a href={`${user ? `/profile/${user.username}` : "/login"}`}>
+		<a href={`${$user ? `/profile/${$user.username}` : "/login"}`}>
 			<div class={`size-14 overflow-hidden rounded-full border-[2px] border-yellow`}>
-				{#if user}
-					<img class="rounded-full" alt="profile" src={user.avatar_url} />
+				{#if $user}
+					<img class="rounded-full" alt="profile" src={$user.avatar_url} />
 				{:else}
 					<img class="rounded-full" alt="profile" src={UserIcon} />
 				{/if}
