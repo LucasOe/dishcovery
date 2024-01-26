@@ -39,6 +39,7 @@
 	// React to state change from BottomNav
 	swipeDirection.subscribe(async (direction) => {
 		swipeIndicator = direction;
+		transformValue = getTransformValue(direction);
 
 		switch (swipeIndicator) {
 			case Direction.Left:
