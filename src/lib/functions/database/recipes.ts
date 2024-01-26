@@ -1,23 +1,30 @@
 import { supabase } from "$lib/functions/database/createClient";
 import type { Ingredient, Recipe, Tables } from "$types/database.types";
+import type { Filter } from "$types/filter.types";
 
-export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
-	const { data, error } = await supabase
+export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Recipe[]> => {
+	let query = supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
 		.in("id", [ids]);
+
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+
+	const { data, error } = await query;
 	if (error) throw error;
 	else return data;
 };
 
-export const fetchRecipesNotSeen = async (userID: string): Promise<Recipe[]> => {
-	const { data, error } = await supabase
+export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Promise<Recipe[]> => {
+	let query = supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
 		.eq("ratings.user_id", userID)
-		.is("ratings", null) // recipe hasn't been rated by user
-		.order("id")
-		.limit(3);
+		.is("ratings", null); // recipe hasn't been rated by user
+
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+
+	const { data, error } = await query.order("id").limit(3);
 	if (error) throw error;
 	else return data;
 };
@@ -32,28 +39,34 @@ export const fetchRecipe = async (id: number): Promise<Recipe | null> => {
 	else return data;
 };
 
-export const fetchNextRecipe = async (currentId: number): Promise<Recipe | null> => {
-	const { data, error } = await supabase
+export const fetchNextRecipe = async (currentId: number, filters?: Filter): Promise<Recipe | null> => {
+	let query = supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
-		.gt("id", currentId)
-		.order("id")
-		.limit(1)
-		.maybeSingle();
+		.gt("id", currentId);
+
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+
+	const { data, error } = await query.order("id").limit(1).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
 
-export const fetchNextRecipeNotSeen = async (currentId: number, userID: string): Promise<Recipe | null> => {
-	const { data, error } = await supabase
+export const fetchNextRecipeNotSeen = async (
+	currentId: number,
+	userID: string,
+	filter?: Filter
+): Promise<Recipe | null> => {
+	let query = supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
 		.eq("ratings.user_id", userID)
 		.is("ratings", null) // recipe hasn't been rated by user
-		.gt("id", currentId)
-		.order("id")
-		.limit(1)
-		.maybeSingle();
+		.gt("id", currentId);
+
+	if (filter?.difficulty) query = query.eq("difficulty", filter.difficulty);
+
+	const { data, error } = await query.order("id").limit(1).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
