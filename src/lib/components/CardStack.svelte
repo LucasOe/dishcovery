@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from "svelte";
 	import { spring } from "svelte/motion";
 
-	import { user, recipe, swipeDirection } from "$lib/functions/stores";
+	import { user, recipe, swipeDirection, filters } from "$lib/functions/stores";
 	import {
 		fetchNextRecipeNotSeen,
 		fetchNextRecipe,
@@ -63,8 +63,8 @@
 	});
 
 	async function initCards() {
-		if ($user) recipes = await fetchRecipesNotSeen($user.id);
-		else recipes = await fetchRecipes([3, 2, 1]);
+		if ($user) recipes = await fetchRecipesNotSeen($user.id, $filters);
+		else recipes = await fetchRecipes([3, 2, 1], $filters);
 
 		// create card instances
 		recipes.forEach((recipe) => {
@@ -120,7 +120,7 @@
 		if ($user) {
 			await Promise.all([
 				upsertRating($user.id, recipes[0].id, null, swipeIndicator === Direction.Right),
-				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, $user.id),
+				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, $user.id, $filters),
 			])
 				.then(([_, nextRecipe]) => {
 					refreshCardStackContent(nextRecipe);
@@ -129,7 +129,7 @@
 					console.log(err);
 				});
 		} else {
-			await fetchNextRecipe(recipes[recipes.length - 1].id)
+			await fetchNextRecipe(recipes[recipes.length - 1].id, $filters)
 				.then((nextRecipe) => {
 					refreshCardStackContent(nextRecipe);
 				})

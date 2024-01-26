@@ -15,7 +15,7 @@
 	</div>
 	<div class="flex h-full items-center gap-xs p-1">
 		<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-		<p class="hidden text-sm font-semibold sm:block">{["Einfach", "Mittel", "Schwer"][recipe.difficulty]}</p>
+		<p class="hidden text-sm font-semibold sm:block">{["Einfach", "Mittel", "Schwer"][recipe.difficulty - 1]}</p>
 	</div>
 	<div class="flex h-full items-center gap-xs p-1">
 		{#each { length: recipe.cost } as _}

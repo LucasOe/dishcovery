@@ -1,59 +1,61 @@
 <script lang="ts">
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Section from "$lib/components/Section.svelte";
-	import TagList from "$lib/components/TagList.svelte";
-	import { fetchCategories, fetchTypes } from "$lib/functions/database/recipes";
+	import type { Filter, FilterOptions } from "$types/filter.types";
 	import { twMerge } from "tailwind-merge";
+	import { getEntries } from "$lib/functions/utils";
+	import { filters } from "$lib/functions/stores";
+	import { goto } from "$app/navigation";
 
-	type Filters = {
-		Bewertung: string;
-		Preis: string;
-		Dauer: string;
-		Schwierigkeit: string;
+	const filterOptions: FilterOptions = {
+		difficulty: {
+			displayName: "Schwierigkeit",
+			options: [
+				{
+					id: null,
+					name: "Alle",
+				},
+				{
+					id: 1,
+					name: "Einfach",
+				},
+				{
+					id: 2,
+					name: "Mittel",
+				},
+				{
+					id: 3,
+					name: "Schwer",
+				},
+			],
+		},
 	};
 
-	const filterOptions: { name: keyof Filters; options: string[] }[] = [
-		{ name: "Bewertung", options: ["alle", "2+", "3+", "4+"] },
-		{ name: "Preis", options: ["alle", "€", "€€", "€€€"] },
-		{ name: "Dauer", options: ["alle", "<10 Min.", "<30 Min.", "<60 Min."] },
-		{ name: "Schwierigkeit", options: ["alle", "einfach", "fortgeschritten", "schwer"] },
-	];
-
-	const selectedFilters: Filters = {
-		Bewertung: "alle",
-		Preis: "alle",
-		Dauer: "alle",
-		Schwierigkeit: "alle",
+	const selectedFilters: Filter = {
+		difficulty: $filters?.difficulty || null,
 	};
+
+	function applyFilters() {
+		$filters = selectedFilters;
+		goto("/");
+	}
 </script>
 
 <FadeIn>
 	<div class="space-y-lg">
-		{#await fetchTypes() then types}
-			<Section title="Art">
-				<TagList tags={types} />
-			</Section>
-		{/await}
-
-		{#await fetchCategories() then categories}
-			<Section title="Kategorie">
-				<TagList tags={categories} />
-			</Section>
-		{/await}
-
-		{#each filterOptions as filter}
-			<Section title={filter.name}>
+		{#each getEntries(filterOptions) as [filter, filterOption]}
+			<Section title={filterOption.displayName}>
 				<div class="flex items-center justify-between rounded-md bg-gray-500 p-1">
-					{#each filter.options as option}
+					{#each filterOption.options as option}
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-2">
 							<button
 								class={twMerge(
 									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center focus:outline-none",
-									selectedFilters[filter.name] === option ? "bg-yellow text-white" : "bg-gray-900"
+									selectedFilters[filter] === option.id ? "bg-yellow text-white" : "bg-gray-900"
 								)}
-								on:click={() => (selectedFilters[filter.name] = option)}
+								on:click={() => (selectedFilters[filter] = option.id)}
 							/>
-							<p class="mt-2 text-sm">{option}</p>
+							<p class="mt-2 text-sm">{option.name}</p>
 						</div>
 					{/each}
 				</div>
@@ -61,6 +63,8 @@
 		{/each}
 
 		<button
+			type="button"
+			on:click={applyFilters}
 			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
 		>
 			Filter anwenden
