@@ -1,13 +1,13 @@
-import type { PageLoad } from "./$types";
 import { fetchUserDataByUsername } from "$lib/functions/database/user";
-import type { User } from "$types/database.types";
+import { error } from "@sveltejs/kit";
+import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ params }) => {
-	const user: User = await fetchUserDataByUsername(params.username).then((user) => {
-		return user;
+	return await fetchUserDataByUsername(params.username).then((user) => {
+		if (!user) error(404, { message: "Not found" });
+		return {
+			title: user.username + " - Dishcovery",
+			user: user,
+		};
 	});
-	return {
-		title: user.username + " - Dishcovery",
-		user: user,
-	};
 };
