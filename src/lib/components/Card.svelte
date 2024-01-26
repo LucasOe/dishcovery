@@ -3,12 +3,10 @@
 
 	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
-	import Like from "$lib/assets/icons/addToList.svg";
-	import Dislike from "$lib/assets/icons/reject.svg";
-	import Open from "$lib/assets/icons/open.svg";
 	import DetailRow from "./DetailRow.svelte";
 	import TagRow from "./TagRow.svelte";
 	import Rating from "$lib/components/Rating.svelte";
+	import IconOverlay from "./IconOverlay.svelte";
 
 	export let recipe: Recipe;
 	export let isTouching = false;
@@ -54,40 +52,5 @@
 		style:--recipe={imageTransition}
 	/>
 
-	<div>
-		<img
-			class={`
-				absolute left-xxl top-xxl z-10 size-xxl duration-300
-				${swipeIndicator === Direction.Right ? "opacity-100" : "opacity-0"}
-			`}
-			src={Like}
-			alt="Like Icon"
-		/>
-		<img
-			class={`
-				absolute right-xxl top-xxl z-10 size-xxl duration-300
-				${swipeIndicator === Direction.Left ? "opacity-100" : "opacity-0"}
-			`}
-			src={Dislike}
-			alt="Dislike Icon"
-		/>
-		<img
-			class={`
-				absolute bottom-0 left-0 right-0 top-0 z-10 m-auto size-xxl brightness-200 duration-300
-				${swipeIndicator === Direction.Up ? "opacity-100" : "opacity-0"}
-			`}
-			src={Open}
-			alt="Open Icon"
-		/>
-		<div
-			class={`
-				absolute left-0 top-0 size-full bg-gradient-to-t from-transparent from-10% to-gray-500 duration-300
-				${
-					swipeIndicator === Direction.Up || swipeIndicator === Direction.Left || swipeIndicator == Direction.Right
-						? "opacity-100"
-						: "opacity-0"
-				}
-			`}
-		></div>
-	</div>
+	<IconOverlay {swipeIndicator} />
 </div>
