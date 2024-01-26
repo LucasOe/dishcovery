@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.title || "Page Title"}</title>
+	<title>{`${$page.data.title} - Dishcovery` || "Page Title"}</title>
 </svelte:head>
 
 <div class="flex w-full flex-col gap-6 p-12">
