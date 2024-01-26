@@ -3,19 +3,18 @@
 	import { spring } from "svelte/motion";
 
 	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
-	import { fetchNextRecipe, fetchRecipes } from "$lib/functions/database/recipes";
+	import { fetchNextRecipeNotSeen, fetchNextRecipe, fetchRecipes } from "$lib/functions/database/recipes";
 	import type { Recipe, User } from "$types/database.types";
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { createCardInstance, direction, getTransformValue } from "$lib/functions/cardStack";
-	import { upsertRating } from "$lib/functions/database/ratings";
+	import { upsertRating, resetUserRatings } from "$lib/functions/database/ratings";
 	import { pannable } from "$lib/functions/pannable";
 	import { goto } from "$app/navigation";
 
 	let user: User | null;
 	let recipe: Recipe;
-	let initialRecipes = [3, 2, 1];
 	let container: HTMLDivElement;
 	let cardInstances: Card[] = [];
 	let recipes: Recipe[] = [];
@@ -48,7 +47,8 @@
 	});
 
 	const initCards = async () => {
-		recipes = await fetchRecipes(initialRecipes);
+		// TODO: Die ersten drei Rezepte sind immer die selben, egal ob der User diese schon bewertet hat.
+		recipes = await fetchRecipes([3, 2, 1]);
 
 		// create card instances
 		recipes.forEach((recipe) => {
@@ -110,18 +110,26 @@
 	const handleCardSwipe = async () => {
 		refreshCardProps();
 
-		// add rating to database
-		if (user) await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
-
-		// add new recipe
-		await fetchNextRecipe(recipes[recipes.length - 1].id)
-			.then((recipe) => {
-				refreshCardStackContent(recipe);
-			})
-			.catch((err) => {
-				refreshCardStackContent();
-				errorMessage = !err ? "Es gibt keine weiteren Rezepte mehr." : err;
-			});
+		if (user) {
+			await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
+			await fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, user.id)
+				.then((recipe) => {
+					refreshCardStackContent(recipe);
+				})
+				.catch((err) => {
+					refreshCardStackContent();
+					errorMessage = !err ? "Es gibt keine weiteren Rezepte mehr." : err;
+				});
+		} else {
+			await fetchNextRecipe(recipes[recipes.length - 1].id)
+				.then((recipe) => {
+					refreshCardStackContent(recipe);
+				})
+				.catch((err) => {
+					refreshCardStackContent();
+					errorMessage = !err ? "Es gibt keine weiteren Rezepte mehr." : err;
+				});
+		}
 	};
 
 	const refreshCardProps = () => {
@@ -157,6 +165,11 @@
 	const scaleThreshhold = () => {
 		threshold = Math.min(window.innerWidth * 0.2, 150);
 	};
+
+	async function onReset() {
+		if (!user) return;
+		await resetUserRatings(user.id);
+	}
 </script>
 
 <div class="relative flex size-full items-center justify-center">
@@ -168,9 +181,10 @@
 
 	{#if errorMessage}
 		<div
-			class="text-md absolute flex aspect-square size-48 flex-col items-center justify-center rounded-full bg-gray-500 p-4 text-center font-semibold"
+			class="text-md absolute flex aspect-square size-48 flex-col items-center justify-center gap-2 rounded-full bg-gray-500 p-4 text-center font-semibold"
 		>
 			{errorMessage}
+			<button on:click={onReset} aria-label="Reset" class="underline"> Gesehene Rezepte zurücksetzen </button>
 		</div>
 	{/if}
 

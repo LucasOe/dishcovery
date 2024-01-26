@@ -32,6 +32,21 @@ export const fetchNextRecipe = async (currentId: number): Promise<Recipe> => {
 	else throw error;
 };
 
+export const fetchNextRecipeNotSeen = async (currentId: number, userID: string): Promise<Recipe> => {
+	const { data, error } = await supabase
+		.from("recipes")
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
+		.eq("ratings.user_id", userID)
+		.is("ratings", null) // recipe hasn't been rated by user
+		.gt("id", currentId)
+		.order("id")
+		.limit(1)
+		.maybeSingle();
+	console.log(data);
+	if (data) return data;
+	else throw error;
+};
+
 export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
 	const { data, error } = await supabase
 		.from("ratings")

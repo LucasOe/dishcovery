@@ -35,3 +35,8 @@ export const upsertRating = async (
 	});
 	if (error) throw error;
 };
+
+export const resetUserRatings = async (userID: string) => {
+	const { error } = await supabase.from("ratings").delete().eq("user_id", userID);
+	if (error) throw error;
+};
