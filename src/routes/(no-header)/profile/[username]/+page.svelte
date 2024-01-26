@@ -49,7 +49,7 @@
 </script>
 
 <FadeIn>
-	<div class="text-column flex flex-col items-center justify-center pt-12">
+	<div class="text-column flex flex-col items-center justify-center p-12">
 		{#if user}
 			<div class="relative flex size-44">
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
@@ -69,7 +69,7 @@
 			<div class="flex items-center justify-center gap-5">
 				<button on:click={() => logout()} class="mt-lg flex font-bold text-gray-300">Ausloggen</button>
 			</div>
-			<div class="m-lg flex gap-md">
+			<div class="m-lg flex w-full flex-wrap gap-x-md gap-y-sm">
 				<Tag text="Vegan" />
 				<Tag text="Vegetarisch" />
 				<Tag text="Thailändisch" />
@@ -80,7 +80,7 @@
 			{#await fetchUserRecipes(user.id)}
 				<Spinner />
 			{:then recipes}
-				<div class="flex flex-col space-y-sm">
+				<div class="flex w-full flex-col space-y-sm">
 					{#each recipes as recipe}
 						<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
 					{/each}
