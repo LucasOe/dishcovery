@@ -13,7 +13,7 @@
 	href={"/recipe/" + recipe.id}
 	class="flex w-full flex-row items-center justify-between rounded-lg bg-gray-500 p-sm drop-shadow-xl"
 >
-	<div class="flex w-full flex-row items-center gap-md">
+	<div class="flex w-full flex-row items-center gap-md overflow-hidden">
 		<img src={recipe.images[0].image} class="aspect-square size-20 rounded-sm object-cover" alt="Rezept Bild" />
 		<div class="flex flex-col space-y-1">
 			<div class="text-xl font-semibold text-yellow">{recipe.name}</div>

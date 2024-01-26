@@ -29,7 +29,6 @@
 
 <FadeIn>
 	<div class="space-y-lg">
-		<Section title="Titel"></Section>
 		{#await fetchTypes() then types}
 			<Section title="Art">
 				<TagList tags={types} />
@@ -44,23 +43,27 @@
 
 		{#each filterOptions as filter}
 			<Section title={filter.name}>
-				<div class="flex items-center">
+				<div class="flex items-center justify-between rounded-md bg-gray-500 p-1">
 					{#each filter.options as option}
-						<div class="text-center">
+						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-2">
 							<button
 								class={twMerge(
-									"focus:shadow-outline mb-2 mr-20 h-6 w-6 rounded-full border border-gray-300 focus:outline-none",
+									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center focus:outline-none",
 									selectedFilters[filter.name] === option ? "bg-yellow text-white" : "bg-gray-900"
 								)}
 								on:click={() => (selectedFilters[filter.name] = option)}
 							/>
-							<p class="mr-20 text-sm">{option}</p>
+							<p class="mt-2 text-sm">{option}</p>
 						</div>
 					{/each}
 				</div>
 			</Section>
 		{/each}
 
-		<button class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow">Filter anwenden</button>
+		<button
+			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
+		>
+			Filter anwenden
+		</button>
 	</div>
 </FadeIn>
