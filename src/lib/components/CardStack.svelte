@@ -92,6 +92,7 @@
 				await handleCardSwipe();
 				break;
 			case Direction.Up:
+				if (!$recipe) return;
 				goto(`/recipe/${$recipe.id}`);
 				break;
 		}

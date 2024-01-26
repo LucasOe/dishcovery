@@ -1,23 +1,23 @@
 import { supabase } from "$lib/functions/database/createClient";
 import type { Recipe, User } from "$types/database.types";
 
-export const fetchCurrentUser = async (): Promise<User> => {
+export const fetchCurrentUser = async (): Promise<User | null> => {
 	const { data, error } = await supabase.auth.refreshSession();
-	if (data.user) {
-		return fetchUserDataById(data.user.id);
-	} else throw error;
+	if (error) throw error;
+	else if (!data.user) return null;
+	else return fetchUserDataById(data.user.id);
 };
 
-export const fetchUserDataById = async (userId: string): Promise<User> => {
+export const fetchUserDataById = async (userId: string): Promise<User | null> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
-	if (data) return { ...data };
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
-export const fetchUserDataByUsername = async (username: string): Promise<User> => {
+export const fetchUserDataByUsername = async (username: string): Promise<User | null> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).ilike("username", username).maybeSingle();
-	if (data) return { ...data };
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
 export const deleteAvatarImage = async (userID: string) => {
@@ -47,6 +47,6 @@ export const fetchUserRecipes = async (userID: string): Promise<Recipe[]> => {
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
 		.eq("user_id", userID);
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };

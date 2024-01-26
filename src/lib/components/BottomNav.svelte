@@ -8,6 +8,7 @@
 	import { recipe, swipeDirection } from "$lib/functions/stores";
 
 	const openRecipe = () => {
+		if (!$recipe) return;
 		goto(`recipe/${$recipe.id}`);
 	};
 

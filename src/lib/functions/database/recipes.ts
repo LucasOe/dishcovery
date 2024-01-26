@@ -6,18 +6,18 @@ export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
 		.in("id", [ids]);
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
-export const fetchRecipe = async (id: number): Promise<Recipe> => {
+export const fetchRecipe = async (id: number): Promise<Recipe | null> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
 		.eq("id", id)
 		.maybeSingle();
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
 export const fetchNextRecipe = async (currentId: number): Promise<Recipe | null> => {
@@ -28,8 +28,8 @@ export const fetchNextRecipe = async (currentId: number): Promise<Recipe | null>
 		.order("id")
 		.limit(1)
 		.maybeSingle();
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
 export const fetchNextRecipeNotSeen = async (currentId: number, userID: string): Promise<Recipe | null> => {
@@ -64,14 +64,14 @@ export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> 
 
 export const fetchTypes = async (): Promise<Tables<"types">[]> => {
 	const { data, error } = await supabase.from("types").select(`*`);
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
 export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 	const { data, error } = await supabase.from("categories").select(`*`);
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
 export const uploadRecipeImages = async (id: number, files: Blob[]): Promise<string[]> => {
