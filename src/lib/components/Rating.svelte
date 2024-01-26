@@ -22,7 +22,7 @@
 		{#if rating % 1 !== 0}
 			<img src={StarHalf} alt="Half Star Icon" />
 		{/if}
-		{#each Array(5 - Math.round(rating)) as _}
+		{#each Array(5 - Math.ceil(rating)) as _}
 			<img src={StarEmpty} alt="Empty Star Icon" />
 		{/each}
 	{/if}
