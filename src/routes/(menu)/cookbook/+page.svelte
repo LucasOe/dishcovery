@@ -45,8 +45,8 @@
 
 		{#if showCookBook}
 			{#if cookBookRecipes.length > 0}
-				<div>
-					<h2 class="mb-2 text-2xl font-bold">Rezepte im Kochbuch</h2>
+				<div class="space-y-sm">
+					<h2 class="text-2xl font-bold">Rezepte im Kochbuch</h2>
 					{#key cookBookRecipes}
 						{#each cookBookRecipes as recipe}
 							<RecipeCard {recipe} action={() => console.log("TODO")} />
