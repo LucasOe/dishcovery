@@ -33,12 +33,12 @@
 			}
 		}
 		try {
-			if (!password.content|| !confirmPasswordInput) {
+			if (!password.content || !confirmPasswordInput) {
 				feedbackMessage = "Bitte gib ein neues Passwort und bestätige es.";
 				return;
 			}
 
-			if (password.content!== confirmPasswordInput) {
+			if (password.content !== confirmPasswordInput) {
 				feedbackMessage = "Die Passwörter stimmen nicht überein.";
 				return;
 			}

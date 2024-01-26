@@ -51,7 +51,7 @@
 		{#if showCookBook}
 			{#if cookBookRecipes.length > 0}
 				<div>
-					<h2 class="text-2xl font-bold mb-2">Rezepte im Kochbuch</h2>
+					<h2 class="mb-2 text-2xl font-bold">Rezepte im Kochbuch</h2>
 					{#key cookBookRecipes}
 						{#each cookBookRecipes as recipe}
 							<RecipeCard {recipe} />
@@ -61,19 +61,17 @@
 			{:else}
 				<p>Keine Rezepte im Kochbuch gefunden.</p>
 			{/if}
+		{:else if userRecipes.length > 0}
+			<div>
+				<h2 class="mb-2 text-2xl font-bold">Deine Rezepte</h2>
+				{#key userRecipes}
+					{#each userRecipes as recipe}
+						<RecipeCard {recipe} />
+					{/each}
+				{/key}
+			</div>
 		{:else}
-			{#if userRecipes.length > 0}
-				<div>
-					<h2 class="text-2xl font-bold mb-2">Deine Rezepte</h2>
-					{#key userRecipes}
-						{#each userRecipes as recipe}
-							<RecipeCard {recipe} />
-						{/each}
-					{/key}
-				</div>
-			{:else}
-				<p>Keine eigenen Rezepte gefunden.</p>
-			{/if}
+			<p>Keine eigenen Rezepte gefunden.</p>
 		{/if}
 	</div>
 </FadeIn>
