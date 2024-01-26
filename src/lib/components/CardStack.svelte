@@ -71,7 +71,7 @@
 			container && cardInstances.push(createCardInstance(recipe, container));
 		});
 
-		$recipe = recipes[0];
+		if (recipes[0]) $recipe = recipes[0];
 
 		loading = false;
 	}
@@ -116,6 +116,7 @@
 
 	async function handleCardSwipe() {
 		refreshCardProps();
+		if (!recipes[0]) return;
 
 		if ($user) {
 			await Promise.all([
@@ -140,7 +141,7 @@
 	}
 
 	function refreshCardProps() {
-		cardInstances[0].$set({
+		cardInstances[0]?.$set({
 			transformValue,
 			swipeIndicator: swipeIndicator,
 			isTouching,
@@ -165,7 +166,7 @@
 			}
 
 			recipes = recipes; // update component
-			$recipe = recipes[0]; // set current recipe
+			if (recipes[0]) $recipe = recipes[0];
 		}, 300);
 	}
 
