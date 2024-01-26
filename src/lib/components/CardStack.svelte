@@ -176,6 +176,7 @@
 	async function onReset() {
 		if (!$user) return;
 		await resetUserRatings($user.id);
+		initCards();
 	}
 </script>
 
