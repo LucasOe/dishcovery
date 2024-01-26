@@ -174,13 +174,12 @@
 		</div>
 	{/if}
 
-	<div class="relative flex size-full items-center justify-center" bind:this={container}>
-		<button
-			class="after:w-dvh z-[99] size-full active:fixed active:left-0 active:top-0 active:h-dvh"
-			use:pannable
-			on:panstart={handlePanStart}
-			on:panmove={handlePanMove}
-			on:panend={handlePanEnd}
-		/>
-	</div>
+	<div
+		bind:this={container}
+		use:pannable
+		on:panstart={handlePanStart}
+		on:panmove={handlePanMove}
+		on:panend={handlePanEnd}
+		class="size-full cursor-pointer"
+	/>
 </div>

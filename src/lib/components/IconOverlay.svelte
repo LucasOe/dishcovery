@@ -9,7 +9,7 @@
 	import Open from "$lib/assets/icons/open.svg";
 </script>
 
-<div>
+<div class="pointer-events-none">
 	<img
 		class={twMerge(
 			"absolute left-xxl top-xxl z-10 size-xxl duration-300",
