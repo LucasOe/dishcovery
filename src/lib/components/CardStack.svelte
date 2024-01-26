@@ -36,6 +36,22 @@
 		cardInstances.forEach((instance) => instance.$destroy());
 	});
 
+	// React to state change from BottomNav
+	swipeDirection.subscribe(async (direction) => {
+		swipeIndicator = direction;
+
+		switch (swipeIndicator) {
+			case Direction.Left:
+			case Direction.Right:
+				await handleCardSwipe();
+				break;
+			case Direction.Up:
+				if (!$recipe) return;
+				goto(`/recipe/${$recipe.id}`);
+				break;
+		}
+	});
+
 	async function initCards() {
 		// TODO: Die ersten drei Rezepte sind immer die selben, egal ob der User diese schon bewertet hat.
 		recipes = await fetchRecipes([3, 2, 1]);
@@ -82,20 +98,8 @@
 
 	async function handlePanEnd() {
 		isTouching = false;
-
 		transformValue = getTransformValue(swipeIndicator);
 		$swipeDirection = swipeIndicator;
-
-		switch (swipeIndicator) {
-			case Direction.Left:
-			case Direction.Right:
-				await handleCardSwipe();
-				break;
-			case Direction.Up:
-				if (!$recipe) return;
-				goto(`/recipe/${$recipe.id}`);
-				break;
-		}
 
 		refreshCardProps();
 	}
