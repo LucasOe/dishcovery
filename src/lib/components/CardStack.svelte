@@ -2,9 +2,9 @@
 	import { onDestroy, onMount } from "svelte";
 	import { spring } from "svelte/motion";
 
-	import { currentUser, selectedRecipe, swipeDirection } from "$lib/functions/stores";
+	import { user, recipe, swipeDirection } from "$lib/functions/stores";
 	import { fetchNextRecipeNotSeen, fetchNextRecipe, fetchRecipes } from "$lib/functions/database/recipes";
-	import type { Recipe, User } from "$types/database.types";
+	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
@@ -13,8 +13,6 @@
 	import { pannable } from "$lib/functions/pannable";
 	import { goto } from "$app/navigation";
 
-	let user: User | null;
-	let recipe: Recipe;
 	let container: HTMLDivElement;
 	let cardInstances: Card[] = [];
 	let recipes: Recipe[] = [];
@@ -25,14 +23,6 @@
 	let loading = true;
 
 	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
-
-	currentUser.subscribe((value) => {
-		user = value;
-	});
-
-	selectedRecipe.subscribe((value) => {
-		recipe = value;
-	});
 
 	onMount(() => {
 		initCards();
@@ -55,7 +45,7 @@
 			container && cardInstances.push(createCardInstance(recipe, container));
 		});
 
-		selectedRecipe.set(recipes[0]);
+		$recipe = recipes[0];
 
 		loading = false;
 	};
@@ -94,7 +84,7 @@
 		isTouching = false;
 
 		transformValue = getTransformValue(swipeIndicator);
-		swipeDirection.set(swipeIndicator);
+		$swipeDirection = swipeIndicator;
 
 		switch (swipeIndicator) {
 			case Direction.Left:
@@ -102,7 +92,7 @@
 				await handleCardSwipe();
 				break;
 			case Direction.Up:
-				goto(`/recipe/${recipe.id}`);
+				goto(`/recipe/${$recipe.id}`);
 				break;
 		}
 
@@ -112,21 +102,21 @@
 	const handleCardSwipe = async () => {
 		refreshCardProps();
 
-		if (user) {
+		if ($user) {
 			await Promise.all([
-				upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right),
-				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, user.id),
+				upsertRating($user.id, recipes[0].id, null, swipeIndicator === Direction.Right),
+				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, $user.id),
 			])
-				.then(([_, recipe]) => {
-					refreshCardStackContent(recipe);
+				.then(([_, nextRecipe]) => {
+					refreshCardStackContent(nextRecipe);
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		} else {
 			await fetchNextRecipe(recipes[recipes.length - 1].id)
-				.then((recipe) => {
-					refreshCardStackContent(recipe);
+				.then((nextRecipe) => {
+					refreshCardStackContent(nextRecipe);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -142,11 +132,11 @@
 		});
 	};
 
-	const refreshCardStackContent = (recipe: Recipe | null) => {
+	const refreshCardStackContent = (nextRecipe: Recipe | null) => {
 		setTimeout(() => {
 			// reset state
 			swipeIndicator = Direction.None;
-			swipeDirection.set(swipeIndicator);
+			$swipeDirection = swipeIndicator;
 			transformValue = "translate(0px, 0px)";
 
 			//Remove current Card
@@ -154,13 +144,13 @@
 			cardInstances.shift()?.$destroy();
 
 			//Add new Card
-			if (recipe) {
-				recipes = [...recipes, recipe];
-				container && cardInstances.push(createCardInstance(recipe, container));
+			if (nextRecipe) {
+				recipes = [...recipes, nextRecipe];
+				container && cardInstances.push(createCardInstance(nextRecipe, container));
 			}
 
 			recipes = recipes; // update component
-			selectedRecipe.set(recipes[0]); // set current recipe
+			$recipe = recipes[0]; // set current recipe
 		}, 300);
 	};
 
@@ -169,8 +159,8 @@
 	};
 
 	async function onReset() {
-		if (!user) return;
-		await resetUserRatings(user.id);
+		if (!$user) return;
+		await resetUserRatings($user.id);
 	}
 </script>
 

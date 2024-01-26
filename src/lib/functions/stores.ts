@@ -1,11 +1,9 @@
 import { writable } from "svelte/store";
 
+import { fetchRecipe } from "$lib/functions/database/recipes";
 import { Direction } from "$types/card.types";
 import type { Recipe, User } from "$types/database.types";
-import { fetchRecipe } from "$lib/functions/database/recipes";
 
-const initRecipe = await fetchRecipe(1);
-
-export const selectedRecipe = writable<Recipe>(initRecipe);
+export const recipe = writable<Recipe>(await fetchRecipe(1));
 export const swipeDirection = writable(Direction.None);
-export const currentUser = writable<User | null>(null);
+export const user = writable<User | null>(null);

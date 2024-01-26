@@ -36,7 +36,7 @@
 		});
 	}
 
-	swipeDirection.set(Direction.None);
+	$swipeDirection = Direction.None;
 </script>
 
 <FadeIn>

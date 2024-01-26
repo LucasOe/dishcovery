@@ -2,7 +2,7 @@
 	import { goto } from "$app/navigation";
 	import type { AuthError } from "@supabase/supabase-js";
 
-	import { currentUser } from "$lib/functions/stores";
+	import { user } from "$lib/functions/stores";
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
@@ -71,7 +71,7 @@
 			avatar_url: "",
 		};
 
-		currentUser.set(guestUser);
+		$user = guestUser;
 		localStorage.setItem("guestUser", JSON.stringify(guestUser));
 		goto("/");
 	}

@@ -5,24 +5,18 @@
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import { goto } from "$app/navigation";
 	import { Direction } from "$types/card.types";
-	import { selectedRecipe, swipeDirection } from "$lib/functions/stores";
-	import type { Recipe } from "$types/database.types";
-
-	let selected: Recipe;
-	selectedRecipe.subscribe((recipe) => {
-		selected = recipe;
-	});
+	import { recipe, swipeDirection } from "$lib/functions/stores";
 
 	const openRecipe = () => {
-		goto(`recipe/${selected.id}`);
+		goto(`recipe/${$recipe.id}`);
 	};
 
 	const rejectRecipe = () => {
-		swipeDirection.set(Direction.Left);
+		$swipeDirection = Direction.Left;
 	};
 
 	const likeRecipe = () => {
-		swipeDirection.set(Direction.Right);
+		$swipeDirection = Direction.Right;
 	};
 </script>
 
