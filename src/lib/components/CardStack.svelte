@@ -21,8 +21,8 @@
 	let swipeIndicator: Direction = Direction.None;
 	let threshold = 150;
 	let isTouching = false;
-	let errorMessage = "";
 	let transformValue = "translate(0px, 0px)";
+	let loading = true;
 
 	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
 
@@ -56,6 +56,8 @@
 		});
 
 		selectedRecipe.set(recipes[0]);
+
+		loading = false;
 	};
 
 	const handlePanStart = () => {
@@ -111,14 +113,15 @@
 		refreshCardProps();
 
 		if (user) {
-			await upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right);
-			await fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, user.id)
-				.then((recipe) => {
+			await Promise.all([
+				upsertRating(user.id, recipes[0].id, null, swipeIndicator === Direction.Right),
+				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, user.id),
+			])
+				.then(([_, recipe]) => {
 					refreshCardStackContent(recipe);
 				})
 				.catch((err) => {
-					refreshCardStackContent();
-					errorMessage = !err ? "Es gibt keine weiteren Rezepte mehr." : err;
+					console.log(err);
 				});
 		} else {
 			await fetchNextRecipe(recipes[recipes.length - 1].id)
@@ -126,8 +129,7 @@
 					refreshCardStackContent(recipe);
 				})
 				.catch((err) => {
-					refreshCardStackContent();
-					errorMessage = !err ? "Es gibt keine weiteren Rezepte mehr." : err;
+					console.log(err);
 				});
 		}
 	};
@@ -140,7 +142,7 @@
 		});
 	};
 
-	const refreshCardStackContent = (recipe?: Recipe) => {
+	const refreshCardStackContent = (recipe: Recipe | null) => {
 		setTimeout(() => {
 			// reset state
 			swipeIndicator = Direction.None;
@@ -157,8 +159,8 @@
 				container && cardInstances.push(createCardInstance(recipe, container));
 			}
 
-			//Change current recipe
-			selectedRecipe.set(recipes[0]);
+			recipes = recipes; // update component
+			selectedRecipe.set(recipes[0]); // set current recipe
 		}, 300);
 	};
 
@@ -173,17 +175,15 @@
 </script>
 
 <div class="relative flex size-full items-center justify-center">
-	{#if recipes.length === 0}
+	{#if loading}
 		<div class="absolute flex size-40 items-center justify-center rounded-full">
 			<Spinner />
 		</div>
-	{/if}
-
-	{#if errorMessage}
+	{:else if recipes.length === 0}
 		<div
 			class="text-md absolute flex aspect-square size-48 flex-col items-center justify-center gap-2 rounded-full bg-gray-500 p-4 text-center font-semibold"
 		>
-			{errorMessage}
+			Es gibt keine weiteren Rezepte mehr.
 			<button on:click={onReset} aria-label="Reset" class="underline"> Gesehene Rezepte zurücksetzen </button>
 		</div>
 	{/if}

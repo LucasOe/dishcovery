@@ -20,7 +20,7 @@ export const fetchRecipe = async (id: number): Promise<Recipe> => {
 	else throw error;
 };
 
-export const fetchNextRecipe = async (currentId: number): Promise<Recipe> => {
+export const fetchNextRecipe = async (currentId: number): Promise<Recipe | null> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
@@ -32,7 +32,7 @@ export const fetchNextRecipe = async (currentId: number): Promise<Recipe> => {
 	else throw error;
 };
 
-export const fetchNextRecipeNotSeen = async (currentId: number, userID: string): Promise<Recipe> => {
+export const fetchNextRecipeNotSeen = async (currentId: number, userID: string): Promise<Recipe | null> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
@@ -42,9 +42,8 @@ export const fetchNextRecipeNotSeen = async (currentId: number, userID: string):
 		.order("id")
 		.limit(1)
 		.maybeSingle();
-	console.log(data);
-	if (data) return data;
-	else throw error;
+	if (error) throw error;
+	else return data;
 };
 
 export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
