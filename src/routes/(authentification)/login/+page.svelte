@@ -19,15 +19,8 @@
 	let error: AuthError | null = null;
 
 	let inputs = [email, password];
-	let isFormValid = true;
-
 	async function handleLogin() {
-		for (let input of inputs) {
-			if (!input.isValid) {
-				isFormValid = false;
-				return;
-			}
-		}
+		for (let input of inputs) if (!input.isValid) return;
 		try {
 			const { data, error: auth_error } = await supabase.auth.signInWithPassword({
 				email: email.content,

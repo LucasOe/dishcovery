@@ -1,15 +1,12 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import { validatePassword } from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 
-	let newPasswordInput: string;
 	let confirmPasswordInput: string;
 	let feedbackMessage: string = "";
-	let token: string | null;
 
 	let password = {
 		content: "",
@@ -18,20 +15,8 @@
 
 	let inputs = [password];
 
-	let isFormValid = true;
-
-	onMount(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		token = urlParams.get("token");
-	});
-
 	async function resetPassword() {
-		for (let input of inputs) {
-			if (!input.isValid) {
-				isFormValid = false;
-				return;
-			}
-		}
+		for (let input of inputs) if (!input.isValid) return;
 		try {
 			if (!password.content || !confirmPasswordInput) {
 				feedbackMessage = "Bitte gib ein neues Passwort und bestätige es.";
@@ -54,7 +39,7 @@
 				goto("/login");
 			}
 		} catch (error) {
-			console.error("Fehler beim Zurücksetzen des Passworts:", error.message);
+			console.error("Fehler beim Zurücksetzen des Passworts:", error);
 			feedbackMessage = "Unerwarteter Fehler beim Zurücksetzen des Passworts.";
 		}
 	}
