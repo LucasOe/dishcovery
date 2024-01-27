@@ -30,7 +30,7 @@
 	let preperation_time: FilterValue<number>;
 	let cost: FilterValue<number>;
 	let categories: { id: number; name: string }[];
-	let steps: { number: number; description: string }[] = [{ number: 0, description: "" }];
+	let steps: { number: number; description: string }[] = [{ number: 1, description: "" }];
 	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
 	let loading = false;
@@ -244,7 +244,7 @@
 				{#each steps as step, index}
 					<div>
 						<div class="flex justify-between p-1">
-							<p class="text-xl font-semibold text-yellow">{index + 1}. Schritt</p>
+							<p class="text-xl font-semibold text-yellow">{step.number}. Schritt</p>
 							{#if index != 0}
 								<button
 									type="button"
@@ -265,7 +265,7 @@
 						type="button"
 						aria-label="Schritt hinzufügen"
 						on:click={() => {
-							steps.push({ number: steps.length, description: "" });
+							steps.push({ number: steps.length + 1, description: "" });
 							steps = steps;
 						}}
 					>
