@@ -1,17 +1,7 @@
 import { supabase } from "$lib/functions/database/createClient";
-import type {
-	Category,
-	InsertImage,
-	InsertIngredient,
-	InsertRecipe,
-	InsertRecipeCategory,
-	InsertRecipeType,
-	InsertStep,
-	Recipe,
-	Type,
-} from "$types/database.types";
+import type { Recipe } from "$types/database.types";
 import type { Filter } from "$types/filter.types";
-import type { Tables } from "$types/generated.types";
+import type { Tables, TablesInsert } from "$types/generated.types";
 
 export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Recipe[]> => {
 	let query = supabase
@@ -98,20 +88,22 @@ export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> 
 	return recipes;
 };
 
-export const fetchTypes = async (): Promise<Type[]> => {
+export const fetchTypes = async (): Promise<Tables<"types">[]> => {
 	const { data, error } = await supabase.from("types").select(`*`);
 	if (error) throw error;
 	else return data;
 };
 
-export const fetchCategories = async (): Promise<Category[]> => {
+export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 	const { data, error } = await supabase.from("categories").select(`*`);
 	if (error) throw error;
 	else return data;
 };
 
-export const uploadRecipeImages = async (files: { recipe_id: number; image: Blob }[]): Promise<InsertImage[]> => {
-	const paths: InsertImage[] = [];
+export const uploadRecipeImages = async (
+	files: { recipe_id: number; image: Blob }[]
+): Promise<TablesInsert<"images">[]> => {
+	const paths: TablesInsert<"images">[] = [];
 	for (let index = 0; index < files.length; index++) {
 		const file = files[index];
 		const { data: path, error } = await supabase.storage
@@ -131,7 +123,7 @@ export const uploadRecipeImages = async (files: { recipe_id: number; image: Blob
 	return paths;
 };
 
-export const insertRecipe = async (recipe: InsertRecipe): Promise<Tables<"recipes">> => {
+export const insertRecipe = async (recipe: TablesInsert<"recipes">): Promise<Tables<"recipes">> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.insert({
@@ -148,27 +140,27 @@ export const insertRecipe = async (recipe: InsertRecipe): Promise<Tables<"recipe
 	else throw error;
 };
 
-export const insertRecipeCategories = async (categories: InsertRecipeCategory[]) => {
+export const insertRecipeCategories = async (categories: TablesInsert<"recipes_categories">[]) => {
 	const { error } = await supabase.from("recipes_categories").insert(categories);
 	if (error) throw error;
 };
 
-export const insertRecipeTypes = async (types: InsertRecipeType[]) => {
+export const insertRecipeTypes = async (types: TablesInsert<"recipes_types">[]) => {
 	const { error } = await supabase.from("recipes_types").insert(types);
 	if (error) throw error;
 };
 
-export const insertRecipeImages = async (images: InsertImage[]) => {
+export const insertRecipeImages = async (images: TablesInsert<"images">[]) => {
 	const { error } = await supabase.from("images").insert(images);
 	if (error) throw error;
 };
 
-export const insertRecipeSteps = async (steps: InsertStep[]) => {
+export const insertRecipeSteps = async (steps: TablesInsert<"steps">[]) => {
 	const { error } = await supabase.from("steps").insert(steps);
 	if (error) throw error;
 };
 
-export const insertRecipeIngredients = async (ingredients: InsertIngredient[]) => {
+export const insertRecipeIngredients = async (ingredients: TablesInsert<"ingredients">[]) => {
 	const { error } = await supabase.from("ingredients").insert(ingredients);
 	if (error) throw error;
 };
