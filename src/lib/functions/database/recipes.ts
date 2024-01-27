@@ -88,6 +88,21 @@ export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> 
 	return recipes;
 };
 
+export const removeRecipeFromCookBook = async (userID: string, recipeID: number): Promise<void> => {
+	const { error } = await supabase
+	  .from("ratings")
+	  .update({ inCookBook: false })
+	  .eq("user_id", userID)
+	  .eq("recipe", recipeID);
+  
+	if (error) {
+	  console.error("Error removing recipe from cookbook:", error.message);
+	  throw error;
+	}
+  };
+  
+  
+
 export const fetchTypes = async (): Promise<Tables<"types">[]> => {
 	const { data, error } = await supabase.from("types").select(`*`);
 	if (error) throw error;

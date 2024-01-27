@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Recipe } from "$types/database.types";
 	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
+	import { removeRecipeFromCookBook } from "$lib/functions/database/recipes";
 	import { fetchUserRecipes } from "$lib/functions/database/user";
 	import { user } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
@@ -21,6 +22,13 @@
 	async function fetchCookBookRecipes() {
 		if ($user) cookBookRecipes = await fetchRecipesInCookBook($user.id);
 	}
+
+	async function onDeleteFromCookBook(id: number) {
+    if ($user) {
+      await removeRecipeFromCookBook($user.id, id);
+      fetchCookBookRecipes(); // Das Kochbuch-Rezepte nach dem Löschen aktualisieren
+    }
+  }
 
 	async function fetchUserSpecificRecipes() {
 		if ($user) userRecipes = await fetchUserRecipes($user.id);
@@ -49,7 +57,7 @@
 					<h2 class="text-2xl font-bold">Rezepte im Kochbuch</h2>
 					{#key cookBookRecipes}
 						{#each cookBookRecipes as recipe}
-							<RecipeCard {recipe} action={() => console.log("TODO")} />
+						<RecipeCard {recipe} action={() => onDeleteFromCookBook(recipe.id)} />
 						{/each}
 					{/key}
 				</div>
