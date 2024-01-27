@@ -13,7 +13,7 @@
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
-	import type { DisplayValue, Ingredient, User } from "$types/database.types";
+	import type { Category, InsertIngredient, InsertRecipe, InsertStep, Type } from "$types/database.types";
 
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
@@ -25,22 +25,23 @@
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RemoveIcon from "$lib/assets/icons/cancel.svg";
 	import { range } from "$lib/functions/utils";
+	import type { FilterValue } from "$types/filter.types";
 
-	let name: string;
-	let description: string;
-	let types: DisplayValue[];
-	let categories: DisplayValue[];
-	let difficulty: DisplayValue;
-	let preperation_time: DisplayValue;
-	let cost: DisplayValue;
+	let name: InsertRecipe["name"];
+	let description: InsertRecipe["description"];
+	let difficulty: FilterValue<InsertRecipe["difficulty"]>;
+	let preperation_time: FilterValue<InsertRecipe["preperation_time"]>;
+	let cost: FilterValue<InsertRecipe["cost"]>;
+	let types: Type[];
+	let categories: Category[];
+	let steps: Omit<InsertStep, "recipe_id">[] = [{ number: 0, description: "" }];
+	let ingredients: Omit<InsertIngredient, "recipe_id">[] = [];
 	let images: Blob[] = [];
-	let steps: string[] = [""];
-	let ingredients: Ingredient[] = [];
 	let loading = false;
 
 	const uploadAndInsertImages = async (id: number, images: Blob[]) => {
 		const paths = await uploadRecipeImages(id, images);
-		await insertRecipeImages(id, paths);
+		await insertRecipeImages(paths.map((path) => ({ recipe_id: id, image: path })));
 	};
 
 	async function publishRecipe() {
@@ -61,10 +62,10 @@
 			// prettier-ignore
 			await Promise.all([
 				uploadAndInsertImages(id, images),
-				insertRecipeTypes(id, types.map((type) => type.id)),
-				insertRecipeCategories(id, categories.map((category) => category.id)),
-				insertRecipeIngredients(id, ingredients),
-				insertRecipeSteps(id, steps),
+				insertRecipeTypes(types.map((type) => ({recipe_id: id, type_id: type.id}))),
+				insertRecipeCategories(categories.map((category) => ({recipe_id: id, category_id: category.id}))),
+				insertRecipeIngredients(ingredients.map((ingredient) => ({recipe_id: id, ...ingredient}))),
+				insertRecipeSteps(steps.map((step) => ({recipe_id: id, ...step}))),
 			]);
 
 			goto(`/recipe/${id}`);
@@ -135,13 +136,13 @@
 
 		{#await fetchTypes() then _types}
 			<Section title="Art">
-				<TagList bind:selected={types} tags={_types} />
+				<TagList tags={_types} bind:selected={types} />
 			</Section>
 		{/await}
 
 		{#await fetchCategories() then _categories}
 			<Section title="Kategorie">
-				<TagList bind:selected={categories} tags={_categories} />
+				<TagList tags={_categories} bind:selected={categories} />
 			</Section>
 		{/await}
 
@@ -254,7 +255,7 @@
 						type="button"
 						aria-label="Schritt hinzufügen"
 						on:click={() => {
-							steps.push("");
+							steps.push({ number: steps.length, description: "" });
 							steps = steps;
 						}}
 					>

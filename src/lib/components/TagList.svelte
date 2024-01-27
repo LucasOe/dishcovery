@@ -1,11 +1,11 @@
-<script lang="ts">
+<script lang="ts" generics="T">
 	import Tag from "$lib/components/Tag.svelte";
-	import type { DisplayValue } from "$types/database.types";
+	import type { FilterValue } from "$types/filter.types";
 
-	export let tags: DisplayValue[];
-	export let selected: DisplayValue[] = [];
+	export let tags: FilterValue<T>[];
+	export let selected: FilterValue<T>[] = [];
 
-	function toggleSelect(tag: DisplayValue) {
+	function toggleSelect(tag: FilterValue<T>) {
 		const index = selected.indexOf(tag);
 		selected.includes(tag) ? selected.splice(index, 1) : selected.push(tag);
 		selected = selected; // needed for the component to update. See: https://stackoverflow.com/questions/69791435/svelte-list-wont-update-when-i-add-to-an-array

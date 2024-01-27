@@ -1,27 +1,53 @@
 import type { Database } from "./generated.types";
 
-export type Tables<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T]["Row"];
-export type Enums<T extends keyof Database["public"]["Enums"]> = Database["public"]["Enums"][T];
+type Base<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T];
 
-export type Recipe = Tables<"recipes"> & {
-	categories: Tables<"categories">[];
-	images: Tables<"images">[];
-	ingredients: Tables<"ingredients">[];
-	steps: Tables<"steps">[];
-	types: Tables<"types">[];
+export type RowTables<T extends keyof Database["public"]["Tables"]> = Base<T>["Row"];
+export type InsertTables<T extends keyof Database["public"]["Tables"]> = Base<T>["Insert"];
+export type UpdateTables<T extends keyof Database["public"]["Tables"]> = Base<T>["Update"];
+
+export type Image = RowTables<"images">;
+export type InsertImage = InsertTables<"images">;
+export type UpdateImage = UpdateTables<"images">;
+
+export type Ingredient = RowTables<"ingredients">;
+export type InsertIngredient = InsertTables<"ingredients">;
+export type UpdateIngredient = UpdateTables<"ingredients">;
+
+export type User = RowTables<"profiles">;
+export type InsertUser = InsertTables<"profiles">;
+export type UpdateUser = UpdateTables<"profiles">;
+
+export type Rating = RowTables<"ratings">;
+export type InsertRating = InsertTables<"ratings">;
+export type UpdateRating = UpdateTables<"ratings">;
+
+export type Recipe = RowTables<"recipes"> & {
+	categories: RowTables<"categories">[];
+	images: RowTables<"images">[];
+	ingredients: RowTables<"ingredients">[];
+	steps: RowTables<"steps">[];
+	types: RowTables<"types">[];
 };
+export type InsertRecipe = InsertTables<"recipes">;
+export type UpdateRecipe = UpdateTables<"recipes">;
 
-export type User = Tables<"profiles">;
+export type Category = RowTables<"categories">;
+export type InsertCategory = InsertTables<"categories">;
+export type UpdateCategory = UpdateTables<"categories">;
 
-export type Rating = Tables<"ratings">;
+export type Type = RowTables<"types">;
+export type InsertType = InsertTables<"types">;
+export type UpdateType = UpdateTables<"types">;
 
-// Used for numeric values that map to a string, like categories, types, cost or difficulty
-export type DisplayValue = {
-	id: number;
-	name: string;
-};
+export type RecipeCategory = RowTables<"recipes_categories">;
+export type InsertRecipeCategory = InsertTables<"recipes_categories">;
+export type UpdateRecipeCategory = UpdateTables<"recipes_categories">;
 
-export type Ingredient = {
-	name: string;
-	amount: string;
-};
+export type RecipeType = RowTables<"recipes_types">;
+export type InsertRecipeType = InsertTables<"recipes_types">;
+export type UpdateRecipeType = UpdateTables<"recipes_types">;
+
+export type Step = RowTables<"steps">;
+export type InsertStep = InsertTables<"steps">;
+export type UpdateStep = UpdateTables<"steps">;

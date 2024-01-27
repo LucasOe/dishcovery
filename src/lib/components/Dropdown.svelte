@@ -1,11 +1,12 @@
-<script lang="ts">
+<script lang="ts" generics="T">
+	import type { FilterValue } from "$types/filter.types";
+
 	import { twMerge } from "tailwind-merge";
 
 	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
-	import type { DisplayValue } from "$types/database.types";
 
-	export let entries: DisplayValue[];
-	export let selected: DisplayValue = entries[0];
+	export let entries: FilterValue<T>[];
+	export let selected: FilterValue<T> = entries[0];
 
 	let menuOpen = false;
 </script>
