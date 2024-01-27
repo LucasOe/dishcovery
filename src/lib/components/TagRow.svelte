@@ -5,7 +5,7 @@
 	export let recipe: Recipe;
 </script>
 
-<div class="flex gap-sm">
+<div class="flex gap-sm whitespace-nowrap">
 	{#each recipe.categories as category}
 		<Tag text={category.name} color="yellow" class="select-none" />
 	{/each}
