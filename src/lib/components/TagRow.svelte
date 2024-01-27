@@ -9,7 +9,4 @@
 	{#each recipe.categories as category}
 		<Tag text={category.name} color="yellow" class="select-none" />
 	{/each}
-	{#each recipe.types as type}
-		<Tag text={type.name} color="yellow" class="select-none" />
-	{/each}
 </div>

@@ -48,7 +48,7 @@
 					id: 3,
 					name: "€€€",
 				},
-			]
+			],
 		},
 		preperation_time: {
 			displayName: "Dauer",
@@ -58,19 +58,19 @@
 					name: "Alle",
 				},
 				{
-					id: [5,10,15],
+					id: [5, 10, 15],
 					name: "5-15 Min.",
 				},
 				{
-					id: [20,25,30,35,40],
+					id: [20, 25, 30, 35, 40],
 					name: "20-40 Min.",
 				},
 				{
-					id: [45,50,55,60],
+					id: [45, 50, 55, 60],
 					name: "45+ Min.",
 				},
-			]
-		}
+			],
+		},
 	};
 
 	const selectedFilters: Filter = {
@@ -99,7 +99,9 @@
 							<button
 								class={twMerge(
 									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center focus:outline-none",
-									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id) ? "bg-yellow text-white" : "bg-gray-900"
+									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id)
+										? "bg-yellow text-white"
+										: "bg-gray-900"
 								)}
 								on:click={() => onClick(filter, option)}
 							/>

@@ -4,10 +4,7 @@ import type { Filter } from "$types/filter.types";
 import type { Tables, TablesInsert } from "$types/generated.types";
 
 export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Recipe[]> => {
-	let query = supabase
-		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
-		.in("id", [ids]);
+	let query = supabase.from("recipes").select(`*, categories(*), images(*), ingredients(*), steps(*)`).in("id", [ids]);
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
@@ -21,7 +18,7 @@ export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Rec
 export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Promise<Recipe[]> => {
 	let query = supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), ratings(recipe)`)
 		.eq("ratings.user_id", userID)
 		.is("ratings", null); // recipe hasn't been rated by user
 
@@ -37,7 +34,7 @@ export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Pro
 export const fetchRecipe = async (id: number): Promise<Recipe | null> => {
 	const { data, error } = await supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
+		.select(`*, categories(*), images(*), ingredients(*), steps(*)`)
 		.eq("id", id)
 		.maybeSingle();
 	if (error) throw error;
@@ -47,7 +44,7 @@ export const fetchRecipe = async (id: number): Promise<Recipe | null> => {
 export const fetchNextRecipe = async (currentId: number, filters?: Filter): Promise<Recipe | null> => {
 	let query = supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
+		.select(`*, categories(*), images(*), ingredients(*), steps(*)`)
 		.gt("id", currentId);
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
@@ -66,7 +63,7 @@ export const fetchNextRecipeNotSeen = async (
 ): Promise<Recipe | null> => {
 	let query = supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*), ratings(recipe)`)
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), ratings(recipe)`)
 		.eq("ratings.user_id", userID)
 		.is("ratings", null) // recipe hasn't been rated by user
 		.gt("id", currentId);
@@ -83,7 +80,7 @@ export const fetchNextRecipeNotSeen = async (
 export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> => {
 	const { data, error } = await supabase
 		.from("ratings")
-		.select(`recipes ( *, categories(*), images(*), ingredients(*), steps(*), types(*) )`)
+		.select(`recipes ( *, categories(*), images(*), ingredients(*), steps(*) )`)
 		.eq("user_id", userID)
 		.eq("inCookBook", true);
 	if (error) throw error;
@@ -107,12 +104,6 @@ export const removeRecipeFromCookBook = async (userID: string, recipeID: number)
 		console.error("Error removing recipe from cookbook:", error.message);
 		throw error;
 	}
-};
-
-export const fetchTypes = async (): Promise<Tables<"types">[]> => {
-	const { data, error } = await supabase.from("types").select(`*`);
-	if (error) throw error;
-	else return data;
 };
 
 export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
@@ -163,11 +154,6 @@ export const insertRecipe = async (recipe: TablesInsert<"recipes">): Promise<Tab
 
 export const insertRecipeCategories = async (categories: TablesInsert<"recipes_categories">[]) => {
 	const { error } = await supabase.from("recipes_categories").insert(categories);
-	if (error) throw error;
-};
-
-export const insertRecipeTypes = async (types: TablesInsert<"recipes_types">[]) => {
-	const { error } = await supabase.from("recipes_types").insert(types);
 	if (error) throw error;
 };
 
