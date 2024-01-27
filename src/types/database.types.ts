@@ -5,5 +5,4 @@ export type Recipe = Tables<"recipes"> & {
 	images: Tables<"images">[];
 	ingredients: Tables<"ingredients">[];
 	steps: Tables<"steps">[];
-	types: Tables<"types">[];
 };

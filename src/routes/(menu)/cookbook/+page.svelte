@@ -24,11 +24,11 @@
 	}
 
 	async function onDeleteFromCookBook(id: number) {
-    if ($user) {
-      await removeRecipeFromCookBook($user.id, id);
-      fetchCookBookRecipes(); // Das Kochbuch-Rezepte nach dem Löschen aktualisieren
-    }
-  }
+		if ($user) {
+			await removeRecipeFromCookBook($user.id, id);
+			fetchCookBookRecipes(); // Das Kochbuch-Rezepte nach dem Löschen aktualisieren
+		}
+	}
 
 	async function fetchUserSpecificRecipes() {
 		if ($user) userRecipes = await fetchUserRecipes($user.id);
@@ -57,7 +57,7 @@
 					<h2 class="text-2xl font-bold">Rezepte im Kochbuch</h2>
 					{#key cookBookRecipes}
 						{#each cookBookRecipes as recipe}
-						<RecipeCard {recipe} action={() => onDeleteFromCookBook(recipe.id)} />
+							<RecipeCard {recipe} action={() => onDeleteFromCookBook(recipe.id)} />
 						{/each}
 					{/key}
 				</div>

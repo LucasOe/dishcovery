@@ -3,13 +3,11 @@
 
 	import {
 		fetchCategories,
-		fetchTypes,
 		insertRecipe,
 		insertRecipeCategories,
 		insertRecipeImages,
 		insertRecipeIngredients,
 		insertRecipeSteps,
-		insertRecipeTypes,
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
@@ -31,7 +29,6 @@
 	let difficulty: FilterValue<number>;
 	let preperation_time: FilterValue<number>;
 	let cost: FilterValue<number>;
-	let types: { id: number; name: string }[];
 	let categories: { id: number; name: string }[];
 	let steps: { number: number; description: string }[] = [{ number: 0, description: "" }];
 	let ingredients: { name: string; amount: string }[] = [];
@@ -63,12 +60,6 @@
 					images.map((image) => ({
 						recipe_id: recipe.id,
 						image: image,
-					}))
-				),
-				insertRecipeTypes(
-					types.map((type) => ({
-						recipe_id: recipe.id,
-						type_id: type.id,
 					}))
 				),
 				insertRecipeCategories(
@@ -158,12 +149,6 @@
 				{/if}
 			</div>
 		</Section>
-
-		{#await fetchTypes() then _types}
-			<Section title="Art">
-				<TagList tags={_types} bind:selected={types} />
-			</Section>
-		{/await}
 
 		{#await fetchCategories() then _categories}
 			<Section title="Kategorie">
