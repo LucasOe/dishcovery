@@ -11,6 +11,7 @@ import type {
 	Type,
 } from "$types/database.types";
 import type { Filter } from "$types/filter.types";
+import type { Tables } from "$types/generated.types";
 
 export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Recipe[]> => {
 	let query = supabase
@@ -109,24 +110,28 @@ export const fetchCategories = async (): Promise<Category[]> => {
 	else return data;
 };
 
-export const uploadRecipeImages = async (id: number, files: Blob[]): Promise<string[]> => {
-	const paths: string[] = [];
+export const uploadRecipeImages = async (files: { recipe_id: number; image: Blob }[]): Promise<InsertImage[]> => {
+	const paths: InsertImage[] = [];
 	for (let index = 0; index < files.length; index++) {
+		const file = files[index];
 		const { data: path, error } = await supabase.storage
 			.from("images")
-			.upload(`recipe${id}-${index}.jpg`, files[index], {
+			.upload(`recipe${file.recipe_id}-${index}.jpg`, file.image, {
 				cacheControl: "3600",
 				upsert: false,
 			});
 		if (error) throw error;
 
 		const { data: publicUrl } = await supabase.storage.from("images").getPublicUrl(path.path);
-		paths.push(publicUrl.publicUrl);
+		paths.push({
+			recipe_id: file.recipe_id,
+			image: publicUrl.publicUrl,
+		});
 	}
 	return paths;
 };
 
-export const insertRecipe = async (recipe: InsertRecipe): Promise<number> => {
+export const insertRecipe = async (recipe: InsertRecipe): Promise<Tables<"recipes">> => {
 	const { data, error } = await supabase
 		.from("recipes")
 		.insert({
@@ -139,7 +144,7 @@ export const insertRecipe = async (recipe: InsertRecipe): Promise<number> => {
 		})
 		.select()
 		.single();
-	if (data) return data.id;
+	if (data) return data;
 	else throw error;
 };
 

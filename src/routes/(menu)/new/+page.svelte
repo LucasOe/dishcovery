@@ -39,9 +39,9 @@
 	let images: Blob[] = [];
 	let loading = false;
 
-	const uploadAndInsertImages = async (id: number, images: Blob[]) => {
-		const paths = await uploadRecipeImages(id, images);
-		await insertRecipeImages(paths.map((path) => ({ recipe_id: id, image: path })));
+	const uploadAndInsertImages = async (files: { recipe_id: number; image: Blob }[]) => {
+		const paths = await uploadRecipeImages(files);
+		await insertRecipeImages(paths);
 	};
 
 	async function publishRecipe() {
@@ -50,7 +50,7 @@
 		loading = true;
 
 		try {
-			let id = await insertRecipe({
+			let recipe = await insertRecipe({
 				name: name,
 				description: description,
 				difficulty: difficulty.id,
@@ -59,16 +59,42 @@
 				user_id: $user.id,
 			});
 
-			// prettier-ignore
 			await Promise.all([
-				uploadAndInsertImages(id, images),
-				insertRecipeTypes(types.map((type) => ({recipe_id: id, type_id: type.id}))),
-				insertRecipeCategories(categories.map((category) => ({recipe_id: id, category_id: category.id}))),
-				insertRecipeIngredients(ingredients.map((ingredient) => ({recipe_id: id, ...ingredient}))),
-				insertRecipeSteps(steps.map((step) => ({recipe_id: id, ...step}))),
+				uploadAndInsertImages(
+					images.map((image) => ({
+						recipe_id: recipe.id,
+						image: image,
+					}))
+				),
+				insertRecipeTypes(
+					types.map((type) => ({
+						recipe_id: recipe.id,
+						type_id: type.id,
+					}))
+				),
+				insertRecipeCategories(
+					categories.map((category) => ({
+						recipe_id: recipe.id,
+						category_id: category.id,
+					}))
+				),
+				insertRecipeIngredients(
+					ingredients.map((ingredient) => ({
+						recipe_id: recipe.id,
+						name: ingredient.name,
+						amount: ingredient.amount,
+					}))
+				),
+				insertRecipeSteps(
+					steps.map((step) => ({
+						recipe_id: recipe.id,
+						number: step.number,
+						description: step.description,
+					}))
+				),
 			]);
 
-			goto(`/recipe/${id}`);
+			goto(`/recipe/${recipe.id}`);
 		} catch (error) {
 			console.error("Fehler beim Veröffentlichen des Rezepts:", error);
 		} finally {
