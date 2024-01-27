@@ -1,53 +1,47 @@
-import type { Database } from "./generated.types";
+import type { Tables, TablesInsert, TablesUpdate } from "./generated.types";
 
-type Base<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T];
+export type Image = Tables<"images">;
+export type InsertImage = TablesInsert<"images">;
+export type UpdateImage = TablesUpdate<"images">;
 
-export type RowTables<T extends keyof Database["public"]["Tables"]> = Base<T>["Row"];
-export type InsertTables<T extends keyof Database["public"]["Tables"]> = Base<T>["Insert"];
-export type UpdateTables<T extends keyof Database["public"]["Tables"]> = Base<T>["Update"];
+export type Ingredient = Tables<"ingredients">;
+export type InsertIngredient = TablesInsert<"ingredients">;
+export type UpdateIngredient = TablesUpdate<"ingredients">;
 
-export type Image = RowTables<"images">;
-export type InsertImage = InsertTables<"images">;
-export type UpdateImage = UpdateTables<"images">;
+export type User = Tables<"profiles">;
+export type InsertUser = TablesInsert<"profiles">;
+export type UpdateUser = TablesUpdate<"profiles">;
 
-export type Ingredient = RowTables<"ingredients">;
-export type InsertIngredient = InsertTables<"ingredients">;
-export type UpdateIngredient = UpdateTables<"ingredients">;
+export type Rating = Tables<"ratings">;
+export type InsertRating = TablesInsert<"ratings">;
+export type UpdateRating = TablesUpdate<"ratings">;
 
-export type User = RowTables<"profiles">;
-export type InsertUser = InsertTables<"profiles">;
-export type UpdateUser = UpdateTables<"profiles">;
-
-export type Rating = RowTables<"ratings">;
-export type InsertRating = InsertTables<"ratings">;
-export type UpdateRating = UpdateTables<"ratings">;
-
-export type Recipe = RowTables<"recipes"> & {
-	categories: RowTables<"categories">[];
-	images: RowTables<"images">[];
-	ingredients: RowTables<"ingredients">[];
-	steps: RowTables<"steps">[];
-	types: RowTables<"types">[];
+export type Recipe = Tables<"recipes"> & {
+	categories: Tables<"categories">[];
+	images: Tables<"images">[];
+	ingredients: Tables<"ingredients">[];
+	steps: Tables<"steps">[];
+	types: Tables<"types">[];
 };
-export type InsertRecipe = InsertTables<"recipes">;
-export type UpdateRecipe = UpdateTables<"recipes">;
+export type InsertRecipe = TablesInsert<"recipes">;
+export type UpdateRecipe = TablesUpdate<"recipes">;
 
-export type Category = RowTables<"categories">;
-export type InsertCategory = InsertTables<"categories">;
-export type UpdateCategory = UpdateTables<"categories">;
+export type Category = Tables<"categories">;
+export type InsertCategory = TablesInsert<"categories">;
+export type UpdateCategory = TablesUpdate<"categories">;
 
-export type Type = RowTables<"types">;
-export type InsertType = InsertTables<"types">;
-export type UpdateType = UpdateTables<"types">;
+export type Type = Tables<"types">;
+export type InsertType = TablesInsert<"types">;
+export type UpdateType = TablesUpdate<"types">;
 
-export type RecipeCategory = RowTables<"recipes_categories">;
-export type InsertRecipeCategory = InsertTables<"recipes_categories">;
-export type UpdateRecipeCategory = UpdateTables<"recipes_categories">;
+export type RecipeCategory = Tables<"recipes_categories">;
+export type InsertRecipeCategory = TablesInsert<"recipes_categories">;
+export type UpdateRecipeCategory = TablesUpdate<"recipes_categories">;
 
-export type RecipeType = RowTables<"recipes_types">;
-export type InsertRecipeType = InsertTables<"recipes_types">;
-export type UpdateRecipeType = UpdateTables<"recipes_types">;
+export type RecipeType = Tables<"recipes_types">;
+export type InsertRecipeType = TablesInsert<"recipes_types">;
+export type UpdateRecipeType = TablesUpdate<"recipes_types">;
 
-export type Step = RowTables<"steps">;
-export type InsertStep = InsertTables<"steps">;
-export type UpdateStep = UpdateTables<"steps">;
+export type Step = Tables<"steps">;
+export type InsertStep = TablesInsert<"steps">;
+export type UpdateStep = TablesUpdate<"steps">;
