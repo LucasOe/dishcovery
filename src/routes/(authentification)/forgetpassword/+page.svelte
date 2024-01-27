@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { AuthError } from "@supabase/supabase-js";
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import { validateEmail } from "$lib/functions/validation";
@@ -10,15 +9,13 @@
 		isValid: true,
 	};
 
-	let error: AuthError | null = null;
+	let error: string | null = null;
 	let successMessage = "";
-
-	let inputs = [email];
 
 	async function handleForgotPassword() {
 		try {
 			if (!email) {
-				error = { message: "Bitte geben Sie Ihre E-Mail-Adresse ein." };
+				error = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
 				return;
 			}
 
@@ -28,12 +25,12 @@
 			});
 
 			if (resetError) {
-				error = resetError;
+				error = resetError.message;
 			} else {
 				successMessage = "Passwort-Wiederherstellungs-E-Mail wurde gesendet. Bitte überprüfe dein E-Mail-Postfach.";
 			}
 		} catch (error) {
-			console.error("Fehler beim Senden der Passwort-Wiederherstellungs-E-Mail:", error.message);
+			console.error("Fehler beim Senden der Passwort-Wiederherstellungs-E-Mail:", error);
 			throw error;
 		}
 	}
@@ -70,6 +67,6 @@
 	{/if}
 
 	{#if error}
-		<p class="text-red-500">{error.message}</p>
+		<p class="text-red-500">{error}</p>
 	{/if}
 </div>
