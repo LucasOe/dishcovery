@@ -13,7 +13,6 @@
 		uploadRecipeImages,
 	} from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
-	import type { Category, InsertIngredient, InsertRecipe, InsertStep, Type } from "$types/database.types";
 
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
@@ -27,15 +26,15 @@
 	import { range } from "$lib/functions/utils";
 	import type { FilterValue } from "$types/filter.types";
 
-	let name: InsertRecipe["name"];
-	let description: InsertRecipe["description"];
-	let difficulty: FilterValue<InsertRecipe["difficulty"]>;
-	let preperation_time: FilterValue<InsertRecipe["preperation_time"]>;
-	let cost: FilterValue<InsertRecipe["cost"]>;
-	let types: Type[];
-	let categories: Category[];
-	let steps: Omit<InsertStep, "recipe_id">[] = [{ number: 0, description: "" }];
-	let ingredients: Omit<InsertIngredient, "recipe_id">[] = [];
+	let name: string;
+	let description: string;
+	let difficulty: FilterValue<number>;
+	let preperation_time: FilterValue<number>;
+	let cost: FilterValue<number>;
+	let types: { id: number; name: string }[];
+	let categories: { id: number; name: string }[];
+	let steps: { number: number; description: string }[] = [{ number: 0, description: "" }];
+	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
 	let loading = false;
 
