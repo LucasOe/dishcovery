@@ -69,7 +69,9 @@
 				<h2 class="mb-2 text-2xl font-bold">Deine Rezepte</h2>
 				{#key userRecipes}
 					{#each userRecipes as recipe}
-						<RecipeCard {recipe} action={() => console.log("TODO")} />
+						<div class="pb-md">
+							<RecipeCard {recipe} action={() => console.log("TODO")} />
+						</div>
 					{/each}
 				{/key}
 			</div>

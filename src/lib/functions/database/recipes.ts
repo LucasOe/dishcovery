@@ -10,6 +10,8 @@ export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Rec
 		.in("id", [ids]);
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
 
 	const { data, error } = await query;
 	if (error) throw error;
@@ -24,6 +26,8 @@ export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Pro
 		.is("ratings", null); // recipe hasn't been rated by user
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
 
 	const { data, error } = await query.order("id").limit(3);
 	if (error) throw error;
@@ -47,6 +51,8 @@ export const fetchNextRecipe = async (currentId: number, filters?: Filter): Prom
 		.gt("id", currentId);
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
 
 	const { data, error } = await query.order("id").limit(1).maybeSingle();
 	if (error) throw error;
@@ -56,7 +62,7 @@ export const fetchNextRecipe = async (currentId: number, filters?: Filter): Prom
 export const fetchNextRecipeNotSeen = async (
 	currentId: number,
 	userID: string,
-	filter?: Filter
+	filters?: Filter
 ): Promise<Recipe | null> => {
 	let query = supabase
 		.from("recipes")
@@ -65,7 +71,9 @@ export const fetchNextRecipeNotSeen = async (
 		.is("ratings", null) // recipe hasn't been rated by user
 		.gt("id", currentId);
 
-	if (filter?.difficulty) query = query.eq("difficulty", filter.difficulty);
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
 
 	const { data, error } = await query.order("id").limit(1).maybeSingle();
 	if (error) throw error;
@@ -90,18 +98,16 @@ export const fetchRecipesInCookBook = async (userID: string): Promise<Recipe[]> 
 
 export const removeRecipeFromCookBook = async (userID: string, recipeID: number): Promise<void> => {
 	const { error } = await supabase
-	  .from("ratings")
-	  .update({ inCookBook: false })
-	  .eq("user_id", userID)
-	  .eq("recipe", recipeID);
-  
+		.from("ratings")
+		.update({ inCookBook: false })
+		.eq("user_id", userID)
+		.eq("recipe", recipeID);
+
 	if (error) {
-	  console.error("Error removing recipe from cookbook:", error.message);
-	  throw error;
+		console.error("Error removing recipe from cookbook:", error.message);
+		throw error;
 	}
-  };
-  
-  
+};
 
 export const fetchTypes = async (): Promise<Tables<"types">[]> => {
 	const { data, error } = await supabase.from("types").select(`*`);

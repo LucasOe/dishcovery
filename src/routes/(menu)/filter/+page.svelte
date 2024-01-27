@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Section from "$lib/components/Section.svelte";
-	import type { Filter, FilterOptions } from "$types/filter.types";
+	import type { Filter, FilterOptions, FilterValue } from "$types/filter.types";
 	import { twMerge } from "tailwind-merge";
 	import { getEntries } from "$lib/functions/utils";
 	import { filters } from "$lib/functions/stores";
@@ -29,11 +29,59 @@
 				},
 			],
 		},
+		cost: {
+			displayName: "Preis",
+			options: [
+				{
+					id: null,
+					name: "Alle",
+				},
+				{
+					id: 1,
+					name: "€",
+				},
+				{
+					id: 2,
+					name: "€€",
+				},
+				{
+					id: 3,
+					name: "€€€",
+				},
+			]
+		},
+		preperation_time: {
+			displayName: "Dauer",
+			options: [
+				{
+					id: null,
+					name: "Alle",
+				},
+				{
+					id: [5,10,15],
+					name: "5-15 Min.",
+				},
+				{
+					id: [20,25,30,35,40],
+					name: "20-40 Min.",
+				},
+				{
+					id: [45,50,55,60],
+					name: "45+ Min.",
+				},
+			]
+		}
 	};
 
 	const selectedFilters: Filter = {
 		difficulty: $filters?.difficulty || null,
+		cost: $filters?.cost || null,
+		preperation_time: $filters?.preperation_time || null,
 	};
+
+	function onClick<FilterKey extends keyof Filter>(filter: FilterKey, option: FilterValue<Filter[FilterKey]>) {
+		selectedFilters[filter] = option.id;
+	}
 
 	function applyFilters() {
 		$filters = selectedFilters;
@@ -51,9 +99,9 @@
 							<button
 								class={twMerge(
 									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center focus:outline-none",
-									selectedFilters[filter] === option.id ? "bg-yellow text-white" : "bg-gray-900"
+									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id) ? "bg-yellow text-white" : "bg-gray-900"
 								)}
-								on:click={() => (selectedFilters[filter] = option.id)}
+								on:click={() => onClick(filter, option)}
 							/>
 							<p class="mt-2 text-sm">{option.name}</p>
 						</div>
