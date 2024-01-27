@@ -2,14 +2,12 @@
 	import { onNavigate } from "$app/navigation";
 
 	onNavigate((navigation) => {
-		//@ts-expect-error ViewTransition ist noch zu neu
 		if (!document.startViewTransition) {
 			console.log("View Transition API not supported");
 			return;
 		}
 
 		return new Promise((resolve, reject) => {
-			//@ts-ignore
 			document.startViewTransition(async () => {
 				try {
 					resolve();
