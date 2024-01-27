@@ -247,7 +247,7 @@
 								>
 							{/if}
 						</div>
-						<textarea bind:value={step} placeholder="Hier eingeben..." class="input h-32" required />
+						<textarea bind:value={step.description} placeholder="Hier eingeben..." class="input h-32" required />
 					</div>
 				{/each}
 				<div class="flex items-center gap-2">
