@@ -1,10 +1,11 @@
-<script lang="ts" generics="T">
+<script lang="ts">
 	import type { FilterValue } from "$types/filter.types";
 
 	import { twMerge } from "tailwind-merge";
 
 	import DropDownIcon from "$lib/assets/icons/dropdown.svg";
 
+	type T = $$Generic;
 	export let entries: FilterValue<T>[];
 	export let selected: FilterValue<T> = entries[0];
 

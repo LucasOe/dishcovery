@@ -1,7 +1,8 @@
-<script lang="ts" generics="T">
+<script lang="ts">
 	import Tag from "$lib/components/Tag.svelte";
 	import type { FilterValue } from "$types/filter.types";
 
+	type T = $$Generic;
 	export let tags: FilterValue<T>[];
 	export let selected: FilterValue<T>[] = [];
 
