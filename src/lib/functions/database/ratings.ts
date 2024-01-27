@@ -1,4 +1,5 @@
 import { supabase } from "$lib/functions/database/createClient";
+import type { TablesInsert } from "$types/generated.types";
 
 export const fetchAverageRating = async (id: number): Promise<number> => {
 	const { data, error } = await supabase.from("ratings").select("rating").eq("recipe", id);
@@ -21,18 +22,8 @@ export const fetchAverageRating = async (id: number): Promise<number> => {
 	return rating;
 };
 
-export const upsertRating = async (
-	userID: string,
-	recipeID: number,
-	rating: number | null,
-	inCookBook: boolean | null
-) => {
-	const { error } = await supabase.from("ratings").upsert({
-		inCookBook: inCookBook,
-		rating: rating,
-		recipe: recipeID,
-		user_id: userID,
-	});
+export const upsertRating = async (rating: TablesInsert<"ratings">) => {
+	const { error } = await supabase.from("ratings").upsert(rating);
 	if (error) throw error;
 };
 

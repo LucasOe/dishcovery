@@ -120,7 +120,11 @@
 
 		if ($user) {
 			await Promise.all([
-				upsertRating($user.id, recipes[0].id, null, swipeIndicator === Direction.Right),
+				upsertRating({
+					user_id: $user.id,
+					recipe: recipes[0].id,
+					inCookBook: swipeIndicator === Direction.Right,
+				}),
 				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, $user.id, $filters),
 			])
 				.then(([_, nextRecipe]) => {

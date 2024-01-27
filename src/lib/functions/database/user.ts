@@ -1,19 +1,20 @@
 import { supabase } from "$lib/functions/database/createClient";
-import type { Recipe, User } from "$types/database.types";
+import type { Recipe } from "$types/database.types";
+import type { Tables } from "$types/generated.types";
 
-export const fetchCurrentUser = async (): Promise<User | null> => {
+export const fetchCurrentUser = async (): Promise<Tables<"profiles"> | null> => {
 	const { data } = await supabase.auth.getUser();
 	if (!data.user) return null;
 	else return fetchUserDataById(data.user.id);
 };
 
-export const fetchUserDataById = async (userId: string): Promise<User | null> => {
+export const fetchUserDataById = async (userId: string): Promise<Tables<"profiles"> | null> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
 
-export const fetchUserDataByUsername = async (username: string): Promise<User | null> => {
+export const fetchUserDataByUsername = async (username: string): Promise<Tables<"profiles"> | null> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).ilike("username", username).maybeSingle();
 	if (error) throw error;
 	else return data;
