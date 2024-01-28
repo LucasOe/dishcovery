@@ -14,12 +14,14 @@
 				});
 		});
 
-		supabase.auth.onAuthStateChange((_, session) => {
+		const { data } = supabase.auth.onAuthStateChange((_, session) => {
 			if (session)
 				fetchUserDataById(session.user.id).then((profile) => {
 					$user = profile;
 				});
 		});
+
+		return () => data.subscription.unsubscribe();
 	});
 </script>
 
