@@ -17,7 +17,6 @@
 	import { upsertRating, resetUserRatings } from "$lib/functions/database/ratings";
 	import { pannable } from "$lib/functions/pannable";
 	import { goto } from "$app/navigation";
-	import { fetchCurrentUser } from "$lib/functions/database/user";
 
 	let container: HTMLDivElement;
 	let cardInstances: Card[] = [];
@@ -30,11 +29,7 @@
 
 	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
 
-	onMount(async () => {
-		// we have to call `fetchCurrentUser` manually, to access `$user`
-		$user = await fetchCurrentUser();
-
-		initCards();
+	onMount(() => {
 		scaleThreshhold();
 		window.addEventListener("resize", function () {
 			scaleThreshhold();
@@ -43,6 +38,10 @@
 
 	onDestroy(() => {
 		cardInstances.forEach((instance) => instance.$destroy());
+	});
+
+	user.subscribe(() => {
+		initCards();
 	});
 
 	// React to state change from BottomNav
@@ -63,6 +62,10 @@
 	});
 
 	async function initCards() {
+		// Delete old cards
+		cardInstances.forEach((instance) => instance.$destroy());
+		cardInstances = [];
+
 		if ($user) recipes = await fetchRecipesNotSeen($user.id, $filters);
 		else recipes = await fetchRecipes([3, 2, 1], $filters);
 

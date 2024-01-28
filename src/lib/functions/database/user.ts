@@ -2,12 +2,6 @@ import { supabase } from "$lib/functions/database/createClient";
 import type { Recipe } from "$types/database.types";
 import type { Tables } from "$types/generated.types";
 
-export const fetchCurrentUser = async (): Promise<Tables<"profiles"> | null> => {
-	const { data } = await supabase.auth.getUser();
-	if (!data.user) return null;
-	else return fetchUserDataById(data.user.id);
-};
-
 export const fetchUserDataById = async (userId: string): Promise<Tables<"profiles"> | null> => {
 	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
 	if (error) throw error;
@@ -45,7 +39,7 @@ export const insertAvatarImage = async (userID: string, image: string) => {
 export const fetchUserRecipes = async (userID: string): Promise<Recipe[]> => {
 	const { data, error } = await supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), types(*)`)
+		.select(`*, categories(*), images(*), ingredients(*), steps(*)`)
 		.eq("user_id", userID);
 	if (error) throw error;
 	else return data;

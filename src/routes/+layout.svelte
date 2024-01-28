@@ -3,18 +3,23 @@
 	import { onMount } from "svelte";
 	import { user } from "$lib/functions/stores";
 	import { supabase } from "$lib/functions/database/createClient";
-	import { fetchCurrentUser } from "$lib/functions/database/user";
+	import { fetchUserDataById } from "$lib/functions/database/user";
 	import ViewTransition from "$lib/components/Navigation.svelte";
 
-	onMount(async () => {
-		$user = await fetchCurrentUser();
-	});
+	onMount(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			if (session)
+				fetchUserDataById(session.user.id).then((profile) => {
+					$user = profile;
+				});
+		});
 
-	// Listen to Log in
-	supabase.auth.onAuthStateChange(async (event) => {
-		if (event === "SIGNED_IN") {
-			$user = await fetchCurrentUser();
-		}
+		supabase.auth.onAuthStateChange((_, session) => {
+			if (session)
+				fetchUserDataById(session.user.id).then((profile) => {
+					$user = profile;
+				});
+		});
 	});
 </script>
 
