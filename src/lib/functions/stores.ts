@@ -7,5 +7,5 @@ import type { Tables } from "$types/generated.types";
 
 export const recipe = writable<Recipe | null>(null);
 export const swipeDirection = writable(Direction.None);
-export const user = writable<Tables<"profiles"> | null>(null);
+export const user = writable<Tables<"profiles"> | null | undefined>();
 export const filters = writable<Filter>();
