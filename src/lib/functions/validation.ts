@@ -12,3 +12,19 @@ export const validatePassword = (password: string): boolean => {
 	const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 	return passwordRegex.test(password);
 };
+
+export const validateRecipeName = (recipeName: string): boolean => {
+	const recipeNameRegex = /.{10,}/;
+	return recipeNameRegex.test(recipeName);
+};
+
+export const validateRecipeDescription = (recipeDescription: string): boolean => {
+	const recipeDescriptionRegex = /.{30,}/;
+	return recipeDescriptionRegex.test(recipeDescription);
+};
+
+export const validateRecipeSteps = (recipeSteps: string): boolean => {
+	const recipeStepsRegex = /.{30,}/;
+	console.log(recipeStepsRegex.test(recipeSteps));
+	return recipeStepsRegex.test(recipeSteps);
+};
