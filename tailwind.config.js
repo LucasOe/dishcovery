@@ -10,6 +10,7 @@ export default {
 			transparent: "transparent",
 			current: "currentColor",
 			white: "#ffffff",
+			black: "#000000",
 			gray: {
 				900: "#212121",
 				500: "#2c2c2c",

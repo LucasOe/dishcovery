@@ -13,18 +13,32 @@
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 	import { deleteRecipe } from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores.js";
+	import { onMount } from "svelte";
+	import type { Recipe } from "$types/database.types.js";
 
 	export let data;
 
 	let profile = data.user;
 	let image;
 	let fileInput: HTMLInputElement;
+	let userRecipes: Promise<Recipe[]>;
 
-	const logout = async () => {
+	onMount(() => {
+		if (!$user) return;
+		userRecipes = fetchUserRecipes($user.id);
+	});
+
+	async function onDeleteUserRecipe(recipe: Recipe) {
+		if (!$user) return;
+		await deleteRecipe(recipe.id);
+		userRecipes = fetchUserRecipes($user.id);
+	}
+
+	async function logout() {
 		const { error } = await supabase.auth.signOut();
 		if (error) console.log("Error logging out:", error.message);
 		else goto("/");
-	};
+	}
 
 	async function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (!$user) return;
@@ -36,11 +50,6 @@
 		const path = await uploadAvatarImage(image);
 		await insertAvatarImage($user.id, path);
 		$user.avatar_url = path;
-	}
-
-	async function onDelete(id: number) {
-		await deleteRecipe(id);
-		goto("/"); // TODO: Avoid reloading entire page when deleting
 	}
 </script>
 
@@ -75,12 +84,16 @@
 			<Tag text="Schnell" />
 		</div>
 
-		{#await fetchUserRecipes(profile.id)}
+		{#await userRecipes}
 			<Spinner />
 		{:then recipes}
 			<div class="flex w-full flex-col space-y-sm">
 				{#each recipes as recipe}
-					<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
+					<RecipeCard
+						{recipe}
+						message="Möchtest du dein eigenes Rezept wirklich löschen? Diese Aktion kann nicht wiederrufen werden."
+						onConfirm={() => onDeleteUserRecipe(recipe)}
+					/>
 				{/each}
 			</div>
 		{/await}

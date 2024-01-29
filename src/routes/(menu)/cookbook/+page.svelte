@@ -1,132 +1,77 @@
 <script lang="ts">
-	import type { Recipe } from "$types/database.types";
-	import { fetchRecipesInCookBook, removeRecipeFromCookBook, deleteRecipe } from "$lib/functions/database/recipes";
-	import { fetchUserRecipes } from "$lib/functions/database/user";
+	import { deleteRecipe, fetchRecipesInCookBook, removeRecipeFromCookBook } from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
-	import DeleteModal from "$lib/components/DeleteModal.svelte";
+	import { fetchUserRecipes } from "$lib/functions/database/user";
+	import { onMount } from "svelte";
+	import type { Recipe } from "$types/database.types";
 
-	let allRecipes: Recipe[] = [];
-	let userRecipes: Recipe[] = [];
 	let showCookBook = true;
+	let userRecipes: Promise<Recipe[]>;
+	let likedRecipes: Promise<Recipe[]>;
 
-	// Reactive statements to fetch recipes when user changes
-	$: {
-		if ($user) {
-			fetchAllRecipes();
-			fetchUserSpecificRecipes();
-		}
+	onMount(() => {
+		if (!$user) return;
+		userRecipes = fetchUserRecipes($user.id);
+		likedRecipes = fetchRecipesInCookBook($user.id);
+	});
+
+	async function onDeleteUserRecipe(recipe: Recipe) {
+		if (!$user) return;
+		await deleteRecipe(recipe.id);
+		userRecipes = fetchUserRecipes($user.id);
 	}
 
-	async function fetchAllRecipes() {
-		if ($user) {
-			const cookBookRecipes = await fetchRecipesInCookBook($user.id);
-			const otherUserRecipes = await fetchUserRecipes($user.id);
-			allRecipes = [...cookBookRecipes, ...otherUserRecipes];
-		}
-	}
-
-	async function fetchUserSpecificRecipes() {
-		if ($user) {
-			userRecipes = await fetchUserRecipes($user.id);
-			console.log("User Recipes:", userRecipes);
-		}
-	}
-
-	function toggleRecipes() {
-		showCookBook = !showCookBook;
-	}
-
-	let showDeleteRecipeModal = false;
-	let showDeleteLikesModal = false;
-	let selectedRecipeId: number | null = null;
-
-	function promptDeleteRecipe(id: number) {
-		showDeleteRecipeModal = true;
-		selectedRecipeId = id;
-	}
-
-	function promptDeleteLikes(id: number) {
-		showDeleteLikesModal = true;
-		selectedRecipeId = id;
-	}
-
-	function confirmDelete() {
-		if (selectedRecipeId !== null) {
-			onDeleteWrapper(selectedRecipeId);
-		}
-		closeModal();
-	}
-
-	function closeModal() {
-		showDeleteRecipeModal = false;
-		showDeleteLikesModal = false;
-		selectedRecipeId = null;
-	}
-
-	async function onDeleteWrapper(id: number) {
-		if ($user) {
-			await removeRecipeFromCookBook($user.id, id);
-			await deleteRecipe(id);
-			fetchAllRecipes();
-			fetchUserSpecificRecipes();
-		}
+	async function onDeleteLikedRecipe(recipe: Recipe) {
+		if (!$user) return;
+		await removeRecipeFromCookBook($user.id, recipe.id);
+		likedRecipes = fetchRecipesInCookBook($user.id);
 	}
 </script>
 
 <FadeIn>
-	{#if showDeleteLikesModal}
-		<DeleteModal
-			message="Möchtest du dieses Rezept aus deinen Favoriten wirklich löschen?"
-			onConfirm={confirmDelete}
-			onCancel={closeModal}
-		/>
-	{/if}
-	{#if showDeleteRecipeModal}
-		<DeleteModal
-			message="Möchtest du dein eigenes Rezept aus dishcovery wirklich löschen? Diese Aktion kann nicht wiederrufen werden."
-			onConfirm={confirmDelete}
-			onCancel={closeModal}
-		/>
-	{/if}
-	<div class="space-y-8">
-		<div class="mb-4">
-			<button on:click={toggleRecipes} class="mt-lg flex font-bold text-gray-300">
-				{#if showCookBook}
-					Deine Rezepte anzeigen
-				{:else}
-					Alle Rezepte anzeigen
-				{/if}
-			</button>
-		</div>
-
-		{#if showCookBook}
-			{#if allRecipes.length > 0}
-				<div class="space-y-sm">
-					<h2 class="text-2xl font-bold">Alle Rezepte</h2>
-					{#key allRecipes}
-						{#each allRecipes as recipe}
-							<RecipeCard {recipe} onDeleteRequest={promptDeleteLikes} />
-						{/each}
-					{/key}
-				</div>
-			{:else}
-				<p>Keine Rezepte gefunden.</p>
-			{/if}
-		{:else if userRecipes.length > 0}
-			<div>
-				<h2 class="text-2xl font-bold">Deine Rezepte</h2>
-				{#key userRecipes}
-					{#each userRecipes as recipe}
-						<div class="pb-md">
-							<RecipeCard {recipe} onDeleteRequest={promptDeleteRecipe} />
-						</div>
-					{/each}
-				{/key}
+	{#if $user}
+		<div class="space-y-8">
+			<div class="mb-4">
+				<button on:click={() => (showCookBook = !showCookBook)} class="mt-lg flex font-bold text-gray-300">
+					{#if showCookBook}
+						Deine Rezepte anzeigen
+					{:else}
+						Alle Rezepte anzeigen
+					{/if}
+				</button>
 			</div>
-		{:else}
-			<p>Keine eigenen Rezepte gefunden.</p>
-		{/if}
-	</div>
+
+			<div class="space-y-sm">
+				<h2 class="text-2xl font-bold">
+					{#if showCookBook}
+						Deine Rezepte
+					{:else}
+						Alle Rezepte
+					{/if}
+				</h2>
+				{#await userRecipes then recipes}
+					{#each recipes as recipe}
+						<RecipeCard
+							{recipe}
+							message="Möchtest du dein eigenes Rezept wirklich löschen? Diese Aktion kann nicht wiederrufen werden."
+							onConfirm={() => onDeleteUserRecipe(recipe)}
+						/>
+					{/each}
+				{/await}
+				{#if showCookBook}
+					{#await likedRecipes then recipes}
+						{#each recipes as recipe}
+							<RecipeCard
+								{recipe}
+								message="Möchtest du dieses Rezept aus deinen Favoriten wirklich löschen?"
+								onConfirm={() => onDeleteLikedRecipe(recipe)}
+							/>
+						{/each}
+					{/await}
+				{/if}
+			</div>
+		</div>
+	{/if}
 </FadeIn>
