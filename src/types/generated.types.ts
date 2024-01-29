@@ -84,19 +84,19 @@ export interface Database {
       }
       profiles: {
         Row: {
-          avatar_url: string | null
+          avatar_url: string
           id: string
-          username: string | null
+          username: string
         }
         Insert: {
-          avatar_url?: string | null
+          avatar_url: string
           id: string
-          username?: string | null
+          username: string
         }
         Update: {
-          avatar_url?: string | null
+          avatar_url?: string
           id?: string
-          username?: string | null
+          username?: string
         }
         Relationships: [
           {
@@ -153,7 +153,7 @@ export interface Database {
           id: number
           name: string
           preperation_time: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           cost: number
@@ -163,7 +163,7 @@ export interface Database {
           id?: number
           name: string
           preperation_time: number
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           cost?: number
@@ -173,7 +173,7 @@ export interface Database {
           id?: number
           name?: string
           preperation_time?: number
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {

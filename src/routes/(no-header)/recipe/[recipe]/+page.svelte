@@ -1,34 +1,19 @@
 <script lang="ts">
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
-	import Spinner from "$lib/components/Spinner.svelte";
 	import type { Recipe } from "$types/database.types.js";
 	import { swipeDirection } from "$lib/functions/stores";
 	import { Direction } from "$types/card.types";
 	import DetailRow from "$lib/components/DetailRow.svelte";
 	import TagRow from "$lib/components/TagRow.svelte";
+	import { twMerge } from "tailwind-merge";
+	import { fetchUserDataById } from "$lib/functions/database/user.js";
 
 	export let data;
 
 	let recipe = data.recipe;
-	let isLoading = false;
-
-	//Accordion
 	let isOpen = false;
-	function toggleAccordion() {
-		isOpen = !isOpen;
-	}
-
-	//Steps
-	let completedSteps: boolean[] = [];
-
-	$: if (recipe && recipe.steps) {
-		completedSteps = recipe.steps.map(() => false);
-	}
-
-	function toggleStep(index: number) {
-		completedSteps[index] = !completedSteps[index];
-	}
+	let completedSteps: boolean[] = recipe.steps.map(() => false);
 
 	function getRecipeSteps(recipe: Recipe) {
 		return recipe.steps.sort((a, b) => {
@@ -39,118 +24,84 @@
 	$swipeDirection = Direction.None;
 </script>
 
-<FadeIn>
-	{#if isLoading}
-		<div class="absolute flex size-40 items-center justify-center rounded-full bg-yellow">
-			<Spinner />
-		</div>
-	{/if}
-	{#if recipe}
-		<img
-			src={recipe.images[0].image}
-			class="transition-image h-64 w-full object-cover"
-			alt=""
-			style:--recipe="image-{recipe.id}"
-		/>
-		<div class="p-8 pt-4">
-			<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
-				{recipe.name}
-			</h1>
-			<div class="custom-animation space-y-3 py-5">
-				<TagRow {recipe} />
-				<DetailRow {recipe} />
-				<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
-					<button
-						on:click={toggleAccordion}
-						class="flex w-full justify-between items-center px-2 h-10 text-left font-semibold text-yellow"
-					>
-						<div class='text-md'>Zutaten</div>
-						<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="25" height="25" />
-					</button>
-					<div class={`accordion-content ${isOpen ? "open" : ""}`}>
-						{#each recipe.ingredients as ingredient}
-							<li class="flex flex-row gap-4">
-								<div class="w-12">
-									{ingredient.amount}
+{#await fetchUserDataById(recipe.user_id) then profile}
+	{#if profile}
+		<FadeIn>
+			<img
+				src={recipe.images[0].image}
+				class="transition-image h-64 w-full object-cover"
+				alt=""
+				style:--recipe="image-{recipe.id}"
+			/>
+			<div class="p-8 pt-4">
+				<a href={`/profile/${profile.username}`} class="flex items-center gap-sm">
+					<img src={profile.avatar_url} alt="Profilbild" class="aspect-square size-10 rounded-full object-cover" />
+					<p class="text-md font-semibold">{profile.username}</p>
+				</a>
+				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
+					{recipe.name}
+				</h1>
+				<div class="animate-fade space-y-3 py-5">
+					<TagRow {recipe} />
+					<DetailRow {recipe} />
+					<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
+						<button
+							on:click={() => (isOpen = !isOpen)}
+							class="flex h-10 w-full items-center justify-between p-2 text-left font-semibold text-yellow"
+						>
+							<div class="text-md">Zutaten</div>
+							<img
+								class={twMerge("transition-transform", isOpen && "rotate-180")}
+								src={Chevron}
+								alt="chevron"
+								width="25"
+								height="25"
+							/>
+						</button>
+						<div class={twMerge("p-4 pt-0", !isOpen && "hidden")}>
+							{#each recipe.ingredients as ingredient}
+								<li class="flex flex-row gap-4">
+									<div class="w-12">
+										{ingredient.amount}
+									</div>
+									<div class="font-semibold">
+										{ingredient.name}
+									</div>
+								</li>
+							{/each}
+						</div>
+					</div>
+					<div class="mt-5 flex flex-col gap-3">
+						{#each getRecipeSteps(recipe) as step, index}
+							<button
+								class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
+								on:click={() => (completedSteps[index] = !completedSteps[index])}
+							>
+								<div>
+									{#if completedSteps[index]}
+										<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
+									{:else}
+										<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
+									{/if}
 								</div>
-								<div class="font-semibold">
-									{ingredient.name}
+								<div>
+									<h2
+										class={twMerge(
+											"text-left font-semibold text-yellow",
+											completedSteps[index] && "text-white line-through opacity-50"
+										)}
+									>
+										Schritt {step.number}:
+									</h2>
+									<p class={twMerge("text-left", completedSteps[index] && "line-through opacity-50")}>
+										{step.description}
+									</p>
 								</div>
-							</li>
+							</button>
 						{/each}
 					</div>
 				</div>
-				<div class="mt-5 flex flex-col gap-3">
-					{#each getRecipeSteps(recipe) as step, index}
-						<button class="step flex items-start gap-2" on:click={() => toggleStep(index)}>
-							<div>
-								{#if completedSteps[index]}
-									<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
-								{:else}
-									<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
-								{/if}
-							</div>
-							<div>
-								<h2
-									class={completedSteps[index]
-										? "completed text-left font-semibold"
-										: "text-left font-semibold text-yellow"}
-								>
-									Schritt {step.number}:
-								</h2>
-								<p class={completedSteps[index] ? "completed text-left" : " text-left"}>{step.description}</p>
-							</div>
-						</button>
-					{/each}
-				</div>
 			</div>
-		</div>
-	{:else}
-		<p>Es tut uns Leid, es ist etwas schief gelaufen.</p>
+		</FadeIn>
 	{/if}
-</FadeIn>
-
-<style>
-	@keyframes slidein {
-		0% {
-			opacity: 0;
-			transform: translateY(100px);
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(0px);
-		}
-	}
-	.custom-animation {
-		opacity: 0;
-		animation: 0.25s ease forwards slidein;
-	}
-	.accordion-content {
-		overflow: hidden;
-		max-height: 0;
-		transition: max-height 0.2s ease-out;
-		padding: 0 0.75rem;
-	}
-	.accordion-content.open {
-		max-height: 999rem;
-		padding: 0 0.75rem 0.5rem;
-	}
-	.chevron {
-		transition: transform 0.2s ease;
-		transform: rotate(0deg);
-	}
-	.chevron.open {
-		transform: rotate(180deg);
-	}
-
-	.step {
-		cursor: pointer;
-		opacity: 1;
-		transition: opacity 0.3s ease;
-	}
-
-	.step .completed {
-		opacity: 0.5;
-		text-decoration: line-through;
-	}
-</style>
+{/await}
