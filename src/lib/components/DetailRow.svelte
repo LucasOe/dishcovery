@@ -11,11 +11,11 @@
 <div class={twMerge("pointer-events-none flex h-8 select-none items-center gap-sm", $$props.class)}>
 	<div class="flex h-full items-center gap-xs p-1">
 		<img alt="Clock" class="size-5" src={ClockIcon} />
-		<p class="hidden text-sm font-semibold sm:block">{recipe.preperation_time} Min.</p>
+		<p class="text-sm font-semibold">{recipe.preperation_time} Min.</p>
 	</div>
 	<div class="flex h-full items-center gap-xs p-1">
 		<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-		<p class="hidden text-sm font-semibold sm:block">{["Einfach", "Mittel", "Schwer"][recipe.difficulty - 1]}</p>
+		<p class="text-sm font-semibold">{["Einfach", "Mittel", "Schwer"][recipe.difficulty - 1]}</p>
 	</div>
 	<div class="flex h-full items-center gap-xs p-1">
 		{#each { length: recipe.cost } as _}
