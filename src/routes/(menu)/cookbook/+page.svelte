@@ -5,7 +5,6 @@
 	import { user } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
-	import { goto } from "$app/navigation";
 
 	let allRecipes: Recipe[] = [];
 	let userRecipes: Recipe[] = [];
