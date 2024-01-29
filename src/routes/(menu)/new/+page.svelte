@@ -25,25 +25,25 @@
 	import type { FilterValue } from "$types/filter.types";
 	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
 
-	let recipeName: {content: string; isValid: boolean}  = {
+	let recipeName: { content: string; isValid: boolean } = {
 		content: "",
 		isValid: true,
 	};
-	let recipeDescription: {content: string; isValid: boolean} = {
+	let recipeDescription: { content: string; isValid: boolean } = {
 		content: "",
 		isValid: true,
 	};
 	let difficulty: FilterValue<number>;
 	let preperation_time: FilterValue<number>;
-	let cost: FilterValue<number>
+	let cost: FilterValue<number>;
 	let categories: { id: number; name: string }[];
 	let recipeSteps: { number: number; description: string; isValid: boolean }[] = [
-		{ 
-			number: 1, 
-			description: "", 
+		{
+			number: 1,
+			description: "",
 			isValid: true,
-		}
-	]
+		},
+	];
 
 	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
@@ -123,12 +123,12 @@
 <FadeIn>
 	<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
 		<Section title="Titel">
-			<input 
-				bind:value={recipeName.content} 
+			<input
+				bind:value={recipeName.content}
 				on:input={() => (recipeName.isValid = validateRecipeName(recipeName.content))}
-				type="text" 
-				placeholder="Hier eingeben..." 
-				class="input" 
+				type="text"
+				placeholder="Hier eingeben..."
+				class="input"
 				required
 			/>
 			{#if !recipeName.isValid}
@@ -140,11 +140,11 @@
 
 		<Section title="Beschreibung">
 			<textarea
-				bind:value={recipeDescription.content} 
+				bind:value={recipeDescription.content}
 				on:input={() => (recipeDescription.isValid = validateRecipeDescription(recipeDescription.content))}
-				placeholder="Hier eingeben..." 
-				class="input h-32" 
-				required 
+				placeholder="Hier eingeben..."
+				class="input h-32"
+				required
 			/>
 			{#if !recipeDescription.isValid}
 				<FadeIn>
@@ -165,7 +165,11 @@
 						required
 					/>
 					<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
-						<img src={UploadIcon} alt="Bild hochladen" class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]" />
+						<img
+							src={UploadIcon}
+							alt="Bild hochladen"
+							class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]"
+						/>
 					</button>
 					<p class="text-lg text-gray-300">Bild hochladen</p>
 				</div>
@@ -274,7 +278,11 @@
 						}}
 						class="h-10 w-10"
 					>
-						<img src={UploadIcon} alt="Zutat hinzufügen" class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]" />
+						<img
+							src={UploadIcon}
+							alt="Zutat hinzufügen"
+							class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]"
+						/>
 					</button>
 					<p class="text-lg text-gray-300">Zutat hinzufügen</p>
 				</div>
@@ -299,14 +307,14 @@
 								>
 							{/if}
 						</div>
-						<textarea 
-							bind:value={step.description} 
-							on:input={() => (step.isValid = validateRecipeSteps(step.description))} 
-							placeholder="Hier eingeben..." 
-							class="input h-32" 
-							required 
+						<textarea
+							bind:value={step.description}
+							on:input={() => (step.isValid = validateRecipeSteps(step.description))}
+							placeholder="Hier eingeben..."
+							class="input h-32"
+							required
 						/>
-						
+
 						{#if !step.isValid}
 							<FadeIn>
 								<p class="mt-2 rounded-sm bg-red p-2">Bitte gebe mindestens 30 Zeichen pro schritt ein.</p>

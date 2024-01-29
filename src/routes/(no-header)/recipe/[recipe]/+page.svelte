@@ -62,9 +62,9 @@
 				<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
 					<button
 						on:click={toggleAccordion}
-						class="flex w-full justify-between items-center px-2 h-10 text-left font-semibold text-yellow"
+						class="flex h-10 w-full items-center justify-between px-2 text-left font-semibold text-yellow"
 					>
-						<div class='text-md'>Zutaten</div>
+						<div class="text-md">Zutaten</div>
 						<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="25" height="25" />
 					</button>
 					<div class={`accordion-content ${isOpen ? "open" : ""}`}>
