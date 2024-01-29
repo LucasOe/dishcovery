@@ -5,8 +5,7 @@
   import { user } from "$lib/functions/stores";
   import FadeIn from "$lib/components/FadeIn.svelte";
   import RecipeCard from "$lib/components/RecipeCard.svelte";
-	import DeleteModal from "$lib/components/DeleteModal.svelte";
-
+  import { goto } from "$app/navigation";
 
   let allRecipes: Recipe[] = [];
   let userRecipes: Recipe[] = [];
@@ -35,9 +34,9 @@
     }
   }
 
-  function toggleRecipes() {
-    showCookBook = !showCookBook;
-  }
+	function toggleRecipes() {
+		showCookBook = !showCookBook;
+	}
 
   let showModal = false;
   let selectedRecipeId: number | null = null;
@@ -78,43 +77,43 @@
       onCancel={closeModal}
     />
   {/if}
-  <div class="space-y-8">
-    <div class="mb-4">
-      <button on:click={toggleRecipes} class="mt-lg flex font-bold text-gray-300">
-        {#if showCookBook}
-          Deine Rezepte anzeigen
-        {:else}
-          Alle Rezepte anzeigen
-        {/if}
-      </button>
-    </div>
+	<div class="space-y-8">
+		<div class="mb-4">
+			<button on:click={toggleRecipes} class="mt-lg flex font-bold text-gray-300">
+				{#if showCookBook}
+					Deine Rezepte anzeigen
+				{:else}
+					Alle Rezepte anzeigen
+				{/if}
+			</button>
+		</div>
 
-    {#if showCookBook}
-      {#if allRecipes.length > 0}
-        <div class="space-y-sm">
-          <h2 class="text-2xl font-bold">Alle Rezepte</h2>
-          {#key allRecipes}
-            {#each allRecipes as recipe}
-              <RecipeCard {recipe} onDeleteRequest={promptDelete} />
-            {/each}
-          {/key}
-        </div>
-      {:else}
-        <p>Keine Rezepte gefunden.</p>
-      {/if}
-    {:else if userRecipes.length > 0}
-      <div>
-        <h2 class="text-2xl font-bold">Deine Rezepte</h2>
-        {#key userRecipes}
-          {#each userRecipes as recipe}
-            <div class="pb-md">
-              <RecipeCard {recipe} onDeleteRequest={promptDelete} />
-            </div>
-          {/each}
-        {/key}
-      </div>
-    {:else}
-      <p>Keine eigenen Rezepte gefunden.</p>
-    {/if}
-  </div>
+		{#if showCookBook}
+			{#if allRecipes.length > 0}
+				<div class="space-y-sm">
+					<h2 class="text-2xl font-bold">Alle Rezepte</h2>
+					{#key allRecipes}
+						{#each allRecipes as recipe}
+							<RecipeCard {recipe} onDeleteRequest={promptDelete} />
+						{/each}
+					{/key}
+				</div>
+			{:else}
+				<p>Keine Rezepte gefunden.</p>
+			{/if}
+		{:else if userRecipes.length > 0}
+			<div>
+				<h2 class="text-2xl font-bold">Deine Rezepte</h2>
+				{#key userRecipes}
+					{#each userRecipes as recipe}
+						<div class="pb-md">
+							<RecipeCard {recipe} onDeleteRequest={promptDelete} />
+						</div>
+					{/each}
+				{/key}
+			</div>
+		{:else}
+			<p>Keine eigenen Rezepte gefunden.</p>
+		{/if}
+	</div>
 </FadeIn>
