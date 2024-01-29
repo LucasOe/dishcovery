@@ -37,22 +37,20 @@
 	function toggleRecipes() {
 		showCookBook = !showCookBook;
 	}
-  
-  let showDeleteRecipeModal = false;
-  let showDeleteLikesModal = false;
+
+	let showDeleteRecipeModal = false;
+	let showDeleteLikesModal = false;
 	let selectedRecipeId: number | null = null;
 
-
-  function promptDeleteRecipe(id: number) {
+	function promptDeleteRecipe(id: number) {
 		showDeleteRecipeModal = true;
 		selectedRecipeId = id;
 	}
 
-  function promptDeleteLikes(id: number) {
+	function promptDeleteLikes(id: number) {
 		showDeleteLikesModal = true;
 		selectedRecipeId = id;
 	}
-
 
 	function confirmDelete() {
 		if (selectedRecipeId !== null) {
@@ -85,7 +83,7 @@
 			onCancel={closeModal}
 		/>
 	{/if}
-  {#if showDeleteRecipeModal}
+	{#if showDeleteRecipeModal}
 		<DeleteModal
 			message="Möchtest du dein eigenes Rezept aus dishcovery wirklich löschen? Diese Aktion kann nicht wiederrufen werden."
 			onConfirm={confirmDelete}
