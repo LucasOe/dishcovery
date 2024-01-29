@@ -118,18 +118,18 @@ export const uploadRecipeImages = async (
 	const paths: TablesInsert<"images">[] = [];
 	for (let index = 0; index < files.length; index++) {
 		const file = files[index];
-		const { data: path, error } = await supabase.storage
-			.from("images")
-			.upload(`recipe${file.recipe_id}-${index}.jpg`, file.image, {
-				cacheControl: "3600",
-				upsert: false,
-			});
+		const bucket_path = `recipe${file.recipe_id}-${index}.jpg`;
+		const { data: path, error } = await supabase.storage.from("images").upload(bucket_path, file.image, {
+			cacheControl: "3600",
+			upsert: false,
+		});
 		if (error) throw error;
 
 		const { data: publicUrl } = await supabase.storage.from("images").getPublicUrl(path.path);
 		paths.push({
 			recipe_id: file.recipe_id,
 			image: publicUrl.publicUrl,
+			bucket_path: bucket_path,
 		});
 	}
 	return paths;
@@ -173,6 +173,12 @@ export const insertRecipeIngredients = async (ingredients: TablesInsert<"ingredi
 };
 
 export const deleteRecipe = async (id: number) => {
-	const { error } = await supabase.from("recipes").delete().eq("id", id);
-	if (error) throw error;
+	const { data, error: image_error } = await supabase.from("images").select().eq("recipe_id", id);
+	if (image_error) throw image_error;
+
+	const { error: bucket_error } = await supabase.storage.from("images").remove(data.map((image) => image.bucket_path));
+	if (bucket_error) throw bucket_error;
+
+	const { error: recipe_error } = await supabase.from("recipes").delete().eq("id", id);
+	if (recipe_error) throw recipe_error;
 };
