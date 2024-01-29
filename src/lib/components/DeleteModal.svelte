@@ -4,19 +4,19 @@
 	export let onConfirm: () => void;
 	export let onCancel: () => void;
 
-    function handleClickOutside(event: MouseEvent) {
-        if (event.target === event.currentTarget) {
-            onCancel();
-        }
-    }
+	function handleClickOutside(event: MouseEvent) {
+		if (event.target === event.currentTarget) {
+			onCancel();
+		}
+	}
 </script>
 
 <div class="modal-backdrop" on:click={handleClickOutside}>
-	<div class="modal flex flex-col items-center gap-md rounded-md bg-gray-500 p-8 w-90% max-w-[500px]">
+	<div class="modal w-90% flex max-w-[500px] flex-col items-center gap-md rounded-md bg-gray-500 p-8">
 		<div class="rounded-full border-2 border-red p-5">
-			<img src={Close} alt="DeleteIcon" width=32 />
+			<img src={Close} alt="DeleteIcon" width="32" />
 		</div>
-		<p class="text-lg w-full text-center">{message}</p>
+		<p class="w-full text-center text-lg">{message}</p>
 		<div class="flex flex-row gap-sm">
 			<button
 				class="rounded-sm border-sm border-gray-300 bg-gray-300 px-3 py-1 text-lg font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-gray-300"

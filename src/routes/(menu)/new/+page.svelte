@@ -62,7 +62,7 @@
 		if (!recipeDescription.isValid) return;
 		if (!recipeSteps.every((step) => step.isValid)) return;
 		isImageValid = images.length > 0;
-		if (!isImageValid) return; 
+		if (!isImageValid) return;
 
 		loading = true;
 
@@ -196,7 +196,7 @@
 					</div>
 				{/if}
 			</div>
-			
+
 			{#if !isImageValid}
 				<FadeIn>
 					<p class="mt-2 rounded-sm bg-red p-2">Bitte lade mindestens ein Bild hoch.</p>
