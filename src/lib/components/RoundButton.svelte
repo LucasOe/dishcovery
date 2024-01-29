@@ -8,8 +8,8 @@
 </script>
 
 <button
-	{...$$props}
 	on:click|preventDefault={action}
+	{...$$props}
 	class={twMerge(
 		"aspect-square rounded-full bg-gray-500 drop-shadow-xl duration-150 hover:bg-[#383838]",
 		{

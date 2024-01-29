@@ -5,7 +5,8 @@
   import { user } from "$lib/functions/stores";
   import FadeIn from "$lib/components/FadeIn.svelte";
   import RecipeCard from "$lib/components/RecipeCard.svelte";
-  import { goto } from "$app/navigation";
+	import DeleteModal from "$lib/components/DeleteModal.svelte";
+
 
   let allRecipes: Recipe[] = [];
   let userRecipes: Recipe[] = [];
@@ -27,13 +28,6 @@
     }
   }
 
-  async function onDeleteFromCookBook(id: number) {
-    if ($user) {
-      await removeRecipeFromCookBook($user.id, id);
-      fetchAllRecipes(); // Update all recipes after deletion
-    }
-  }
-
   async function fetchUserSpecificRecipes() {
     if ($user) {
       userRecipes = await fetchUserRecipes($user.id);
@@ -41,23 +35,49 @@
     }
   }
 
-  async function onDelete(id: number) {
-    await deleteRecipe(id);
-    fetchUserSpecificRecipes();
-  }
-
-  // Wrapper function that calls both onDelete and onDeleteFromCookBook
-  function onDeleteWrapper(id: number) {
-    onDelete(id);
-    onDeleteFromCookBook(id);
-  }
-
   function toggleRecipes() {
     showCookBook = !showCookBook;
   }
+
+  let showModal = false;
+  let selectedRecipeId: number | null = null;
+
+  function promptDelete(id: number) {
+    showModal = true;
+    selectedRecipeId = id;
+  }
+
+  function confirmDelete() {
+    if (selectedRecipeId !== null) {
+      onDeleteWrapper(selectedRecipeId);
+    }
+    closeModal();
+  }
+
+  function closeModal() {
+    showModal = false;
+    selectedRecipeId = null;
+  }
+
+  async function onDeleteWrapper(id: number) {
+    if ($user) {
+      await removeRecipeFromCookBook($user.id, id);
+      await deleteRecipe(id); 
+      fetchAllRecipes(); 
+      fetchUserSpecificRecipes(); 
+    }
+  }
+ 
 </script>
 
 <FadeIn>
+  {#if showModal}
+    <DeleteModal
+      message="Möchtest du dieses Rezept wirklich löschen?"
+      onConfirm={confirmDelete}
+      onCancel={closeModal}
+    />
+  {/if}
   <div class="space-y-8">
     <div class="mb-4">
       <button on:click={toggleRecipes} class="mt-lg flex font-bold text-gray-300">
@@ -75,7 +95,7 @@
           <h2 class="text-2xl font-bold">Alle Rezepte</h2>
           {#key allRecipes}
             {#each allRecipes as recipe}
-              <RecipeCard {recipe} action={() => onDeleteWrapper(recipe.id)} />
+              <RecipeCard {recipe} onDeleteRequest={promptDelete} />
             {/each}
           {/key}
         </div>
@@ -88,7 +108,7 @@
         {#key userRecipes}
           {#each userRecipes as recipe}
             <div class="pb-md">
-              <RecipeCard {recipe} action={() => onDeleteWrapper(recipe.id)} />
+              <RecipeCard {recipe} onDeleteRequest={promptDelete} />
             </div>
           {/each}
         {/key}
