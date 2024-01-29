@@ -58,7 +58,6 @@
 		</div>
 
 		<div class="space-y-sm">
-			<h2 class="text-2xl font-bold">Deine Rezepte</h2>
 			{#if selectedMenu == "all" || selectedMenu == "uploads"}
 				{#await userRecipes then recipes}
 					{#each recipes as recipe}
