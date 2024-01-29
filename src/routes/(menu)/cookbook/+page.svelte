@@ -1,18 +1,15 @@
 <script lang="ts">
-	import type { Recipe } from "$types/database.types";
-	import { fetchRecipesInCookBook } from "$lib/functions/database/recipes";
-	import { removeRecipeFromCookBook } from "$lib/functions/database/recipes";
-	import { fetchUserRecipes } from "$lib/functions/database/user";
-	import { user } from "$lib/functions/stores";
-	import FadeIn from "$lib/components/FadeIn.svelte";
-	import RecipeCard from "$lib/components/RecipeCard.svelte";
-	import { deleteRecipe } from "$lib/functions/database/recipes";
-	import { goto } from "$app/navigation";
+  import type { Recipe } from "$types/database.types";
+  import { fetchRecipesInCookBook, removeRecipeFromCookBook, deleteRecipe } from "$lib/functions/database/recipes";
+  import { fetchUserRecipes } from "$lib/functions/database/user";
+  import { user } from "$lib/functions/stores";
+  import FadeIn from "$lib/components/FadeIn.svelte";
+  import RecipeCard from "$lib/components/RecipeCard.svelte";
+  import { goto } from "$app/navigation";
 
-	
-	let allRecipes: Recipe[] = [];
-  	let userRecipes: Recipe[] = [];
-  	let showCookBook = true;
+  let allRecipes: Recipe[] = [];
+  let userRecipes: Recipe[] = [];
+  let showCookBook = true;
 
   // Reactive statements to fetch recipes when user changes
   $: {
@@ -43,10 +40,17 @@
       console.log('User Recipes:', userRecipes);
     }
   }
+
   async function onDelete(id: number) {
-		await deleteRecipe(id);
-		goto("/"); // TODO: Avoid reloading entire page when deleting
-	}
+    await deleteRecipe(id);
+    fetchUserSpecificRecipes();
+  }
+
+  // Wrapper function that calls both onDelete and onDeleteFromCookBook
+  function onDeleteWrapper(id: number) {
+    onDelete(id);
+    onDeleteFromCookBook(id);
+  }
 
   function toggleRecipes() {
     showCookBook = !showCookBook;
@@ -71,7 +75,7 @@
           <h2 class="text-2xl font-bold">Alle Rezepte</h2>
           {#key allRecipes}
             {#each allRecipes as recipe}
-              <RecipeCard {recipe} action={() => onDeleteFromCookBook(recipe.id)} />
+              <RecipeCard {recipe} action={() => onDeleteWrapper(recipe.id)} />
             {/each}
           {/key}
         </div>
@@ -84,7 +88,7 @@
         {#key userRecipes}
           {#each userRecipes as recipe}
             <div class="pb-md">
-				<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
+              <RecipeCard {recipe} action={() => onDeleteWrapper(recipe.id)} />
             </div>
           {/each}
         {/key}
@@ -93,4 +97,4 @@
       <p>Keine eigenen Rezepte gefunden.</p>
     {/if}
   </div>
-</FadeIn> 
+</FadeIn>
