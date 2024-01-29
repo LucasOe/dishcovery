@@ -4,7 +4,6 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
-	import { user } from "$lib/functions/stores";
 	import {
 		deleteAvatarImage,
 		fetchUserRecipes,
@@ -13,13 +12,16 @@
 	} from "$lib/functions/database/user";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 	import { deleteRecipe } from "$lib/functions/database/recipes";
+	import { user } from "$lib/functions/stores.js";
 
+	export let data;
+
+	let profile = data.user;
 	let image;
 	let fileInput: HTMLInputElement;
 
 	const logout = async () => {
 		const { error } = await supabase.auth.signOut();
-		$user = null;
 		if (error) console.log("Error logging out:", error.message);
 		else goto("/");
 	};
@@ -44,44 +46,43 @@
 
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center p-12">
-		{#if $user}
-			<div class="relative flex size-44">
+		<div class="relative flex size-44">
+			{#if $user?.id == profile.id}
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<button
 					class="absolute inline size-full rounded-full opacity-50 duration-300 hover:bg-gray-900"
 					on:click={() => fileInput.click()}
-				>
-				</button>
-				<img class="w-44 rounded-full" alt="User" src={$user.avatar_url} width="176" height="176" />
-			</div>
-			<div class="mt-lg flex w-full flex-col items-center">
-				<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
-					{$user.username}
-				</h1>
-				<p class="hidden">25, Hamburg (DE)</p>
-			</div>
+				/>
+			{/if}
+			<img class="aspect-square size-44 rounded-full object-cover" alt="User" src={profile.avatar_url} />
+		</div>
+		<div class="mt-lg flex w-full flex-col items-center">
+			<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
+				{profile.username}
+			</h1>
+			<p class="hidden">25, Hamburg (DE)</p>
+		</div>
+		{#if $user?.id == profile.id}
 			<div class="flex items-center justify-center gap-5">
 				<button on:click={() => logout()} class="mt-lg flex font-bold text-gray-300">Ausloggen</button>
 			</div>
-			<div class="m-lg flex w-full flex-wrap gap-x-md gap-y-sm">
-				<Tag text="Vegan" />
-				<Tag text="Vegetarisch" />
-				<Tag text="Thailändisch" />
-				<Tag text="Chinesisch" />
-				<Tag text="Schnell" />
-			</div>
-
-			{#await fetchUserRecipes($user.id)}
-				<Spinner />
-			{:then recipes}
-				<div class="flex w-full flex-col space-y-sm">
-					{#each recipes as recipe}
-						<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
-					{/each}
-				</div>
-			{/await}
-		{:else}
-			<Spinner />
 		{/if}
+		<div class="m-lg flex w-full flex-wrap gap-x-md gap-y-sm">
+			<Tag text="Vegan" />
+			<Tag text="Vegetarisch" />
+			<Tag text="Thailändisch" />
+			<Tag text="Chinesisch" />
+			<Tag text="Schnell" />
+		</div>
+
+		{#await fetchUserRecipes(profile.id)}
+			<Spinner />
+		{:then recipes}
+			<div class="flex w-full flex-col space-y-sm">
+				{#each recipes as recipe}
+					<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
+				{/each}
+			</div>
+		{/await}
 	</div>
 </FadeIn>
