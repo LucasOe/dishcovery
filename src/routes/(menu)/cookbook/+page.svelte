@@ -6,8 +6,9 @@
 	import { fetchUserRecipes } from "$lib/functions/database/user";
 	import { onMount } from "svelte";
 	import type { Recipe } from "$types/database.types";
+	import { twMerge } from "tailwind-merge";
 
-	let showCookBook = true;
+	let selectedMenu: "all" | "uploads" | "likes" = "all";
 	let userRecipes: Promise<Recipe[]>;
 	let likedRecipes: Promise<Recipe[]>;
 
@@ -31,26 +32,34 @@
 </script>
 
 <FadeIn>
-	{#if $user}
-		<div class="space-y-8">
-			<div class="mb-4">
-				<button on:click={() => (showCookBook = !showCookBook)} class="mt-lg flex font-bold text-gray-300">
-					{#if showCookBook}
-						Deine Rezepte anzeigen
-					{:else}
-						Alle Rezepte anzeigen
-					{/if}
-				</button>
-			</div>
+	<div class="space-y-8">
+		<div class="flex gap-8">
+			<button
+				on:click={() => (selectedMenu = "all")}
+				disabled={selectedMenu == "all"}
+				class={twMerge("mt-lg flex text-lg font-bold text-gray-300", selectedMenu == "all" && "text-white")}
+			>
+				Alle
+			</button>
+			<button
+				on:click={() => (selectedMenu = "uploads")}
+				disabled={selectedMenu == "uploads"}
+				class={twMerge("mt-lg flex text-lg font-bold text-gray-300", selectedMenu == "uploads" && "text-white")}
+			>
+				Uploads
+			</button>
+			<button
+				on:click={() => (selectedMenu = "likes")}
+				disabled={selectedMenu == "likes"}
+				class={twMerge("mt-lg flex text-lg font-bold text-gray-300", selectedMenu == "likes" && "text-white")}
+			>
+				Likes
+			</button>
+		</div>
 
-			<div class="space-y-sm">
-				<h2 class="text-2xl font-bold">
-					{#if showCookBook}
-						Deine Rezepte
-					{:else}
-						Alle Rezepte
-					{/if}
-				</h2>
+		<div class="space-y-sm">
+			<h2 class="text-2xl font-bold">Deine Rezepte</h2>
+			{#if selectedMenu == "all" || selectedMenu == "uploads"}
 				{#await userRecipes then recipes}
 					{#each recipes as recipe}
 						<RecipeCard
@@ -60,18 +69,18 @@
 						/>
 					{/each}
 				{/await}
-				{#if showCookBook}
-					{#await likedRecipes then recipes}
-						{#each recipes as recipe}
-							<RecipeCard
-								{recipe}
-								message="Möchtest du dieses Rezept aus deinen Favoriten wirklich löschen?"
-								onConfirm={() => onDeleteLikedRecipe(recipe)}
-							/>
-						{/each}
-					{/await}
-				{/if}
-			</div>
+			{/if}
+			{#if selectedMenu == "all" || selectedMenu == "likes"}
+				{#await likedRecipes then recipes}
+					{#each recipes as recipe}
+						<RecipeCard
+							{recipe}
+							message="Möchtest du dieses Rezept aus deinen Favoriten wirklich löschen?"
+							onConfirm={() => onDeleteLikedRecipe(recipe)}
+						/>
+					{/each}
+				{/await}
+			{/if}
 		</div>
-	{/if}
+	</div>
 </FadeIn>
