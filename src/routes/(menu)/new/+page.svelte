@@ -54,8 +54,6 @@
 		await insertRecipeImages(paths);
 	};
 
-	let inputs = [recipeName, recipeDescription, recipeSteps];
-
 	async function publishRecipe() {
 		if (!$user || loading) return;
 		if (!recipeName.isValid) return;
