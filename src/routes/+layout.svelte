@@ -8,7 +8,8 @@
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((_, session) => {
-			if (session)
+			if (!session) $user = null;
+			else
 				fetchUserDataById(session.user.id).then((profile) => {
 					$user = profile;
 				});
@@ -18,7 +19,9 @@
 	});
 </script>
 
-<div class="mx-auto flex min-h-dvh max-w-[36rem] font-default text-base text-light">
-	<ViewTransition />
-	<slot />
-</div>
+{#if $user !== undefined}
+	<div class="mx-auto flex min-h-dvh max-w-[36rem] font-default text-base text-light">
+		<ViewTransition />
+		<slot />
+	</div>
+{/if}

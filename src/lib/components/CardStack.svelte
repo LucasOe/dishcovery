@@ -35,14 +35,12 @@
 		window.addEventListener("resize", function () {
 			scaleThreshhold();
 		});
+
+		initCards();
 	});
 
 	onDestroy(() => {
 		cardInstances.forEach((instance) => instance.$destroy());
-	});
-
-	user.subscribe(() => {
-		initCards();
 	});
 
 	// React to state change from BottomNav
