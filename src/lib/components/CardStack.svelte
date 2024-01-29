@@ -26,6 +26,7 @@
 	let isTouching = false;
 	let transformValue = "translate(0px, 0px)";
 	let loading = true;
+	let inAnimation = false;
 
 	const coords = spring({ x: 0, y: 0 }, { stiffness: 0.2, damping: 0.4 });
 
@@ -148,6 +149,8 @@
 	}
 
 	function refreshCardProps() {
+		if (inAnimation) return;
+
 		cardInstances[0]?.$set({
 			transformValue,
 			swipeIndicator: swipeIndicator,
@@ -156,6 +159,8 @@
 	}
 
 	function refreshCardStackContent(nextRecipe: Recipe | null) {
+		inAnimation = true;
+
 		setTimeout(() => {
 			// reset state
 			swipeIndicator = Direction.None;
@@ -174,7 +179,9 @@
 
 			recipes = recipes; // update component
 			if (recipes[0]) $recipe = recipes[0];
-		}, 300);
+
+			inAnimation = false;
+		}, 100);
 	}
 
 	function scaleThreshhold() {
