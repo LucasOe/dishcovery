@@ -6,77 +6,91 @@
 	import { user } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
+	import { deleteRecipe } from "$lib/functions/database/recipes";
+	import { goto } from "$app/navigation";
 
-	let cookBookRecipes: Recipe[] = [];
-	let userRecipes: Recipe[] = [];
-	let showCookBook = true;
+	
+	let allRecipes: Recipe[] = [];
+  	let userRecipes: Recipe[] = [];
+  	let showCookBook = true;
 
-	// Reactive statements to fetch recipes when user changes
-	$: {
-		if ($user) {
-			fetchCookBookRecipes();
-			fetchUserSpecificRecipes();
-		}
+  // Reactive statements to fetch recipes when user changes
+  $: {
+    if ($user) {
+      fetchAllRecipes();
+      fetchUserSpecificRecipes();
+    }
+  }
+
+  async function fetchAllRecipes() {
+    if ($user) {
+      const cookBookRecipes = await fetchRecipesInCookBook($user.id);
+      const otherUserRecipes = await fetchUserRecipes($user.id);
+      allRecipes = [...cookBookRecipes, ...otherUserRecipes];
+    }
+  }
+
+  async function onDeleteFromCookBook(id: number) {
+    if ($user) {
+      await removeRecipeFromCookBook($user.id, id);
+      fetchAllRecipes(); // Update all recipes after deletion
+    }
+  }
+
+  async function fetchUserSpecificRecipes() {
+    if ($user) {
+      userRecipes = await fetchUserRecipes($user.id);
+      console.log('User Recipes:', userRecipes);
+    }
+  }
+  async function onDelete(id: number) {
+		await deleteRecipe(id);
+		goto("/"); // TODO: Avoid reloading entire page when deleting
 	}
 
-	async function fetchCookBookRecipes() {
-		if ($user) cookBookRecipes = await fetchRecipesInCookBook($user.id);
-	}
-
-	async function onDeleteFromCookBook(id: number) {
-		if ($user) {
-			await removeRecipeFromCookBook($user.id, id);
-			fetchCookBookRecipes(); // Das Kochbuch-Rezepte nach dem Löschen aktualisieren
-		}
-	}
-
-	async function fetchUserSpecificRecipes() {
-		if ($user) userRecipes = await fetchUserRecipes($user.id);
-	}
-
-	function toggleRecipes() {
-		showCookBook = !showCookBook;
-	}
+  function toggleRecipes() {
+    showCookBook = !showCookBook;
+  }
 </script>
 
 <FadeIn>
-	<div class="space-y-8">
-		<div class="mb-4">
-			<button on:click={toggleRecipes} class="text-blue-500 underline">
-				{#if showCookBook}
-					Deine Rezepte anzeigen
-				{:else}
-					Rezepte im Kochbuch anzeigen
-				{/if}
-			</button>
-		</div>
+  <div class="space-y-8">
+    <div class="mb-4">
+      <button on:click={toggleRecipes} class="mt-lg flex font-bold text-gray-300">
+        {#if showCookBook}
+          Deine Rezepte anzeigen
+        {:else}
+          Alle Rezepte anzeigen
+        {/if}
+      </button>
+    </div>
 
-		{#if showCookBook}
-			{#if cookBookRecipes.length > 0}
-				<div class="space-y-sm">
-					<h2 class="text-2xl font-bold">Rezepte im Kochbuch</h2>
-					{#key cookBookRecipes}
-						{#each cookBookRecipes as recipe}
-							<RecipeCard {recipe} action={() => onDeleteFromCookBook(recipe.id)} />
-						{/each}
-					{/key}
-				</div>
-			{:else}
-				<p>Keine Rezepte im Kochbuch gefunden.</p>
-			{/if}
-		{:else if userRecipes.length > 0}
-			<div>
-				<h2 class="mb-2 text-2xl font-bold">Deine Rezepte</h2>
-				{#key userRecipes}
-					{#each userRecipes as recipe}
-						<div class="pb-md">
-							<RecipeCard {recipe} action={() => console.log("TODO")} />
-						</div>
-					{/each}
-				{/key}
-			</div>
-		{:else}
-			<p>Keine eigenen Rezepte gefunden.</p>
-		{/if}
-	</div>
-</FadeIn>
+    {#if showCookBook}
+      {#if allRecipes.length > 0}
+        <div class="space-y-sm">
+          <h2 class="text-2xl font-bold">Alle Rezepte</h2>
+          {#key allRecipes}
+            {#each allRecipes as recipe}
+              <RecipeCard {recipe} action={() => onDeleteFromCookBook(recipe.id)} />
+            {/each}
+          {/key}
+        </div>
+      {:else}
+        <p>Keine Rezepte gefunden.</p>
+      {/if}
+    {:else if userRecipes.length > 0}
+      <div>
+        <h2 class="text-2xl font-bold">Deine Rezepte</h2>
+        {#key userRecipes}
+          {#each userRecipes as recipe}
+            <div class="pb-md">
+				<RecipeCard {recipe} action={() => onDelete(recipe.id)} />
+            </div>
+          {/each}
+        {/key}
+      </div>
+    {:else}
+      <p>Keine eigenen Rezepte gefunden.</p>
+    {/if}
+  </div>
+</FadeIn> 
