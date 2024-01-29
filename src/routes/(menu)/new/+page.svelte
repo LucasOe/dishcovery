@@ -23,14 +23,28 @@
 	import RemoveIcon from "$lib/assets/icons/cancel.svg";
 	import { range } from "$lib/functions/utils";
 	import type { FilterValue } from "$types/filter.types";
+	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
 
-	let name: string;
-	let description: string;
+	let recipeName: {content: string; isValid: boolean}  = {
+		content: "",
+		isValid: true,
+	};
+	let recipeDescription: {content: string; isValid: boolean} = {
+		content: "",
+		isValid: true,
+	};
 	let difficulty: FilterValue<number>;
 	let preperation_time: FilterValue<number>;
-	let cost: FilterValue<number>;
+	let cost: FilterValue<number>
 	let categories: { id: number; name: string }[];
-	let steps: { number: number; description: string }[] = [{ number: 1, description: "" }];
+	let recipeSteps: { number: number; description: string; isValid: boolean }[] = [
+		{ 
+			number: 1, 
+			description: "", 
+			isValid: true,
+		}
+	]
+
 	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
 	let loading = false;
@@ -40,15 +54,20 @@
 		await insertRecipeImages(paths);
 	};
 
+	let inputs = [recipeName, recipeDescription, recipeSteps];
+
 	async function publishRecipe() {
 		if (!$user || loading) return;
+		if (!recipeName.isValid) return;
+		if (!recipeDescription.isValid) return;
+		if (!recipeSteps.every((step) => step.isValid)) return;
 
 		loading = true;
 
 		try {
 			let recipe = await insertRecipe({
-				name: name,
-				description: description,
+				name: recipeName.content,
+				description: recipeDescription.content,
 				difficulty: difficulty.id,
 				cost: cost.id,
 				preperation_time: preperation_time.id,
@@ -76,7 +95,7 @@
 					}))
 				),
 				insertRecipeSteps(
-					steps.map((step) => ({
+					recipeSteps.map((step) => ({
 						recipe_id: recipe.id,
 						number: step.number,
 						description: step.description,
@@ -104,11 +123,34 @@
 <FadeIn>
 	<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
 		<Section title="Titel">
-			<input type="text" bind:value={name} placeholder="Hier eingeben..." class="input" required />
+			<input 
+				bind:value={recipeName.content} 
+				on:input={() => (recipeName.isValid = validateRecipeName(recipeName.content))}
+				type="text" 
+				placeholder="Hier eingeben..." 
+				class="input" 
+				required
+			/>
+			{#if !recipeName.isValid}
+				<FadeIn>
+					<p class="mt-2 rounded-sm bg-red p-2">Ungültiger Rezeptname. Bitte gebe mindestens 10 Zeichen ein.</p>
+				</FadeIn>
+			{/if}
 		</Section>
 
 		<Section title="Beschreibung">
-			<textarea bind:value={description} placeholder="Hier eingeben..." class="input h-32" required />
+			<textarea
+				bind:value={recipeDescription.content} 
+				on:input={() => (recipeDescription.isValid = validateRecipeDescription(recipeDescription.content))}
+				placeholder="Hier eingeben..." 
+				class="input h-32" 
+				required 
+			/>
+			{#if !recipeDescription.isValid}
+				<FadeIn>
+					<p class="mt-2 rounded-sm bg-red p-2">Ungültige Rezeptbeschreibung. Bitte gebe mindestens 30 Zeichen ein.</p>
+				</FadeIn>
+			{/if}
 		</Section>
 
 		<Section title="Bilder">
@@ -123,7 +165,7 @@
 						required
 					/>
 					<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
-						<img src={UploadIcon} alt="Bild hochladen" class="upload inline h-10 w-10 drop-shadow-md" />
+						<img src={UploadIcon} alt="Bild hochladen" class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]" />
 					</button>
 					<p class="text-lg text-gray-300">Bild hochladen</p>
 				</div>
@@ -198,14 +240,14 @@
 									type="text"
 									bind:value={ingredient.name}
 									placeholder="Zutat"
-									class="input h-8 grow-[2] basis-0 text-lg"
+									class="input grow-[2] basis-0 text-lg"
 									required
 								/>
 								<input
 									type="text"
 									bind:value={ingredient.amount}
 									placeholder="Anzahl"
-									class="input h-8 grow-[1] basis-0 text-lg"
+									class="input grow-[1] basis-0 text-lg"
 								/>
 								<button
 									type="button"
@@ -215,7 +257,7 @@
 									}}
 									class="rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
 								>
-									<img src={RemoveIcon} alt="Bild entfernen" class="size-3" />
+									<img src={RemoveIcon} alt="Zutat entfernen" class="size-3" />
 								</button>
 							</div>
 						{/each}
@@ -232,7 +274,7 @@
 						}}
 						class="h-10 w-10"
 					>
-						<img src={UploadIcon} alt="Zutat hinzufügen" class="upload inline h-10 w-10 drop-shadow-md" />
+						<img src={UploadIcon} alt="Zutat hinzufügen" class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]" />
 					</button>
 					<p class="text-lg text-gray-300">Zutat hinzufügen</p>
 				</div>
@@ -241,7 +283,7 @@
 
 		<Section title="Arbeitsschritte">
 			<div class="space-y-sm">
-				{#each steps as step, index}
+				{#each recipeSteps as step, index}
 					<div>
 						<div class="flex justify-between p-1">
 							<p class="text-xl font-semibold text-yellow">{step.number}. Schritt</p>
@@ -250,14 +292,26 @@
 									type="button"
 									aria-label="Schritt Entfernen"
 									on:click={() => {
-										steps.splice(index, 1);
-										steps = steps;
+										recipeSteps.splice(index, 1);
+										recipeSteps = recipeSteps;
 									}}
 									class="text-gray-300">Entfernen</button
 								>
 							{/if}
 						</div>
-						<textarea bind:value={step.description} placeholder="Hier eingeben..." class="input h-32" required />
+						<textarea 
+							bind:value={step.description} 
+							on:input={() => (step.isValid = validateRecipeSteps(step.description))} 
+							placeholder="Hier eingeben..." 
+							class="input h-32" 
+							required 
+						/>
+						
+						{#if !step.isValid}
+							<FadeIn>
+								<p class="mt-2 rounded-sm bg-red p-2">Bitte gebe mindestens 30 Zeichen pro schritt ein.</p>
+							</FadeIn>
+						{/if}
 					</div>
 				{/each}
 				<div class="flex items-center gap-2">
@@ -265,9 +319,10 @@
 						type="button"
 						aria-label="Schritt hinzufügen"
 						on:click={() => {
-							steps.push({ number: steps.length + 1, description: "" });
-							steps = steps;
+							recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
+							recipeSteps = recipeSteps;
 						}}
+						class="transition-all hover:scale-[1.1]"
 					>
 						<img src={UploadIcon} alt="Schritt hinzufügen" class="size-10" />
 					</button>

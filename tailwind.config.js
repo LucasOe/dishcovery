@@ -13,6 +13,7 @@ export default {
 			gray: {
 				900: "#212121",
 				500: "#2c2c2c",
+				"500-hover": "#3C3C3C",
 				300: "#7d7c7c",
 			},
 			yellow: "#ffc532",

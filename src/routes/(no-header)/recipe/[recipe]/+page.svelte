@@ -59,13 +59,13 @@
 			<div class="custom-animation space-y-3 py-5">
 				<TagRow {recipe} />
 				<DetailRow {recipe} />
-				<div class="rounded-sm bg-gray-500">
+				<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
 					<button
 						on:click={toggleAccordion}
-						class="flex w-full justify-between p-3 text-left font-semibold text-yellow"
+						class="flex w-full justify-between items-center px-2 h-10 text-left font-semibold text-yellow"
 					>
-						<div>Zutaten</div>
-						<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="20" height="20" />
+						<div class='text-md'>Zutaten</div>
+						<img class={`chevron ${isOpen ? "open" : ""}`} src={Chevron} alt="chevron" width="25" height="25" />
 					</button>
 					<div class={`accordion-content ${isOpen ? "open" : ""}`}>
 						{#each recipe.ingredients as ingredient}
