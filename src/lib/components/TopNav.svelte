@@ -4,22 +4,22 @@
 	import RecipeIcon from "$lib/assets/icons/recipes.svg";
 	import UserIcon from "$lib/assets/icons/ic_user.svg";
 	import { user } from "$lib/functions/stores";
-
-	let tabs = [
-		{ name: "Kochbuch", link: "cookbook", icon: RecipeIcon },
-		{ name: "Add new", link: "new", icon: AddIcon },
-		{ name: "filter", link: "filter", icon: FilterIcon },
-	];
 </script>
 
 <div class="flex items-center justify-between">
 	<!-- Nav -->
 	<div class="flex gap-xl">
-		{#each tabs as tab}
-			<a href={tab.link}>
-				<img class="size-6" alt={tab.name} src={tab.icon} />
+		{#if $user}
+			<a href="/cookbook">
+				<img class="size-6" alt="Kochbuch" src={RecipeIcon} />
 			</a>
-		{/each}
+			<a href="/new">
+				<img class="size-6" alt="Neues Rezept" src={AddIcon} />
+			</a>
+		{/if}
+		<a href="/filter">
+			<img class="size-6" alt="Rezepte Filtern" src={FilterIcon} />
+		</a>
 	</div>
 
 	<!-- Profile -->

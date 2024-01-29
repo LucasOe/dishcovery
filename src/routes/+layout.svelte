@@ -7,13 +7,6 @@
 	import ViewTransition from "$lib/components/Navigation.svelte";
 
 	onMount(() => {
-		supabase.auth.getSession().then(({ data: { session } }) => {
-			if (session)
-				fetchUserDataById(session.user.id).then((profile) => {
-					$user = profile;
-				});
-		});
-
 		const { data } = supabase.auth.onAuthStateChange((_, session) => {
 			if (session)
 				fetchUserDataById(session.user.id).then((profile) => {
