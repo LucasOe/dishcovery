@@ -37,7 +37,7 @@
 {#if user}
 	<div class="flex gap-3 block justify-center" on:mouseleave={() => handleMouseLeave()}>
 		{#each Array(5) as _, index}
-			<img src={index < rating? Star: StarEmpty} alt="Rating Icon" on:mouseenter={() => handleHover(1 + index)} on:click={() => rateRecipe(rating)}/>
+			<img class="hover:cursor-pointer" src={index < rating? Star: StarEmpty} alt="Rating Icon" on:mouseenter={() => handleHover(1 + index)} on:click={() => rateRecipe(rating)}/>
 		{/each}
 	</div>
 {/if}
