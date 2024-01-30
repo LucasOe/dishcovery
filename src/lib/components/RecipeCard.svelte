@@ -8,6 +8,7 @@
 	export let recipe: Recipe;
 	export let message: string;
 	export let onConfirm: () => void;
+	export let showButton = true;
 
 	let showModal = false;
 </script>
@@ -17,27 +18,30 @@
 		<DeleteModal {message} {onConfirm} onCancel={() => (showModal = false)} />
 	{/if}
 
-
 	<a href={"/recipe/" + recipe.id} class="relative">
 		<div>
-			<div class="size-full duration-200 overflow-hidden rounded-[2rem] before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:rounded-[2rem] before:from-20% before:to-gray-500 before:to-100%">
+			<div
+				class="size-full overflow-hidden rounded-[2rem] duration-200 before:absolute before:size-full before:rounded-[2rem] before:bg-gradient-to-b before:from-transparent before:from-20% before:to-gray-500 before:to-100%"
+			>
 				<img src={recipe.images[0].image} class="h-48 w-full object-cover" alt="Rezept Bild" />
 			</div>
-			<div class="absolute bottom-0 left-0 py-sm px-md w-full">
-				<div class="font-header text-xl text-yellow custom-text-shadow">
+			<div class="absolute bottom-0 left-0 w-full px-md py-sm">
+				<div class="custom-text-shadow font-header text-xl text-yellow">
 					{recipe.name}
 				</div>
 				<DetailRow {recipe} />
 			</div>
 		</div>
-		<RoundButton
-			action={() => (showModal = true)}
-			type="button"
-			src={RejectIcon}
-			alt="Delete"
-			size="sm"
-			class="absolute top-0 right-0 m-md bg-gray-900 drop-shadow-none"
-		/>
+		{#if showButton}
+			<RoundButton
+				action={() => (showModal = true)}
+				type="button"
+				src={RejectIcon}
+				alt="Delete"
+				size="sm"
+				class="absolute right-0 top-0 m-md bg-gray-900 drop-shadow-none"
+			/>
+		{/if}
 	</a>
 
 	<!--Backup
@@ -53,14 +57,16 @@
 				</div>
 				<DetailRow {recipe} />
 			</div>
-			<RoundButton
-				action={() => (showModal = true)}
-				type="button"
-				src={RejectIcon}
-				alt="Delete"
-				size="sm"
-				class="ml-auto bg-gray-900 drop-shadow-none"
-			/>
+			{#if showButton}
+				<RoundButton
+					action={() => (showModal = true)}
+					type="button"
+					src={RejectIcon}
+					alt="Delete"
+					size="sm"
+					class="ml-auto bg-gray-900 drop-shadow-none"
+				/>
+			{/if}
 		</div>
 	</a>
 	-->
