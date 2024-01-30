@@ -8,6 +8,25 @@
 	}
 }
 
+
+/*Prevent mobile scrolling*/
+body {
+	overscroll-behavior-y: none !important;
+	overflow: hidden;
+}
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+body > div {
+	height: 100%;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+
 .transition-name {
 	transform: scale(1);
 	view-transition-name: var(--recipe-name);
