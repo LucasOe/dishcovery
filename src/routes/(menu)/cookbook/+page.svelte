@@ -9,25 +9,31 @@
 	import { twMerge } from "tailwind-merge";
 
 	let selectedMenu: "all" | "uploads" | "likes" = "all";
-	let userRecipes: Promise<Recipe[]>;
-	let likedRecipes: Promise<Recipe[]>;
+	let allRecipes: Promise<Recipe[]>;
 
 	onMount(() => {
 		if (!$user) return;
-		userRecipes = fetchUserRecipes($user.id);
-		likedRecipes = fetchRecipesInCookBook($user.id);
+		const userId: string = $user.id;
+		allRecipes = fetchUserRecipes($user.id).then((userRecipes) => {
+			return fetchRecipesInCookBook($user.id).then((likedRecipes) => {
+				// Mische und entferne doppelte Rezepte
+				return [...userRecipes, ...likedRecipes].filter(
+					(recipe, index, self) => index === self.findIndex((r) => r.id === recipe.id)
+				);
+			});
+		});
 	});
 
 	async function onDeleteUserRecipe(recipe: Recipe) {
 		if (!$user) return;
 		await deleteRecipe(recipe.id);
-		userRecipes = fetchUserRecipes($user.id);
+		allRecipes = allRecipes.then((recipes) => recipes.filter((r) => r.id !== recipe.id));
 	}
 
 	async function onDeleteLikedRecipe(recipe: Recipe) {
 		if (!$user) return;
 		await removeRecipeFromCookBook($user.id, recipe.id);
-		likedRecipes = fetchRecipesInCookBook($user.id);
+		allRecipes = allRecipes.then((recipes) => recipes.filter((r) => r.id !== recipe.id));
 	}
 </script>
 
@@ -58,8 +64,19 @@
 		</div>
 
 		<div class="space-y-sm">
-			{#if selectedMenu == "all" || selectedMenu == "uploads"}
-				{#await userRecipes then recipes}
+			{#if selectedMenu == "all"}
+				{#await allRecipes then recipes}
+					{#each recipes as recipe}
+						<RecipeCard
+							{recipe}
+							message="Möchtest du dieses Rezept wirklich löschen?"
+							onConfirm={() => onDeleteUserRecipe(recipe)}
+						/>
+					{/each}
+				{/await}
+			{/if}
+			{#if selectedMenu == "uploads"}
+				{#await fetchUserRecipes($user.id) then recipes}
 					{#each recipes as recipe}
 						<RecipeCard
 							{recipe}
@@ -69,8 +86,8 @@
 					{/each}
 				{/await}
 			{/if}
-			{#if selectedMenu == "all" || selectedMenu == "likes"}
-				{#await likedRecipes then recipes}
+			{#if selectedMenu == "likes"}
+				{#await fetchRecipesInCookBook($user.id) then recipes}
 					{#each recipes as recipe}
 						<RecipeCard
 							{recipe}
