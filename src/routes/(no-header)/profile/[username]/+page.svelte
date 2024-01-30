@@ -89,7 +89,7 @@
 			<Spinner />
 		{:then recipes}
 			<h2 class="mb-md mt-lg text-lg font-bold">Uploads</h2>
-			<div class="flex w-full flex-col space-y-sm">
+			<div class="flex w-full flex-col space-y-md">
 				{#each recipes as recipe}
 					<RecipeCard
 						{recipe}
