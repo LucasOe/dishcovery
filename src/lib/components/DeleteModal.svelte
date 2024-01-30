@@ -13,7 +13,7 @@
 </script>
 
 <button
-	class="bg-black fixed left-0 top-0 z-50 flex size-full items-center justify-center bg-opacity-50"
+	class="fixed left-0 top-0 z-50 flex size-full items-center justify-center bg-black bg-opacity-50"
 	on:click={handleClickOutside}
 >
 	<div class="modal w-90% flex max-w-[500px] flex-col items-center gap-md rounded-md bg-gray-500 p-8">
