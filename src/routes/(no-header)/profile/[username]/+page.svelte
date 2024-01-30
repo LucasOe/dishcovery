@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Tag from "$lib/components/Tag.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import { supabase } from "$lib/functions/database/createClient";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import NoRecipes from "$lib/assets/icons/no_recipes.svg";
+	import DefaultAvatar from "$lib/assets/user.png";
 	import Edit from "$lib/assets/icons/edit.svg";
 	import {
 		fetchUserRecipes,
@@ -57,27 +57,27 @@
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center p-12">
 		<div class="relative flex size-44">
-			{#if $user?.id == profile.id}
+			{#if $user?.id === profile.id}
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<button
 					class="absolute size-full rounded-full duration-300 profile-pic-btn overflow-hidden"
 					on:click={() => fileInput.click()}
 				>
-					<div class="h-full w-full profile-pic-wrapper duration-150 opacity-0 flex flex-col justify-center gap-sm items-center">
+					<span class="h-full w-full profile-pic-wrapper duration-150 opacity-0 flex flex-col justify-center gap-sm items-center">
 						<img src={Edit} alt="Profilbild bearbeiten Icon" />
-						<div class="">Profilbild ändern</div>
-					</div>
-					
+						<span class="">Profilbild ändern</span>
+					</span>
+
 				</button>
 			{/if}
-			<img class="aspect-square size-44 rounded-full object-cover" alt="User" src={profile.avatar_url} />
+			<img class="border-yellow border-2 aspect-square size-44 rounded-full object-cover" alt="User" src={profile.avatar_url ? profile.avatar_url : DefaultAvatar} />
 		</div>
 		<div class="mt-lg flex w-full flex-col items-center">
 			<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
 				{profile.username}
 			</h1>
 		</div>
-		{#if $user?.id == profile.id}
+		{#if $user?.id === profile.id}
 			<div class="flex items-center justify-center gap-5">
 				<button on:click={() => logout()} class="mt-sm flex font-bold text-gray-300 underline hover:no-underline"
 					>Ausloggen</button
