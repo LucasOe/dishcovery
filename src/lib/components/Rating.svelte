@@ -15,7 +15,7 @@
 </script>
 
 <div class="flex gap-1">
-	{#if rating != 0}
+	{#if rating !== 0}
 		{#each Array(Math.floor(rating)) as _}
 			<img src={Star} alt="Rating Icon" />
 		{/each}

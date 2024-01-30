@@ -10,7 +10,7 @@ export const fetchAverageRating = async (id: number): Promise<number> => {
 
 	if (!data) return 0;
 
-	const validRatings = data.filter((item) => item.rating !== null);
+	const validRatings = data.filter((item) => item.rating !== null && item.rating > 0);
 
 	if (validRatings?.length > 0) {
 		validRatings.forEach((item) => {
