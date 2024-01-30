@@ -17,6 +17,30 @@
 		<DeleteModal {message} {onConfirm} onCancel={() => (showModal = false)} />
 	{/if}
 
+
+	<a href={"/recipe/" + recipe.id} class="relative">
+		<div>
+			<div class="size-full duration-200 overflow-hidden rounded-[2rem] before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:rounded-[2rem] before:from-20% before:to-gray-500 before:to-100%">
+				<img src={recipe.images[0].image} class="h-48 w-full object-cover" alt="Rezept Bild" />
+			</div>
+			<div class="absolute bottom-0 left-0 py-sm px-md w-full">
+				<div class="font-header text-xl text-yellow custom-text-shadow">
+					{recipe.name}
+				</div>
+				<DetailRow {recipe} />
+			</div>
+		</div>
+		<RoundButton
+			action={() => (showModal = true)}
+			type="button"
+			src={RejectIcon}
+			alt="Delete"
+			size="sm"
+			class="absolute top-0 right-0 m-md bg-gray-900 drop-shadow-none"
+		/>
+	</a>
+
+	<!--Backup
 	<a
 		href={"/recipe/" + recipe.id}
 		class="flex w-full flex-row items-center justify-between rounded-lg bg-gray-500 p-sm drop-shadow-xl"
@@ -39,4 +63,11 @@
 			/>
 		</div>
 	</a>
+	-->
 </div>
+
+<style>
+	.custom-text-shadow {
+		text-shadow: 0 0 5px #000;
+	}
+</style>

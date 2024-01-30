@@ -37,27 +37,27 @@
 			<button
 				on:click={() => (selectedMenu = "all")}
 				disabled={selectedMenu == "all"}
-				class={twMerge("mt-lg flex text-lg font-bold text-gray-300", selectedMenu == "all" && "text-white")}
+				class={twMerge("mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60", selectedMenu == "all" && "text-white hover:opacity-100")}
 			>
 				Alle
 			</button>
 			<button
 				on:click={() => (selectedMenu = "uploads")}
 				disabled={selectedMenu == "uploads"}
-				class={twMerge("mt-lg flex text-lg font-bold text-gray-300", selectedMenu == "uploads" && "text-white")}
+				class={twMerge("mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60", selectedMenu == "uploads" && "text-white hover:opacity-100")}
 			>
 				Uploads
 			</button>
 			<button
 				on:click={() => (selectedMenu = "likes")}
 				disabled={selectedMenu == "likes"}
-				class={twMerge("mt-lg flex text-lg font-bold text-gray-300", selectedMenu == "likes" && "text-white")}
+				class={twMerge("mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60", selectedMenu == "likes" && "text-white hover:opacity-100")}
 			>
 				Likes
 			</button>
 		</div>
 
-		<div class="space-y-sm">
+		<div class="space-y-md">
 			{#if selectedMenu == "all" || selectedMenu == "uploads"}
 				{#await userRecipes then recipes}
 					{#each recipes as recipe}
