@@ -4,6 +4,8 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import { goto } from "$app/navigation";
 	import Spinner from "$lib/components/Spinner.svelte";
+	import NoRecipes from "$lib/assets/icons/no_recipes.svg";
+	import Edit from "$lib/assets/icons/edit.svg";
 	import {
 		deleteAvatarImage,
 		fetchUserRecipes,
@@ -59,9 +61,12 @@
 			{#if $user?.id == profile.id}
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<button
-					class="absolute inline size-full rounded-full opacity-50 duration-300 hover:bg-gray-900"
+					class="absolute flex size-full flex-col items-center justify-center gap-sm rounded-full opacity-0 duration-300 hover:bg-gray-900 hover:opacity-50"
 					on:click={() => fileInput.click()}
-				/>
+				>
+					<img src={Edit} alt="Profilbild bearbeiten Icon" />
+					<div>Profilbild ändern</div>
+				</button>
 			{/if}
 			<img class="aspect-square size-44 rounded-full object-cover" alt="User" src={profile.avatar_url} />
 		</div>
@@ -69,24 +74,19 @@
 			<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
 				{profile.username}
 			</h1>
-			<p class="hidden">25, Hamburg (DE)</p>
 		</div>
 		{#if $user?.id == profile.id}
 			<div class="flex items-center justify-center gap-5">
-				<button on:click={() => logout()} class="mt-lg flex font-bold text-gray-300">Ausloggen</button>
+				<button on:click={() => logout()} class="mt-sm flex font-bold text-gray-300 underline hover:no-underline"
+					>Ausloggen</button
+				>
 			</div>
 		{/if}
-		<div class="m-lg flex w-full flex-wrap gap-x-md gap-y-sm">
-			<Tag text="Vegan" />
-			<Tag text="Vegetarisch" />
-			<Tag text="Thailändisch" />
-			<Tag text="Chinesisch" />
-			<Tag text="Schnell" />
-		</div>
 
 		{#await userRecipes}
 			<Spinner />
 		{:then recipes}
+			<h2 class="mb-md mt-lg text-lg font-bold">Uploads</h2>
 			<div class="flex w-full flex-col space-y-sm">
 				{#each recipes as recipe}
 					<RecipeCard
@@ -96,6 +96,12 @@
 					/>
 				{/each}
 			</div>
+			{#if recipes.length === 0}
+				<div class="flex flex-col items-center gap-sm pt-sm">
+					<img src={NoRecipes} alt="Noch keine Rezepte hochgeladen" width="40" />
+					<p class="text-gray-300">Noch keine Rezepte hochgeladen</p>
+				</div>
+			{/if}
 		{/await}
 	</div>
 </FadeIn>
