@@ -29,17 +29,37 @@
 	let inputs = [username, email, password, password_repeat];
 
 	let isFormValid = true;
+	let isUsernameTaken = false;
 
 	let error: AuthError | null = null;
 
 	async function handleRegister() {
+		isFormValid = true;
+		isUsernameTaken = false;
+
 		for (let input of inputs) {
 			if (!input.isValid) {
 				isFormValid = false;
 				return;
 			}
 		}
+
 		try {
+			// Check if the username is already taken
+			const { data: users, error: userError } = await supabase
+				.from("profiles")
+				.select("id")
+				.eq("username", username.content);
+
+			if (userError) {
+				throw userError;
+			}
+
+			if (users && users.length > 0) {
+				isUsernameTaken = true;
+				return;
+			}
+
 			const { data, error: auth_error } = await supabase.auth.signUp({
 				email: email.content,
 				password: password.content,
@@ -172,5 +192,10 @@
 				Es ist ein Fehler aufgetreten: {error.message}
 			{/if}
 		</p>
+	{/if}
+	{#if isUsernameTaken}
+		<FadeIn>
+			<p class="mt-2 rounded-sm bg-red p-2">Der Benutzername ist bereits vergeben.</p>
+		</FadeIn>
 	{/if}
 </div>
