@@ -14,14 +14,20 @@ export const fetchUserDataByUsername = async (username: string): Promise<Tables<
 	else return data;
 };
 
-export const deleteAvatarImage = async (userID: string) => {
-	const { error } = await supabase.storage.from("avatars").remove([`avatar_${userID}.jpg`]);
-	if (error) throw error;
-};
+export const upsertAvatarImage = async (userID: string, file: File): Promise<string> => {
 
-export const uploadAvatarImage = async (file: File): Promise<string> => {
+	const userProfile = await fetchUserDataById(userID);
+	if (userProfile && userProfile.avatar_url) {
+		// Extract image name from URL
+		const oldAvatarName = userProfile.avatar_url.split('/').pop();
+		if (oldAvatarName) {
+			// Delete old avatar image
+			await deleteAvatarImage(oldAvatarName);
+		}
+	}
+
 	const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-	const { data: path, error } = await supabase.storage.from("avatars").upload(`avatar_${randomString}.jpg`, file, {
+	const { data: path, error } = await supabase.storage.from("avatars").upload(`avatar_${userID}_${randomString}.jpg`, file, {
 		cacheControl: "3600",
 		upsert: false,
 	});
@@ -31,8 +37,14 @@ export const uploadAvatarImage = async (file: File): Promise<string> => {
 	return publicUrl.publicUrl;
 };
 
-export const insertAvatarImage = async (userID: string, image: string) => {
-	const { error } = await supabase.from("profiles").update({ avatar_url: image }).match({ id: userID });
+
+export const deleteAvatarImage = async (imageName: string) => {
+	const { error } = await supabase.storage.from("avatars").remove([imageName]);
+	if (error) throw error;
+};
+
+export const insertAvatarImage = async (userID: string, url: string) => {
+	const { error } = await supabase.from("profiles").update({ avatar_url: url }).match({ id: userID });
 	if (error) throw error;
 };
 

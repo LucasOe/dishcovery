@@ -6,12 +6,18 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
-	import { validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
+	import {
+		userNameisTaken,
+		validateEmail,
+		validatePassword,
+		validateUsername
+	} from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let username = {
 		content: "",
 		isValid: true,
+		message: "",
 	};
 	let email = {
 		content: "",
@@ -33,7 +39,8 @@
 
 	let error: AuthError | null = null;
 
-	async function handleRegister() {
+	async function handleRegister()
+	{
 		isFormValid = true;
 		isUsernameTaken = false;
 
@@ -44,22 +51,13 @@
 			}
 		}
 
+		// Check if the username is already taken
+		if(await userNameisTaken(username.content)) {
+			username.message = "Der Benutzername wird bereits verwendet."
+			return;
+		}
+
 		try {
-			// Check if the username is already taken
-			const { data: users, error: userError } = await supabase
-				.from("profiles")
-				.select("id")
-				.eq("username", username.content);
-
-			if (userError) {
-				throw userError;
-			}
-
-			if (users && users.length > 0) {
-				isUsernameTaken = true;
-				return;
-			}
-
 			const { data, error: auth_error } = await supabase.auth.signUp({
 				email: email.content,
 				password: password.content,
@@ -83,6 +81,7 @@
 			}, 3000);
 		}
 	}
+
 
 	async function handleGuestLogin() {
 		const guestUser = {
@@ -112,6 +111,13 @@
 				<p class="mt-2 rounded-sm bg-red p-2">
 					Nutzernamen müssen mindestens 8 Zeichen lang sein und dürfen keine Sonderzeichen enthalten.
 				</p>
+			</FadeIn>
+		{/if}
+		{#if username.message !== ""}
+			<FadeIn>
+				<p class="mt-2 rounded-sm bg-red p-2">
+					{username.message}
+					</p>
 			</FadeIn>
 		{/if}
 	</Section>

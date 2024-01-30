@@ -7,10 +7,9 @@
 	import NoRecipes from "$lib/assets/icons/no_recipes.svg";
 	import Edit from "$lib/assets/icons/edit.svg";
 	import {
-		deleteAvatarImage,
 		fetchUserRecipes,
 		insertAvatarImage,
-		uploadAvatarImage,
+		upsertAvatarImage,
 	} from "$lib/functions/database/user";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 	import { deleteRecipe } from "$lib/functions/database/recipes";
@@ -48,10 +47,10 @@
 		image = e.currentTarget.files[0];
 
 		//Replace old image with new image
-		await deleteAvatarImage($user.id);
-		const path = await uploadAvatarImage(image);
+		const path = await upsertAvatarImage($user.id, image);
 		await insertAvatarImage($user.id, path);
 		$user.avatar_url = path;
+		profile = $user;
 	}
 </script>
 
