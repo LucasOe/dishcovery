@@ -11,14 +11,14 @@
 	<!-- Nav -->
 	<div class="flex gap-xl">
 		{#if $user}
-			<a href="/cookbook">
+			<a href="/cookbook" class="duration-150 hover:scale-[1.2]">
 				<img class="size-6" alt="Kochbuch" src={RecipeIcon} />
 			</a>
-			<a href="/new">
+			<a href="/new" class="duration-150 hover:scale-[1.2]">
 				<img class="size-6" alt="Neues Rezept" src={AddIcon} />
 			</a>
 		{/if}
-		<a href="/filter">
+		<a href="/filter" class="duration-150 hover:scale-[1.2]">
 			<img class="size-6" alt="Rezepte Filtern" src={FilterIcon} />
 		</a>
 	</div>
@@ -26,7 +26,7 @@
 	<!-- Profile -->
 	<div>
 		<a href={`${$user ? `/profile/${$user.username}` : "/login"}`}>
-			<div class={`size-14 overflow-hidden rounded-full border-[2px] border-yellow`}>
+			<div class={`size-14 overflow-hidden rounded-full border-[2px] border-yellow duration-150 hover:scale-[1.1]`}>
 				{#if $user}
 					<img class="rounded-full" alt="profile" src={$user.avatar_url ? $user.avatar_url : DefaultAvatar} />
 				{:else}

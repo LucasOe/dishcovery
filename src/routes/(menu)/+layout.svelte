@@ -10,7 +10,7 @@
 	<title>{`${$page.data.title} - Dishcovery` || "Page Title"}</title>
 </svelte:head>
 
-<div class="flex w-full flex-col gap-6 p-12">
+<div class="flex w-full flex-col gap-6 p-12 pb-36">
 	<div class="flex items-center justify-between">
 		<h1 class="font-header text-xxl text-light">{$page.data.title || "Page Title"}</h1>
 	</div>
