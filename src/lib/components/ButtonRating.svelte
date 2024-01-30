@@ -1,24 +1,30 @@
 <script lang="ts">
 	import Star from "$lib/assets/icons/star.svg";
 	import StarEmpty from "$lib/assets/icons/star_empty.svg";
-	import {upsertRating} from "$lib/functions/database/ratings.js";
+	import {fetchUserRating, upsertRating} from "$lib/functions/database/ratings.js";
 	import type { Recipe } from "$types/database.types";
 	import {user} from "$lib/functions/stores";
 	import {Direction} from "$types/card.types";
 	import type {User} from "@supabase/supabase-js";
+	import {onMount} from "svelte";
 
 	export let recipe: Recipe;
 	let rating = 0;
-	let isRated = false;
+	let userRating = null;
+
+	onMount(async () => {
+		if ($user) {
+			userRating = await fetchUserRating(recipe.id, $user.id).catch(() => 0);
+			rating = userRating;
+		}
+	});
 
 	const handleHover = (index: number) => {
 		rating = index;
 	};
 
 	const handleMouseLeave = () => {
-		if (!isRated) {
-			rating = 0;
-		}
+			rating = userRating;
 	};
 
 	const rateRecipe = (rating: number) => {
@@ -28,7 +34,7 @@
 				recipe: recipe.id,
 				rating: rating
 			}).then(() => {
-				isRated = true;
+				userRating = rating;
 			});
 		}
 	}

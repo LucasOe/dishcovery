@@ -22,6 +22,18 @@ export const fetchAverageRating = async (id: number): Promise<number> => {
 	return rating;
 };
 
+export const fetchUserRating = async (recipeID: number, userID: string): Promise<number> => {
+	const {data, error} = await supabase.from("ratings")
+		.select("rating")
+		.eq("recipe", recipeID)
+		.eq("user_id", userID)
+		.single()
+
+	if (error) throw error;
+
+	return data?.rating || 0;
+}
+
 export const upsertRating = async (rating: TablesInsert<"ratings">) => {
 	const { error } = await supabase.from("ratings").upsert(rating);
 	if (error) throw error;
