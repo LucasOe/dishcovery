@@ -6,11 +6,7 @@
 	import NoRecipes from "$lib/assets/icons/no_recipes.svg";
 	import DefaultAvatar from "$lib/assets/user.png";
 	import Edit from "$lib/assets/icons/edit.svg";
-	import {
-		fetchUserRecipes,
-		insertAvatarImage,
-		upsertAvatarImage,
-	} from "$lib/functions/database/user";
+	import { fetchUserRecipes, insertAvatarImage, upsertAvatarImage } from "$lib/functions/database/user";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 	import { deleteRecipe } from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores.js";
@@ -25,8 +21,7 @@
 	let userRecipes: Promise<Recipe[]>;
 
 	onMount(() => {
-		if (!$user) return;
-		userRecipes = fetchUserRecipes($user.id);
+		userRecipes = fetchUserRecipes(profile.id);
 	});
 
 	async function onDeleteUserRecipe(recipe: Recipe) {
@@ -60,17 +55,22 @@
 			{#if $user?.id === profile.id}
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<button
-					class="absolute size-full rounded-full duration-300 profile-pic-btn overflow-hidden"
+					class="profile-pic-btn absolute size-full overflow-hidden rounded-full duration-300"
 					on:click={() => fileInput.click()}
 				>
-					<span class="h-full w-full profile-pic-wrapper duration-150 opacity-0 flex flex-col justify-center gap-sm items-center">
+					<span
+						class="profile-pic-wrapper flex h-full w-full flex-col items-center justify-center gap-sm opacity-0 duration-150"
+					>
 						<img src={Edit} alt="Profilbild bearbeiten Icon" />
 						<span class="">Profilbild ändern</span>
 					</span>
-
 				</button>
 			{/if}
-			<img class="border-yellow border-2 aspect-square size-44 rounded-full object-cover" alt="User" src={profile.avatar_url ? profile.avatar_url : DefaultAvatar} />
+			<img
+				class="aspect-square size-44 rounded-full border-2 border-yellow object-cover"
+				alt="User"
+				src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
+			/>
 		</div>
 		<div class="mt-lg flex w-full flex-col items-center">
 			<h1 class="block h-xl w-full text-center font-header text-xxl text-light">
@@ -95,6 +95,7 @@
 						{recipe}
 						message="Möchtest du dein eigenes Rezept wirklich löschen? Diese Aktion kann nicht wiederrufen werden."
 						onConfirm={() => onDeleteUserRecipe(recipe)}
+						showButton={$user?.id === profile.id}
 					/>
 				{/each}
 			</div>
@@ -111,6 +112,6 @@
 <style>
 	.profile-pic-btn:hover .profile-pic-wrapper {
 		opacity: 100;
-		background: rgba(0, 0, 0, 0.5)
+		background: rgba(0, 0, 0, 0.5);
 	}
 </style>
