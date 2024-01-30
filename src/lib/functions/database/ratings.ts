@@ -43,3 +43,12 @@ export const resetUserRatings = async (userID: string) => {
 	const { error } = await supabase.from("ratings").delete().eq("user_id", userID);
 	if (error) throw error;
 };
+
+export const isInCookBook = async (recipeID: number, userID: string): Promise<boolean> => {
+	const { data, error } = await supabase.from("ratings")
+		.select("inCookBook")
+		.eq("recipe", recipeID)
+		.eq("user_id", userID);
+	if (error) throw error;
+	return !!data;
+}
