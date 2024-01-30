@@ -64,7 +64,7 @@
 				options: {
 					data: {
 						username: username.content,
-						avatar_url: "https://avatars.dicebear.com/api/avataaars/John.svg",
+						avatar_url: null,
 					},
 				},
 			});
