@@ -61,11 +61,14 @@
 			{#if $user?.id == profile.id}
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<button
-					class="absolute flex size-full flex-col items-center justify-center gap-sm rounded-full opacity-0 duration-300 hover:bg-gray-900 hover:opacity-50"
+					class="absolute size-full rounded-full duration-300 profile-pic-btn overflow-hidden"
 					on:click={() => fileInput.click()}
 				>
-					<img src={Edit} alt="Profilbild bearbeiten Icon" />
-					<div>Profilbild ändern</div>
+					<div class="h-full w-full profile-pic-wrapper duration-150 opacity-0 flex flex-col justify-center gap-sm items-center">
+						<img src={Edit} alt="Profilbild bearbeiten Icon" />
+						<div class="">Profilbild ändern</div>
+					</div>
+					
 				</button>
 			{/if}
 			<img class="aspect-square size-44 rounded-full object-cover" alt="User" src={profile.avatar_url} />
@@ -105,3 +108,10 @@
 		{/await}
 	</div>
 </FadeIn>
+
+<style>
+	.profile-pic-btn:hover .profile-pic-wrapper {
+		opacity: 100;
+		background: rgba(0, 0, 0, 0.5)
+	}
+</style>
