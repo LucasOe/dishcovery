@@ -50,7 +50,7 @@
 				</h1>
 				<Rating {recipe} />
 				<div class="animate-fade space-y-6">
-					<TagRow {recipe} />
+					<TagRow {recipe} isInDetail={true}/>
 					<DetailRow {recipe} />
 					<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
 						<button

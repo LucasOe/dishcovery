@@ -15,5 +15,5 @@
 		$$props.class
 	)}
 >
-	<p class="font-bold">{text}</p>
+	<p class="font-bold text-[12px] sm:text-sm">{text}</p>
 </div>
