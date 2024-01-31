@@ -22,7 +22,7 @@
 		<div class="relative">
 			<div>
 				<div
-					class="size-full overflow-hidden rounded-[2rem] duration-200 before:absolute before:size-full before:rounded-[2rem] before:bg-gradient-to-b before:from-transparent before:from-20% before:to-gray-500 before:to-100%"
+					class="size-full overflow-hidden rounded-[2rem] shadow-shadowGray duration-200 before:absolute before:size-full before:rounded-[2rem] before:bg-gradient-to-b before:from-transparent before:from-20% before:to-gray-500 before:to-100%"
 				>
 					<img src={recipe.images[0].image} class="h-48 w-full object-cover" alt="Rezept Bild" />
 				</div>
