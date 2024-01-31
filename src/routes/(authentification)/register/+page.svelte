@@ -5,7 +5,7 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
-	import { userNameisTaken, validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
+	import { userNameIsTaken, validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let error: AuthError | null;
@@ -21,7 +21,7 @@
 		if (!password_repeat.isValid) return;
 
 		// Check if the username is already taken
-		if (await userNameisTaken(username.content)) {
+		if (await userNameIsTaken(username.content)) {
 			username.message = "Der Benutzername wird bereits verwendet.";
 			return;
 		}
