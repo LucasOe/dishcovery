@@ -59,15 +59,15 @@
 				},
 				{
 					id: [5, 10, 15],
-					name: "5-15 Min.",
+					name: "5-15 min",
 				},
 				{
 					id: [20, 25, 30, 35, 40],
-					name: "20-40 Min.",
+					name: "20-40 min",
 				},
 				{
 					id: [45, 50, 55, 60],
-					name: "45+ Min.",
+					name: "45 min +",
 				},
 			],
 		},
@@ -93,9 +93,9 @@
 	<div class="space-y-lg">
 		{#each getEntries(filterOptions) as [filter, filterOption]}
 			<Section title={filterOption.displayName}>
-				<div class="flex items-center justify-between rounded-md bg-gray-500 p-1">
+				<div class="flex items-center justify-between rounded-md bg-gray-500 px-1 py-4">
 					{#each filterOption.options as option}
-						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-2">
+						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">
 							<button
 								class={twMerge(
 									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center focus:outline-none",
@@ -105,7 +105,7 @@
 								)}
 								on:click={() => onClick(filter, option)}
 							/>
-							<p class="mt-2 text-sm">{option.name}</p>
+							<p class="mt-2 text-xs sm:text-sm">{option.name}</p>
 						</div>
 					{/each}
 				</div>
