@@ -136,7 +136,7 @@
 				/>
 				{#if !recipeName.isValid}
 					<FadeIn>
-						<p class="mt-2 rounded-sm bg-red p-2">Ungültiger Rezeptname. Bitte gebe mindestens 10 Zeichen ein.</p>
+						<p class="mt-2 rounded-sm bg-red p-2">Ungültiger Name. Bitte gebe mindestens 10 Zeichen ein.</p>
 					</FadeIn>
 				{/if}
 			</Section>
@@ -151,9 +151,7 @@
 				/>
 				{#if !recipeDescription.isValid}
 					<FadeIn>
-						<p class="mt-2 rounded-sm bg-red p-2">
-							Ungültige Rezeptbeschreibung. Bitte gebe mindestens 30 Zeichen ein.
-						</p>
+						<p class="mt-2 rounded-sm bg-red p-2">Ungültige Beschreibung. Bitte gebe mindestens 30 Zeichen ein.</p>
 					</FadeIn>
 				{/if}
 			</Section>
@@ -348,7 +346,7 @@
 				</div>
 			</Section>
 
-			<button class="button mt-5"> Rezept veröffentlichen </button>
+			<button class="button my-6">Rezept veröffentlichen</button>
 		</form>
 		{#if loading}
 			<div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-900 bg-opacity-50">
