@@ -31,35 +31,39 @@
 	{#if profile}
 		<FadeIn>
 			<img
-					src={recipe.images[0].image}
-					class="transition-image h-64 w-full object-cover"
-					alt=""
-					style:--recipe="image-{recipe.id}"
+				src={recipe.images[0].image}
+				class="transition-image h-64 w-full object-cover"
+				alt=""
+				style:--recipe="image-{recipe.id}"
 			/>
 			<div class="p-8 pt-4">
 				<a href={`/profile/${profile.username}`} class="flex items-center gap-sm">
-					<img src={profile.avatar_url ? profile.avatar_url : DefaultAvatar} alt="Profilbild" class="border-yellow border-2 aspect-square size-10 rounded-full object-cover" />
+					<img
+						src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
+						alt="Profilbild"
+						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover"
+					/>
 					<p class="text-md font-semibold">{profile.username}</p>
 				</a>
 				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 					{recipe.name}
 				</h1>
-				<Rating {recipe}/>
+				<Rating {recipe} />
 				<div class="animate-fade space-y-6">
 					<TagRow {recipe} />
 					<DetailRow {recipe} />
 					<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
 						<button
-								on:click={() => (isOpen = !isOpen)}
-								class="flex h-10 w-full items-center justify-between p-2 text-left font-semibold text-yellow"
+							on:click={() => (isOpen = !isOpen)}
+							class="flex h-10 w-full items-center justify-between p-2 text-left font-semibold text-yellow"
 						>
 							<div class="text-md">Zutaten</div>
 							<img
-									class={twMerge("transition-transform", isOpen && "rotate-180")}
-									src={Chevron}
-									alt="chevron"
-									width="25"
-									height="25"
+								class={twMerge("transition-transform", isOpen && "rotate-180")}
+								src={Chevron}
+								alt="chevron"
+								width="25"
+								height="25"
 							/>
 						</button>
 						<div class={twMerge("p-4 pt-0", !isOpen && "hidden")}>
@@ -78,8 +82,8 @@
 					<div class="mt-12 flex flex-col gap-3">
 						{#each getRecipeSteps(recipe) as step, index}
 							<button
-									class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
-									on:click={() => (completedSteps[index] = !completedSteps[index])}
+								class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
+								on:click={() => (completedSteps[index] = !completedSteps[index])}
 							>
 								<div>
 									{#if completedSteps[index]}
@@ -90,7 +94,7 @@
 								</div>
 								<div>
 									<h2
-											class={twMerge(
+										class={twMerge(
 											"text-left font-semibold text-yellow",
 											completedSteps[index] && "text-white line-through opacity-50"
 										)}
@@ -105,11 +109,8 @@
 						{/each}
 					</div>
 					<div class="my-36 flex flex-col">
-
-						<p class="text-center font-bold mb-3">
-							Schon einmal gekocht? Bewerte das Rezept!
-						</p>
-						<ButtonRating recipe={recipe}/>
+						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
+						<ButtonRating {recipe} />
 					</div>
 				</div>
 			</div>

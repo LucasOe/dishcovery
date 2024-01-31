@@ -55,15 +55,15 @@
 			{#if $user?.id === profile.id}
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<button
-					class="profile-pic-btn absolute size-full overflow-hidden rounded-full duration-300"
+					class="group absolute size-full overflow-hidden rounded-full duration-300 hover:bg-black hover:bg-opacity-50"
 					on:click={() => fileInput.click()}
 				>
-					<span
-						class="profile-pic-wrapper flex h-full w-full flex-col items-center justify-center gap-sm opacity-0 duration-150"
+					<div
+						class="flex h-full w-full flex-col items-center justify-center gap-sm opacity-0 duration-150 group-hover:opacity-100"
 					>
 						<img src={Edit} alt="Profilbild bearbeiten Icon" />
-						<span class="">Profilbild ändern</span>
-					</span>
+						<span>Profilbild ändern</span>
+					</div>
 				</button>
 			{/if}
 			<img
@@ -79,9 +79,9 @@
 		</div>
 		{#if $user?.id === profile.id}
 			<div class="flex items-center justify-center gap-5">
-				<button on:click={() => logout()} class="mt-sm flex font-bold text-gray-300 underline hover:no-underline"
-					>Ausloggen</button
-				>
+				<button on:click={() => logout()} class="mt-sm flex font-bold text-gray-300 underline hover:no-underline">
+					Ausloggen
+				</button>
 			</div>
 		{/if}
 
@@ -108,10 +108,3 @@
 		{/await}
 	</div>
 </FadeIn>
-
-<style>
-	.profile-pic-btn:hover .profile-pic-wrapper {
-		opacity: 100;
-		background: rgba(0, 0, 0, 0.5);
-	}
-</style>

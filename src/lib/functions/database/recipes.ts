@@ -20,6 +20,7 @@ export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Pro
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), ratings(recipe)`)
 		.eq("ratings.user_id", userID)
+		.not(`user_id`, "eq", userID) // exclude recipes uploaded by the user
 		.is("ratings", null); // recipe hasn't been rated by user
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
@@ -65,6 +66,7 @@ export const fetchNextRecipeNotSeen = async (
 		.from("recipes")
 		.select(`*, categories(*), images(*), ingredients(*), steps(*), ratings(recipe)`)
 		.eq("ratings.user_id", userID)
+		.not(`user_id`, "eq", userID) // exclude recipes uploaded by the user
 		.is("ratings", null) // recipe hasn't been rated by user
 		.gt("id", currentId);
 
