@@ -40,12 +40,13 @@
 				}}
 				id="email"
 				type="email"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="email"
+				class="input"
 				required
 			/>
 			{#if !email.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Ungültige E-Mail-Adresse</p>
+					<p class="error">Ungültige E-Mail-Adresse</p>
 				</FadeIn>
 			{/if}
 		</Section>
@@ -60,28 +61,22 @@
 				id="password"
 				type="password"
 				minlength="6"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="current-password"
+				class="input"
 				required
 			/>
 			{#if !password.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">
-						Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
-					</p>
+					<p class="error">Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.</p>
 				</FadeIn>
 			{/if}
 		</Section>
 
-		<div class="my-8">
-			<button
-				type="submit"
-				class="h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
-			>
-				Login
-			</button>
-			{#if error && email.isValid && password.isValid}
+		<div class="py-6">
+			<button type="submit" class="button">Login</button>
+			{#if error}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Das Passwort oder die E-Mail-Adresse ist ungültig.</p>
+					<p class="error">Das Passwort oder die E-Mail-Adresse ist ungültig.</p>
 				</FadeIn>
 			{/if}
 		</div>

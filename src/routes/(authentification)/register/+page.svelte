@@ -56,19 +56,20 @@
 				}}
 				id="username"
 				type="text"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="username"
+				class="input"
 				required
 			/>
 			{#if !username.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">
+					<p class="error">
 						Nutzernamen müssen mindestens 8 Zeichen lang sein und dürfen keine Sonderzeichen enthalten.
 					</p>
 				</FadeIn>
 			{/if}
 			{#if username.message !== ""}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">
+					<p class="error">
 						{username.message}
 					</p>
 				</FadeIn>
@@ -84,12 +85,13 @@
 				}}
 				id="email"
 				type="email"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="email"
+				class="input"
 				required
 			/>
 			{#if !email.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Ungültige E-Mail-Adresse</p>
+					<p class="error">Ungültige E-Mail-Adresse</p>
 				</FadeIn>
 			{/if}
 		</Section>
@@ -104,14 +106,13 @@
 				id="password"
 				type="password"
 				minlength="6"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="new-password"
+				class="input"
 				required
 			/>
 			{#if !password.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">
-						Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
-					</p>
+					<p class="error">Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.</p>
 				</FadeIn>
 			{/if}
 		</Section>
@@ -125,26 +126,22 @@
 				id="password_repeat"
 				type="password"
 				minlength="8"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="new-password"
+				class="input"
 				required
 			/>
 			{#if password.content !== password_repeat.content}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Diese Eingabe stimmt nicht mit dem Passwort überein.</p>
+					<p class="error">Diese Eingabe stimmt nicht mit dem Passwort überein.</p>
 				</FadeIn>
 			{/if}
 		</Section>
 
-		<div class="my-8">
-			<button
-				type="submit"
-				class="h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
-			>
-				Registrieren
-			</button>
+		<div class="py-6">
+			<button type="submit" class="button">Registrieren</button>
 			{#if error}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Anmeldung erfordert ein gültiges Passwort</p>
+					<p class="error">Anmeldung erfordert ein gültiges Passwort</p>
 				</FadeIn>
 			{/if}
 		</div>
