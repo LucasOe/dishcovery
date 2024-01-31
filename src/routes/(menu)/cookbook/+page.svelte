@@ -37,21 +37,30 @@
 			<button
 				on:click={() => (selectedMenu = "all")}
 				disabled={selectedMenu == "all"}
-				class={twMerge("mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60", selectedMenu == "all" && "text-white hover:opacity-100")}
+				class={twMerge(
+					"mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60",
+					selectedMenu == "all" && "text-white hover:opacity-100"
+				)}
 			>
 				Alle
 			</button>
 			<button
 				on:click={() => (selectedMenu = "uploads")}
 				disabled={selectedMenu == "uploads"}
-				class={twMerge("mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60", selectedMenu == "uploads" && "text-white hover:opacity-100")}
+				class={twMerge(
+					"mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60",
+					selectedMenu == "uploads" && "text-white hover:opacity-100"
+				)}
 			>
 				Uploads
 			</button>
 			<button
 				on:click={() => (selectedMenu = "likes")}
 				disabled={selectedMenu == "likes"}
-				class={twMerge("mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60", selectedMenu == "likes" && "text-white hover:opacity-100")}
+				class={twMerge(
+					"mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60",
+					selectedMenu == "likes" && "text-white hover:opacity-100"
+				)}
 			>
 				Likes
 			</button>

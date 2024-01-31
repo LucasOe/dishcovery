@@ -15,11 +15,10 @@ export const fetchUserDataByUsername = async (username: string): Promise<Tables<
 };
 
 export const upsertAvatarImage = async (userID: string, file: File): Promise<string> => {
-
 	const userProfile = await fetchUserDataById(userID);
 	if (userProfile && userProfile.avatar_url) {
 		// Extract image name from URL
-		const oldAvatarName = userProfile.avatar_url.split('/').pop();
+		const oldAvatarName = userProfile.avatar_url.split("/").pop();
 		if (oldAvatarName) {
 			// Delete old avatar image
 			await deleteAvatarImage(oldAvatarName);
@@ -27,16 +26,17 @@ export const upsertAvatarImage = async (userID: string, file: File): Promise<str
 	}
 
 	const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-	const { data: path, error } = await supabase.storage.from("avatars").upload(`avatar_${userID}_${randomString}.jpg`, file, {
-		cacheControl: "3600",
-		upsert: false,
-	});
+	const { data: path, error } = await supabase.storage
+		.from("avatars")
+		.upload(`avatar_${userID}_${randomString}.jpg`, file, {
+			cacheControl: "3600",
+			upsert: false,
+		});
 	if (error) throw error;
 
 	const { data: publicUrl } = supabase.storage.from("avatars").getPublicUrl(path.path);
 	return publicUrl.publicUrl;
 };
-
 
 export const deleteAvatarImage = async (imageName: string) => {
 	const { error } = await supabase.storage.from("avatars").remove([imageName]);
