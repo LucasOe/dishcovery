@@ -13,11 +13,8 @@ export const validateUsername = (username: string): boolean => {
 export const userNameIsTaken = async (username: string): Promise<boolean> => {
 	const { data: users, error: userError } = await supabase.from("profiles").select("id").eq("username", username);
 
-	if (userError) {
-		throw userError;
-	}
-
-	return !!(users && users.length > 0);
+	if (userError) throw userError;
+	else return users.length > 0;
 };
 
 export const validatePassword = (password: string): boolean => {
@@ -37,6 +34,5 @@ export const validateRecipeDescription = (recipeDescription: string): boolean =>
 
 export const validateRecipeSteps = (recipeSteps: string): boolean => {
 	const recipeStepsRegex = /.{30,}/;
-	console.log(recipeStepsRegex.test(recipeSteps));
 	return recipeStepsRegex.test(recipeSteps);
 };
