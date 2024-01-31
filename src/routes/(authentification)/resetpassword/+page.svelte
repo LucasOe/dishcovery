@@ -7,9 +7,9 @@
 	import type { AuthError } from "@supabase/supabase-js";
 
 	let error: AuthError | null;
+	let successMessage: string | null;
 	let password = { content: "", isValid: true };
 	let password_repeat = { content: "", isValid: true };
-	let successMessage: string | null;
 
 	async function handleReset() {
 		if (!password.isValid) return;
@@ -39,14 +39,13 @@
 				id="password"
 				type="password"
 				minlength="6"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="new-password"
+				class="input"
 				required
 			/>
 			{#if !password.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">
-						Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
-					</p>
+					<p class="error">Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.</p>
 				</FadeIn>
 			{/if}
 		</Section>
@@ -61,30 +60,28 @@
 				id="confirm_password"
 				type="password"
 				minlength="6"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="new-password"
+				class="input"
 				required
 			/>
 			{#if password.content !== password_repeat.content}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Diese Eingabe stimmt nicht mit dem Passwort überein.</p>
+					<p class="error">Diese Eingabe stimmt nicht mit dem Passwort überein.</p>
 				</FadeIn>
 			{/if}
 		</Section>
 
-		<button
-			type="submit"
-			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
-		>
-			Passwort zurücksetzen
-		</button>
-		{#if error}
-			<FadeIn>
-				<p class="mt-2 rounded-sm bg-red p-2">Fehler beim zurücksetzen des Passworts</p>
-			</FadeIn>
-		{:else if successMessage}
-			<FadeIn>
-				<p class="mt-2 rounded-sm text-yellow">{successMessage}</p>
-			</FadeIn>
-		{/if}
+		<div class="py-6">
+			<button type="submit" class="button"> Passwort zurücksetzen </button>
+			{#if error}
+				<FadeIn>
+					<p class="error">Fehler beim zurücksetzen des Passworts</p>
+				</FadeIn>
+			{:else if successMessage}
+				<FadeIn>
+					<p class="success">{successMessage}</p>
+				</FadeIn>
+			{/if}
+		</div>
 	</form>
 </div>

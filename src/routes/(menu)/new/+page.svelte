@@ -348,11 +348,7 @@
 				</div>
 			</Section>
 
-			<button
-				class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
-			>
-				Rezept veröffentlichen
-			</button>
+			<button class="button mt-5"> Rezept veröffentlichen </button>
 		</form>
 		{#if loading}
 			<div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-900 bg-opacity-50">

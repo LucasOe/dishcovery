@@ -6,8 +6,8 @@
 	import type { AuthError } from "@supabase/supabase-js";
 
 	let error: AuthError | null = null;
-	let email = { content: "", isValid: true };
 	let successMessage: string | null;
+	let email = { content: "", isValid: true };
 
 	async function handleForgotPassword() {
 		if (!email.isValid) return;
@@ -36,30 +36,28 @@
 				}}
 				id="email"
 				type="email"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="email"
+				class="input"
 				required
 			/>
 			{#if !email.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Ungültige E-Mail-Adresse</p>
+					<p class="error">Ungültige E-Mail-Adresse</p>
 				</FadeIn>
 			{/if}
 		</Section>
 
-		<button
-			type="submit"
-			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
-		>
-			Passwort zurücksetzen
-		</button>
-		{#if error}
-			<FadeIn>
-				<p class="mt-2 rounded-sm bg-red p-2">{error}</p>
-			</FadeIn>
-		{:else if successMessage}
-			<FadeIn>
-				<p class="mt-2 rounded-sm text-yellow">{successMessage}</p>
-			</FadeIn>
-		{/if}
+		<div class="py-6">
+			<button type="submit" class="button">Passwort zurücksetzen</button>
+			{#if error}
+				<FadeIn>
+					<p class="error">{error}</p>
+				</FadeIn>
+			{:else if successMessage}
+				<FadeIn>
+					<p class="success">{successMessage}</p>
+				</FadeIn>
+			{/if}
+		</div>
 	</form>
 </div>
