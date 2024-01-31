@@ -3,35 +3,23 @@
 	import Section from "$lib/components/Section.svelte";
 	import { validateEmail } from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
+	import type { AuthError } from "@supabase/supabase-js";
 
-	let email = {
-		content: "",
-		isValid: true,
-	};
-
-	let error: string | null = null;
-	let successMessage = "";
+	let error: AuthError | null = null;
+	let successMessage: string | null;
+	let email = { content: "", isValid: true };
 
 	async function handleForgotPassword() {
-		try {
-			if (!email) {
-				error = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
-				return;
-			}
+		if (!email.isValid) return;
 
-			const resetUrl = `${window.location.origin}/resetpassword`;
-			const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.content, {
-				redirectTo: resetUrl,
-			});
+		const { error: reset_error } = await supabase.auth.resetPasswordForEmail(email.content, {
+			redirectTo: `${window.location.origin}/resetpassword`,
+		});
 
-			if (resetError) {
-				error = resetError.message;
-			} else {
-				successMessage = "Passwort-Wiederherstellungs-E-Mail wurde gesendet. Bitte überprüfe dein E-Mail-Postfach.";
-			}
-		} catch (error) {
-			console.error("Fehler beim Senden der Passwort-Wiederherstellungs-E-Mail:", error);
-			throw error;
+		if (reset_error) {
+			error = reset_error;
+		} else {
+			successMessage = "Passwort-Wiederherstellungs-E-Mail wurde gesendet. Bitte überprüfe dein E-Mail-Postfach.";
 		}
 	}
 </script>
@@ -41,32 +29,35 @@
 		<Section title="E-Mail-Adresse">
 			<input
 				bind:value={email.content}
-				on:input={() => (email.isValid = validateEmail(email.content))}
+				on:input={() => {
+					email.isValid = validateEmail(email.content);
+					error = null;
+					successMessage = null;
+				}}
 				id="email"
 				type="email"
-				class="h-10 w-full rounded-sm border-sm border-gray-500 bg-gray-500 px-sm py-md text-xl text-white hover:border-[#383838] hover:bg-[#383838] focus:border-yellow focus:bg-gray-900 focus:outline-none"
+				autocomplete="email"
+				class="input"
 				required
 			/>
 			{#if !email.isValid}
 				<FadeIn>
-					<p class="mt-2 rounded-sm bg-red p-2">Ungültige E-Mail-Adresse</p>
+					<p class="error">Ungültige E-Mail-Adresse</p>
 				</FadeIn>
 			{/if}
 		</Section>
 
-		<button
-			type="submit"
-			class="mt-5 h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow"
-		>
-			Passwort zurücksetzen
-		</button>
+		<div class="py-6">
+			<button type="submit" class="button">Passwort zurücksetzen</button>
+			{#if error}
+				<FadeIn>
+					<p class="error">{error}</p>
+				</FadeIn>
+			{:else if successMessage}
+				<FadeIn>
+					<p class="success">{successMessage}</p>
+				</FadeIn>
+			{/if}
+		</div>
 	</form>
-
-	{#if successMessage}
-		<p class="text-green-500">{successMessage}</p>
-	{/if}
-
-	{#if error}
-		<p class="text-red-500">{error}</p>
-	{/if}
 </div>

@@ -23,16 +23,17 @@ export const fetchAverageRating = async (id: number): Promise<number> => {
 };
 
 export const fetchUserRating = async (recipeID: number, userID: string): Promise<number> => {
-	const {data, error} = await supabase.from("ratings")
+	const { data, error } = await supabase
+		.from("ratings")
 		.select("rating")
 		.eq("recipe", recipeID)
 		.eq("user_id", userID)
-		.single()
+		.single();
 
 	if (error) throw error;
 
 	return data?.rating || 0;
-}
+};
 
 export const upsertRating = async (rating: TablesInsert<"ratings">) => {
 	const { error } = await supabase.from("ratings").upsert(rating);
@@ -45,10 +46,11 @@ export const resetUserRatings = async (userID: string) => {
 };
 
 export const isInCookBook = async (recipeID: number, userID: string): Promise<boolean> => {
-	const { data, error } = await supabase.from("ratings")
+	const { data, error } = await supabase
+		.from("ratings")
 		.select("inCookBook")
 		.eq("recipe", recipeID)
 		.eq("user_id", userID);
 	if (error) throw error;
 	return !!data;
-}
+};

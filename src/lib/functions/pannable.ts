@@ -3,8 +3,8 @@ export function pannable(node: HTMLElement) {
 	let y: number;
 
 	function handleStart(event: MouseEvent | TouchEvent) {
-		x = 'touches' in event ? event.touches[0].clientX : event.clientX;
-		y = 'touches' in event ? event.touches[0].clientY : event.clientY;
+		x = "touches" in event ? event.touches[0].clientX : event.clientX;
+		y = "touches" in event ? event.touches[0].clientY : event.clientY;
 
 		node.dispatchEvent(
 			new CustomEvent("panstart", {
@@ -19,10 +19,10 @@ export function pannable(node: HTMLElement) {
 	}
 
 	function handleMove(event: MouseEvent | TouchEvent) {
-		const dx = ('touches' in event ? event.touches[0].clientX : event.clientX) - x;
-		const dy = ('touches' in event ? event.touches[0].clientY : event.clientY) - y;
-		x = 'touches' in event ? event.touches[0].clientX : event.clientX;
-		y = 'touches' in event ? event.touches[0].clientY : event.clientY;
+		const dx = ("touches" in event ? event.touches[0].clientX : event.clientX) - x;
+		const dy = ("touches" in event ? event.touches[0].clientY : event.clientY) - y;
+		x = "touches" in event ? event.touches[0].clientX : event.clientX;
+		y = "touches" in event ? event.touches[0].clientY : event.clientY;
 
 		node.dispatchEvent(
 			new CustomEvent("panmove", {
@@ -32,8 +32,8 @@ export function pannable(node: HTMLElement) {
 	}
 
 	function handleEnd(event: MouseEvent | TouchEvent) {
-		x = 'changedTouches' in event ? event.changedTouches[0].clientX : event.clientX;
-		y = 'changedTouches' in event ? event.changedTouches[0].clientY : event.clientY;
+		x = "changedTouches" in event ? event.changedTouches[0].clientX : event.clientX;
+		y = "changedTouches" in event ? event.changedTouches[0].clientY : event.clientY;
 
 		node.dispatchEvent(
 			new CustomEvent("panend", {

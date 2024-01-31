@@ -25,14 +25,19 @@
 
 	<ul
 		class={twMerge(
-			"absolute z-10 w-full space-y-xs rounded-md bg-gray-500 shadow-xl overflow-hidden",
+			"absolute z-10 w-full space-y-xs overflow-hidden rounded-md bg-gray-500 shadow-xl",
 			menuOpen ? "ring-2 ring-gray-300" : "hidden"
 		)}
 	>
 		{#each entries as entry}
-			<li class={twMerge("cursor-pointer text-lg font-semibold hover:bg-gray-500-hover px-sm py-xs", entry.id == selected.id && "text-yellow")}>
+			<li
+				class={twMerge(
+					"cursor-pointer px-sm py-xs text-lg font-semibold hover:bg-gray-500-hover",
+					entry.id == selected.id && "text-yellow"
+				)}
+			>
 				<button
-				class="w-full text-left"
+					class="w-full text-left"
 					type="button"
 					on:click={() => {
 						selected = entry;
