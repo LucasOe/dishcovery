@@ -21,7 +21,9 @@
 			error = reset_error;
 		} else {
 			successMessage = "Passwort erfolgreich zurückgesetzt. Du kannst dich jetzt anmelden.";
-			goto("/login");
+			setTimeout(() => {
+				goto("/login");
+			}, 500);
 		}
 	}
 </script>
