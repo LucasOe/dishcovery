@@ -65,7 +65,7 @@
 			{recipe.name}
 		</h1>
 
-		<TagRow {recipe} />
+		<TagRow {recipe} isInDetail={false} />
 		<DetailRow {recipe} />
 	</div>
 
