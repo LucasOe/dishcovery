@@ -6,12 +6,7 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
-	import {
-		userNameisTaken,
-		validateEmail,
-		validatePassword,
-		validateUsername
-	} from "$lib/functions/validation";
+	import { userNameisTaken, validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 
 	let username = {
@@ -39,8 +34,7 @@
 
 	let error: AuthError | null = null;
 
-	async function handleRegister()
-	{
+	async function handleRegister() {
 		isFormValid = true;
 		isUsernameTaken = false;
 
@@ -52,8 +46,8 @@
 		}
 
 		// Check if the username is already taken
-		if(await userNameisTaken(username.content)) {
-			username.message = "Der Benutzername wird bereits verwendet."
+		if (await userNameisTaken(username.content)) {
+			username.message = "Der Benutzername wird bereits verwendet.";
 			return;
 		}
 
@@ -81,7 +75,6 @@
 			}, 3000);
 		}
 	}
-
 
 	async function handleGuestLogin() {
 		const guestUser = {
@@ -117,7 +110,7 @@
 			<FadeIn>
 				<p class="mt-2 rounded-sm bg-red p-2">
 					{username.message}
-					</p>
+				</p>
 			</FadeIn>
 		{/if}
 	</Section>
