@@ -2,6 +2,7 @@
 	import { goto } from "$app/navigation";
 
 	import {
+		deleteRecipe,
 		fetchCategories,
 		insertRecipe,
 		insertRecipeCategories,
@@ -66,51 +67,49 @@
 
 		loading = true;
 
-		try {
-			let recipe = await insertRecipe({
-				name: recipeName.content,
-				description: recipeDescription.content,
-				difficulty: difficulty.id,
-				cost: cost.id,
-				preperation_time: preperation_time.id,
-				user_id: $user.id,
+		let recipe = await insertRecipe({
+			name: recipeName.content,
+			description: recipeDescription.content,
+			difficulty: difficulty.id,
+			cost: cost.id,
+			preperation_time: preperation_time.id,
+			user_id: $user.id,
+		});
+
+		await Promise.all([
+			uploadAndInsertImages(
+				images.map((image) => ({
+					recipe_id: recipe.id,
+					image: image,
+				}))
+			),
+			insertRecipeCategories(
+				categories.map((category) => ({
+					recipe_id: recipe.id,
+					category_id: category.id,
+				}))
+			),
+			insertRecipeIngredients(
+				ingredients.map((ingredient) => ({
+					recipe_id: recipe.id,
+					name: ingredient.name,
+					amount: ingredient.amount,
+				}))
+			),
+			insertRecipeSteps(
+				recipeSteps.map((step) => ({
+					recipe_id: recipe.id,
+					number: step.number,
+					description: step.description,
+				}))
+			),
+		])
+			.then(() => {
+				goto(`/recipe/${recipe.id}`);
+			})
+			.catch(() => {
+				deleteRecipe(recipe.id);
 			});
-
-			await Promise.all([
-				uploadAndInsertImages(
-					images.map((image) => ({
-						recipe_id: recipe.id,
-						image: image,
-					}))
-				),
-				insertRecipeCategories(
-					categories.map((category) => ({
-						recipe_id: recipe.id,
-						category_id: category.id,
-					}))
-				),
-				insertRecipeIngredients(
-					ingredients.map((ingredient) => ({
-						recipe_id: recipe.id,
-						name: ingredient.name,
-						amount: ingredient.amount,
-					}))
-				),
-				insertRecipeSteps(
-					recipeSteps.map((step) => ({
-						recipe_id: recipe.id,
-						number: step.number,
-						description: step.description,
-					}))
-				),
-			]);
-
-			goto(`/recipe/${recipe.id}`);
-		} catch (error) {
-			console.error("Fehler beim Veröffentlichen des Rezepts:", error);
-		} finally {
-			loading = false;
-		}
 	}
 
 	let fileInput: HTMLInputElement;
