@@ -10,7 +10,7 @@ export const validateUsername = (username: string): boolean => {
 	return usernameRegex.test(username);
 };
 
-export const userNameisTaken = async (username: string): Promise<boolean> => {
+export const userNameIsTaken = async (username: string): Promise<boolean> => {
 	const { data: users, error: userError } = await supabase.from("profiles").select("id").eq("username", username);
 
 	if (userError) {
