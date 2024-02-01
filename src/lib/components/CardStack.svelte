@@ -74,6 +74,7 @@
 		});
 
 		if (recipes[0]) $recipe = recipes[0];
+		else $recipe = null;
 
 		loading = false;
 	}
@@ -177,6 +178,7 @@
 
 			recipes = recipes; // update component
 			if (recipes[0]) $recipe = recipes[0];
+			else $recipe = null;
 
 			inAnimation = false;
 		}, 100);
