@@ -2,7 +2,7 @@
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
 	import type { Recipe } from "$types/database.types.js";
-	import { swipeDirection } from "$lib/functions/stores";
+	import { swipeDirection, user } from "$lib/functions/stores";
 	import { Direction } from "$types/card.types";
 	import DetailRow from "$lib/components/DetailRow.svelte";
 	import TagRow from "$lib/components/TagRow.svelte";
@@ -110,10 +110,12 @@
 							</button>
 						{/each}
 					</div>
-					<div class="my-36 flex flex-col">
-						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
-						<ButtonRating {recipe} />
-					</div>
+					{#if $user && recipe.user_id !== $user.id}
+						<div class="my-36 flex flex-col">
+							<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
+							<ButtonRating {recipe} />
+						</div>
+					{/if}
 				</div>
 			</div>
 		</FadeIn>
