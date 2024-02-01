@@ -29,7 +29,7 @@
 					</div>
 				{/if}
 				<div class="absolute bottom-0 left-0 w-full px-md py-sm">
-					<div class="custom-text-shadow font-header text-xl text-yellow">
+					<div class="font-header text-xl text-yellow [text-shadow:_0_0_5px_#000]">
 						{recipe.name}
 					</div>
 					<DetailRow {recipe} />
@@ -48,9 +48,3 @@
 		</div>
 	</a>
 </div>
-
-<style>
-	.custom-text-shadow {
-		text-shadow: 0 0 5px #000;
-	}
-</style>
