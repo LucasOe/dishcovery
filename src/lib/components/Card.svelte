@@ -40,7 +40,7 @@
 	{#if recipe.images.length > 0}
 		<img
 			src={recipe.images[currentImage].image}
-			class="transition-image absolute top-0 -z-50 h-4/5 w-full object-cover"
+			class="transition-image absolute top-0 -z-50 h-4/5 w-full bg-gray-500 object-cover"
 			alt=""
 			style:--recipe={imageTransition}
 		/>
