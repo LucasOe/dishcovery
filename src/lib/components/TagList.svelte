@@ -13,7 +13,7 @@
 	}
 </script>
 
-<div class="flex flex-wrap gap-sm rounded-sm bg-gray-500 p-sm">
+<div class="flex flex-wrap gap-sm rounded-sm bg-gray-500 py-sm px-xs">
 	{#each tags as tag}
 		<button type="button" on:click={() => toggleSelect(tag)}>
 			<Tag text={tag.name} color={selected.includes(tag) ? "yellow" : "gray"} />

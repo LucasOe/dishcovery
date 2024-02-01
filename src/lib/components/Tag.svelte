@@ -7,7 +7,7 @@
 
 <div
 	class={twMerge(
-		"rounded-sm border px-md py-xs",
+		"rounded-sm border px-sm py-xs",
 		{
 			gray: "border-gray-300 text-gray-300",
 			yellow: "border-yellow text-yellow",
