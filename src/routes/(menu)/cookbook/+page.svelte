@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { deleteRecipe, fetchRecipesInCookBook, removeRecipeFromCookBook } from "$lib/functions/database/recipes";
+	import { deleteRecipe } from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
@@ -7,6 +7,7 @@
 	import { onMount } from "svelte";
 	import type { Recipe } from "$types/database.types";
 	import { twMerge } from "tailwind-merge";
+	import { fetchLikedRecipes, upsertLike } from "$lib/functions/database/likes";
 
 	let selectedMenu: "all" | "uploads" | "likes" = "all";
 	let userRecipes: Promise<Recipe[]>;
@@ -15,7 +16,7 @@
 	onMount(() => {
 		if (!$user) return;
 		userRecipes = fetchUserRecipes($user.id);
-		likedRecipes = fetchRecipesInCookBook($user.id);
+		likedRecipes = fetchLikedRecipes($user.id);
 	});
 
 	async function onDeleteUserRecipe(recipe: Recipe) {
@@ -26,8 +27,12 @@
 
 	async function onDeleteLikedRecipe(recipe: Recipe) {
 		if (!$user) return;
-		await removeRecipeFromCookBook($user.id, recipe.id);
-		likedRecipes = fetchRecipesInCookBook($user.id);
+		await upsertLike({
+			user_id: $user.id,
+			recipe: recipe.id,
+			liked: false,
+		});
+		likedRecipes = fetchLikedRecipes($user.id);
 	}
 </script>
 

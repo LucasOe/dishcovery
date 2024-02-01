@@ -14,9 +14,9 @@
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { createCardInstance, direction, getTransformValue } from "$lib/functions/cardStack";
-	import { resetUserRatings, insertRating } from "$lib/functions/database/ratings";
 	import { pannable } from "$lib/functions/pannable";
 	import { goto } from "$app/navigation";
+	import { deleteLikes, upsertLike } from "$lib/functions/database/likes";
 
 	let container: HTMLDivElement;
 	let cardInstances: Card[] = [];
@@ -122,10 +122,10 @@
 
 		if ($user) {
 			await Promise.all([
-				insertRating({
+				upsertLike({
 					user_id: $user.id,
 					recipe: recipes[0].id,
-					inCookBook: swipeIndicator === Direction.Right,
+					liked: swipeIndicator === Direction.Right,
 				}),
 				fetchNextRecipeNotSeen(recipes[recipes.length - 1].id, $user.id, $filters),
 			])
@@ -188,7 +188,7 @@
 
 	async function onReset() {
 		if (!$user) return;
-		await resetUserRatings($user.id);
+		await deleteLikes($user.id);
 		initCards();
 	}
 </script>
