@@ -82,6 +82,39 @@ export interface Database {
           }
         ]
       }
+      likes: {
+        Row: {
+          liked: boolean
+          recipe: number
+          user_id: string
+        }
+        Insert: {
+          liked: boolean
+          recipe: number
+          user_id: string
+        }
+        Update: {
+          liked?: boolean
+          recipe?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "likes_recipe_fkey"
+            columns: ["recipe"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "likes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -110,19 +143,16 @@ export interface Database {
       }
       ratings: {
         Row: {
-          inCookBook: boolean
           rating: number | null
           recipe: number
           user_id: string
         }
         Insert: {
-          inCookBook: boolean
           rating?: number | null
           recipe: number
           user_id: string
         }
         Update: {
-          inCookBook?: boolean
           rating?: number | null
           recipe?: number
           user_id?: string

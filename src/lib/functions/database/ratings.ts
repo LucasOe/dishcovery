@@ -22,17 +22,15 @@ export const fetchAverageRating = async (id: number): Promise<number> => {
 	return rating;
 };
 
-export const fetchUserRating = async (recipeID: number, userID: string): Promise<number> => {
+export const fetchRating = async (recipeID: number, userID: string): Promise<number | null> => {
 	const { data, error } = await supabase
 		.from("ratings")
 		.select("rating")
 		.eq("recipe", recipeID)
 		.eq("user_id", userID)
 		.single();
-
 	if (error) throw error;
-
-	return data?.rating || 0;
+	return data.rating;
 };
 
 export const insertRating = async (rating: TablesInsert<"ratings">) => {
@@ -45,17 +43,7 @@ export const updateRating = async (recipeID: number, rating: TablesUpdate<"ratin
 	if (error) throw error;
 };
 
-export const resetUserRatings = async (userID: string) => {
+export const deleteRatings = async (userID: string) => {
 	const { error } = await supabase.from("ratings").delete().eq("user_id", userID);
 	if (error) throw error;
-};
-
-export const isInCookBook = async (recipeID: number, userID: string): Promise<boolean> => {
-	const { data, error } = await supabase
-		.from("ratings")
-		.select("inCookBook")
-		.eq("recipe", recipeID)
-		.eq("user_id", userID);
-	if (error) throw error;
-	return !!data;
 };

@@ -3,13 +3,13 @@ import type { Recipe } from "$types/database.types";
 import type { Tables } from "$types/generated.types";
 
 export const fetchUserDataById = async (userId: string): Promise<Tables<"profiles"> | null> => {
-	const { data, error } = await supabase.from("profiles").select(`*`).eq("id", userId).maybeSingle();
+	const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
 
 export const fetchUserDataByUsername = async (username: string): Promise<Tables<"profiles"> | null> => {
-	const { data, error } = await supabase.from("profiles").select(`*`).ilike("username", username).maybeSingle();
+	const { data, error } = await supabase.from("profiles").select("*").ilike("username", username).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
@@ -51,7 +51,7 @@ export const insertAvatarImage = async (userID: string, url: string) => {
 export const fetchUserRecipes = async (userID: string): Promise<Recipe[]> => {
 	const { data, error } = await supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*)`)
+		.select("*, categories(*), images(*), ingredients(*), steps(*)")
 		.eq("user_id", userID);
 	if (error) throw error;
 	else return data;
