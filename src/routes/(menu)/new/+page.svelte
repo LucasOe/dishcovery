@@ -57,19 +57,18 @@
 		await insertRecipeImages(paths);
 	};
 
-	function validateImage(){
-		isImageValid = true
+	function validateImage() {
+		isImageValid = true;
 	}
 
 	async function publishRecipe() {
-		if (images.length == 0) isImageValid = false
+		if (images.length == 0) isImageValid = false;
 		if (!isImageValid) return;
 
 		if (!$user || loading) return;
 		if (!recipeName.isValid) return;
 		if (!recipeDescription.isValid) return;
 		if (!recipeSteps.every((step) => step.isValid)) return;
-
 
 		loading = true;
 
@@ -125,11 +124,10 @@
 		for (const file of e.currentTarget.files) images.push(file);
 		images = images;
 	}
-
 </script>
 
-<FadeIn>
-	{#await fetchCategories() then _categories}
+{#await fetchCategories() then _categories}
+	<FadeIn>
 		<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
 			<Section title="Titel">
 				<input
@@ -172,7 +170,6 @@
 							on:input={() => validateImage()}
 							bind:this={fileInput}
 							class=""
-							
 						/>
 						<!--
 						<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
@@ -211,7 +208,6 @@
 						<p class="mt-2 rounded-sm bg-red p-2">Bitte lade mindestens ein Bild hoch.</p>
 					</FadeIn>
 				{/if}
-				
 			</Section>
 			<Section title="Kategorie">
 				<TagList tags={_categories} bind:selected={categories} />
@@ -344,7 +340,7 @@
 							class="h-10 w-10"
 						>
 							<!--<img src={UploadIcon} alt="Schritt hinzufügen" class="size-10" />-->
-							
+
 							<UploadSVG />
 						</button>
 						<p class="text-lg text-gray-300">Schritt hinzufügen</p>
@@ -359,21 +355,21 @@
 				<div class="h-32 w-32 animate-spin rounded-full border-t-8 border-yellow"></div>
 			</div>
 		{/if}
-	{/await}
-</FadeIn>
+	</FadeIn>
+{/await}
 
 <style>
-	input[type=file]::file-selector-button {
-		content:'';
+	input[type="file"]::file-selector-button {
+		content: "";
 		border: 2px solid rgb(255 197 50 / var(--tw-bg-opacity));
-		padding: .5rem .75rem;
-		margin-right: .5rem;
-		border-radius: .75rem;
+		padding: 0.5rem 0.75rem;
+		margin-right: 0.5rem;
+		border-radius: 0.75rem;
 		background-color: #212121;
-		color:  rgb(255 197 50 / var(--tw-bg-opacity));
+		color: rgb(255 197 50 / var(--tw-bg-opacity));
 		transition: 150ms;
 	}
-	input[type=file]::file-selector-button:hover {
-		background-color: #3C3C3C;
+	input[type="file"]::file-selector-button:hover {
+		background-color: #3c3c3c;
 	}
 </style>
