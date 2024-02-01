@@ -39,13 +39,13 @@
 				/>
 			{/if}
 			<div class="p-8 pt-4">
-				<a href={`/profile/${profile.username}`} class="profile flex items-center gap-sm duration-150">
+				<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
 					<img
 						src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
 						alt="Profilbild"
-						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover"
+						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
 					/>
-					<p class="text-md font-semibold">{profile.username}</p>
+					<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
 				</a>
 				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 					{recipe.name}
@@ -121,12 +121,3 @@
 		</FadeIn>
 	{/if}
 {/await}
-
-<style>
-	.profile:hover img {
-		border-color: rgb(125 124 124 / var(--tw-text-opacity));
-	}
-	.profile:hover p {
-		color: rgb(125 124 124 / var(--tw-text-opacity));
-	}
-</style>
