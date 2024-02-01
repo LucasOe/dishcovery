@@ -71,12 +71,34 @@
 				},
 			],
 		},
+		categories: {
+			displayName: "Kategorie",
+			options: [
+				{
+					id: null,
+					name: "Alle",
+				},
+				{
+					id: 31,
+					name: "Frühstück",
+				},
+				{
+					id: 33,
+					name: "Mittagessen",
+				},
+				{
+					id: 32,
+					name: "Abendessen",
+				},
+			],
+		},
 	};
 
 	const selectedFilters: Filter = {
 		difficulty: $filters?.difficulty || null,
 		cost: $filters?.cost || null,
 		preperation_time: $filters?.preperation_time || null,
+		categories: $filters?.categories || null,
 	};
 
 	function onClick<FilterKey extends keyof Filter>(filter: FilterKey, option: FilterValue<Filter[FilterKey]>) {
@@ -98,7 +120,7 @@
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">
 							<button
 								class={twMerge(
-									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center focus:outline-none hover:bg-gray-500-hover",
+									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center hover:bg-gray-500-hover focus:outline-none",
 									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id)
 										? "bg-yellow text-white"
 										: "bg-gray-900"
