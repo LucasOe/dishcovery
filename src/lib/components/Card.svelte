@@ -37,12 +37,14 @@
 		transform: ${transformValue};
 	`}
 >
-	<img
-		src={recipe.images[currentImage].image}
-		class="transition-image absolute top-0 -z-50 h-4/5 w-full object-cover"
-		alt=""
-		style:--recipe={imageTransition}
-	/>
+	{#if recipe.images.length > 0}
+		<img
+			src={recipe.images[currentImage].image}
+			class="transition-image absolute top-0 -z-50 h-4/5 w-full object-cover"
+			alt=""
+			style:--recipe={imageTransition}
+		/>
+	{/if}
 
 	{#if recipe.images.length > 1}
 		<div class="absolute z-50 flex cursor-default gap-sm p-4">
