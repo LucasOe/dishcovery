@@ -30,7 +30,7 @@
 {#await fetchUserDataById(recipe.user_id) then profile}
 	{#if profile}
 		<FadeIn>
-			{#if recipe.images.length > 1}
+			{#if recipe.images.length > 0}
 				<img
 					src={recipe.images[0].image}
 					class="transition-image h-64 w-full object-cover"
