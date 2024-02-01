@@ -3,18 +3,6 @@ import type { Recipe } from "$types/database.types";
 import type { Filter } from "$types/filter.types";
 import type { Tables, TablesInsert } from "$types/generated.types";
 
-export const fetchRecipes = async (ids: number[], filters?: Filter): Promise<Recipe[]> => {
-	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*)").in("id", [ids]);
-
-	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
-	if (filters?.cost) query = query.eq("cost", filters.cost);
-	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
-
-	const { data, error } = await query;
-	if (error) throw error;
-	else return data;
-};
-
 export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Promise<Recipe[]> => {
 	let query = supabase
 		.from("recipes")
@@ -28,6 +16,49 @@ export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Pro
 	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
 
 	const { data, error } = await query.order("id").limit(3);
+	if (error) throw error;
+	else return data;
+};
+
+export const fetchNextRecipeNotSeen = async (
+	currentId: number,
+	userID: string,
+	filters?: Filter
+): Promise<Recipe | null> => {
+	let query = supabase
+		.from("recipes")
+		.select("*, categories(*), images(*), ingredients(*), steps(*), likes(*)")
+		.eq("likes.user_id", userID)
+		.neq("user_id", userID) // exclude recipes uploaded by the user
+		.is("likes", null) // recipe hasn't been rated by user
+		.gt("id", currentId);
+
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
+
+	const { data, error } = await query.order("id").limit(1).maybeSingle();
+	if (error) throw error;
+	else return data;
+};
+
+export const fetchRecipesWithFilter = async (filters?: Filter): Promise<Recipe[]> => {
+	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*), likes(*)");
+
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
+
+	const { data, error } = await query.order("id").limit(3);
+	if (error) throw error;
+	else return data;
+};
+
+export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
+	const { data, error } = await supabase
+		.from("recipes")
+		.select("*, categories(*), images(*), ingredients(*), steps(*)")
+		.in("id", [ids]);
 	if (error) throw error;
 	else return data;
 };
@@ -46,28 +77,6 @@ export const fetchNextRecipe = async (currentId: number, filters?: Filter): Prom
 	let query = supabase
 		.from("recipes")
 		.select("*, categories(*), images(*), ingredients(*), steps(*)")
-		.gt("id", currentId);
-
-	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
-	if (filters?.cost) query = query.eq("cost", filters.cost);
-	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
-
-	const { data, error } = await query.order("id").limit(1).maybeSingle();
-	if (error) throw error;
-	else return data;
-};
-
-export const fetchNextRecipeNotSeen = async (
-	currentId: number,
-	userID: string,
-	filters?: Filter
-): Promise<Recipe | null> => {
-	let query = supabase
-		.from("recipes")
-		.select("*, categories(*), images(*), ingredients(*), steps(*), likes(*)")
-		.eq("likes.user_id", userID)
-		.neq("user_id", userID) // exclude recipes uploaded by the user
-		.is("likes", null) // recipe hasn't been rated by user
 		.gt("id", currentId);
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
