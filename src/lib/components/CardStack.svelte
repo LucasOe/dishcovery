@@ -6,8 +6,8 @@
 	import {
 		fetchNextRecipeNotSeen,
 		fetchNextRecipe,
-		fetchRecipes,
 		fetchRecipesNotSeen,
+		fetchRecipesWithFilter,
 	} from "$lib/functions/database/recipes";
 	import type { Recipe } from "$types/database.types";
 	import { Direction } from "$types/card.types";
@@ -66,7 +66,7 @@
 		cardInstances = [];
 
 		if ($user) recipes = await fetchRecipesNotSeen($user.id, $filters);
-		else recipes = await fetchRecipes([3, 2, 1], $filters);
+		else recipes = await fetchRecipesWithFilter($filters);
 
 		// create card instances
 		recipes.forEach((recipe) => {
