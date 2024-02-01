@@ -11,6 +11,8 @@
 	import DefaultAvatar from "$lib/assets/user.png";
 	import Rating from "$lib/components/Rating.svelte";
 	import ButtonRating from "$lib/components/ButtonRating.svelte";
+	import { fetchLikes } from "$lib/functions/database/likes";
+	import Heart from "$lib/assets/icons/heart.svg";
 
 	export let data;
 
@@ -39,48 +41,60 @@
 				/>
 			{/if}
 			<div class="p-8 pt-4">
-				<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
-					<img
-						src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
-						alt="Profilbild"
-						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
-					/>
-					<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
-				</a>
+				<div class="flex items-center justify-between">
+					<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
+						<img
+							src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
+							alt="Profilbild"
+							class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
+						/>
+						<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
+					</a>
+					{#await fetchLikes(recipe.id) then likes}
+						<div class="flex gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal">
+							{likes}
+							<img src={Heart} alt="Heart" />
+						</div>
+					{/await}
+				</div>
 				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 					{recipe.name}
 				</h1>
 				<Rating {recipe} />
 				<div class="animate-fade space-y-6">
-					<TagRow {recipe} isInDetail={true} />
+					{#if recipe.categories.length > 0}
+						<TagRow {recipe} isInDetail={true} />
+					{/if}
 					<DetailRow {recipe} />
-					<div class="overflow-hidden rounded-sm bg-gray-500">
-						<button
-							on:click={() => (isOpen = !isOpen)}
-							class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
-						>
-							<div class="text-md pl-2">Zutaten</div>
-							<img
-								class={twMerge("transition-transform", isOpen && "rotate-180")}
-								src={Chevron}
-								alt="chevron"
-								width="25"
-								height="25"
-							/>
-						</button>
-						<div class={twMerge("flex flex-col gap-xs pt-1", !isOpen && "hidden")}>
-							{#each recipe.ingredients as ingredient}
-								<li class="flex flex-row gap-md px-4 py-2 even:bg-[rgba(40,40,40,1)]">
-									<div class="w-16">
-										{ingredient.amount}
-									</div>
-									<div class="font-semibold">
-										{ingredient.name}
-									</div>
-								</li>
-							{/each}
+					{#if recipe.ingredients.length > 0}
+						<div class="overflow-hidden rounded-sm bg-gray-500">
+							<button
+								on:click={() => (isOpen = !isOpen)}
+								class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
+							>
+								<div class="text-md pl-2">Zutaten</div>
+								<img
+									class={twMerge("transition-transform", isOpen && "rotate-180")}
+									src={Chevron}
+									alt="chevron"
+									width="25"
+									height="25"
+								/>
+							</button>
+							<div class={twMerge("flex flex-col gap-xs pt-1", !isOpen && "hidden")}>
+								{#each recipe.ingredients as ingredient}
+									<li class="flex flex-row gap-md px-4 py-2 even:bg-[rgba(40,40,40,1)]">
+										<div class="w-16">
+											{ingredient.amount}
+										</div>
+										<div class="font-semibold">
+											{ingredient.name}
+										</div>
+									</li>
+								{/each}
+							</div>
 						</div>
-					</div>
+					{/if}
 					<div class="mt-12 flex flex-col gap-3">
 						{#each getRecipeSteps(recipe) as step, index}
 							<button
