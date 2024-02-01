@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Star from "$lib/assets/icons/star.svg";
 	import StarEmpty from "$lib/assets/icons/star_empty.svg";
-	import { fetchRating, updateRating } from "$lib/functions/database/ratings.js";
+	import { fetchRating, upsertRating } from "$lib/functions/database/ratings.js";
 	import type { Recipe } from "$types/database.types";
 	import { user } from "$lib/functions/stores";
 	import { onMount } from "svelte";
@@ -27,8 +27,10 @@
 
 	const rateRecipe = (rating: number) => {
 		if ($user) {
-			updateRating(recipe.id, {
+			upsertRating({
 				rating: rating,
+				recipe: recipe.id,
+				user_id: $user.id,
 			}).then(() => {
 				userRating = rating;
 			});
@@ -40,7 +42,7 @@
 	<div role="group" class="flex justify-center gap-3" on:mouseleave={() => handleMouseLeave()}>
 		{#each Array(5) as _, index}
 			<button type="button" on:mouseenter={() => handleHover(index + 1)} on:click={() => rateRecipe(index + 1)}>
-				<img class="hover:cursor-pointer" src={!rating || index < rating ? Star : StarEmpty} alt="Rating Icon" />
+				<img class="hover:cursor-pointer" src={rating && index < rating ? Star : StarEmpty} alt="Rating Icon" />
 			</button>
 		{/each}
 	</div>

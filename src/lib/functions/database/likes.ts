@@ -17,7 +17,8 @@ export const fetchLikedRecipes = async (userID: string): Promise<Recipe[]> => {
 		.from("recipes")
 		.select("*, categories(*), images(*), ingredients(*), steps(*), likes!inner(*)")
 		.eq("likes.user_id", userID)
-		.eq("likes.liked", true);
+		.eq("likes.liked", true)
+		.neq("user_id", userID); // exclude recipes uploaded by the user
 	if (error) throw error;
 	else return data;
 };

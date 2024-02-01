@@ -2,7 +2,7 @@
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Chevron from "$lib/assets/icons/dropdown.svg";
 	import type { Recipe } from "$types/database.types.js";
-	import { swipeDirection } from "$lib/functions/stores";
+	import { swipeDirection, user } from "$lib/functions/stores";
 	import { Direction } from "$types/card.types";
 	import DetailRow from "$lib/components/DetailRow.svelte";
 	import TagRow from "$lib/components/TagRow.svelte";
@@ -30,32 +30,34 @@
 {#await fetchUserDataById(recipe.user_id) then profile}
 	{#if profile}
 		<FadeIn>
-			<img
-				src={recipe.images[0].image}
-				class="transition-image h-64 w-full object-cover"
-				alt=""
-				style:--recipe="image-{recipe.id}"
-			/>
+			{#if recipe.images.length > 0}
+				<img
+					src={recipe.images[0].image}
+					class="transition-image h-64 w-full object-cover"
+					alt=""
+					style:--recipe="image-{recipe.id}"
+				/>
+			{/if}
 			<div class="p-8 pt-4">
-				<a href={`/profile/${profile.username}`} class="profile flex items-center gap-sm duration-150">
+				<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
 					<img
 						src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
 						alt="Profilbild"
-						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover "
+						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
 					/>
-					<p class="text-md font-semibold ">{profile.username}</p>
+					<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
 				</a>
 				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 					{recipe.name}
 				</h1>
 				<Rating {recipe} />
 				<div class="animate-fade space-y-6">
-					<TagRow {recipe} isInDetail={true}/>
+					<TagRow {recipe} isInDetail={true} />
 					<DetailRow {recipe} />
-					<div class="rounded-sm bg-gray-500 overflow-hidden">
+					<div class="overflow-hidden rounded-sm bg-gray-500">
 						<button
 							on:click={() => (isOpen = !isOpen)}
-							class="hover:bg-gray-500-hover rounded-b-sm flex h-10 w-full items-center justify-between p-2 text-left font-semibold text-yellow"
+							class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
 						>
 							<div class="text-md pl-2">Zutaten</div>
 							<img
@@ -66,9 +68,9 @@
 								height="25"
 							/>
 						</button>
-						<div class={twMerge("pt-1 flex flex-col gap-xs", !isOpen && "hidden")}>
+						<div class={twMerge("flex flex-col gap-xs pt-1", !isOpen && "hidden")}>
 							{#each recipe.ingredients as ingredient}
-								<li class="px-4 py-2 flex flex-row gap-md even:bg-[rgba(40,40,40,1)]">
+								<li class="flex flex-row gap-md px-4 py-2 even:bg-[rgba(40,40,40,1)]">
 									<div class="w-16">
 										{ingredient.amount}
 									</div>
@@ -108,21 +110,14 @@
 							</button>
 						{/each}
 					</div>
-					<div class="my-36 flex flex-col">
-						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
-						<ButtonRating {recipe} />
-					</div>
+					{#if $user && recipe.user_id !== $user.id}
+						<div class="my-36 flex flex-col">
+							<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
+							<ButtonRating {recipe} />
+						</div>
+					{/if}
 				</div>
 			</div>
 		</FadeIn>
 	{/if}
 {/await}
-
-<style>
-	.profile:hover img {
-		border-color: rgb(125 124 124 / var(--tw-text-opacity));
-	}
-	.profile:hover p {
-		color: rgb(125 124 124 / var(--tw-text-opacity));
-	}
-</style>
