@@ -12,4 +12,6 @@ export type FilterValue<T> = {
 	name: string;
 };
 
-export type FilterOptions = { [key in keyof Filter]: { displayName: string; options: FilterValue<Filter[key]>[] } };
+export type FilterOptions = {
+	[key in keyof Filter]: { displayName: string; icon?: string; options: FilterValue<Filter[key]>[] };
+};
