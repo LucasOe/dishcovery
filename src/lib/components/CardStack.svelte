@@ -14,7 +14,7 @@
 	import Card from "$lib/components/Card.svelte";
 	import Spinner from "$lib/components/Spinner.svelte";
 	import { createCardInstance, direction, getTransformValue } from "$lib/functions/cardStack";
-	import { upsertRating, resetUserRatings } from "$lib/functions/database/ratings";
+	import { resetUserRatings, insertRating } from "$lib/functions/database/ratings";
 	import { pannable } from "$lib/functions/pannable";
 	import { goto } from "$app/navigation";
 
@@ -122,7 +122,7 @@
 
 		if ($user) {
 			await Promise.all([
-				upsertRating({
+				insertRating({
 					user_id: $user.id,
 					recipe: recipes[0].id,
 					inCookBook: swipeIndicator === Direction.Right,
