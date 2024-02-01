@@ -12,7 +12,5 @@
 <main class="flex w-full flex-col gap-16 p-8">
 	<TopNav />
 	<CardStack />
-	{#if $recipe}
-		<BottomNav />
-	{/if}
+	<BottomNav />
 </main>

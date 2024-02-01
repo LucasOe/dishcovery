@@ -21,8 +21,10 @@
 	};
 </script>
 
-<div class="flex items-center justify-center gap-xxl">
-	<RoundButton src={RejectIcon} alt="Reject Icon" action={rejectRecipe} size="md" />
-	<RoundButton src={OpenIcon} alt="Open Icon" action={openRecipe} size="sm" />
-	<RoundButton src={AddToListIcon} alt="Add Icon" action={likeRecipe} size="md" />
-</div>
+{#if $recipe}
+	<div class="flex items-center justify-center gap-xxl">
+		<RoundButton src={RejectIcon} alt="Reject Icon" action={rejectRecipe} size="md" />
+		<RoundButton src={OpenIcon} alt="Open Icon" action={openRecipe} size="sm" />
+		<RoundButton src={AddToListIcon} alt="Add Icon" action={likeRecipe} size="md" />
+	</div>
+{/if}
