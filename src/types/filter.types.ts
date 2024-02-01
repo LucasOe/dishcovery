@@ -3,6 +3,7 @@ export type Filter = {
 	difficulty: number | null;
 	cost: number | null;
 	preperation_time: number[] | null;
+	categories: number | null;
 };
 
 // Used to assign a name to a value, like categories, types, cost or difficulty
