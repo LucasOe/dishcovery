@@ -11,6 +11,8 @@
 	import DefaultAvatar from "$lib/assets/user.png";
 	import Rating from "$lib/components/Rating.svelte";
 	import ButtonRating from "$lib/components/ButtonRating.svelte";
+	import { fetchLikes } from "$lib/functions/database/likes";
+	import Heart from "$lib/assets/icons/heart.svg";
 
 	export let data;
 
@@ -39,14 +41,22 @@
 				/>
 			{/if}
 			<div class="p-8 pt-4">
-				<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
-					<img
-						src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
-						alt="Profilbild"
-						class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
-					/>
-					<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
-				</a>
+				<div class="flex items-center justify-between">
+					<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
+						<img
+							src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
+							alt="Profilbild"
+							class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
+						/>
+						<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
+					</a>
+					{#await fetchLikes(recipe.id) then likes}
+						<div class="flex gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal">
+							{likes}
+							<img src={Heart} alt="Heart" />
+						</div>
+					{/await}
+				</div>
 				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 					{recipe.name}
 				</h1>

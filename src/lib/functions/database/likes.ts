@@ -22,3 +22,13 @@ export const fetchLikedRecipes = async (userID: string): Promise<Recipe[]> => {
 	if (error) throw error;
 	else return data;
 };
+
+export const fetchLikes = async (recipeID: number): Promise<number> => {
+	const { data, error } = await supabase
+		.from("likes")
+		.select("*, recipes!inner(*)")
+		.eq("recipes.id", recipeID)
+		.eq("liked", true);
+	if (error) throw error;
+	else return data.length;
+};
