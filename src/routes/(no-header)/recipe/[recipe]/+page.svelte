@@ -52,12 +52,12 @@
 				<div class="animate-fade space-y-6">
 					<TagRow {recipe} isInDetail={true}/>
 					<DetailRow {recipe} />
-					<div class="rounded-sm bg-gray-500 hover:bg-gray-500-hover">
+					<div class="rounded-sm bg-gray-500 overflow-hidden">
 						<button
 							on:click={() => (isOpen = !isOpen)}
-							class="flex h-10 w-full items-center justify-between p-2 text-left font-semibold text-yellow"
+							class="hover:bg-gray-500-hover rounded-b-sm flex h-10 w-full items-center justify-between p-2 text-left font-semibold text-yellow"
 						>
-							<div class="text-md">Zutaten</div>
+							<div class="text-md pl-2">Zutaten</div>
 							<img
 								class={twMerge("transition-transform", isOpen && "rotate-180")}
 								src={Chevron}
@@ -66,10 +66,10 @@
 								height="25"
 							/>
 						</button>
-						<div class={twMerge("p-4 pt-0", !isOpen && "hidden")}>
+						<div class={twMerge("pt-1 flex flex-col gap-xs", !isOpen && "hidden")}>
 							{#each recipe.ingredients as ingredient}
-								<li class="flex flex-row gap-4">
-									<div class="w-12">
+								<li class="px-4 py-2 flex flex-row gap-md even:bg-[rgba(40,40,40,1)]">
+									<div class="w-16">
 										{ingredient.amount}
 									</div>
 									<div class="font-semibold">
