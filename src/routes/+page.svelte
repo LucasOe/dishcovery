@@ -2,6 +2,7 @@
 	import BottomNav from "$lib/components/BottomNav.svelte";
 	import TopNav from "$lib/components/TopNav.svelte";
 	import CardStack from "$lib/components/CardStack.svelte";
+	import { recipe } from "$lib/functions/stores";
 </script>
 
 <svelte:head>
@@ -11,5 +12,7 @@
 <main class="flex w-full flex-col gap-16 p-8">
 	<TopNav />
 	<CardStack />
-	<BottomNav />
+	{#if $recipe}
+		<BottomNav />
+	{/if}
 </main>
