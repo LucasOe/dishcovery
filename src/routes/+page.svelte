@@ -2,7 +2,6 @@
 	import BottomNav from "$lib/components/BottomNav.svelte";
 	import TopNav from "$lib/components/TopNav.svelte";
 	import CardStack from "$lib/components/CardStack.svelte";
-	import { recipe } from "$lib/functions/stores";
 </script>
 
 <svelte:head>
