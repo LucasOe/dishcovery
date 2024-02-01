@@ -29,19 +29,19 @@ export interface Database {
           bucket_path: string
           id: number
           image: string
-          recipe_id: number | null
+          recipe_id: number
         }
         Insert: {
           bucket_path: string
           id?: number
           image: string
-          recipe_id?: number | null
+          recipe_id: number
         }
         Update: {
           bucket_path?: string
           id?: number
           image?: string
-          recipe_id?: number | null
+          recipe_id?: number
         }
         Relationships: [
           {
@@ -84,17 +84,17 @@ export interface Database {
       }
       profiles: {
         Row: {
-          avatar_url: string
+          avatar_url: string | null
           id: string
           username: string
         }
         Insert: {
-          avatar_url: string
+          avatar_url?: string | null
           id: string
           username: string
         }
         Update: {
-          avatar_url?: string
+          avatar_url?: string | null
           id?: string
           username?: string
         }
@@ -110,19 +110,19 @@ export interface Database {
       }
       ratings: {
         Row: {
-          inCookBook: boolean | null
+          inCookBook: boolean
           rating: number | null
           recipe: number
           user_id: string
         }
         Insert: {
-          inCookBook?: boolean | null
+          inCookBook: boolean
           rating?: number | null
           recipe: number
           user_id: string
         }
         Update: {
-          inCookBook?: boolean | null
+          inCookBook?: boolean
           rating?: number | null
           recipe?: number
           user_id?: string
@@ -148,7 +148,7 @@ export interface Database {
         Row: {
           cost: number
           created_at: string | null
-          description: string | null
+          description: string
           difficulty: number
           id: number
           name: string
@@ -158,7 +158,7 @@ export interface Database {
         Insert: {
           cost: number
           created_at?: string | null
-          description?: string | null
+          description: string
           difficulty: number
           id?: number
           name: string
@@ -168,7 +168,7 @@ export interface Database {
         Update: {
           cost?: number
           created_at?: string | null
-          description?: string | null
+          description?: string
           difficulty?: number
           id?: number
           name?: string
