@@ -67,7 +67,9 @@
 			{recipe.name}
 		</h1>
 
-		<TagRow {recipe} isInDetail={false} />
+		{#if recipe.categories.length > 0}
+			<TagRow {recipe} isInDetail={false} />
+		{/if}
 		<DetailRow {recipe} />
 	</div>
 
