@@ -13,6 +13,7 @@
 	} from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
 
+	import UploadSVG from "$lib/components/UploadSVG.svelte";
 	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -46,10 +47,9 @@
 		},
 	];
 
-	let isImageValid = true;
-
 	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
+	let isImageValid = true;
 	let loading = false;
 
 	const uploadAndInsertImages = async (files: { recipe_id: number; image: Blob }[]) => {
@@ -57,13 +57,19 @@
 		await insertRecipeImages(paths);
 	};
 
+	function validateImage(){
+		isImageValid = true
+	}
+
 	async function publishRecipe() {
+		if (images.length == 0) isImageValid = false
+		if (!isImageValid) return;
+
 		if (!$user || loading) return;
 		if (!recipeName.isValid) return;
 		if (!recipeDescription.isValid) return;
 		if (!recipeSteps.every((step) => step.isValid)) return;
-		isImageValid = images.length > 0;
-		if (!isImageValid) return;
+
 
 		loading = true;
 
@@ -119,6 +125,7 @@
 		for (const file of e.currentTarget.files) images.push(file);
 		images = images;
 	}
+
 </script>
 
 <FadeIn>
@@ -162,10 +169,12 @@
 							type="file"
 							accept=".jpg, .jpeg, .png"
 							on:change={onFileSelected}
+							on:input={() => validateImage()}
 							bind:this={fileInput}
-							class="hidden"
-							required
+							class=""
+							
 						/>
+						<!--
 						<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
 							<img
 								src={UploadIcon}
@@ -173,7 +182,7 @@
 								class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]"
 							/>
 						</button>
-						<p class="text-lg text-gray-300">Bild hochladen</p>
+						<p class="text-lg text-gray-300">Bild hochladen</p>-->
 					</div>
 
 					{#if images.length > 0}
@@ -202,8 +211,8 @@
 						<p class="mt-2 rounded-sm bg-red p-2">Bitte lade mindestens ein Bild hoch.</p>
 					</FadeIn>
 				{/if}
+				
 			</Section>
-
 			<Section title="Kategorie">
 				<TagList tags={_categories} bind:selected={categories} />
 			</Section>
@@ -284,11 +293,7 @@
 							}}
 							class="h-10 w-10"
 						>
-							<img
-								src={UploadIcon}
-								alt="Zutat hinzufügen"
-								class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]"
-							/>
+							<UploadSVG />
 						</button>
 						<p class="text-lg text-gray-300">Zutat hinzufügen</p>
 					</div>
@@ -323,7 +328,7 @@
 
 							{#if !step.isValid}
 								<FadeIn>
-									<p class="mt-2 rounded-sm bg-red p-2">Bitte gebe mindestens 30 Zeichen pro schritt ein.</p>
+									<p class="mt-2 rounded-sm bg-red p-2">Bitte gebe mindestens 30 Zeichen pro Schritt ein.</p>
 								</FadeIn>
 							{/if}
 						</div>
@@ -336,9 +341,11 @@
 								recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
 								recipeSteps = recipeSteps;
 							}}
-							class="transition-all hover:scale-[1.1]"
+							class="h-10 w-10"
 						>
-							<img src={UploadIcon} alt="Schritt hinzufügen" class="size-10" />
+							<!--<img src={UploadIcon} alt="Schritt hinzufügen" class="size-10" />-->
+							
+							<UploadSVG />
 						</button>
 						<p class="text-lg text-gray-300">Schritt hinzufügen</p>
 					</div>
@@ -354,3 +361,19 @@
 		{/if}
 	{/await}
 </FadeIn>
+
+<style>
+	input[type=file]::file-selector-button {
+		content:'';
+		border: 2px solid rgb(255 197 50 / var(--tw-bg-opacity));
+		padding: .5rem .75rem;
+		margin-right: .5rem;
+		border-radius: .75rem;
+		background-color: #212121;
+		color:  rgb(255 197 50 / var(--tw-bg-opacity));
+		transition: 150ms;
+	}
+	input[type=file]::file-selector-button:hover {
+		background-color: #3C3C3C;
+	}
+</style>

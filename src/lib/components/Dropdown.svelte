@@ -14,7 +14,7 @@
 
 <div
 	class={twMerge(
-		"relative space-y-sm rounded-sm bg-gray-500 hover:bg-gray-500-hover",
+		"relative space-y-sm rounded-sm bg-gray-500 duration-150 hover:bg-gray-500-hover",
 		menuOpen && "ring-2 ring-gray-300"
 	)}
 >
