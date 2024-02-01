@@ -40,7 +40,7 @@
 					style:--recipe="image-{recipe.id}"
 				/>
 			{/if}
-			<div class="p-8 pt-4">
+			<div class="space-y-md p-8 pt-4">
 				<div class="flex items-center justify-between">
 					<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
 						<img
@@ -57,80 +57,86 @@
 						</div>
 					{/await}
 				</div>
-				<h1 class="transition-name mt-5 font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
-					{recipe.name}
-				</h1>
-				<Rating {recipe} />
-				<div class="animate-fade space-y-6">
+
+				<div class="space-y-1">
+					<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
+						{recipe.name}
+					</h1>
+					<Rating {recipe} />
 					{#if recipe.categories.length > 0}
 						<TagRow {recipe} isInDetail={true} />
 					{/if}
 					<DetailRow {recipe} />
-					{#if recipe.ingredients.length > 0}
-						<div class="overflow-hidden rounded-sm bg-gray-500">
-							<button
-								on:click={() => (isOpen = !isOpen)}
-								class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
-							>
-								<div class="text-md pl-2">Zutaten</div>
-								<img
-									class={twMerge("transition-transform", isOpen && "rotate-180")}
-									src={Chevron}
-									alt="chevron"
-									width="25"
-									height="25"
-								/>
-							</button>
-							<div class={twMerge("flex flex-col gap-xs pt-1", !isOpen && "hidden")}>
-								{#each recipe.ingredients as ingredient}
-									<li class="flex flex-row gap-md px-4 py-2 even:bg-[rgba(40,40,40,1)]">
-										<div class="w-16">
-											{ingredient.amount}
-										</div>
-										<div class="font-semibold">
-											{ingredient.name}
-										</div>
-									</li>
-								{/each}
-							</div>
-						</div>
-					{/if}
-					<div class="mt-12 flex flex-col gap-3">
-						{#each getRecipeSteps(recipe) as step, index}
-							<button
-								class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
-								on:click={() => (completedSteps[index] = !completedSteps[index])}
-							>
-								<div>
-									{#if completedSteps[index]}
-										<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
-									{:else}
-										<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
-									{/if}
-								</div>
-								<div>
-									<h2
-										class={twMerge(
-											"text-left font-semibold text-yellow",
-											completedSteps[index] && "text-white line-through opacity-50"
-										)}
-									>
-										Schritt {step.number}:
-									</h2>
-									<p class={twMerge("text-left", completedSteps[index] && "line-through opacity-50")}>
-										{step.description}
-									</p>
-								</div>
-							</button>
-						{/each}
-					</div>
-					{#if $user && recipe.user_id !== $user.id}
-						<div class="my-36 flex flex-col">
-							<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
-							<ButtonRating {recipe} />
-						</div>
-					{/if}
 				</div>
+
+				<p>
+					{recipe.description}
+				</p>
+
+				{#if recipe.ingredients.length > 0}
+					<div class="overflow-hidden rounded-sm bg-gray-500">
+						<button
+							on:click={() => (isOpen = !isOpen)}
+							class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
+						>
+							<div class="text-md pl-2">Zutaten</div>
+							<img
+								class={twMerge("transition-transform", isOpen && "rotate-180")}
+								src={Chevron}
+								alt="chevron"
+								width="25"
+								height="25"
+							/>
+						</button>
+						<div class={twMerge("flex flex-col gap-xs pt-1", !isOpen && "hidden")}>
+							{#each recipe.ingredients as ingredient}
+								<li class="flex flex-row gap-md px-4 py-2 even:bg-[rgba(40,40,40,1)]">
+									<div class="w-16">
+										{ingredient.amount}
+									</div>
+									<div class="font-semibold">
+										{ingredient.name}
+									</div>
+								</li>
+							{/each}
+						</div>
+					</div>
+				{/if}
+				<div class="mt-12 flex flex-col gap-3">
+					{#each getRecipeSteps(recipe) as step, index}
+						<button
+							class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
+							on:click={() => (completedSteps[index] = !completedSteps[index])}
+						>
+							<div>
+								{#if completedSteps[index]}
+									<div class="size-6 rounded-full border-2 border-yellow bg-yellow"></div>
+								{:else}
+									<div class="size-6 rounded-full border-2 border-gray-300 bg-gray-900"></div>
+								{/if}
+							</div>
+							<div>
+								<h2
+									class={twMerge(
+										"text-left font-semibold text-yellow",
+										completedSteps[index] && "text-white line-through opacity-50"
+									)}
+								>
+									Schritt {step.number}:
+								</h2>
+								<p class={twMerge("text-left", completedSteps[index] && "line-through opacity-50")}>
+									{step.description}
+								</p>
+							</div>
+						</button>
+					{/each}
+				</div>
+				{#if $user && recipe.user_id !== $user.id}
+					<div class="my-36 flex flex-col">
+						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
+						<ButtonRating {recipe} />
+					</div>
+				{/if}
 			</div>
 		</FadeIn>
 	{/if}
