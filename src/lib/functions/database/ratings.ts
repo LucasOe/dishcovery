@@ -28,8 +28,9 @@ export const fetchRating = async (recipeID: number, userID: string): Promise<num
 		.select("rating")
 		.eq("recipe", recipeID)
 		.eq("user_id", userID)
-		.single();
+		.maybeSingle();
 	if (error) throw error;
+	else if (!data) return null;
 	return data.rating;
 };
 
