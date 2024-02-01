@@ -7,9 +7,15 @@
 	import { filters } from "$lib/functions/stores";
 	import { goto } from "$app/navigation";
 
+	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
+	import PriceIcon from "$lib/assets/icons/price.svg";
+	import ClockIcon from "$lib/assets/icons/clock.svg";
+	import TagIcon from "$lib/assets/icons/tag.svg";
+
 	const filterOptions: FilterOptions = {
 		difficulty: {
 			displayName: "Schwierigkeit",
+			icon: DifficultyIcon,
 			options: [
 				{
 					id: null,
@@ -31,6 +37,7 @@
 		},
 		cost: {
 			displayName: "Preis",
+			icon: PriceIcon,
 			options: [
 				{
 					id: null,
@@ -52,6 +59,7 @@
 		},
 		preperation_time: {
 			displayName: "Dauer",
+			icon: ClockIcon,
 			options: [
 				{
 					id: null,
@@ -73,6 +81,7 @@
 		},
 		categories: {
 			displayName: "Kategorie",
+			icon: TagIcon,
 			options: [
 				{
 					id: null,
@@ -114,7 +123,7 @@
 <FadeIn>
 	<div class="space-y-lg">
 		{#each getEntries(filterOptions) as [filter, filterOption]}
-			<Section title={filterOption.displayName}>
+			<Section title={filterOption.displayName} icon={filterOption.icon}>
 				<div class="flex items-center justify-between rounded-md bg-gray-500 px-1 py-4">
 					{#each filterOption.options as option}
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">

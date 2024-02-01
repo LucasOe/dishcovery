@@ -14,10 +14,6 @@
 	import { user } from "$lib/functions/stores";
 
 	import UploadSVG from "$lib/components/UploadSVG.svelte";
-	import UploadIcon from "$lib/assets/icons/upload.svg";
-	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
-	import ClockIcon from "$lib/assets/icons/clock.svg";
-	import PriceIcon from "$lib/assets/icons/price.svg";
 	import TagList from "$lib/components/TagList.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
@@ -26,6 +22,12 @@
 	import { range } from "$lib/functions/utils";
 	import type { FilterValue } from "$types/filter.types";
 	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
+
+	import UploadIcon from "$lib/assets/icons/upload.svg";
+	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
+	import PriceIcon from "$lib/assets/icons/price.svg";
+	import ClockIcon from "$lib/assets/icons/clock.svg";
+	import TagIcon from "$lib/assets/icons/tag.svg";
 
 	let recipeName: { content: string; isValid: boolean } = {
 		content: "",
@@ -209,7 +211,7 @@
 					</FadeIn>
 				{/if}
 			</Section>
-			<Section title="Kategorie">
+			<Section title="Kategorie" icon={TagIcon}>
 				<TagList tags={_categories} bind:selected={categories} />
 			</Section>
 
