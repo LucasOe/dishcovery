@@ -30,20 +30,19 @@ export const fetchNextRecipeNotSeen = async (
 		.select("*, categories(*), images(*), ingredients(*), steps(*), likes(*)")
 		.eq("likes.user_id", userID)
 		.neq("user_id", userID) // exclude recipes uploaded by the user
-		.is("likes", null) // recipe hasn't been rated by user
-		.gt("id", currentId);
+		.is("likes", null); // recipe hasn't been rated by user
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
 	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
 
-	const { data, error } = await query.order("id").limit(1).maybeSingle();
+	const { data, error } = await query.gt("id", currentId).order("id").limit(1).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
 
 export const fetchRecipesWithFilter = async (filters?: Filter): Promise<Recipe[]> => {
-	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*), likes(*)");
+	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*)");
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
@@ -54,11 +53,14 @@ export const fetchRecipesWithFilter = async (filters?: Filter): Promise<Recipe[]
 	else return data;
 };
 
-export const fetchRecipes = async (ids: number[]): Promise<Recipe[]> => {
-	const { data, error } = await supabase
-		.from("recipes")
-		.select("*, categories(*), images(*), ingredients(*), steps(*)")
-		.in("id", [ids]);
+export const fetchNextRecipe = async (currentId: number, filters?: Filter): Promise<Recipe | null> => {
+	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*)");
+
+	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
+	if (filters?.cost) query = query.eq("cost", filters.cost);
+	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
+
+	const { data, error } = await query.gt("id", currentId).order("id").limit(1).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
@@ -69,21 +71,6 @@ export const fetchRecipe = async (id: number): Promise<Recipe | null> => {
 		.select("*, categories(*), images(*), ingredients(*), steps(*)")
 		.eq("id", id)
 		.maybeSingle();
-	if (error) throw error;
-	else return data;
-};
-
-export const fetchNextRecipe = async (currentId: number, filters?: Filter): Promise<Recipe | null> => {
-	let query = supabase
-		.from("recipes")
-		.select("*, categories(*), images(*), ingredients(*), steps(*)")
-		.gt("id", currentId);
-
-	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
-	if (filters?.cost) query = query.eq("cost", filters.cost);
-	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
-
-	const { data, error } = await query.order("id").limit(1).maybeSingle();
 	if (error) throw error;
 	else return data;
 };
