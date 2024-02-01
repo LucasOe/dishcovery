@@ -79,6 +79,7 @@
 							{recipe}
 							message="Möchtest du dein eigenes Rezept wirklich löschen? Diese Aktion kann nicht wiederrufen werden."
 							onConfirm={() => onDeleteUserRecipe(recipe)}
+							showButton={selectedMenu != "all"}
 						/>
 					{/each}
 				{/await}
