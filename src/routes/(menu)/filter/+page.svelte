@@ -129,9 +129,9 @@
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">
 							<button
 								class={twMerge(
-									"focus size-6 rounded-full border border-gray-300 text-center	hover:bg-gray-500-hover",
+									"focus size-6 rounded-full border border-gray-300 text-center hover:bg-gray-500-hover",
 									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id)
-										? "bg-yellow text-white"
+										? "bg-yellow text-white hover:bg-yellow"
 										: "bg-gray-900"
 								)}
 								on:click={() => onClick(filter, option)}
