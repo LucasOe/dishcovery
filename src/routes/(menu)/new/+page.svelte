@@ -14,7 +14,12 @@
 	} from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
 
-	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
+	import {
+		validateRecipeName,
+		validateRecipeDescription,
+		validateRecipeSteps,
+		validateImages,
+	} from "$lib/functions/validation";
 	import type { FilterValue } from "$types/filter.types";
 	import { range } from "$lib/functions/utils";
 
@@ -45,9 +50,8 @@
 		},
 	];
 	let ingredients: { name: string; amount: string }[] = [];
-	let images: Blob[] = [];
+	let images: { content: Blob[]; isValid: boolean } = { content: [], isValid: false };
 
-	let isImageValid = false;
 	let loading = false;
 	let invalid = false;
 
@@ -55,7 +59,7 @@
 		invalid = false;
 		invalid ||= !recipeName.isValid;
 		invalid ||= !recipeDescription.isValid;
-		invalid ||= images.length == 0;
+		invalid ||= images.content.length == 0;
 		invalid ||= !recipeSteps.every((step) => step.isValid);
 	}
 
@@ -80,7 +84,7 @@
 
 		await Promise.all([
 			uploadAndInsertImages(
-				images.map((image) => ({
+				images.content.map((image) => ({
 					recipe_id: recipe.id,
 					image: image,
 				}))
@@ -118,9 +122,9 @@
 
 	function onFileSelected(e: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (!e.currentTarget.files) return null;
-		for (const file of e.currentTarget.files) images.push(file);
+		for (const file of e.currentTarget.files) images.content.push(file);
 		images = images;
-		isImageValid = images.length > 0;
+		images.isValid = validateImages(images.content);
 	}
 </script>
 
@@ -165,16 +169,16 @@
 							/>
 						</div>
 
-						{#if images.length > 0}
+						{#if images.content.length > 0}
 							<div class="grid grid-cols-4 gap-4">
-								{#each images as image, index}
+								{#each images.content as image, index}
 									<div class="relative aspect-[3/5] overflow-hidden rounded-md">
 										<button
 											type="button"
 											on:click={() => {
-												images.splice(index, 1);
+												images.content.splice(index, 1);
 												images = images;
-												isImageValid = images.length > 0;
+												images.isValid = validateImages(images.content);
 											}}
 											class="absolute right-0 top-0 m-1 rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
 										>
@@ -186,7 +190,7 @@
 							</div>
 						{/if}
 					</div>
-					<Error visible={!isImageValid} class="block">Das Rezept braucht ein Bild.</Error>
+					<Error visible={!images.isValid} class="block">Das Rezept benötigt 1 bis maximal 4 Bilder.</Error>
 				</Section>
 				<Section title="Kategorie" icon={TagIcon}>
 					<TagList tags={_categories} bind:selected={categories} />
