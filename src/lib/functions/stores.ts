@@ -9,3 +9,4 @@ export const recipe = writable<Recipe | null>(null);
 export const swipeDirection = writable(Direction.None);
 export const user = writable<Tables<"profiles"> | null | undefined>();
 export const filters = writable<Filter>();
+export const previousPage = writable<(string | undefined)[]>([]);

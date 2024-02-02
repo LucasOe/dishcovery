@@ -1,10 +1,11 @@
 <script lang="ts">
 	import "../app.css";
 	import { onMount } from "svelte";
-	import { user } from "$lib/functions/stores";
+	import { previousPage, user } from "$lib/functions/stores";
 	import { supabase } from "$lib/functions/database/createClient";
 	import { fetchUserDataById } from "$lib/functions/database/user";
 	import ViewTransition from "$lib/components/Navigation.svelte";
+	import { afterNavigate, beforeNavigate } from "$app/navigation";
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((_, session) => {
@@ -16,6 +17,10 @@
 		});
 
 		return () => data.subscription.unsubscribe();
+	});
+
+	beforeNavigate(({ to }) => {
+		$previousPage.push(to?.url.pathname);
 	});
 </script>
 
