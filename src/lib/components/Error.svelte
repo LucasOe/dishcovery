@@ -8,7 +8,7 @@
 {#if visible}
 	<div class={twMerge("hidden peer-focus:block", $$props.class)}>
 		<FadeIn>
-			<p class="mt-2 rounded-sm bg-red p-2"><slot /></p>
+			<p class="ml-2 mt-1 text-gray-300"><slot /></p>
 		</FadeIn>
 	</div>
 {/if}

@@ -53,15 +53,6 @@
 	let images: { content: Blob[]; isValid: boolean } = { content: [], isValid: false };
 
 	let loading = false;
-	let invalid = false;
-
-	$: {
-		invalid = false;
-		invalid ||= !recipeName.isValid;
-		invalid ||= !recipeDescription.isValid;
-		invalid ||= images.content.length == 0;
-		invalid ||= !recipeSteps.every((step) => step.isValid);
-	}
 
 	const uploadAndInsertImages = async (files: { recipe_id: number; image: Blob }[]) => {
 		const paths = await uploadRecipeImages(files);
@@ -132,30 +123,30 @@
 	{#await fetchCategories() then _categories}
 		<FadeIn>
 			<form on:submit|preventDefault={publishRecipe} class="space-y-lg">
-				<Section title="Titel">
+				<Section title="Titel" required>
 					<input
 						bind:value={recipeName.content}
 						on:input={() => (recipeName.isValid = validateRecipeName(recipeName.content))}
 						type="text"
 						placeholder="Hier eingeben..."
-						class={twMerge("input peer", !recipeName.isValid && "ring-2 ring-red")}
+						class="input peer"
 						required
 					/>
 					<Error visible={!recipeName.isValid}>Der Name braucht mindestens 10 Zeichen.</Error>
 				</Section>
 
-				<Section title="Beschreibung">
+				<Section title="Beschreibung" required>
 					<textarea
 						bind:value={recipeDescription.content}
 						on:input={() => (recipeDescription.isValid = validateRecipeDescription(recipeDescription.content))}
 						placeholder="Hier eingeben..."
-						class={twMerge("input peer h-32", !recipeDescription.isValid && "ring-2 ring-red")}
+						class="input peer h-32"
 						required
 					/>
 					<Error visible={!recipeDescription.isValid}>Die Beschreibung braucht mindestens 30 Zeichen.</Error>
 				</Section>
 
-				<Section title="Bilder">
+				<Section title="Bilder" required>
 					<div class="space-y-4">
 						<div class="flex items-center gap-2">
 							<input
@@ -279,7 +270,7 @@
 					</div>
 				</Section>
 
-				<Section title="Arbeitsschritte">
+				<Section title="Arbeitsschritte" required>
 					<div class="space-y-sm">
 						{#each recipeSteps as step, index}
 							<div>
@@ -301,7 +292,7 @@
 									bind:value={step.description}
 									on:input={() => (step.isValid = validateRecipeSteps(step.description))}
 									placeholder="Hier eingeben..."
-									class={twMerge("input peer h-32", !step.isValid && "ring-2 ring-red")}
+									class="input peer h-32"
 									required
 								/>
 								<Error visible={!step.isValid}>Bitte gebe mindestens 30 Zeichen pro Schritt ein.</Error>
@@ -324,9 +315,7 @@
 					</div>
 				</Section>
 
-				<button disabled={invalid} class="button my-6 disabled:border-none disabled:bg-gray-500 disabled:text-gray-300">
-					Rezept veröffentlichen
-				</button>
+				<button class="button my-6"> Rezept veröffentlichen </button>
 			</form>
 			{#if loading}
 				<div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-900 bg-opacity-50">
