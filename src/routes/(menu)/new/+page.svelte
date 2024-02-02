@@ -282,7 +282,7 @@
 									ingredients.push({ name: "", amount: "" });
 									ingredients = ingredients;
 								}}
-								class="focus rounded-[.8rem] h-10 w-10"
+								class="rounded-[.8rem] h-10 w-10"
 							>
 								<UploadSVG />
 							</button>
@@ -332,7 +332,7 @@
 									recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
 									recipeSteps = recipeSteps;
 								}}
-								class="focus rounded-[.8rem] h-10 w-10"
+								class="rounded-[.8rem] h-10 w-10"
 							>
 								<UploadSVG />
 							</button>
