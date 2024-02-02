@@ -67,15 +67,15 @@
 				},
 				{
 					id: [5, 10, 15],
-					name: "5-15 min",
+					name: "5-15 min.",
 				},
 				{
 					id: [20, 25, 30, 35, 40],
-					name: "20-40 min",
+					name: "20-40 min.",
 				},
 				{
 					id: [45, 50, 55, 60],
-					name: "45+ min",
+					name: "45+ min.",
 				},
 			],
 		},
@@ -129,7 +129,7 @@
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">
 							<button
 								class={twMerge(
-									"size-6 rounded-full border border-gray-300 text-center hover:bg-gray-500-hover	focus",
+									"focus size-6 rounded-full border border-gray-300 text-center	hover:bg-gray-500-hover",
 									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id)
 										? "bg-yellow text-white"
 										: "bg-gray-900"

@@ -208,7 +208,7 @@
 						bind:selected={preperation_time}
 						entries={range(5, 60, 5).map((value) => ({
 							id: value,
-							name: `${value} Min.`,
+							name: `${value} min.`,
 						}))}
 					/>
 				</Section>
