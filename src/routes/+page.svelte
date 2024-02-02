@@ -2,11 +2,6 @@
 	import BottomNav from "$lib/components/BottomNav.svelte";
 	import TopNav from "$lib/components/TopNav.svelte";
 	import CardStack from "$lib/components/CardStack.svelte";
-	window.addEventListener("load",function() {
-
-		const elem = document.documentElement;
-		if (elem.requestFullscreen) {elem.requestFullscreen()}
-	});
 </script>
 
 <svelte:head>
