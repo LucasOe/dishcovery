@@ -37,6 +37,7 @@ export default {
 			},
 			borderRadius: {
 				DEFAULT: "0.125rem", //2px
+				xs: ".25rem", //4px
 				sm: "0.75rem", //12px
 				md: "1rem", //16px
 				lg: "1.25rem", //20px
@@ -50,6 +51,7 @@ export default {
 			},
 			boxShadow: {
 				shadowGray: "0px 20px 70px 0px rgba(0, 0, 0, 0.72)",
+				shadowSubtleGray: "0px 10px 40px 0px rgba(0, 0, 0, 0.52);",
 				shadowYellow: "0px 20px 100px -35px rgba(255,197,50, .4)",
 				shadowRed: "0px 20px 100px -35px rgba(237, 93, 73, .4)",
 				shadowLight: "0px 20px 100px -35px rgba(255, 255, 255, .4)",

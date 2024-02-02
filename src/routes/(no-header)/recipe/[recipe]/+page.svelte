@@ -103,7 +103,7 @@
 					</button>
 				</div>
 
-				<div class="space-y-1">
+				<div class="space-y-2">
 					<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 						{recipe.name}
 					</h1>

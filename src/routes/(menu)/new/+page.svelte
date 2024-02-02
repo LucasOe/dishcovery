@@ -126,6 +126,7 @@
 		images = images;
 	}
 </script>
+
 {#if $user}
 	{#await fetchCategories() then _categories}
 		<FadeIn>
@@ -171,16 +172,9 @@
 								on:input={validateImage}
 								bind:this={fileInput}
 								class="file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								multiple
+								required
 							/>
-							<!--
-							<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
-								<img
-									src={UploadIcon}
-									alt="Bild hochladen"
-									class="upload inline h-10 w-10 drop-shadow-md transition-all hover:scale-[1.1]"
-								/>
-							</button>
-							<p class="text-lg text-gray-300">Bild hochladen</p>-->
 						</div>
 
 						{#if images.length > 0}
@@ -288,7 +282,7 @@
 									ingredients.push({ name: "", amount: "" });
 									ingredients = ingredients;
 								}}
-								class="h-10 w-10"
+								class="focus rounded-[.8rem] h-10 w-10"
 							>
 								<UploadSVG />
 							</button>
@@ -311,7 +305,7 @@
 												recipeSteps.splice(index, 1);
 												recipeSteps = recipeSteps;
 											}}
-											class="text-gray-300">Entfernen</button
+											class="text-gray-300 hover:opacity-80 hover:underline">Entfernen</button
 										>
 									{/if}
 								</div>
@@ -338,7 +332,7 @@
 									recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
 									recipeSteps = recipeSteps;
 								}}
-								class="h-10 w-10"
+								class="focus rounded-[.8rem] h-10 w-10"
 							>
 								<UploadSVG />
 							</button>
@@ -358,6 +352,6 @@
 	{/await}
 {/if}
 {#if !$user}
-  <p>Du musst angemeldet sein, um diese Seite zu sehen. Bitte melde dich an.</p>
-  <a href="/login" class="button w-36 h-12 p-0 flex justify-center items-center">Zum Login</a>
+	<p>Du musst angemeldet sein, um diese Seite zu sehen. Bitte melde dich an.</p>
+	<a href="/login" class="button flex h-12 w-36 items-center justify-center p-0">Zum Login</a>
 {/if}
