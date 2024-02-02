@@ -65,7 +65,7 @@
 		  />
 		  <label for="fileInput">
 			<button
-			  class="absolute top-0 right-0 bg-yellow rounded-full p-2 cursor-pointer"
+			  class="absolute bottom-0 right-0 bg-yellow rounded-full p-2 cursor-pointer"
 			  on:click={() => fileInput.click()}
 			>
 			<img src={Edit} alt="Profilbild bearbeiten Icon" />
