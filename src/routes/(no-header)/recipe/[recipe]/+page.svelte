@@ -24,6 +24,7 @@
 	let liked = false;
 	let likes = 0;
 	let isOwnRecipe = false;
+	let currentImage: number = 0;
 
 	onMount(async () => {
 		likes = await fetchLikes(recipe.id);
@@ -88,11 +89,25 @@
 		<FadeIn>
 			{#if recipe.images.length > 0}
 				<img
-						src={recipe.images[0].image}
-						class="transition-image h-64 w-full object-cover"
-						alt=""
-						style:--recipe="image-{recipe.id}"
+					src={recipe.images[currentImage].image}
+					class="transition-image h-64 w-full object-cover"
+					alt=""
+					style:--recipe="image-{recipe.id}"
 				/>
+			{/if}
+			{#if recipe.images.length > 1}
+				<div class="absolute top-0 left-[50%] translate-x-[-50%] z-50 flex cursor-default gap-sm p-4">
+					{#each recipe.images as _, index}
+						<button
+							type="button"
+							on:click={() => (currentImage = index)}
+							class={twMerge(
+								"h-4 rounded-full shadow-shadowGray transition-[width]",
+								currentImage == index ? "w-16 bg-yellow" : "w-12 bg-white"
+							)}
+						/>
+					{/each}
+				</div>
 			{/if}
 			<div class="space-y-md p-8 pt-4">
 				<div class="flex items-center justify-between">
@@ -140,9 +155,9 @@
 									height="25"
 							/>
 						</button>
-						<div class={twMerge("flex flex-col gap-xs pt-1", !isOpen && "hidden")}>
+						<div class={twMerge("flex flex-col pt-1", !isOpen && "hidden")}>
 							{#each recipe.ingredients as ingredient}
-								<li class="flex flex-row gap-md px-4 py-2 even:bg-[rgba(40,40,40,1)]">
+								<li class="flex flex-row gap-md px-4 py-3 even:bg-[rgba(40,40,40,1)]">
 									<div class="w-16">
 										{ingredient.amount}
 									</div>
