@@ -36,3 +36,7 @@ export const validateRecipeSteps = (recipeSteps: string): boolean => {
 	const recipeStepsRegex = /.{30,}/;
 	return recipeStepsRegex.test(recipeSteps);
 };
+
+export const validateImages = (images: Blob[]): boolean => {
+	return images.length > 0 && images.length < 5;
+};
