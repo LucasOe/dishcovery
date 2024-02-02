@@ -114,7 +114,7 @@
 					{/each}
 				</div>
 			{/if}
-			<div class="space-y-md p-8 pt-4">
+			<div class="space-y-md p-8 pt-6">
 				<div class="flex items-center justify-between">
 					<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
 						<img
@@ -180,7 +180,7 @@
 						</div>
 					</div>
 				{/if}
-				<div class="mt-12 flex flex-col gap-3">
+				<div class="flex flex-col gap-3 pt-3">
 					{#each getRecipeSteps(recipe) as step, index}
 						<button
 							class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
@@ -210,7 +210,7 @@
 					{/each}
 				</div>
 				{#if $user && recipe.user_id !== $user.id}
-					<div class="my-36 flex flex-col">
+					<div class="flex flex-col">
 						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
 						<ButtonRating {recipe} />
 					</div>
