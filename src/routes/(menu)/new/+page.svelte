@@ -181,7 +181,7 @@
 							</div>
 						{/if}
 					</div>
-					<Error visible={!images.isValid} class="block">Das Rezept benötigt 1 bis maximal 4 Bilder.</Error>
+					<Error visible={!images.isValid} class="mt-2 block">Das Rezept benötigt 1 bis maximal 4 Bilder.</Error>
 				</Section>
 				<Section title="Kategorie" icon={TagIcon}>
 					<TagList tags={_categories} bind:selected={categories} />
@@ -292,6 +292,7 @@
 									bind:value={step.description}
 									on:input={() => (step.isValid = validateRecipeSteps(step.description))}
 									placeholder="Hier eingeben..."
+									minlength="30"
 									class="input peer h-32"
 									required
 								/>
