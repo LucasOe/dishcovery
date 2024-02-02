@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import type { AuthError } from "@supabase/supabase-js";
-
 	import { supabase } from "$lib/functions/database/createClient";
+	import { userNameIsTaken, validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
+	import type { AuthError } from "@supabase/supabase-js";
+	import { goto } from "$app/navigation";
+
+	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
-	import { userNameIsTaken, validateEmail, validatePassword, validateUsername } from "$lib/functions/validation";
-	import FadeIn from "$lib/components/FadeIn.svelte";
+	import Error from "$lib/components/Error.svelte";
 
 	let error: AuthError | null;
 	let username = { content: "", isValid: true, message: "" };
@@ -53,26 +54,24 @@
 				on:input={() => {
 					username.isValid = validateUsername(username.content);
 					error = null;
+					username.message = "";
 				}}
 				id="username"
 				type="text"
 				autocomplete="username"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if !username.isValid}
-				<FadeIn>
-					<p class="error">
-						Nutzernamen müssen mindestens 8 Zeichen lang sein und dürfen keine Sonderzeichen enthalten.
-					</p>
-				</FadeIn>
-			{/if}
 			{#if username.message !== ""}
 				<FadeIn>
 					<p class="error">
 						{username.message}
 					</p>
 				</FadeIn>
+			{:else}
+				<Error visible={!username.isValid}>
+					Nutzernamen müssen mindestens 8 Zeichen lang sein und dürfen keine Sonderzeichen enthalten.
+				</Error>
 			{/if}
 		</Section>
 
@@ -86,14 +85,10 @@
 				id="email"
 				type="email"
 				autocomplete="email"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if !email.isValid}
-				<FadeIn>
-					<p class="error">Ungültige E-Mail-Adresse</p>
-				</FadeIn>
-			{/if}
+			<Error visible={!email.isValid}>Ungültige E-Mail-Adresse.</Error>
 		</Section>
 
 		<Section title="Passwort">
@@ -107,14 +102,12 @@
 				type="password"
 				minlength="6"
 				autocomplete="new-password"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if !password.isValid}
-				<FadeIn>
-					<p class="error">Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.</p>
-				</FadeIn>
-			{/if}
+			<Error visible={!password.isValid}>
+				Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
+			</Error>
 		</Section>
 
 		<Section title="Passwort wiederholen">
@@ -127,23 +120,17 @@
 				type="password"
 				minlength="8"
 				autocomplete="new-password"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if password.content !== password_repeat.content}
-				<FadeIn>
-					<p class="error">Diese Eingabe stimmt nicht mit dem Passwort überein.</p>
-				</FadeIn>
-			{/if}
+			<Error visible={password.content !== password_repeat.content}>
+				Diese Eingabe stimmt nicht mit dem Passwort überein.
+			</Error>
 		</Section>
 
 		<div class="py-6">
 			<button type="submit" class="button">Registrieren</button>
-			{#if error}
-				<FadeIn>
-					<p class="error">Anmeldung erfordert ein gültiges Passwort</p>
-				</FadeIn>
-			{/if}
+			{#if error}<FadeIn><p class="error">{error}</p></FadeIn>{/if}
 		</div>
 	</form>
 
