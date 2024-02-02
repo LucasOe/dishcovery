@@ -129,7 +129,7 @@
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">
 							<button
 								class={twMerge(
-									"focus:shadow-outline size-6 rounded-full border border-gray-300 text-center hover:bg-gray-500-hover focus:outline-none",
+									"size-6 rounded-full border border-gray-300 text-center hover:bg-gray-500-hover	focus",
 									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id)
 										? "bg-yellow text-white"
 										: "bg-gray-900"
