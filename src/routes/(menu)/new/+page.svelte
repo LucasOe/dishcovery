@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { twMerge } from "tailwind-merge";
 
 	import {
 		deleteRecipe,

@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { supabase } from "$lib/functions/database/createClient";
-	import Section from "$lib/components/Section.svelte";
 	import { validateEmail } from "$lib/functions/validation";
-	import FadeIn from "$lib/components/FadeIn.svelte";
 	import type { AuthError } from "@supabase/supabase-js";
+
+	import FadeIn from "$lib/components/FadeIn.svelte";
+	import Section from "$lib/components/Section.svelte";
+	import Error from "$lib/components/Error.svelte";
 
 	let error: AuthError | null = null;
 	let successMessage: string | null;
-	let email = { content: "", isValid: true };
+	let email = { content: "", isValid: false };
 
 	async function handleForgotPassword() {
 		if (!email.isValid) return;
@@ -37,14 +39,10 @@
 				id="email"
 				type="email"
 				autocomplete="email"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if !email.isValid}
-				<FadeIn>
-					<p class="error">Ungültige E-Mail-Adresse</p>
-				</FadeIn>
-			{/if}
+			<Error visible={!email.isValid}>Ungültige E-Mail-Adresse.</Error>
 		</Section>
 
 		<div class="py-6">

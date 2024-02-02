@@ -1,12 +1,13 @@
 <script lang="ts">
+	import { supabase } from "$lib/functions/database/createClient";
+	import { validateEmail, validatePassword } from "$lib/functions/validation";
+	import type { AuthError } from "@supabase/supabase-js";
 	import { goto } from "$app/navigation";
 
-	import { validateEmail, validatePassword } from "$lib/functions/validation";
-	import { supabase } from "$lib/functions/database/createClient";
+	import FadeIn from "$lib/components/FadeIn.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import LinkText from "$lib/components/LinkText.svelte";
-	import FadeIn from "$lib/components/FadeIn.svelte";
-	import type { AuthError } from "@supabase/supabase-js";
+	import Error from "$lib/components/Error.svelte";
 
 	let error: AuthError | null;
 	let email = { content: "", isValid: true };
@@ -41,14 +42,10 @@
 				id="email"
 				type="email"
 				autocomplete="email"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if !email.isValid}
-				<FadeIn>
-					<p class="error">Ungültige E-Mail-Adresse</p>
-				</FadeIn>
-			{/if}
+			<Error visible={!email.isValid}>Ungültige E-Mail-Adresse.</Error>
 		</Section>
 
 		<Section title="Passwort">
@@ -62,14 +59,12 @@
 				type="password"
 				minlength="6"
 				autocomplete="current-password"
-				class="input"
+				class="input peer"
 				required
 			/>
-			{#if !password.isValid}
-				<FadeIn>
-					<p class="error">Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.</p>
-				</FadeIn>
-			{/if}
+			<Error visible={!password.isValid}>
+				Passwörter müssen mindestens einen Großbuchstaben, eine Ziffer und 8 Zeichen enthalten.
+			</Error>
 		</Section>
 
 		<div class="py-6">
