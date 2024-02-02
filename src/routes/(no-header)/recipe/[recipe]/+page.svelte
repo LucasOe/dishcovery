@@ -45,6 +45,7 @@
 
 	const handleLikeButtonClick = async () => {
 		if(!$user) return;
+		if($user.id === recipe.user_id) return;
 		await isLiked(recipe.id, $user.id).then((res) => {
 			if (res) {
 				unlikeRecipe();
