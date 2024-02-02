@@ -18,7 +18,7 @@
 		menuOpen && "ring-2 ring-gray-300"
 	)}
 >
-	<button type="button" on:click={() => (menuOpen = !menuOpen)} class="focus flex w-full items-center justify-between rounded-sm">
+	<button type="button" on:click={() => (menuOpen = !menuOpen)} class="flex w-full items-center justify-between rounded-sm">
 		<p class="px-sm text-lg font-semibold">{selected.name}</p>
 		<img alt="Dropdown" class={twMerge("size-10 p-1 duration-500", menuOpen && "rotate-180")} src={DropDownIcon} />
 	</button>
@@ -37,7 +37,7 @@
 				)}
 			>
 				<button
-					class="focus rounded-sm w-full text-left px-1 py-1"
+					class="rounded-sm w-full text-left px-1 py-1"
 					type="button"
 					tabindex="-1"
 					on:click={() => {
