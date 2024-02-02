@@ -39,17 +39,15 @@
 	</div>
 
 	<!-- Profile -->
-	<div>
-		<a href={`${$user ? `/profile/${$user.username}` : "/login"}`}>
-		  <div class={`size-14 overflow-hidden rounded-full border-sm border-gray-300 duration-150 hover:border-yellow`}>
-			{#if $user}
-			  <img class="rounded-full object-cover w-full h-full" alt="profile" src={$user.avatar_url ? $user.avatar_url : DefaultAvatar} />
-			{:else}
-			  <img class="rounded-full object-cover w-full h-full" alt="profile" src={UserIcon} />
-			{/if}
-		  </div>
-		</a>
-	  </div>
+	<a href={`${$user ? `/profile/${$user.username}` : "/login"}`} class="rounded-full">
+		<div class={`size-14 overflow-hidden rounded-full border-sm border-gray-300 duration-150 hover:border-yellow`}>
+		{#if $user}
+			<img class="rounded-full object-cover w-full h-full" alt="profile" src={$user.avatar_url ? $user.avatar_url : DefaultAvatar} />
+		{:else}
+			<img class="rounded-full object-cover w-full h-full" alt="profile" src={UserIcon} />
+		{/if}
+		</div>
+	</a>
 	  
 </div>
 
