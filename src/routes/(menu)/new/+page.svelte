@@ -17,6 +17,7 @@
 	import TagList from "$lib/components/TagList.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
+	import Error from "$lib/components/Error.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
 	import RemoveIcon from "$lib/assets/icons/cancel.svg";
 	import { range } from "$lib/functions/utils";
@@ -27,14 +28,15 @@
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import TagIcon from "$lib/assets/icons/tag.svg";
+	import { twMerge } from "tailwind-merge";
 
 	let recipeName: { content: string; isValid: boolean } = {
 		content: "",
-		isValid: true,
+		isValid: false,
 	};
 	let recipeDescription: { content: string; isValid: boolean } = {
 		content: "",
-		isValid: true,
+		isValid: false,
 	};
 	let difficulty: FilterValue<number>;
 	let preperation_time: FilterValue<number>;
@@ -44,32 +46,31 @@
 		{
 			number: 1,
 			description: "",
-			isValid: true,
+			isValid: false,
 		},
 	];
 
 	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
-	let isImageValid = true;
+	let isImageValid = false;
 	let loading = false;
+	let invalid = false;
+
+	$: {
+		invalid = false;
+		invalid ||= !recipeName.isValid;
+		invalid ||= !recipeDescription.isValid;
+		invalid ||= images.length == 0;
+		invalid ||= !recipeSteps.every((step) => step.isValid);
+	}
 
 	const uploadAndInsertImages = async (files: { recipe_id: number; image: Blob }[]) => {
 		const paths = await uploadRecipeImages(files);
 		await insertRecipeImages(paths);
 	};
 
-	function validateImage() {
-		isImageValid = true;
-	}
-
 	async function publishRecipe() {
-		if (images.length == 0) isImageValid = false;
-		if (!isImageValid) return;
-
 		if (!$user || loading) return;
-		if (!recipeName.isValid) return;
-		if (!recipeDescription.isValid) return;
-		if (!recipeSteps.every((step) => step.isValid)) return;
 
 		loading = true;
 
@@ -124,6 +125,7 @@
 		if (!e.currentTarget.files) return null;
 		for (const file of e.currentTarget.files) images.push(file);
 		images = images;
+		isImageValid = images.length > 0;
 	}
 </script>
 
@@ -137,14 +139,10 @@
 						on:input={() => (recipeName.isValid = validateRecipeName(recipeName.content))}
 						type="text"
 						placeholder="Hier eingeben..."
-						class="input"
+						class={twMerge("input peer", !recipeName.isValid && "ring-2 ring-red")}
 						required
 					/>
-					{#if !recipeName.isValid}
-						<FadeIn>
-							<p class="mt-2 rounded-sm bg-red p-2">Ungültiger Name. Bitte gebe mindestens 10 Zeichen ein.</p>
-						</FadeIn>
-					{/if}
+					<Error visible={!recipeName.isValid}>Ungültiger Name. Bitte gebe mindestens 10 Zeichen ein.</Error>
 				</Section>
 
 				<Section title="Beschreibung">
@@ -152,14 +150,12 @@
 						bind:value={recipeDescription.content}
 						on:input={() => (recipeDescription.isValid = validateRecipeDescription(recipeDescription.content))}
 						placeholder="Hier eingeben..."
-						class="input h-32"
+						class={twMerge("input peer h-32", !recipeDescription.isValid && "ring-2 ring-red")}
 						required
 					/>
-					{#if !recipeDescription.isValid}
-						<FadeIn>
-							<p class="mt-2 rounded-sm bg-red p-2">Ungültige Beschreibung. Bitte gebe mindestens 30 Zeichen ein.</p>
-						</FadeIn>
-					{/if}
+					<Error visible={!recipeDescription.isValid}>
+						Ungültige Beschreibung. Bitte gebe mindestens 30 Zeichen ein.
+					</Error>
 				</Section>
 
 				<Section title="Bilder">
@@ -169,7 +165,6 @@
 								type="file"
 								accept=".jpg, .jpeg, .png"
 								on:change={onFileSelected}
-								on:input={validateImage}
 								bind:this={fileInput}
 								class="file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
 								multiple
@@ -186,6 +181,7 @@
 											on:click={() => {
 												images.splice(index, 1);
 												images = images;
+												isImageValid = images.length > 0;
 											}}
 											class="absolute right-0 top-0 m-1 rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
 										>
@@ -197,7 +193,6 @@
 							</div>
 						{/if}
 					</div>
-
 					{#if !isImageValid}
 						<FadeIn>
 							<p class="mt-2 rounded-sm bg-red p-2">Bitte lade mindestens ein Bild hoch.</p>
@@ -282,7 +277,7 @@
 									ingredients.push({ name: "", amount: "" });
 									ingredients = ingredients;
 								}}
-								class="rounded-[.8rem] h-10 w-10"
+								class="h-10 w-10 rounded-[.8rem]"
 							>
 								<UploadSVG />
 							</button>
@@ -305,7 +300,7 @@
 												recipeSteps.splice(index, 1);
 												recipeSteps = recipeSteps;
 											}}
-											class="text-gray-300 hover:opacity-80 hover:underline">Entfernen</button
+											class="text-gray-300 hover:underline hover:opacity-80">Entfernen</button
 										>
 									{/if}
 								</div>
@@ -313,15 +308,10 @@
 									bind:value={step.description}
 									on:input={() => (step.isValid = validateRecipeSteps(step.description))}
 									placeholder="Hier eingeben..."
-									class="input h-32"
+									class={twMerge("input peer h-32", !step.isValid && "ring-2 ring-red")}
 									required
 								/>
-
-								{#if !step.isValid}
-									<FadeIn>
-										<p class="mt-2 rounded-sm bg-red p-2">Bitte gebe mindestens 30 Zeichen pro Schritt ein.</p>
-									</FadeIn>
-								{/if}
+								<Error visible={!step.isValid}>Bitte gebe mindestens 30 Zeichen pro Schritt ein.</Error>
 							</div>
 						{/each}
 						<div class="flex items-center gap-2">
@@ -332,7 +322,7 @@
 									recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
 									recipeSteps = recipeSteps;
 								}}
-								class="rounded-[.8rem] h-10 w-10"
+								class="h-10 w-10 rounded-[.8rem]"
 							>
 								<UploadSVG />
 							</button>
@@ -341,7 +331,9 @@
 					</div>
 				</Section>
 
-				<button class="button my-6">Rezept veröffentlichen</button>
+				<button disabled={invalid} class="button my-6 disabled:border-none disabled:bg-gray-500 disabled:text-gray-300">
+					Rezept veröffentlichen
+				</button>
 			</form>
 			{#if loading}
 				<div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-900 bg-opacity-50">
@@ -350,8 +342,7 @@
 			{/if}
 		</FadeIn>
 	{/await}
-{/if}
-{#if !$user}
+{:else}
 	<p>Du musst angemeldet sein, um diese Seite zu sehen. Bitte melde dich an.</p>
 	<a href="/login" class="button flex h-12 w-36 items-center justify-center p-0">Zum Login</a>
 {/if}
