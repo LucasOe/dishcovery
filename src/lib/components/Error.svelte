@@ -2,7 +2,7 @@
 	import { twMerge } from "tailwind-merge";
 	import FadeIn from "./FadeIn.svelte";
 
-	export let visible: boolean;
+	export let visible = true;
 </script>
 
 {#if visible}
