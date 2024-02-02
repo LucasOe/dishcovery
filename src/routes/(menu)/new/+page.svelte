@@ -23,7 +23,6 @@
 	import type { FilterValue } from "$types/filter.types";
 	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
 
-	import UploadIcon from "$lib/assets/icons/upload.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
@@ -169,9 +168,9 @@
 							type="file"
 							accept=".jpg, .jpeg, .png"
 							on:change={onFileSelected}
-							on:input={() => validateImage()}
+							on:input={validateImage}
 							bind:this={fileInput}
-							class=""
+							class="file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
 						/>
 						<!--
 						<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
@@ -341,8 +340,6 @@
 							}}
 							class="h-10 w-10"
 						>
-							<!--<img src={UploadIcon} alt="Schritt hinzufügen" class="size-10" />-->
-
 							<UploadSVG />
 						</button>
 						<p class="text-lg text-gray-300">Schritt hinzufügen</p>
@@ -359,19 +356,3 @@
 		{/if}
 	</FadeIn>
 {/await}
-
-<style>
-	input[type="file"]::file-selector-button {
-		content: "";
-		border: 2px solid rgb(255 197 50 / var(--tw-bg-opacity));
-		padding: 0.5rem 0.75rem;
-		margin-right: 0.5rem;
-		border-radius: 0.75rem;
-		background-color: #212121;
-		color: rgb(255 197 50 / var(--tw-bg-opacity));
-		transition: 150ms;
-	}
-	input[type="file"]::file-selector-button:hover {
-		background-color: #3c3c3c;
-	}
-</style>
