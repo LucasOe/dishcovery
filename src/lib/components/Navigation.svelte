@@ -3,7 +3,6 @@
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) {
-			console.log("View Transition API not supported");
 			return;
 		}
 
