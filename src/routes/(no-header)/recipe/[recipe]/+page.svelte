@@ -23,6 +23,7 @@
 	let completedSteps: boolean[] = recipe.steps.map(() => false);
 	let liked = false;
 	let likes = 0;
+	let isOwnRecipe = false;
 
 	onMount(async () => {
 		likes = await fetchLikes(recipe.id);
@@ -34,7 +35,11 @@
 
 
 	$: {
-		$user && checkIfLiked($user.id)
+		if($user)
+		{
+			checkIfLiked($user.id)
+			isOwnRecipe = (recipe.user_id == $user.id);
+		}
 	}
 
 	function getRecipeSteps(recipe: Recipe) {
@@ -44,8 +49,8 @@
 	}
 
 	const handleLikeButtonClick = async () => {
-		if(!$user) return;
-		if($user.id === recipe.user_id) return;
+		if (!$user) return;
+		if (isOwnRecipe) return
 		await isLiked(recipe.id, $user.id).then((res) => {
 			if (res) {
 				unlikeRecipe();
@@ -99,7 +104,7 @@
 						/>
 						<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
 					</a>
-					<button class="flex gap-2 items-center rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal" on:click={() => handleLikeButtonClick()}>
+					<button class={twMerge("flex gap-2 items-center rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal", isOwnRecipe ? "opacity-50" : "")} on:click={() => handleLikeButtonClick()}>
 						<span class="w-2">{likes}</span>
 						<img src={liked? RedHeart : Heart} alt="Heart" />
 					</button>
