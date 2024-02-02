@@ -32,3 +32,19 @@ export const fetchLikes = async (recipeID: number): Promise<number> => {
 	if (error) throw error;
 	else return data.length;
 };
+
+export const isLiked = async (recipeID: number, userID: string): Promise<boolean> => {
+	const { data, error } = await supabase
+		.from("likes")
+		.select("*")
+		.eq("recipe", recipeID)
+		.eq("user_id", userID)
+		.eq("liked", true)
+		.maybeSingle();
+
+	if (error) throw error;
+	else return data !== null;
+};
+
+
+
