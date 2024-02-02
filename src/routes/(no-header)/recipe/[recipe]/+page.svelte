@@ -11,10 +11,10 @@
 	import DefaultAvatar from "$lib/assets/user.png";
 	import Rating from "$lib/components/Rating.svelte";
 	import ButtonRating from "$lib/components/ButtonRating.svelte";
-	import {fetchLikes, isLiked, upsertLike} from "$lib/functions/database/likes";
+	import { fetchLikes, isLiked, upsertLike } from "$lib/functions/database/likes";
 	import Heart from "$lib/assets/icons/heart.svg";
 	import RedHeart from "$lib/assets/icons/red_heart.svg";
-	import {onMount} from "svelte";
+	import { onMount } from "svelte";
 
 	export let data;
 
@@ -34,12 +34,10 @@
 		liked = await isLiked(recipe.id, userId);
 	};
 
-
 	$: {
-		if($user)
-		{
-			checkIfLiked($user.id)
-			isOwnRecipe = (recipe.user_id == $user.id);
+		if ($user) {
+			checkIfLiked($user.id);
+			isOwnRecipe = recipe.user_id == $user.id;
 		}
 	}
 
@@ -51,34 +49,41 @@
 
 	const handleLikeButtonClick = async () => {
 		if (!$user) return;
-		if (isOwnRecipe) return
+		if (isOwnRecipe) return;
+
 		await isLiked(recipe.id, $user.id).then((res) => {
 			if (res) {
 				unlikeRecipe();
 			} else {
 				likeRecipe();
 			}
-		})
+		});
 	};
 
 	const unlikeRecipe = () => {
+		if (!$user) return;
+
 		upsertLike({
 			user_id: $user.id,
 			recipe: recipe.id,
 			liked: false,
-		})
+		});
+
 		liked = false;
-		likes --;
+		likes--;
 	};
 
 	const likeRecipe = () => {
+		if (!$user) return;
+
 		upsertLike({
 			user_id: $user.id,
 			recipe: recipe.id,
 			liked: true,
-		})
+		});
+
 		liked = true;
-		likes ++;
+		likes++;
 	};
 
 	$swipeDirection = Direction.None;
@@ -96,7 +101,7 @@
 				/>
 			{/if}
 			{#if recipe.images.length > 1}
-				<div class="absolute top-0 left-[50%] translate-x-[-50%] z-50 flex cursor-default gap-sm p-4">
+				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-4">
 					{#each recipe.images as _, index}
 						<button
 							type="button"
@@ -113,15 +118,21 @@
 				<div class="flex items-center justify-between">
 					<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
 						<img
-								src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
-								alt="Profilbild"
-								class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
+							src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
+							alt="Profilbild"
+							class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
 						/>
 						<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
 					</a>
-					<button class={twMerge("flex gap-2 items-center rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal", isOwnRecipe ? "opacity-50" : "")} on:click={() => handleLikeButtonClick()}>
+					<button
+						class={twMerge(
+							"flex items-center gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal",
+							isOwnRecipe ? "opacity-50" : ""
+						)}
+						on:click={() => handleLikeButtonClick()}
+					>
 						<span class="w-2">{likes}</span>
-						<img src={liked? RedHeart : Heart} alt="Heart" />
+						<img src={liked ? RedHeart : Heart} alt="Heart" />
 					</button>
 				</div>
 
@@ -143,16 +154,16 @@
 				{#if recipe.ingredients.length > 0}
 					<div class="overflow-hidden rounded-sm bg-gray-500">
 						<button
-								on:click={() => (isOpen = !isOpen)}
-								class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
+							on:click={() => (isOpen = !isOpen)}
+							class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
 						>
 							<div class="text-md pl-2">Zutaten</div>
 							<img
-									class={twMerge("transition-transform", isOpen && "rotate-180")}
-									src={Chevron}
-									alt="chevron"
-									width="25"
-									height="25"
+								class={twMerge("transition-transform", isOpen && "rotate-180")}
+								src={Chevron}
+								alt="chevron"
+								width="25"
+								height="25"
 							/>
 						</button>
 						<div class={twMerge("flex flex-col pt-1", !isOpen && "hidden")}>
@@ -172,8 +183,8 @@
 				<div class="mt-12 flex flex-col gap-3">
 					{#each getRecipeSteps(recipe) as step, index}
 						<button
-								class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
-								on:click={() => (completedSteps[index] = !completedSteps[index])}
+							class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
+							on:click={() => (completedSteps[index] = !completedSteps[index])}
 						>
 							<div>
 								{#if completedSteps[index]}
@@ -184,7 +195,7 @@
 							</div>
 							<div>
 								<h2
-										class={twMerge(
+									class={twMerge(
 										"text-left font-semibold text-yellow",
 										completedSteps[index] && "text-white line-through opacity-50"
 									)}
