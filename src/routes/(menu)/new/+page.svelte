@@ -59,7 +59,12 @@
 	};
 
 	async function publishRecipe() {
-		if (!$user || loading) return;
+		if (!$user) return;
+		if (loading) return;
+		if (!recipeName.isValid) return;
+		if (!recipeDescription.isValid) return;
+		if (!images.isValid) return;
+		if (!recipeSteps.every((step) => step.isValid)) return;
 
 		loading = true;
 
