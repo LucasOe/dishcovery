@@ -39,6 +39,7 @@
 				<button
 					class="w-full text-left"
 					type="button"
+					tabindex="-1"
 					on:click={() => {
 						selected = entry;
 						menuOpen = false;
