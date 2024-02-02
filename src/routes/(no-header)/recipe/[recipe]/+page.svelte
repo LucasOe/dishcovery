@@ -140,7 +140,9 @@
 					<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 						{recipe.name}
 					</h1>
-					<Rating {recipe} />
+					<div class="pt-xs pb-[2px]">
+						<Rating {recipe} />
+					</div>
 					{#if recipe.categories.length > 0}
 						<TagRow {recipe} isInDetail={true} />
 					{/if}
