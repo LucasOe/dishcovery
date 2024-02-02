@@ -92,6 +92,7 @@
 								{recipe}
 								message="Möchtest du dieses Rezept aus deinen Favoriten wirklich löschen?"
 								onConfirm={() => onDeleteLikedRecipe(recipe)}
+								showButton={selectedMenu != "all"}
 							/>
 						{/each}
 					{/await}
