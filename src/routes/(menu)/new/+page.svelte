@@ -190,7 +190,7 @@
 							</div>
 						{/if}
 					</div>
-					<Error visible={!images.isValid} class="block">Das Rezept braucht ein Bild. (max. 5)</Error>
+					<Error visible={!images.isValid} class="block">Das Rezept benötigt 1 bis maximal 4 Bilder.</Error>
 				</Section>
 				<Section title="Kategorie" icon={TagIcon}>
 					<TagList tags={_categories} bind:selected={categories} />
