@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { page } from "$app/stores";
+	import { goto } from "$app/navigation";
+	import { previousPage } from "$lib/functions/stores";
+
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import CloseIcon from "$lib/assets/icons/cancel.svg";
-
-	import { page } from "$app/stores";
-	import { previousPage } from "$lib/functions/stores";
-	import { goto } from "$app/navigation";
 </script>
 
 <svelte:head>

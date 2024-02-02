@@ -5,7 +5,7 @@
 	import { supabase } from "$lib/functions/database/createClient";
 	import { fetchUserDataById } from "$lib/functions/database/user";
 	import ViewTransition from "$lib/components/Navigation.svelte";
-	import { afterNavigate, beforeNavigate } from "$app/navigation";
+	import { beforeNavigate } from "$app/navigation";
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((_, session) => {
