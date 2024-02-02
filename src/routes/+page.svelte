@@ -8,7 +8,7 @@
 	<title>Dishcovery</title>
 </svelte:head>
 
-<main class="flex w-full flex-col gap-16 p-8">
+<main class="flex w-full touch-none flex-col gap-16 p-8">
 	<TopNav />
 	<CardStack />
 	<BottomNav />
