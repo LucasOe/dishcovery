@@ -7,6 +7,12 @@
 		<div class="py-md text-center text-base text-light">
 			<div class="w-full font-header text-[4rem] text-yellow">{$page.status}</div>
 			<h1 class="w-full font-header text-xl">{$page.error.message}</h1>
+			{#if $page.status === 404}
+				<p class="mt-4 font-header text-xl text-light">
+					Diese Seite ist wie ein Rezept ohne Gewürze... <br /> Entweder existiert sie nicht, oder sie hat sich heimlich vom
+					Teller geschlichen.
+				</p>
+			{/if}
 		</div>
 	{/if}
 	<a
