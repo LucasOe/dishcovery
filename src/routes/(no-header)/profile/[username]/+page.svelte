@@ -51,7 +51,7 @@
 	  $user.avatar_url = path;
 	  profile = $user;
 	}
-  </script>
+</script>
 <FadeIn>
 	<div class="text-column flex flex-col items-center justify-center p-12 relative">
 	  <div class="relative flex size-44">
@@ -65,10 +65,13 @@
 		  />
 		  <label for="fileInput">
 			<button
-			  class="absolute bottom-0 right-0 bg-yellow rounded-full p-2 cursor-pointer"
+			  class="absolute bottom-0 right-0 bg-gray-500 rounded-full p-4 cursor-pointer hover:bg-gray-500-hover"
 			  on:click={() => fileInput.click()}
 			>
-			<img src={Edit} alt="Profilbild bearbeiten Icon" />
+				<svg class="" width="20" height="auto" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 6.13333V16C1 17.1046 1.89543 18 3 18H19C20.1046 18 21 17.1046 21 16V6.13333C21 5.02876 20.1046 4.13333 19 4.13333H17.0961C16.4133 4.13333 15.7776 3.78497 15.4103 3.2094L14.5897 1.92393C14.2224 1.34836 13.5867 1 12.9039 1H9.0961C8.41328 1 7.77764 1.34836 7.41026 1.92393L6.58974 3.2094C6.22236 3.78497 5.58672 4.13333 4.9039 4.13333H3C1.89543 4.13333 1 5.02876 1 6.13333Z" stroke="#f8f8f8" stroke-width="2"/>
+					<path d="M15 10.5C15 12.3365 13.3109 14 11 14C8.68915 14 7 12.3365 7 10.5C7 8.6635 8.68915 7 11 7C13.3109 7 15 8.6635 15 10.5Z" stroke="#f8f8f8" stroke-width="2"/>
+				</svg>
 			</button>
 		  </label>
 		{/if}
@@ -112,6 +115,4 @@
 		{/if}
 	  {/await}
 	</div>
-  </FadeIn>
-
-  
+</FadeIn>
