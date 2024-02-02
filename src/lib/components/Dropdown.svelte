@@ -39,6 +39,7 @@
 				<button
 					class="focus rounded-sm w-full text-left px-1 py-1"
 					type="button"
+					tabindex="-1"
 					on:click={() => {
 						selected = entry;
 						menuOpen = false;
