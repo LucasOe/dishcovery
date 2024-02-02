@@ -18,7 +18,7 @@
 		menuOpen && "ring-2 ring-gray-300"
 	)}
 >
-	<button type="button" on:click={() => (menuOpen = !menuOpen)} class="flex w-full items-center justify-between">
+	<button type="button" on:click={() => (menuOpen = !menuOpen)} class="focus flex w-full items-center justify-between rounded-sm">
 		<p class="px-sm text-lg font-semibold">{selected.name}</p>
 		<img alt="Dropdown" class={twMerge("size-10 p-1 duration-500", menuOpen && "rotate-180")} src={DropDownIcon} />
 	</button>
@@ -32,12 +32,12 @@
 		{#each entries as entry}
 			<li
 				class={twMerge(
-					"cursor-pointer px-sm py-xs text-lg font-semibold hover:bg-gray-500-hover",
+					"cursor-pointer px-2 py-1 text-lg font-semibold hover:bg-gray-500-hover",
 					entry.id == selected.id && "text-yellow"
 				)}
 			>
 				<button
-					class="w-full text-left"
+					class="focus rounded-sm w-full text-left px-1 py-1"
 					type="button"
 					on:click={() => {
 						selected = entry;
