@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { twMerge } from "tailwind-merge";
 
 	import {
 		deleteRecipe,
@@ -13,45 +14,39 @@
 	} from "$lib/functions/database/recipes";
 	import { user } from "$lib/functions/stores";
 
+	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
+	import type { FilterValue } from "$types/filter.types";
+	import { range } from "$lib/functions/utils";
+
 	import UploadSVG from "$lib/components/UploadSVG.svelte";
 	import TagList from "$lib/components/TagList.svelte";
 	import Section from "$lib/components/Section.svelte";
 	import Dropdown from "$lib/components/Dropdown.svelte";
 	import Error from "$lib/components/Error.svelte";
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import RemoveIcon from "$lib/assets/icons/cancel.svg";
-	import { range } from "$lib/functions/utils";
-	import type { FilterValue } from "$types/filter.types";
-	import { validateRecipeName, validateRecipeDescription, validateRecipeSteps } from "$lib/functions/validation";
 
+	import RemoveIcon from "$lib/assets/icons/cancel.svg";
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import TagIcon from "$lib/assets/icons/tag.svg";
-	import { twMerge } from "tailwind-merge";
 
-	let recipeName: { content: string; isValid: boolean } = {
-		content: "",
-		isValid: false,
-	};
-	let recipeDescription: { content: string; isValid: boolean } = {
-		content: "",
-		isValid: false,
-	};
+	let recipeName = { content: "", isValid: false };
+	let recipeDescription = { content: "", isValid: false };
 	let difficulty: FilterValue<number>;
 	let preperation_time: FilterValue<number>;
 	let cost: FilterValue<number>;
 	let categories: { id: number; name: string }[];
-	let recipeSteps: { number: number; description: string; isValid: boolean }[] = [
+	let recipeSteps = [
 		{
 			number: 1,
 			description: "",
 			isValid: false,
 		},
 	];
-
 	let ingredients: { name: string; amount: string }[] = [];
 	let images: Blob[] = [];
+
 	let isImageValid = false;
 	let loading = false;
 	let invalid = false;
@@ -142,7 +137,7 @@
 						class={twMerge("input peer", !recipeName.isValid && "ring-2 ring-red")}
 						required
 					/>
-					<Error visible={!recipeName.isValid}>Ungültiger Name. Bitte gebe mindestens 10 Zeichen ein.</Error>
+					<Error visible={!recipeName.isValid}>Der Name braucht mindestens 10 Zeichen.</Error>
 				</Section>
 
 				<Section title="Beschreibung">
@@ -153,9 +148,7 @@
 						class={twMerge("input peer h-32", !recipeDescription.isValid && "ring-2 ring-red")}
 						required
 					/>
-					<Error visible={!recipeDescription.isValid}>
-						Ungültige Beschreibung. Bitte gebe mindestens 30 Zeichen ein.
-					</Error>
+					<Error visible={!recipeDescription.isValid}>Die Beschreibung braucht mindestens 30 Zeichen.</Error>
 				</Section>
 
 				<Section title="Bilder">
@@ -193,11 +186,7 @@
 							</div>
 						{/if}
 					</div>
-					{#if !isImageValid}
-						<FadeIn>
-							<p class="mt-2 rounded-sm bg-red p-2">Bitte lade mindestens ein Bild hoch.</p>
-						</FadeIn>
-					{/if}
+					<Error visible={!isImageValid} class="block">Das Rezept braucht ein Bild.</Error>
 				</Section>
 				<Section title="Kategorie" icon={TagIcon}>
 					<TagList tags={_categories} bind:selected={categories} />
@@ -219,7 +208,7 @@
 						bind:selected={preperation_time}
 						entries={range(5, 60, 5).map((value) => ({
 							id: value,
-							name: `${value} Min.`,
+							name: `${value} min.`,
 						}))}
 					/>
 				</Section>
