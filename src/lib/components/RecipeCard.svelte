@@ -2,7 +2,7 @@
 	import RoundButton from "$lib/components/RoundButton.svelte";
 	import type { Recipe } from "$types/database.types";
 	import DetailRow from "./DetailRow.svelte";
-	import RejectIcon from "$lib/assets/icons/reject.svg";
+	import RejectIcon from "$lib/assets/icons/trashcan.svg";
 	import DeleteModal from "./DeleteModal.svelte";
 
 	export let recipe: Recipe;
