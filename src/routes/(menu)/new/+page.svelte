@@ -170,7 +170,9 @@
 								on:change={onFileSelected}
 								on:input={validateImage}
 								bind:this={fileInput}
-								class="file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								class="focus rounded-sm file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								multiple
+								required
 							/>
 							<!--
 							<button type="button" aria-label="Bild hochladen" on:click={() => fileInput.click()}>
@@ -288,7 +290,7 @@
 									ingredients.push({ name: "", amount: "" });
 									ingredients = ingredients;
 								}}
-								class="h-10 w-10"
+								class="focus rounded-[.8rem] h-10 w-10"
 							>
 								<UploadSVG />
 							</button>
@@ -311,7 +313,7 @@
 												recipeSteps.splice(index, 1);
 												recipeSteps = recipeSteps;
 											}}
-											class="text-gray-300">Entfernen</button
+											class="text-gray-300 hover:opacity-80 hover:underline">Entfernen</button
 										>
 									{/if}
 								</div>
@@ -338,7 +340,7 @@
 									recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
 									recipeSteps = recipeSteps;
 								}}
-								class="h-10 w-10"
+								class="focus rounded-[.8rem] h-10 w-10"
 							>
 								<UploadSVG />
 							</button>
