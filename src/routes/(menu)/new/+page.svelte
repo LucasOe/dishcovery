@@ -172,6 +172,8 @@
 								on:input={validateImage}
 								bind:this={fileInput}
 								class="file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								multiple
+								required
 							/>
 						</div>
 
