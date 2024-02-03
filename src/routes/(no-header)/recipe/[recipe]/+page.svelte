@@ -215,8 +215,8 @@
 					{/each}
 				</div>
 				{#if $user && recipe.user_id !== $user.id}
-					<div class="flex flex-col">
-						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
+					<div class="flex flex-col py-16">
+						<p class="mb-2 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
 						<ButtonRating {recipe} />
 					</div>
 				{/if}
