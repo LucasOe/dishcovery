@@ -10,11 +10,10 @@
 	export let selected: FilterValue<T> = entries[0];
 
 	let menuOpen = false;
+	let container: HTMLDivElement;
 
-	let container: any;
-
-	function onWindowClick(e: any) {
-		if (container.contains(e.target) == false) menuOpen = false;
+	function onWindowClick(e: MouseEvent) {
+		if (container.contains(e.target as Node) == false) menuOpen = false;
 	}
 </script>
 

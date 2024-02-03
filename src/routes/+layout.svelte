@@ -25,7 +25,7 @@
 </script>
 
 {#if $user !== undefined}
-	<div class="mx-auto flex min-h-svh max-w-[36rem] font-default text-base text-light height-full">
+	<div class="height-full mx-auto flex min-h-svh max-w-[36rem] font-default text-base text-light">
 		<ViewTransition />
 		<slot />
 	</div>

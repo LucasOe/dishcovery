@@ -4,13 +4,13 @@
 
 @layer components {
 	.input {
-		@apply focus-visible:outline-blue h-10 w-full rounded-sm bg-gray-500 p-2 text-xl text-white outline-none duration-100	placeholder:text-lg placeholder:text-gray-300 hover:bg-gray-500-hover focus-visible:outline focus-visible:outline-2;
+		@apply h-10 w-full rounded-sm bg-gray-500 p-2 text-xl text-white outline-none duration-100 placeholder:text-lg	placeholder:text-gray-300 hover:bg-gray-500-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue;
 	}
 	.button {
-		@apply focus-visible:outline-blue h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow focus-visible:outline focus-visible:outline-2 disabled:border-none disabled:bg-gray-500 disabled:text-gray-300;
+		@apply h-16 w-full rounded-sm border-sm border-yellow bg-yellow text-xl font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-yellow focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue disabled:border-none disabled:bg-gray-500 disabled:text-gray-300;
 	}
 	.focus {
-		@apply focus-visible:outline-blue focus-visible:outline focus-visible:outline-2;
+		@apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue;
 	}
 	.error {
 		@apply mt-2 rounded-sm bg-red p-2;
