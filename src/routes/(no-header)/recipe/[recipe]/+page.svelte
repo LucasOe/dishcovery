@@ -93,12 +93,32 @@
 	{#if profile}
 		<FadeIn>
 			{#if recipe.images.length > 0}
-				<img
-					src={recipe.images[currentImage].image}
-					class="transition-image h-64 w-full object-cover"
-					alt=""
-					style:--recipe="image-{recipe.id}"
-				/>
+				<div class="relative">
+					<img
+						src={recipe.images[currentImage].image}
+						class="transition-image h-64 w-full object-cover"
+						alt=""
+						style:--recipe="image-{recipe.id}"
+					/>
+					{#if recipe.images.length > 1}
+						<div class="absolute top-0 left-0 flex flex-row size-full">
+							<button 
+								type="button" 
+								on:click={() => {
+									currentImage = (currentImage - 1 + recipe.images.length) % recipe.images.length;
+								}}
+								class="size-full bg-transparent relative"
+							/>
+							<button 
+								type="button" 
+								on:click={() => {
+									currentImage = (currentImage + 1) % recipe.images.length;
+								}}
+								class="size-full bg-transparent relative"
+							/>
+						</div>
+					{/if}
+				</div>
 			{/if}
 			{#if recipe.images.length > 1}
 				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-4">
@@ -111,9 +131,11 @@
 								currentImage == index ? "w-16 bg-yellow" : "w-12 bg-white"
 							)}
 						/>
+						
 					{/each}
 				</div>
 			{/if}
+			
 			<div class="space-y-md p-8 pt-6">
 				<div class="flex items-center justify-between">
 					<a

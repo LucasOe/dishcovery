@@ -29,7 +29,7 @@
 
 <div
 	class={twMerge(
-		"absolute flex size-full justify-center overflow-hidden rounded-xl border-2 border-gray-900 duration-500 will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
+		"absolute flex flex-col size-full justify-center overflow-hidden rounded-xl border-2 border-gray-900 duration-500 will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
 		isTouching ? "transition-[border,width]" : "transition-[transform,border,width]",
 		swipeClass[swipeIndicator]
 	)}
@@ -38,6 +38,28 @@
 	`}
 >
 	{#if recipe.images.length > 0}
+		<div class="relative size-full">
+			{#if recipe.images.length > 1}
+				<div class="absolute top-0 left-0 flex flex-row size-full">
+					<button 
+						type="button" 
+						on:click={() => {
+							currentImage = (currentImage - 1 + recipe.images.length) % recipe.images.length;
+						}}
+						class="size-full bg-transparent relative"
+					/>
+					<button 
+						type="button" 
+						on:click={() => {
+							currentImage = (currentImage + 1) % recipe.images.length;
+						}}
+						class="size-full bg-transparent relative"
+					/>
+				</div>
+			{/if}
+		</div>
+	{/if}
+	{#if recipe.images.length > 0}
 		<img
 			src={recipe.images[currentImage].image}
 			class="transition-image absolute top-0 -z-50 h-4/5 w-full bg-gray-500 object-cover"
@@ -45,9 +67,10 @@
 			style:--recipe={imageTransition}
 		/>
 	{/if}
+	
 
 	{#if recipe.images.length > 1}
-		<div class="absolute z-50 flex cursor-default gap-sm p-4">
+		<div class="absolute z-50 top-4 left-[50%] translate-x-[-50%] flex cursor-default gap-sm p-4">
 			{#each recipe.images as _, index}
 				<button
 					type="button"
