@@ -24,7 +24,7 @@
 				<div class="size-full z-[1] absolute bg-gradient-to-b from-transparent from-20% to-gray-500 to-100%"></div>
 
 				{#if recipe.images.length > 0}
-					<img src={recipe.images[0].image} class="duration-300 scale-[1.0] h-48 w-full object-cover group-hover:scale-[1.1]" alt="Rezept Bild" />
+					<img src={recipe.images[0].image} class="duration-300 scale-[1.0] h-48 w-full object-cover group-hover:scale-[1.05]" alt="Rezept Bild" />
 				{/if}
 
 				<div class="z-[2] absolute bottom-0 left-0 w-full px-md py-sm">
