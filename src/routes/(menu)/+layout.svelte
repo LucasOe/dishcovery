@@ -17,7 +17,7 @@
 	</div>
 
 	<slot />
-	<div class="fixed bottom-12 left-1/2 translate-x-[-50%]">
+	<div class="fixed z-10 bottom-12 left-1/2 translate-x-[-50%]">
 		<RoundButton
 			src={CloseIcon}
 			alt="Close"
