@@ -5,7 +5,6 @@
 	import Spinner from "$lib/components/Spinner.svelte";
 	import NoRecipes from "$lib/assets/icons/no_recipes.svg";
 	import DefaultAvatar from "$lib/assets/user.png";
-	import Edit from "$lib/assets/icons/edit.svg";
 	import { fetchUserRecipes, insertAvatarImage, upsertAvatarImage } from "$lib/functions/database/user";
 	import RecipeCard from "$lib/components/RecipeCard.svelte";
 	import { deleteRecipe } from "$lib/functions/database/recipes";
@@ -19,15 +18,10 @@
 	let image;
 	let fileInput: HTMLInputElement;
 	let userRecipes: Promise<Recipe[]>;
-	let showChangeImageButton = false;
 
 	onMount(() => {
 		userRecipes = fetchUserRecipes(profile.id);
 	});
-
-	function toggleChangeImageButton() {
-		showChangeImageButton = !showChangeImageButton;
-	}
 
 	async function onDeleteUserRecipe(recipe: Recipe) {
 		if (!$user) return;

@@ -11,7 +11,6 @@
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import TagIcon from "$lib/assets/icons/tag.svg";
-	import { onMount } from "svelte";
 
 	const filterOptions: FilterOptions = {
 		difficulty: {

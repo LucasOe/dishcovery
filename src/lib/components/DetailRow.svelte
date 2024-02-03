@@ -4,10 +4,9 @@
 	import DifficultyIcon from "$lib/assets/icons/difficulty.svg";
 	import EuroIcon from "$lib/assets/icons/euro.svg";
 	import { twMerge } from "tailwind-merge";
-	import {onMount} from "svelte";
-	import {fetchLikes} from "$lib/functions/database/likes";
+	import { onMount } from "svelte";
 	import Star from "$lib/assets/icons/star.svg";
-	import {fetchAverageRating} from "$lib/functions/database/ratings";
+	import { fetchAverageRating } from "$lib/functions/database/ratings";
 
 	export let recipe: Recipe;
 
@@ -16,7 +15,7 @@
 	let rating = 0;
 
 	onMount(async () => {
-		if (showLikes) rating = Math.round(await fetchAverageRating(recipe.id)*2)/2;
+		if (showLikes) rating = Math.round((await fetchAverageRating(recipe.id)) * 2) / 2;
 	});
 </script>
 
@@ -38,10 +37,9 @@
 	</div>
 
 	{#if showLikes}
-	<button
-			class={"focus flex items-center gap-2 rounded-sm px-3 py-1 font-semibold leading-normal justify-self-end"}>
-		<span class="w-4 text-right">{rating}</span>
-		<img src={Star} alt="Heart" />
-	</button>
+		<button class={"focus flex items-center gap-2 justify-self-end rounded-sm px-3 py-1 font-semibold leading-normal"}>
+			<span class="w-4 text-right">{rating}</span>
+			<img src={Star} alt="Heart" />
+		</button>
 	{/if}
 </div>

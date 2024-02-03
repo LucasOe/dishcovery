@@ -45,6 +45,3 @@ export const isLiked = async (recipeID: number, userID: string): Promise<boolean
 	if (error) throw error;
 	else return data !== null;
 };
-
-
-
