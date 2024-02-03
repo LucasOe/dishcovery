@@ -41,15 +41,15 @@
 		<div class="relative size-full">
 			{#if recipe.images.length > 1}
 				<div class="absolute top-0 left-0 flex flex-row size-full">
-					<button 
-						type="button" 
+					<button
+						type="button"
 						on:click={() => {
 							currentImage = (currentImage - 1 + recipe.images.length) % recipe.images.length;
 						}}
 						class="size-full bg-transparent relative"
 					/>
-					<button 
-						type="button" 
+					<button
+						type="button"
 						on:click={() => {
 							currentImage = (currentImage + 1) % recipe.images.length;
 						}}
@@ -67,7 +67,7 @@
 			style:--recipe={imageTransition}
 		/>
 	{/if}
-	
+
 
 	{#if recipe.images.length > 1}
 		<div class="absolute z-50 top-4 left-[50%] translate-x-[-50%] flex cursor-default gap-sm p-4">
@@ -93,7 +93,7 @@
 		{#if recipe.categories.length > 0}
 			<TagRow {recipe} isInDetail={false} />
 		{/if}
-		<DetailRow {recipe} />
+		<DetailRow {recipe} showHearts="true" />
 	</div>
 
 	<IconOverlay {swipeIndicator} />
