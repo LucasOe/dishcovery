@@ -20,6 +20,25 @@
 	}
 }
 
+::-webkit-scrollbar {
+	@apply w-3;
+}
+
+::-webkit-scrollbar-thumb {
+	@apply rounded-sm bg-gray-300 hover:bg-[#adadad];
+}
+
+::-webkit-scrollbar-track {
+	@apply bg-transparent;
+}
+
+/* Customize scrollbar for Firefox */
+/* Note: Firefox supports scrollbar customization using the scrollbar-color and scrollbar-width properties */
+body {
+	scrollbar-color: rgb(125 124 124) transparent;
+	scrollbar-width: auto;
+}
+
 .transition-name {
 	transform: scale(1);
 	view-transition-name: var(--recipe-name);
