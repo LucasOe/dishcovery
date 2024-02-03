@@ -11,6 +11,7 @@
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import TagIcon from "$lib/assets/icons/tag.svg";
+	import { onMount } from "svelte";
 
 	const filterOptions: FilterOptions = {
 		difficulty: {
@@ -103,12 +104,16 @@
 		},
 	};
 
-	const selectedFilters: Filter = {
+	let selectedFilters: Filter = {
 		difficulty: $filters?.difficulty || null,
 		cost: $filters?.cost || null,
 		preperation_time: $filters?.preperation_time || null,
 		categories: $filters?.categories || null,
 	};
+
+	onMount(() => {
+		console.log($filters);
+	});
 
 	function onClick<FilterKey extends keyof Filter>(filter: FilterKey, option: FilterValue<Filter[FilterKey]>) {
 		selectedFilters[filter] = option.id;
