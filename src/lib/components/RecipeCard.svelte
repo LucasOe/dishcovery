@@ -18,7 +18,7 @@
 		<DeleteModal {message} {onConfirm} onCancel={() => (showModal = false)} />
 	{/if}
 
-	<a href={"/recipe/" + recipe.id}>
+	<a href={"/recipe/" + recipe.id} class="focus block rounded-[2rem]">
 		<div class="relative">
 			<div>
 				{#if recipe.images.length > 0}
@@ -44,7 +44,7 @@
 					size="sm"
 					class="absolute right-0 top-0 m-md bg-gray-900 drop-shadow-none"
 				/>
-			{/if} 
+			{/if}
 		</div>
 	</a>
 </div>

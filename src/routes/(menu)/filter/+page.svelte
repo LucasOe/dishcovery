@@ -11,6 +11,7 @@
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import TagIcon from "$lib/assets/icons/tag.svg";
+	import { onMount } from "svelte";
 
 	const filterOptions: FilterOptions = {
 		difficulty: {
@@ -103,12 +104,16 @@
 		},
 	};
 
-	const selectedFilters: Filter = {
+	let selectedFilters: Filter = {
 		difficulty: $filters?.difficulty || null,
 		cost: $filters?.cost || null,
 		preperation_time: $filters?.preperation_time || null,
 		categories: $filters?.categories || null,
 	};
+
+	onMount(() => {
+		console.log($filters);
+	});
 
 	function onClick<FilterKey extends keyof Filter>(filter: FilterKey, option: FilterValue<Filter[FilterKey]>) {
 		selectedFilters[filter] = option.id;
@@ -129,9 +134,9 @@
 						<div class="flex grow-[1] basis-0 flex-col items-center justify-center p-1">
 							<button
 								class={twMerge(
-									"focus size-6 rounded-full border border-gray-300 text-center	hover:bg-gray-500-hover",
+									"focus size-6 rounded-full border border-gray-300 text-center hover:bg-gray-500-hover",
 									JSON.stringify(selectedFilters[filter]) == JSON.stringify(option.id)
-										? "bg-yellow text-white"
+										? "bg-yellow text-white hover:bg-yellow"
 										: "bg-gray-900"
 								)}
 								on:click={() => onClick(filter, option)}
