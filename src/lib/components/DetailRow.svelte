@@ -8,7 +8,7 @@
 	import Star from "$lib/assets/icons/star.svg";
 	import RedHeart from "$lib/assets/icons/red_heart.svg";
 	import { fetchAverageRating } from "$lib/functions/database/ratings";
-	import {fetchLikes} from "$lib/functions/database/likes";
+	import { fetchLikes } from "$lib/functions/database/likes";
 
 	export let recipe: Recipe;
 	export let showRatings = false;
@@ -27,11 +27,11 @@
 	<div class="flex h-full items-center gap-xs">
 		<div class="flex h-full items-center gap-xs pr-3">
 			<img alt="Clock" class="size-5" src={ClockIcon} />
-			<p class="text-sm font-semibold">{recipe.preperation_time} Min.</p>
+			<p class="whitespace-nowrap text-sm font-semibold">{recipe.preperation_time} Min.</p>
 		</div>
 		<div class="flex h-full items-center gap-xs pr-3">
 			<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
-			<p class="text-sm font-semibold">{["Einfach", "Mittel", "Schwer"][recipe.difficulty - 1]}</p>
+			<p class="whitespace-nowrap text-sm font-semibold">{["Einfach", "Mittel", "Schwer"][recipe.difficulty - 1]}</p>
 		</div>
 		<div class="flex h-full items-center gap-xs pr-3">
 			{#each { length: recipe.cost } as _}
@@ -39,9 +39,11 @@
 			{/each}
 		</div>
 	</div>
-	<div class="justify-self-end flex">
+	<div class="flex justify-self-end">
 		{#if showHearts}
-			<button class={"focus flex items-center gap-1 justify-self-end rounded-sm px-2 py-1 font-semibold leading-normal"}>
+			<button
+				class={"focus flex items-center gap-1 justify-self-end rounded-sm px-2 py-1 font-semibold leading-normal"}
+			>
 				<span class="w-4">{likes}</span>
 				<img src={RedHeart} alt="Heart" />
 			</button>
