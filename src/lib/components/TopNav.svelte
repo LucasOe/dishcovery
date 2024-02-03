@@ -6,7 +6,7 @@
 
 <div class="flex items-center justify-between">
 	<!-- Nav -->
-	<div class="flex items-center justify-between gap-xl">
+	<div class="flex items-center justify-between gap-md">
 		{#if $user}
 			<a href="/cookbook" class="focus rounded-sm p-2 duration-150">
 				<svg class="nav-icon" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
