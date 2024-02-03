@@ -10,9 +10,19 @@
 	export let selected: FilterValue<T> = entries[0];
 
 	let menuOpen = false;
+
+	let container: any;
+    
+    function onWindowClick(e: any) {
+        if (container.contains(e.target) == false)
+			menuOpen = false;
+    }
 </script>
 
+<svelte:window on:click={onWindowClick} />
+
 <div
+	bind:this={container}
 	class={twMerge(
 		"relative space-y-sm rounded-sm bg-gray-500 duration-150 hover:bg-gray-500-hover",
 		menuOpen && "ring-0 ring-gray-300 bg-gray-500-hover"
