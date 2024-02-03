@@ -31,7 +31,7 @@
 					<div class="font-header text-xl text-yellow [text-shadow:_0_0_5px_#000]">
 						{recipe.name}
 					</div>
-					<DetailRow {recipe} showRatings="true" showHearts="true" />
+					<DetailRow {recipe} showRatings showHearts />
 				</div>
 			</div>
 			{#if showButton}
