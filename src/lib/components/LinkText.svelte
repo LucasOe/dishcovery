@@ -4,4 +4,4 @@
 	export let textColor: string = "text-gray-300";
 </script>
 
-<a href={link} {title} class="font-bold {textColor}"><slot /></a>
+<a href={link} {title} class="focus rounded-sm px-2 font-bold {textColor}"><slot /></a>

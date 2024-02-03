@@ -8,7 +8,7 @@
 	import type { Recipe } from "$types/database.types";
 	import { twMerge } from "tailwind-merge";
 	import { fetchLikedRecipes, upsertLike } from "$lib/functions/database/likes";
-	
+
 	let selectedMenu: "all" | "uploads" | "likes" = "all";
 	let userRecipes: Promise<Recipe[]>;
 	let likedRecipes: Promise<Recipe[]>;
@@ -44,7 +44,7 @@
 					on:click={() => (selectedMenu = "all")}
 					disabled={selectedMenu == "all"}
 					class={twMerge(
-						"mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60",
+						"focus mt-lg flex rounded-sm px-2 text-lg font-bold text-gray-300 hover:opacity-60",
 						selectedMenu == "all" && "text-white hover:opacity-100"
 					)}
 				>
@@ -54,7 +54,7 @@
 					on:click={() => (selectedMenu = "uploads")}
 					disabled={selectedMenu == "uploads"}
 					class={twMerge(
-						"mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60",
+						"focus mt-lg flex rounded-sm px-2 text-lg font-bold text-gray-300 hover:opacity-60",
 						selectedMenu == "uploads" && "text-white hover:opacity-100"
 					)}
 				>
@@ -64,7 +64,7 @@
 					on:click={() => (selectedMenu = "likes")}
 					disabled={selectedMenu == "likes"}
 					class={twMerge(
-						"mt-lg flex text-lg font-bold text-gray-300 hover:opacity-60",
+						"focus mt-lg flex rounded-sm px-2 text-lg font-bold text-gray-300 hover:opacity-60",
 						selectedMenu == "likes" && "text-white hover:opacity-100"
 					)}
 				>
@@ -102,6 +102,6 @@
 	</FadeIn>
 {/if}
 {#if !$user}
-  <p>Du musst angemeldet sein, um diese Seite zu sehen. Bitte melde dich an.</p>
-  <a href="/login" class="button w-36 h-12 p-0 flex justify-center items-center">Zum Login</a>
+	<p>Du musst angemeldet sein, um diese Seite zu sehen. Bitte melde dich an.</p>
+	<a href="/login" class="button flex h-12 w-36 items-center justify-center p-0">Zum Login</a>
 {/if}
