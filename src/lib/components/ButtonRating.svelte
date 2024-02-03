@@ -39,9 +39,14 @@
 </script>
 
 {#if user}
-	<div role="group" class="flex justify-center gap-3" on:mouseleave={() => handleMouseLeave()}>
+	<div role="group" class="flex justify-center" on:mouseleave={() => handleMouseLeave()}>
 		{#each Array(5) as _, index}
-			<button type="button" on:mouseenter={() => handleHover(index + 1)} on:click={() => rateRecipe(index + 1)}>
+			<button
+				type="button"
+				on:mouseenter={() => handleHover(index + 1)}
+				on:click={() => rateRecipe(index + 1)}
+				class="focus rounded-full p-0.5"
+			>
 				<img class="hover:cursor-pointer" src={rating && index < rating ? Star : StarEmpty} alt="Rating Icon" />
 			</button>
 		{/each}

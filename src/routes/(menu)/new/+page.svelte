@@ -59,7 +59,12 @@
 	};
 
 	async function publishRecipe() {
-		if (!$user || loading) return;
+		if (!$user) return;
+		if (loading) return;
+		if (!recipeName.isValid) return;
+		if (!recipeDescription.isValid) return;
+		if (!images.isValid) return;
+		if (!recipeSteps.every((step) => step.isValid)) return;
 
 		loading = true;
 
@@ -153,7 +158,7 @@
 								accept=".jpg, .jpeg, .png"
 								on:change={onFileSelected}
 								bind:this={fileInput}
-								class="file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								class="focus rounded-sm file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
 								multiple
 								required
 							/>
@@ -243,7 +248,7 @@
 												ingredients.splice(index, 1);
 												ingredients = ingredients;
 											}}
-											class="rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
+											class="focus rounded-full bg-red p-2 duration-150 hover:bg-[#be4a3a]"
 										>
 											<img src={RemoveIcon} alt="Zutat entfernen" class="size-3" />
 										</button>
@@ -260,7 +265,7 @@
 									ingredients.push({ name: "", amount: "" });
 									ingredients = ingredients;
 								}}
-								class="h-10 w-10 rounded-[.8rem]"
+								class="focus h-10 w-10 rounded-[.8rem]"
 							>
 								<UploadSVG />
 							</button>
@@ -283,7 +288,7 @@
 												recipeSteps.splice(index, 1);
 												recipeSteps = recipeSteps;
 											}}
-											class="text-gray-300 hover:underline hover:opacity-80">Entfernen</button
+											class="focus rounded-sm text-gray-300 hover:underline hover:opacity-80">Entfernen</button
 										>
 									{/if}
 								</div>
@@ -306,7 +311,7 @@
 									recipeSteps.push({ number: recipeSteps.length + 1, description: "", isValid: true });
 									recipeSteps = recipeSteps;
 								}}
-								class="h-10 w-10 rounded-[.8rem]"
+								class="focus h-10 w-10 rounded-[.8rem]"
 							>
 								<UploadSVG />
 							</button>
@@ -315,7 +320,7 @@
 					</div>
 				</Section>
 
-				<button class="button my-6"> Rezept veröffentlichen </button>
+				<button class="button my-6">Rezept veröffentlichen</button>
 			</form>
 			{#if loading}
 				<div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-900 bg-opacity-50">

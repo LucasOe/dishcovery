@@ -107,7 +107,7 @@
 							type="button"
 							on:click={() => (currentImage = index)}
 							class={twMerge(
-								"h-4 rounded-full shadow-shadowGray transition-[width]",
+								"focus h-4 rounded-full shadow-shadowGray transition-[width]",
 								currentImage == index ? "w-16 bg-yellow" : "w-12 bg-white"
 							)}
 						/>
@@ -116,7 +116,10 @@
 			{/if}
 			<div class="space-y-md p-8 pt-6">
 				<div class="flex items-center justify-between">
-					<a href={`/profile/${profile.username}`} class="group flex items-center gap-sm duration-150">
+					<a
+						href={`/profile/${profile.username}`}
+						class="focus group flex items-center gap-sm rounded-sm p-1 duration-150"
+					>
 						<img
 							src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
 							alt="Profilbild"
@@ -126,7 +129,7 @@
 					</a>
 					<button
 						class={twMerge(
-							"flex items-center gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal",
+							"focus flex items-center gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal",
 							isOwnRecipe ? "opacity-50" : ""
 						)}
 						on:click={() => handleLikeButtonClick()}
@@ -140,7 +143,7 @@
 					<h1 class="transition-name font-header text-xxl text-light" style:--recipe-name="name-{recipe.id}">
 						{recipe.name}
 					</h1>
-					<div class="pt-xs pb-[2px]">
+					<div class="pb-[2px] pt-xs">
 						<Rating {recipe} />
 					</div>
 					{#if recipe.categories.length > 0}
@@ -157,7 +160,7 @@
 					<div class="overflow-hidden rounded-sm bg-gray-500">
 						<button
 							on:click={() => (isOpen = !isOpen)}
-							class="flex h-10 w-full items-center justify-between rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover"
+							class="focus flex h-10 w-full items-center justify-between rounded-sm rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover focus-visible:outline-offset-[-2px]"
 						>
 							<div class="text-md pl-2">Zutaten</div>
 							<img
@@ -182,10 +185,10 @@
 						</div>
 					</div>
 				{/if}
-				<div class="flex flex-col gap-3 pt-3">
+				<div class="flex flex-col gap-2 pt-3">
 					{#each getRecipeSteps(recipe) as step, index}
 						<button
-							class="flex cursor-pointer items-start gap-2 transition-opacity duration-300"
+							class="focus flex cursor-pointer items-start gap-2 rounded-sm p-1 transition-opacity duration-300"
 							on:click={() => (completedSteps[index] = !completedSteps[index])}
 						>
 							<div>
@@ -212,8 +215,8 @@
 					{/each}
 				</div>
 				{#if $user && recipe.user_id !== $user.id}
-					<div class="flex flex-col">
-						<p class="mb-3 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
+					<div class="flex flex-col py-16">
+						<p class="mb-2 text-center font-bold">Schon einmal gekocht? Bewerte das Rezept!</p>
 						<ButtonRating {recipe} />
 					</div>
 				{/if}

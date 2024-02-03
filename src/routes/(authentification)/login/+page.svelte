@@ -79,7 +79,7 @@
 
 	<div class="flex flex-col items-center justify-center gap-sm">
 		<div class="flex flex-row items-center gap-xs">
-			<span>Noch kein Mitglied</span>
+			<span>Noch kein Mitglied?</span>
 			<LinkText link="/register" title="Registrieren" textColor="text-yellow">Jetzt Registrieren</LinkText>
 		</div>
 		<LinkText link="/forgetpassword" title="Passwort vergessen">Passwort vergessen?</LinkText>
