@@ -23,7 +23,7 @@
 			<div>
 				{#if recipe.images.length > 0}
 					<div
-						class="size-full overflow-hidden rounded-[2rem] shadow-shadowSubtleGray duration-200 before:absolute before:size-full before:rounded-[2rem] before:bg-gradient-to-b before:from-transparent before:from-20% before:to-gray-500 before:to-100%"
+							class="size-full overflow-hidden rounded-[2rem] shadow-shadowSubtleGray duration-200 before:absolute before:size-full before:rounded-[2rem] before:bg-gradient-to-b before:from-transparent before:from-20% before:to-gray-500 before:to-100%"
 					>
 						<img src={recipe.images[0].image} class="h-48 w-full object-cover" alt="Rezept Bild" />
 					</div>
@@ -32,17 +32,17 @@
 					<div class="font-header text-xl text-yellow [text-shadow:_0_0_5px_#000]">
 						{recipe.name}
 					</div>
-					<DetailRow {recipe} />
+					<DetailRow {recipe} showLikes="true" />
 				</div>
 			</div>
 			{#if showButton}
 				<RoundButton
-					action={() => (showModal = true)}
-					type="button"
-					src={RejectIcon}
-					alt="Delete"
-					size="sm"
-					class="absolute right-0 top-0 m-md bg-gray-900 drop-shadow-none"
+						action={() => (showModal = true)}
+						type="button"
+						src={RejectIcon}
+						alt="Delete"
+						size="sm"
+						class="absolute right-0 top-0 m-md bg-gray-900 drop-shadow-none"
 				/>
 			{/if}
 		</div>
