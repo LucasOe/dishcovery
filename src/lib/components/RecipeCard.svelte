@@ -32,7 +32,7 @@
 					<div class="font-header text-xl text-yellow [text-shadow:_0_0_5px_#000]">
 						{recipe.name}
 					</div>
-					<DetailRow {recipe} showLikes="true" />
+					<DetailRow {recipe} showRatings="true" showHearts="true" />
 				</div>
 			</div>
 			{#if showButton}
