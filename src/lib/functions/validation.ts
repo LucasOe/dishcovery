@@ -33,7 +33,7 @@ export const validateRecipeDescription = (recipeDescription: string): boolean =>
 };
 
 export const validateRecipeSteps = (recipeSteps: string): boolean => {
-	const recipeStepsRegex = /.{30,}/;
+	const recipeStepsRegex = /.{15,}/;
 	return recipeStepsRegex.test(recipeSteps);
 };
 
