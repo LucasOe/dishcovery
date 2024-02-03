@@ -41,7 +41,7 @@
 					src={RejectIcon}
 					alt="Delete"
 					size="sm"
-					class="absolute right-0 top-0 m-md bg-gray-900 drop-shadow-none"
+					class="absolute z-50 right-0 top-0 m-md bg-gray-900 drop-shadow-none"
 				/>
 			{/if}
 		</div>
