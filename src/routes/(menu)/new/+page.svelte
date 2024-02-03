@@ -286,6 +286,9 @@
 											aria-label="Schritt Entfernen"
 											on:click={() => {
 												recipeSteps.splice(index, 1);
+												recipeSteps.forEach((step) => {
+													if (step.number > index) step.number -= 1;
+												});
 												recipeSteps = recipeSteps;
 											}}
 											class="focus rounded-sm text-gray-300 hover:underline hover:opacity-80">Entfernen</button
