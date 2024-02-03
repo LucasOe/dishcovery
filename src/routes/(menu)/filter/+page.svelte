@@ -111,10 +111,6 @@
 		categories: $filters?.categories || null,
 	};
 
-	onMount(() => {
-		console.log($filters);
-	});
-
 	function onClick<FilterKey extends keyof Filter>(filter: FilterKey, option: FilterValue<Filter[FilterKey]>) {
 		selectedFilters[filter] = option.id;
 	}
