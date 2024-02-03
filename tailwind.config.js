@@ -20,6 +20,7 @@ export default {
 			yellow: "#ffc532",
 			light: "#f8f8f8",
 			red: "#ed5d49",
+			blue: "#3284FF",
 		},
 		extend: {
 			spacing: {
