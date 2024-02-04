@@ -2,6 +2,9 @@
 export default {
 	content: ["./src/**/*.{html,js,svelte,ts}"],
 	theme: {
+		screens: {
+			'xs': '480px',
+		},
 		fontFamily: {
 			default: ["Work Sans, sans-serif"],
 			header: ["Chewy, sans-serif"],
