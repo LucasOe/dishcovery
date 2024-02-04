@@ -136,7 +136,7 @@
 								)}
 								on:click={() => onClick(filter, option)}
 							/>
-							<p class="mt-2 text-xs sm:text-sm">{option.name}</p>
+							<p class="sm:text-sm mt-2 text-xs">{option.name}</p>
 						</div>
 					{/each}
 				</div>

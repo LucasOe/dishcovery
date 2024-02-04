@@ -43,9 +43,11 @@
 	</button>
 
 	<ul
-		class={
-			`absolute z-10 w-full space-y-xs overflow-hidden rounded-md bg-gray-500 shadow-xl h-0 duration-300 ${menuOpen && " ring-2 ring-gray-300" }`	}
-		style={menuOpen &&`height: ${dropdownHeight}px`}
+		class={twMerge(
+			"absolute z-10 h-0 w-full space-y-xs overflow-hidden rounded-md bg-gray-500 shadow-xl duration-300",
+			menuOpen && "ring-2 ring-gray-300"
+		)}
+		style={menuOpen ? `height: ${dropdownHeight}px` : ""}
 	>
 		{#each entries as entry}
 			<li

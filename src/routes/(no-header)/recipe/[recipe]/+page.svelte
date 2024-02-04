@@ -96,22 +96,24 @@
 			{#if recipe.images.length > 0}
 				<div class="relative">
 					<div class="transition-image h-64 w-full object-cover">
-						<LazyLoadingImage src={recipe.images[currentImage].image}/>
+						<LazyLoadingImage src={recipe.images[currentImage].image} />
 					</div>
 					{#if recipe.images.length > 1}
-						<div class="absolute top-0 left-0 flex flex-row size-full">
+						<div class="absolute left-0 top-0 flex size-full flex-row">
 							<button
-									type="button"
-									on:click={() => {
+								type="button"
+								on:click={() => {
 									currentImage = (currentImage - 1 + recipe.images.length) % recipe.images.length;
 								}}
-									class="size-full bg-transparent relative"></button>
+								class="relative size-full bg-transparent"
+							></button>
 							<button
-									type="button"
-									on:click={() => {
+								type="button"
+								on:click={() => {
 									currentImage = (currentImage + 1) % recipe.images.length;
 								}}
-									class="size-full bg-transparent relative"></button>
+								class="relative size-full bg-transparent"
+							></button>
 						</div>
 					{/if}
 				</div>
@@ -120,13 +122,13 @@
 				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-3">
 					{#each recipe.images as _, index}
 						<button
-								type="button"
-								on:click={() => (currentImage = index)}
-								class={twMerge(
+							type="button"
+							on:click={() => (currentImage = index)}
+							class={twMerge(
 								"focus h-2 rounded-full shadow-shadowGray transition-[width]",
 								currentImage === index ? "w-16 bg-yellow" : "w-12 bg-white"
-							)}></button>
-
+							)}
+						></button>
 					{/each}
 				</div>
 			{/if}
@@ -134,20 +136,22 @@
 			<div class="space-y-md p-8 pt-6">
 				<div class="flex items-center justify-between">
 					<a
-							href={`/profile/${profile.username}`}
-							class="focus group flex items-center gap-sm rounded-sm p-1 duration-150"
+						href={`/profile/${profile.username}`}
+						class="focus group flex items-center gap-sm rounded-sm p-1 duration-150"
 					>
-						<div class="aspect-square size-10 rounded-full border-2 border-yellow object-cover group-hover:border-gray-300 overflow-hidden relative">
+						<div
+							class="relative aspect-square size-10 overflow-hidden rounded-full border-2 border-yellow object-cover group-hover:border-gray-300"
+						>
 							<LazyLoadingImage src={profile.avatar_url ? profile.avatar_url : DefaultAvatar} alt="Profilbild" />
 						</div>
 						<p class="text-md font-semibold group-hover:text-gray-300">{profile.username}</p>
 					</a>
 					<button
-							class={twMerge(
+						class={twMerge(
 							"focus flex items-center gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal hover:bg-gray-500-hover",
 							isOwnRecipe ? "opacity-50" : ""
 						)}
-							on:click={() => handleLikeButtonClick()}
+						on:click={() => handleLikeButtonClick()}
 					>
 						<span class="w-2">{likes}</span>
 						<img src={liked ? RedHeart : Heart} alt="Heart" />
@@ -174,8 +178,8 @@
 				{#if recipe.ingredients.length > 0}
 					<div class="overflow-hidden rounded-sm bg-gray-500">
 						<button
-								on:click={() => (isOpen = !isOpen)}
-								class="focus flex h-10 w-full items-center justify-between rounded-sm rounded-b-sm p-2 pr-0 text-left font-semibold text-yellow hover:bg-gray-500-hover focus-visible:outline-offset-[-2px]"
+							on:click={() => (isOpen = !isOpen)}
+							class="focus flex h-10 w-full items-center justify-between rounded-sm rounded-b-sm p-2 pr-0 text-left font-semibold text-yellow hover:bg-gray-500-hover focus-visible:outline-offset-[-2px]"
 						>
 							<div class="text-md pl-2">Zutaten</div>
 							<div class="w-10">
@@ -199,8 +203,8 @@
 				<div class="flex flex-col gap-2 pt-3">
 					{#each getRecipeSteps(recipe) as step, index}
 						<button
-								class="focus flex cursor-pointer items-start gap-2 rounded-sm p-1 transition-opacity duration-300"
-								on:click={() => (completedSteps[index] = !completedSteps[index])}
+							class="focus flex cursor-pointer items-start gap-2 rounded-sm p-1 transition-opacity duration-300"
+							on:click={() => (completedSteps[index] = !completedSteps[index])}
 						>
 							<div>
 								{#if completedSteps[index]}
@@ -211,7 +215,7 @@
 							</div>
 							<div>
 								<h2
-										class={twMerge(
+									class={twMerge(
 										"text-left font-semibold text-yellow",
 										completedSteps[index] && "text-white line-through opacity-50"
 									)}

@@ -55,7 +55,7 @@
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<label for="fileInput">
 					<button
-						class="z-[2] focus absolute bottom-0 right-0 cursor-pointer rounded-full bg-gray-500 p-4 hover:bg-gray-500-hover"
+						class="focus absolute bottom-0 right-0 z-[2] cursor-pointer rounded-full bg-gray-500 p-4 hover:bg-gray-500-hover"
 						on:click={() => fileInput.click()}
 					>
 						<svg class="" width="20" height="auto" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +73,7 @@
 					</button>
 				</label>
 			{/if}
-			<div class="aspect-square size-44 rounded-full border-2 border-yellow object-cover overflow-hidden relative">
+			<div class="relative aspect-square size-44 overflow-hidden rounded-full border-2 border-yellow object-cover">
 				<LazyLoadingImage src={profile.avatar_url ? profile.avatar_url : DefaultAvatar} alt="User" />
 			</div>
 		</div>

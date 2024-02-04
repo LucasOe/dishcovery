@@ -23,7 +23,12 @@
 	});
 </script>
 
-<div class={twMerge("pointer-events-none mt-1 flex flex-col gap-0 justify-start xs:grid xs:grid-cols-[auto,1fr] xs:items-center xs:gap-sm xs:mt-0", $$props.class)}>
+<div
+	class={twMerge(
+		"pointer-events-none mt-1 flex flex-col justify-start gap-0 xs:mt-0 xs:grid xs:grid-cols-[auto,1fr] xs:items-center xs:gap-sm",
+		$$props.class
+	)}
+>
 	<div class="flex h-full items-center gap-xs">
 		<div class="flex h-full items-center gap-xs pr-3">
 			<img alt="Clock" class="size-5" src={ClockIcon} />
@@ -39,17 +44,17 @@
 			{/each}
 		</div>
 	</div>
-	<div class="flex justify-self-end gap-1 xs:gap-0 mt-0 xs:mt-0">
+	<div class="mt-0 flex gap-1 justify-self-end xs:mt-0 xs:gap-0">
 		{#if showHearts}
 			<button
-				class={"focus flex items-center gap-1 justify-self-end rounded-sm px-0 xs:px-2 py-1 font-semibold leading-normal"}
+				class={"focus flex items-center gap-1 justify-self-end rounded-sm px-0 py-1 font-semibold leading-normal xs:px-2"}
 			>
 				<span class="w-4">{likes}</span>
 				<img src={RedHeart} alt="Heart" />
 			</button>
 		{/if}
 		{#if showRatings && rating > 0}
-			<button class={"focus flex items-center gap-1 rounded-sm px-0 xs:px-2 py-1 font-semibold leading-normal"}>
+			<button class={"focus flex items-center gap-1 rounded-sm px-0 py-1 font-semibold leading-normal xs:px-2"}>
 				<span class="w-4 text-right">{rating}</span>
 				<img src={Star} alt="Heart" />
 			</button>

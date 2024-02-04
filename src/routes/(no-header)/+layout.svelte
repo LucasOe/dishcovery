@@ -13,7 +13,7 @@
 
 <div class="flex w-full flex-col gap-6 pb-36">
 	<slot />
-	<div class=" z-10 fixed bottom-12 left-1/2 translate-x-[-50%]">
+	<div class="fixed bottom-12 left-1/2 z-10 translate-x-[-50%]">
 		<RoundButton
 			src={CloseIcon}
 			alt="Close"
