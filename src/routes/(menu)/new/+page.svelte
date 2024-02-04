@@ -34,6 +34,7 @@
 	import PriceIcon from "$lib/assets/icons/price.svg";
 	import ClockIcon from "$lib/assets/icons/clock.svg";
 	import TagIcon from "$lib/assets/icons/tag.svg";
+	import LazyLoadingImage from "$lib/components/LazyLoadingImage.svelte";
 
 	let recipeName = { content: "", isValid: false };
 	let recipeDescription = { content: "", isValid: false };
@@ -145,8 +146,7 @@
 						on:input={() => (recipeDescription.isValid = validateRecipeDescription(recipeDescription.content))}
 						placeholder="Hier eingeben..."
 						class="input peer h-32"
-						required
-					/>
+						required></textarea>
 					<Error visible={!recipeDescription.isValid}>Die Beschreibung braucht mindestens 30 Zeichen.</Error>
 				</Section>
 
@@ -158,7 +158,7 @@
 								accept=".jpg, .jpeg, .png"
 								on:change={onFileSelected}
 								bind:this={fileInput}
-								class="focus rounded-sm file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								class="focus rounded-sm file:mr-2 file:rounded-sm file:border-solid  font-default font-bold file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
 								multiple
 								required
 							/>
@@ -179,7 +179,7 @@
 										>
 											<img src={RemoveIcon} alt="Bild entfernen" class="size-4" />
 										</button>
-										<img src={URL.createObjectURL(image)} alt="Bildvorschau" class="h-full object-cover" />
+										<LazyLoadingImage src={URL.createObjectURL(image)} alt="Bildvorschau" />
 									</div>
 								{/each}
 							</div>
@@ -280,7 +280,7 @@
 							<div>
 								<div class="flex justify-between p-1">
 									<p class="text-xl font-semibold text-yellow">{step.number}. Schritt</p>
-									{#if index != 0}
+									{#if index !== 0}
 										<button
 											type="button"
 											aria-label="Schritt Entfernen"
@@ -301,8 +301,7 @@
 									placeholder="Hier eingeben..."
 									minlength="30"
 									class="input peer h-32"
-									required
-								/>
+									required></textarea>
 								<Error visible={!step.isValid}>Bitte gebe mindestens 30 Zeichen pro Schritt ein.</Error>
 							</div>
 						{/each}

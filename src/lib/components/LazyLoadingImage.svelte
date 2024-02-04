@@ -3,6 +3,8 @@
 
     export let src: string;
 
+    export let alt = "";
+
     let imageLoaded = false;
 
     $: {
@@ -13,11 +15,11 @@
 <img
         src={src}
         class="transition-image h-full w-full  bg-gray-500 object-cover"
-        alt=""
+        alt={alt}
         on:load={() => imageLoaded = true}/>
 <div
         class={twMerge(
-            `absolute z-10 top-0 left-0 w-full h-full bg-gradient-to-r from-yellow to-red animation-loading duration-300 pointer-events-none opacity-1`,
+            `absolute z-[1] top-0 left-0 w-full h-full bg-gradient-to-r from-yellow to-red animation-loading duration-300 pointer-events-none opacity-1`,
             imageLoaded ? " opacity-0" : "")}>
 </div>
 
