@@ -62,11 +62,23 @@ export default {
 			},
 			animation: {
 				fade: "fade .3s ease",
+				heart: "heart .8s infinite",
+				hat: "hat 0.8s infinite",
 			},
 			keyframes: {
 				fade: {
 					"0%": { opacity: 0, transform: "translateY(3.125rem)" },
 					"100%": { opacity: 1, transform: "translateY(0)" },
+				},
+				heart: {
+					"0%": { opacity: 0, transform: "scale(0.3)" },
+					"50%": { opacity: 1, transform: "scale(1.2)" },
+					"100%": { opacity: 0, transform: "scale(0.3)" },
+				},
+				hat: {
+					"0%": { stroke: "#7d7c7c", transform: "scale(1)", "transform-origin": "center" },
+					"50%": { stroke: "#ffc532", transform: "scale(1.2)", "transform-origin": "center" },
+					"100%": { stroke: "#7d7c7c", transform: "scale(1)", "transform-origin": "center" },
 				},
 			},
 		},
