@@ -23,7 +23,7 @@
 		<p class="w-full text-center text-lg">{message}</p>
 		<div class="flex flex-row gap-sm">
 			<button
-				class="rounded-sm border-sm border-gray-300 bg-gray-300 px-3 py-1 text-lg font-semibold text-gray-900 transition duration-100 hover:bg-gray-900 hover:text-gray-300"
+				class="rounded-sm border-sm border-gray-300 px-3 py-1 text-lg font-semibold text-gray-300 transition duration-100 hover:bg-gray-900"
 				on:click={onCancel}
 			>
 				Abbrechen
