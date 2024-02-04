@@ -1,7 +1,7 @@
 <script lang="ts">
 	import UserIcon from "$lib/assets/icons/ic_user.svg";
 	import DefaultAvatar from "$lib/assets/user.png";
-	import {user} from "$lib/functions/stores";
+	import { user } from "$lib/functions/stores";
 	import LazyLoadingImage from "$lib/components/LazyLoadingImage.svelte";
 	import CookBookIcon from "$lib/components/CookBookIcon.svelte";
 </script>
@@ -10,8 +10,8 @@
 	<!-- Nav -->
 	<div class="flex items-center justify-between gap-md">
 		{#if $user}
-			<a href="/cookbook" class="focus rounded-sm p-2 duration-150 relative">
-				<CookBookIcon/>
+			<a href="/cookbook" class="focus relative rounded-sm p-2 duration-150">
+				<CookBookIcon />
 			</a>
 			<a href="/new" class="focus rounded-sm p-2 duration-150">
 				<svg class="nav-icon" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@
 	<a href={`${$user ? `/profile/${$user.username}` : "/login"}`} class="focus rounded-full">
 		<div class={`size-14 overflow-hidden rounded-full border-sm border-gray-300 duration-150 hover:border-yellow`}>
 			{#if $user}
-				<div class="h-full w-full rounded-full object-cover overflow-hidden relative">
+				<div class="relative h-full w-full overflow-hidden rounded-full object-cover">
 					<LazyLoadingImage src={$user.avatar_url ? $user.avatar_url : DefaultAvatar} alt="User" />
 				</div>
 			{:else}
