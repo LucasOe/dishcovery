@@ -102,20 +102,18 @@
 					/>
 					{#if recipe.images.length > 1}
 						<div class="absolute top-0 left-0 flex flex-row size-full">
-							<button 
-								type="button" 
+							<button
+								type="button"
 								on:click={() => {
 									currentImage = (currentImage - 1 + recipe.images.length) % recipe.images.length;
 								}}
-								class="size-full bg-transparent relative"
-							/>
-							<button 
-								type="button" 
+								class="size-full bg-transparent relative"></button>
+							<button
+								type="button"
 								on:click={() => {
 									currentImage = (currentImage + 1) % recipe.images.length;
 								}}
-								class="size-full bg-transparent relative"
-							/>
+								class="size-full bg-transparent relative"></button>
 						</div>
 					{/if}
 				</div>
@@ -128,14 +126,13 @@
 							on:click={() => (currentImage = index)}
 							class={twMerge(
 								"focus h-4 rounded-full shadow-shadowGray transition-[width]",
-								currentImage == index ? "w-16 bg-yellow" : "w-12 bg-white"
-							)}
-						/>
-						
+								currentImage === index ? "w-16 bg-yellow" : "w-12 bg-white"
+							)}></button>
+
 					{/each}
 				</div>
 			{/if}
-			
+
 			<div class="space-y-md p-8 pt-6">
 				<div class="flex items-center justify-between">
 					<a

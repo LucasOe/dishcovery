@@ -58,13 +58,13 @@ export default {
 				shadowLight: "0px 20px 100px -35px rgba(255, 255, 255, .4)",
 			},
 			animation: {
-				fade: "fade .3s ease",
+				fade: "fade .3s ease"
 			},
 			keyframes: {
 				fade: {
 					"0%": { opacity: 0, transform: "translateY(3.125rem)" },
 					"100%": { opacity: 1, transform: "translateY(0)" },
-				},
+				}
 			},
 		},
 	},
