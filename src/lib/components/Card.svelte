@@ -66,13 +66,13 @@
 
 
 	{#if recipe.images.length > 1}
-		<div class="absolute z-50 top-4 left-[50%] translate-x-[-50%] flex cursor-default gap-sm p-4">
+		<div class="absolute z-50 top-0 left-[50%] translate-x-[-50%] flex cursor-default gap-sm p-4">
 			{#each recipe.images as _, index}
 				<button
 						type="button"
 						on:click={() => (currentImage = index)}
 						class={twMerge(
-						"focus h-4 rounded-full drop-shadow-lg transition-[width]",
+						"focus h-2 rounded-full drop-shadow-lg transition-[width]",
 						currentImage === index ? "w-16 bg-yellow" : "w-12 bg-white"
 					)}></button>
 			{/each}

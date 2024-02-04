@@ -117,13 +117,13 @@
 				</div>
 			{/if}
 			{#if recipe.images.length > 1}
-				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-4">
+				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-3">
 					{#each recipe.images as _, index}
 						<button
 								type="button"
 								on:click={() => (currentImage = index)}
 								class={twMerge(
-								"focus h-4 rounded-full shadow-shadowGray transition-[width]",
+								"focus h-2 rounded-full shadow-shadowGray transition-[width]",
 								currentImage === index ? "w-16 bg-yellow" : "w-12 bg-white"
 							)}></button>
 
