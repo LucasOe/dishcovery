@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FadeIn from "$lib/components/FadeIn.svelte";
-	import Chevron from "$lib/assets/icons/dropdown.svg";
+	import ChevronSvg from "$lib/components/ChevronSVG.svelte";
 	import type { Recipe } from "$types/database.types.js";
 	import { swipeDirection, user } from "$lib/functions/stores";
 	import { Direction } from "$types/card.types";
@@ -175,16 +175,20 @@
 					<div class="overflow-hidden rounded-sm bg-gray-500">
 						<button
 								on:click={() => (isOpen = !isOpen)}
-								class="focus flex h-10 w-full items-center justify-between rounded-sm rounded-b-sm p-2 text-left font-semibold text-yellow hover:bg-gray-500-hover focus-visible:outline-offset-[-2px]"
+								class="focus flex h-10 w-full items-center justify-between rounded-sm rounded-b-sm p-2 pr-0 text-left font-semibold text-yellow hover:bg-gray-500-hover focus-visible:outline-offset-[-2px]"
 						>
 							<div class="text-md pl-2">Zutaten</div>
+							<!--
 							<img
 									class={twMerge("transition-transform", isOpen && "rotate-180")}
 									src={Chevron}
 									alt="chevron"
 									width="25"
 									height="25"
-							/>
+							/>-->
+							<div class="w-10">
+								<ChevronSvg isOpen={isOpen ? true : false} />
+							</div>
 						</button>
 						<div class={twMerge("flex flex-col pt-1", !isOpen && "hidden")}>
 							{#each recipe.ingredients as ingredient}
