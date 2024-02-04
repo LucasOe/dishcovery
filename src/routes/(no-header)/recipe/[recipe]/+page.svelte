@@ -87,8 +87,6 @@
 		likes++;
 	};
 
-	let dropdownHeight = recipe.ingredients.length * 45;
-
 	$swipeDirection = Direction.None;
 </script>
 
@@ -119,7 +117,7 @@
 				</div>
 			{/if}
 			{#if recipe.images.length > 1}
-				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-3f">
+				<div class="absolute left-[50%] top-0 z-50 flex translate-x-[-50%] cursor-default gap-sm p-3">
 					{#each recipe.images as _, index}
 						<button
 								type="button"
@@ -184,10 +182,10 @@
 								<ChevronSvg isOpen={isOpen ? true : false} />
 							</div>
 						</button>
-						<div class={twMerge("flex-col duration-300 h-0 flex")} style={isOpen && ` height: ${dropdownHeight}px`}>
+						<div class={twMerge("flex flex-col pt-1", !isOpen && "hidden")}>
 							{#each recipe.ingredients as ingredient}
 								<li class="flex flex-row gap-md px-4 py-3 even:bg-[rgba(40,40,40,1)]">
-									<div class="w-16">
+									<div class="w-20">
 										{ingredient.amount}
 									</div>
 									<div class="font-semibold">
