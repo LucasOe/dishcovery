@@ -90,7 +90,7 @@
 		{#if recipe.categories.length > 0}
 			<TagRow {recipe} isInDetail={false} />
 		{/if}
-		<DetailRow {recipe} showHearts="true" />
+		<DetailRow {recipe} showHearts={true} />
 	</div>
 
 	<IconOverlay {swipeIndicator} />
