@@ -6,15 +6,15 @@ import type { Tables, TablesInsert } from "$types/generated.types";
 export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Promise<Recipe[]> => {
 	let query = supabase
 		.from("recipes")
-		.select(`*, categories(*), images(*), ingredients(*), steps(*), likes(*), temp_categories:categories(*)`)
+		.select(`*, categories(*), images(*), ingredients(*), steps(*), likes(*)`)
 		.eq("likes.user_id", userID)
 		.neq("user_id", userID) // exclude recipes uploaded by the user
 		.is("likes", null); // recipe hasn't been rated by user
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
-	if (filters?.categories) query = query.not("temp_categories", "is", null);
-	if (filters?.categories) query = query.eq("temp_categories.id", filters.categories);
+	if (filters?.categories) query = query.not("categories", "is", null);
+	if (filters?.categories) query = query.eq("categories.id", filters.categories);
 
 	const { data, error } = await query.order("id").limit(3);
 	if (error) throw error;
@@ -28,7 +28,7 @@ export const fetchNextRecipeNotSeen = async (
 ): Promise<Recipe | null> => {
 	let query = supabase
 		.from("recipes")
-		.select("*, categories(*), images(*), ingredients(*), steps(*), likes(*), temp_categories:categories(*)")
+		.select("*, categories(*), images(*), ingredients(*), steps(*), likes(*)")
 		.eq("likes.user_id", userID)
 		.neq("user_id", userID) // exclude recipes uploaded by the user
 		.is("likes", null); // recipe hasn't been rated by user
@@ -36,8 +36,8 @@ export const fetchNextRecipeNotSeen = async (
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
 	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
-	if (filters?.categories) query = query.not("temp_categories", "is", null);
-	if (filters?.categories) query = query.eq("temp_categories.id", filters.categories);
+	if (filters?.categories) query = query.not("categories", "is", null);
+	if (filters?.categories) query = query.eq("categories.id", filters.categories);
 
 	const { data, error } = await query.gt("id", currentId).order("id").limit(1).maybeSingle();
 	if (error) throw error;
@@ -45,15 +45,13 @@ export const fetchNextRecipeNotSeen = async (
 };
 
 export const fetchRecipesWithFilter = async (filters?: Filter): Promise<Recipe[]> => {
-	let query = supabase
-		.from("recipes")
-		.select("*, categories(*), images(*), ingredients(*), steps(*), temp_categories:categories(*)");
+	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*)");
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
 	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
-	if (filters?.categories) query = query.not("temp_categories", "is", null);
-	if (filters?.categories) query = query.eq("temp_categories.id", filters.categories);
+	if (filters?.categories) query = query.not("categories", "is", null);
+	if (filters?.categories) query = query.eq("categories.id", filters.categories);
 
 	const { data, error } = await query.order("id").limit(3);
 	if (error) throw error;
@@ -61,15 +59,13 @@ export const fetchRecipesWithFilter = async (filters?: Filter): Promise<Recipe[]
 };
 
 export const fetchNextRecipe = async (currentId: number, filters?: Filter): Promise<Recipe | null> => {
-	let query = supabase
-		.from("recipes")
-		.select("*, categories(*), images(*), ingredients(*), steps(*), temp_categories:categories(*)");
+	let query = supabase.from("recipes").select("*, categories(*), images(*), ingredients(*), steps(*)");
 
 	if (filters?.difficulty) query = query.eq("difficulty", filters.difficulty);
 	if (filters?.cost) query = query.eq("cost", filters.cost);
 	if (filters?.preperation_time) query = query.in("preperation_time", filters.preperation_time);
-	if (filters?.categories) query = query.not("temp_categories", "is", null);
-	if (filters?.categories) query = query.eq("temp_categories.id", filters.categories);
+	if (filters?.categories) query = query.not("categories", "is", null);
+	if (filters?.categories) query = query.eq("categories.id", filters.categories);
 
 	const { data, error } = await query.gt("id", currentId).order("id").limit(1).maybeSingle();
 	if (error) throw error;
