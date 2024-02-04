@@ -82,6 +82,6 @@
 			<span>Noch kein Mitglied?</span>
 			<LinkText link="/register" title="Registrieren" textColor="text-yellow">Jetzt Registrieren</LinkText>
 		</div>
-		<LinkText link="/forgetpassword" title="Passwort vergessen">Passwort vergessen?</LinkText>
+		<LinkText link="/forgotpassword" title="Passwort vergessen">Passwort vergessen?</LinkText>
 	</div>
 </div>
