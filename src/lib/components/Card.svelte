@@ -7,6 +7,7 @@
 	import TagRow from "./TagRow.svelte";
 	import Rating from "$lib/components/Rating.svelte";
 	import IconOverlay from "./IconOverlay.svelte";
+	import LazyLoadingImage from "$lib/components/LazyLoadingImage.svelte";
 
 	export let recipe: Recipe;
 	export let isTouching = false;
@@ -15,7 +16,6 @@
 
 	let currentImage: number = 0;
 
-	const imageTransition = `image-${recipe.id}`;
 	const headlineTransition = `name-${recipe.id}`;
 
 	const swipeClass: Record<Direction, string> = {
@@ -28,12 +28,12 @@
 </script>
 
 <div
-	class={twMerge(
+		class={twMerge(
 		"absolute flex flex-col size-full justify-center overflow-hidden rounded-xl border-2 border-gray-900 duration-500 will-change-transform before:absolute before:size-full before:bg-gradient-to-b before:from-transparent before:from-30% before:to-gray-900 before:to-80% first:shadow-shadowGray",
 		isTouching ? "transition-[border,width]" : "transition-[transform,border,width]",
 		swipeClass[swipeIndicator]
 	)}
-	style={`
+		style={`
 		transform: ${transformValue};
 	`}
 >
@@ -42,38 +42,36 @@
 			{#if recipe.images.length > 1 && !isTouching}
 				<div class="absolute top-0 left-0 flex flex-row size-full">
 					<button
-						type="button"
-						on:click={() => {
+							type="button"
+							on:click={() => {
 							currentImage = (currentImage - 1 + recipe.images.length) % recipe.images.length;
 						}}
-						class="size-full bg-transparent relative"></button>
+							class="size-full bg-transparent relative"></button>
 					<button
-						type="button"
-						on:click={() => {
+							type="button"
+							on:click={() => {
 							currentImage = (currentImage + 1) % recipe.images.length;
 						}}
-						class="size-full bg-transparent relative"></button>
+							class="size-full bg-transparent relative"></button>
 				</div>
 			{/if}
 		</div>
 	{/if}
-	{#if recipe.images.length > 0}
-		<img
-			src={recipe.images[currentImage].image}
-			class="transition-image absolute top-0 -z-50 h-4/5 w-full bg-gray-500 object-cover"
-			alt=""
-			style:--recipe={imageTransition}
-		/>
-	{/if}
+
+	{#each recipe.images as src, index}
+		<div class={twMerge("absolute top-0 z-[-50] w-full h-4/5 object-cover", (index === currentImage ? "visible" : "hidden"))}>
+			<LazyLoadingImage src={src.image}/>
+		</div>
+	{/each}
 
 
 	{#if recipe.images.length > 1}
 		<div class="absolute z-50 top-4 left-[50%] translate-x-[-50%] flex cursor-default gap-sm p-4">
 			{#each recipe.images as _, index}
 				<button
-					type="button"
-					on:click={() => (currentImage = index)}
-					class={twMerge(
+						type="button"
+						on:click={() => (currentImage = index)}
+						class={twMerge(
 						"focus h-4 rounded-full drop-shadow-lg transition-[width]",
 						currentImage === index ? "w-16 bg-yellow" : "w-12 bg-white"
 					)}></button>
