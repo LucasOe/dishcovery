@@ -36,21 +36,20 @@
 		<img alt="Dropdown" class={twMerge("size-10 p-1 duration-500", menuOpen && "rotate-180")} src={DropDownIcon} />
 		-->
 		<div class="w-10">
-			<ChevronSvg isOpen={menuOpen ? true : false} />
+			<ChevronSvg isOpen={menuOpen} />
 		</div>
 	</button>
 
 	<ul
-		class={twMerge(
-			"absolute z-10 w-full space-y-xs overflow-hidden rounded-md bg-gray-500 shadow-xl",
-			menuOpen ? "ring-2 ring-gray-300" : "hidden"
-		)}
+		class={
+			`absolute z-10 w-full space-y-xs overflow-hidden rounded-md bg-gray-500 shadow-xl max-h-0 duration-300 ${menuOpen && " ring-2 ring-gray-300 max-h-[700px]" }`
+		}
 	>
 		{#each entries as entry}
 			<li
 				class={twMerge(
 					"cursor-pointer px-2 py-1 text-lg font-semibold hover:bg-gray-500-hover",
-					entry.id == selected.id && "text-yellow"
+					entry.id === selected.id && "text-yellow"
 				)}
 			>
 				<button
