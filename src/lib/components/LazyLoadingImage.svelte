@@ -16,7 +16,8 @@
         src={src}
         class="transition-image h-full w-full  bg-gray-500 object-cover"
         alt={alt}
-        on:load={() => imageLoaded = true}/>
+        on:load={() => imageLoaded = true}
+        loading="lazy"/>
 <div
         class={twMerge(
             `absolute z-[1] top-0 left-0 w-full h-full bg-gradient-to-r from-yellow to-red animation-loading duration-300 pointer-events-none opacity-1`,
