@@ -146,7 +146,8 @@
 						on:input={() => (recipeDescription.isValid = validateRecipeDescription(recipeDescription.content))}
 						placeholder="Hier eingeben..."
 						class="input peer h-32"
-						required></textarea>
+						required
+					/>
 					<Error visible={!recipeDescription.isValid}>Die Beschreibung braucht mindestens 30 Zeichen.</Error>
 				</Section>
 
@@ -158,7 +159,7 @@
 								accept=".jpg, .jpeg, .png"
 								on:change={onFileSelected}
 								bind:this={fileInput}
-								class="focus rounded-sm file:mr-2 file:rounded-sm file:border-solid  font-default font-bold file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
+								class="focus rounded-sm font-default font-bold file:mr-2 file:rounded-sm file:border-solid file:border-yellow file:bg-gray-900 file:px-3 file:py-2 file:text-yellow file:hover:bg-gray-500"
 								multiple
 								required
 							/>
@@ -301,8 +302,9 @@
 									placeholder="Hier eingeben..."
 									minlength="30"
 									class="input peer h-32"
-									required></textarea>
-								<Error visible={!step.isValid}>Bitte gebe mindestens 30 Zeichen pro Schritt ein.</Error>
+									required
+								></textarea>
+								<Error visible={!step.isValid}>Bitte gebe mindestens 15 Zeichen pro Schritt ein.</Error>
 							</div>
 						{/each}
 						<div class="flex items-center gap-2">
