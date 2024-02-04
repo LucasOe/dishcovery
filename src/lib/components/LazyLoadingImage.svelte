@@ -6,10 +6,6 @@
     export let alt = "";
 
     let imageLoaded = false;
-
-    $: {
-        console.log(imageLoaded)
-    }
 </script>
 
 <img
