@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class={twMerge("pointer-events-none grid grid-cols-[auto,1fr] items-center gap-sm", $$props.class)}>
+<div class={twMerge("pointer-events-none mt-1 flex flex-col gap-0 justify-start xs:grid xs:grid-cols-[auto,1fr] xs:items-center xs:gap-sm xs:mt-0", $$props.class)}>
 	<div class="flex h-full items-center gap-xs">
 		<div class="flex h-full items-center gap-xs pr-3">
 			<img alt="Clock" class="size-5" src={ClockIcon} />
@@ -33,23 +33,23 @@
 			<img alt="Difficulty" class="size-5" src={DifficultyIcon} />
 			<p class="whitespace-nowrap text-sm font-semibold">{["Einfach", "Mittel", "Schwer"][recipe.difficulty - 1]}</p>
 		</div>
-		<div class="flex h-full items-center gap-xs pr-3">
+		<div class="flex h-full items-center gap-xs">
 			{#each { length: recipe.cost } as _}
 				<img alt="Euro" class="size-5" src={EuroIcon} />
 			{/each}
 		</div>
 	</div>
-	<div class="flex justify-self-end">
+	<div class="flex justify-self-end gap-1 xs:gap-0 mt-0 xs:mt-0">
 		{#if showHearts}
 			<button
-				class={"focus flex items-center gap-1 justify-self-end rounded-sm px-2 py-1 font-semibold leading-normal"}
+				class={"focus flex items-center gap-1 justify-self-end rounded-sm px-0 xs:px-2 py-1 font-semibold leading-normal"}
 			>
 				<span class="w-4">{likes}</span>
 				<img src={RedHeart} alt="Heart" />
 			</button>
 		{/if}
 		{#if showRatings && rating > 0}
-			<button class={"focus flex items-center gap-1 rounded-sm px-2 py-1 font-semibold leading-normal"}>
+			<button class={"focus flex items-center gap-1 rounded-sm px-0 xs:px-2 py-1 font-semibold leading-normal"}>
 				<span class="w-4 text-right">{rating}</span>
 				<img src={Star} alt="Heart" />
 			</button>

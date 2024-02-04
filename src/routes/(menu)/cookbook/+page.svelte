@@ -39,7 +39,7 @@
 {#if $user}
 	<FadeIn>
 		<div class="space-y-8">
-			<div class="flex gap-8">
+			<div class="flex gap-4">
 				<button
 					on:click={() => (selectedMenu = "all")}
 					disabled={selectedMenu == "all"}
