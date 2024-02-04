@@ -190,7 +190,7 @@
 							{#each recipe.ingredients as ingredient}
 								<li class="flex flex-row gap-md px-4 py-3 even:bg-[rgba(40,40,40,1)]">
 									<div class="w-20">
-										{ingredient.amount}
+										{ingredient.amount || ""}
 									</div>
 									<div class="font-semibold">
 										{ingredient.name}
