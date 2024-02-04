@@ -11,6 +11,7 @@
 	import { user } from "$lib/functions/stores.js";
 	import { onMount } from "svelte";
 	import type { Recipe } from "$types/database.types.js";
+	import LazyLoadingImage from "$lib/components/LazyLoadingImage.svelte";
 
 	export let data;
 
@@ -54,7 +55,7 @@
 				<input class="hidden" type="file" accept=".jpg, .jpeg, .png" on:change={onFileSelected} bind:this={fileInput} />
 				<label for="fileInput">
 					<button
-						class="focus absolute bottom-0 right-0 cursor-pointer rounded-full bg-gray-500 p-4 hover:bg-gray-500-hover"
+						class="z-[2] focus absolute bottom-0 right-0 cursor-pointer rounded-full bg-gray-500 p-4 hover:bg-gray-500-hover"
 						on:click={() => fileInput.click()}
 					>
 						<svg class="" width="20" height="auto" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,11 +73,9 @@
 					</button>
 				</label>
 			{/if}
-			<img
-				class="aspect-square size-44 rounded-full border-2 border-yellow object-cover"
-				alt="User"
-				src={profile.avatar_url ? profile.avatar_url : DefaultAvatar}
-			/>
+			<div class="aspect-square size-44 rounded-full border-2 border-yellow object-cover overflow-hidden relative">
+				<LazyLoadingImage src={profile.avatar_url ? profile.avatar_url : DefaultAvatar} alt="User" />
+			</div>
 		</div>
 		<div class="mt-lg flex w-full flex-col items-center">
 			<h1 class="block h-xl w-full text-center font-header text-xxl text-light">

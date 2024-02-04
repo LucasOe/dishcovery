@@ -2,6 +2,7 @@
 	import UserIcon from "$lib/assets/icons/ic_user.svg";
 	import DefaultAvatar from "$lib/assets/user.png";
 	import { user } from "$lib/functions/stores";
+	import LazyLoadingImage from "$lib/components/LazyLoadingImage.svelte";
 </script>
 
 <div class="flex items-center justify-between">
@@ -36,11 +37,9 @@
 	<a href={`${$user ? `/profile/${$user.username}` : "/login"}`} class="focus rounded-full">
 		<div class={`size-14 overflow-hidden rounded-full border-sm border-gray-300 duration-150 hover:border-yellow`}>
 			{#if $user}
-				<img
-					class="h-full w-full rounded-full object-cover"
-					alt="profile"
-					src={$user.avatar_url ? $user.avatar_url : DefaultAvatar}
-				/>
+				<div class="h-full w-full rounded-full object-cover overflow-hidden relative">
+					<LazyLoadingImage src={$user.avatar_url ? $user.avatar_url : DefaultAvatar} alt="User" />
+				</div>
 			{:else}
 				<img class="h-full w-full rounded-full object-cover" alt="profile" src={UserIcon} />
 			{/if}
