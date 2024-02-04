@@ -23,7 +23,7 @@ export const validatePassword = (password: string): boolean => {
 };
 
 export const validateRecipeName = (recipeName: string): boolean => {
-	const recipeNameRegex = /.{10,}/;
+	const recipeNameRegex = /.{5,}/;
 	return recipeNameRegex.test(recipeName);
 };
 
