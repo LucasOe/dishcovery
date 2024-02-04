@@ -144,7 +144,7 @@
 					</a>
 					<button
 							class={twMerge(
-							"focus flex items-center gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal",
+							"focus flex items-center gap-2 rounded-sm bg-gray-500 px-3 py-1 font-semibold leading-normal hover:bg-gray-500-hover",
 							isOwnRecipe ? "opacity-50" : ""
 						)}
 							on:click={() => handleLikeButtonClick()}
