@@ -137,7 +137,7 @@
 						class="input peer"
 						required
 					/>
-					<Error visible={!recipeName.isValid}>Der Name braucht mindestens 10 Zeichen.</Error>
+					<Error visible={!recipeName.isValid}>Der Name braucht mindestens 5 Zeichen.</Error>
 				</Section>
 
 				<Section title="Beschreibung" required>
