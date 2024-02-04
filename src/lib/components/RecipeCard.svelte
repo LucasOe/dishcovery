@@ -43,12 +43,12 @@
 			</div>
 			{#if showButton}
 				<RoundButton
-						action={() => (showModal = true)}
-						type="button"
-						src={RejectIcon}
-						alt="Delete"
-						size="sm"
-						class="absolute z-[4] right-0 top-0 m-md bg-gray-900 drop-shadow-none"
+					action={() => (showModal = true)}
+					type="button"
+					src={RejectIcon}
+					alt="Delete"
+					size="sm"
+					class="absolute z-[4] right-0 top-0 m-md bg-gray-900 drop-shadow-none"
 				/>
 			{/if}
 		</div>
