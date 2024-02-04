@@ -59,7 +59,7 @@
 	{/if}
 
 	{#each recipe.images as src, index}
-		<div class={twMerge("absolute top-0 z-[-50] w-full h-4/5 object-cover", (index === currentImage ? "visible" : "hidden"))}>
+		<div class={twMerge("absolute top-0 z-[-50] w-full h-4/5 object-cover duration-150", (index === currentImage ? "opacity-100" : "opacity-0"))}>
 			<LazyLoadingImage src={src.image}/>
 		</div>
 	{/each}
