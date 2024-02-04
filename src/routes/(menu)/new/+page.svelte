@@ -148,7 +148,7 @@
 						class="input peer h-32"
 						required
 					/>
-					<Error visible={!recipeDescription.isValid}>Die Beschreibung braucht mindestens 15 Zeichen.</Error>
+					<Error visible={!recipeDescription.isValid}>Die Beschreibung braucht mindestens 30 Zeichen.</Error>
 				</Section>
 
 				<Section title="Bilder" required>
@@ -304,7 +304,7 @@
 									class="input peer h-32"
 									required
 								></textarea>
-								<Error visible={!step.isValid}>Bitte gebe mindestens 30 Zeichen pro Schritt ein.</Error>
+								<Error visible={!step.isValid}>Bitte gebe mindestens 15 Zeichen pro Schritt ein.</Error>
 							</div>
 						{/each}
 						<div class="flex items-center gap-2">
