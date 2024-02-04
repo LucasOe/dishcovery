@@ -75,7 +75,7 @@
 					on:click={() => (currentImage = index)}
 					class={twMerge(
 						"focus h-4 rounded-full drop-shadow-lg transition-[width]",
-						currentImage == index ? "w-16 bg-yellow" : "w-12 bg-white"
+						currentImage === index ? "w-16 bg-yellow" : "w-12 bg-white"
 					)}></button>
 			{/each}
 		</div>
