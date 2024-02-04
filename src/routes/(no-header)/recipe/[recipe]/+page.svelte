@@ -178,14 +178,6 @@
 								class="focus flex h-10 w-full items-center justify-between rounded-sm rounded-b-sm p-2 pr-0 text-left font-semibold text-yellow hover:bg-gray-500-hover focus-visible:outline-offset-[-2px]"
 						>
 							<div class="text-md pl-2">Zutaten</div>
-							<!--
-							<img
-									class={twMerge("transition-transform", isOpen && "rotate-180")}
-									src={Chevron}
-									alt="chevron"
-									width="25"
-									height="25"
-							/>-->
 							<div class="w-10">
 								<ChevronSvg isOpen={isOpen ? true : false} />
 							</div>
