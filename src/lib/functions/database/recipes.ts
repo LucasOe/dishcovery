@@ -2,6 +2,7 @@ import { supabase } from "$lib/functions/database/createClient";
 import type { Recipe } from "$types/database.types";
 import type { Filter } from "$types/filter.types";
 import type { Tables, TablesInsert } from "$types/generated.types";
+import {resizeImage} from "$lib/functions/utils";
 
 export const fetchRecipesNotSeen = async (userID: string, filters?: Filter): Promise<Recipe[]> => {
 	let query = supabase
@@ -88,6 +89,8 @@ export const fetchCategories = async (): Promise<Tables<"categories">[]> => {
 	else return data;
 };
 
+
+
 export const uploadRecipeImages = async (
 	files: { recipe_id: number; image: Blob }[]
 ): Promise<TablesInsert<"images">[]> => {
@@ -95,13 +98,19 @@ export const uploadRecipeImages = async (
 	for (let index = 0; index < files.length; index++) {
 		const file = files[index];
 		const bucket_path = `recipe${file.recipe_id}-${index}.jpg`;
-		const { data: path, error } = await supabase.storage.from("images").upload(bucket_path, file.image, {
+
+		// Resize Image
+		const resizedImage = await resizeImage(file.image as File, 700);
+
+		// Upload Image
+		const { data: path, error } = await supabase.storage.from("images").upload(bucket_path, resizedImage!, {
 			cacheControl: "3600",
 			upsert: false,
 		});
+
 		if (error) throw error;
 
-		const { data: publicUrl } = await supabase.storage.from("images").getPublicUrl(path.path);
+		const { data: publicUrl } = supabase.storage.from("images").getPublicUrl(path.path);
 		paths.push({
 			recipe_id: file.recipe_id,
 			image: publicUrl.publicUrl,
